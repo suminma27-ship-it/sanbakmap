@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>산박지도 v32 | 전국 국립공원 산행계획</title>
+<title>산박지도 v33 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -43,14 +43,14 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 .poi-footnote{padding-top:12px;line-height:1.6}
 .poi-unmapped{color:#748578;font-size:11px;margin-top:8px;line-height:1.5}
 @media(max-width:520px){.poi-index{margin:9px 7px;padding:9px}.poi-chip{font-size:11px}}
-</style><style id="v30-course-source-css">.course-provenance{display:inline-block;padding:5px 9px;margin-bottom:7px;color:#265d46;border:1px solid #cde2d2;background:#f1f8f1;border-radius:7px;font-size:12px}.source-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.source-links a{font-weight:750;color:#126846;text-decoration:underline;text-underline-offset:2px}.metriclist{line-height:1.6}</style><style id="v31-audit-css">.route-audit{margin-top:11px;padding:9px 11px;border:1px solid #d5e2d7;border-radius:10px;background:#fbfdf9}.route-audit summary{cursor:pointer;font-weight:800;color:#265d46;font-size:13px}.route-audit-body{padding-top:9px;font-size:12px;line-height:1.65}.route-audit-body>div{padding:4px 0;border-bottom:1px solid #e9efe8}.route-audit-body b{color:#1d4f38}.route-audit-body p{margin:9px 0 1px;color:#845d32}</style></head>
+</style><style id="v30-course-source-css">.course-provenance{display:inline-block;padding:5px 9px;margin-bottom:7px;color:#265d46;border:1px solid #cde2d2;background:#f1f8f1;border-radius:7px;font-size:12px}.source-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.source-links a{font-weight:750;color:#126846;text-decoration:underline;text-underline-offset:2px}.metriclist{line-height:1.6}</style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v32</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v33</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
 <nav class="tabbar" aria-label="기능 선택"><button id="viewTab" type="button" class="active">등산로 보기</button><button id="buildTab" type="button">나만의 루트 만들기</button></nav>
-<div id="viewerPanel"><div class="bodygrid"><section class="card"><div class="cardTitle row"><span>등산로 지도</span><span class="small" id="areaName"></span></div><svg id="map" viewBox="0 0 900 600" role="img" aria-label="선택한 산의 등산로 지도"></svg><div class="mapcontrols"><button type="button" id="fitRoute">선택 코스</button><button type="button" id="fitAll">전체 보기</button><button type="button" id="zoomIn">＋</button><button type="button" id="zoomOut">－</button></div><div class="legend"><span>녹색: GIS 근접</span><span>황색: 확인 필요</span><span>적색: 연결 근거 부족</span><span>회색: 다른 GIS 선형</span></div><div class="small" style="padding:2px 12px 12px;color:#745b37">선형 근접 분석은 탐방 허용·실제 연결 확인을 대신하지 않습니다.</div><details class="poi-index" id="poiIndex"><summary><span id="poiSummaryTitle">주요지점 목록</span> <span class="small">지도 표기가 겹치면 여기서 확인</span></summary><div id="poiIndexBody"></div><div class="small poi-footnote">지점명은 공식 코스 안내·기존 공간자료를 참고했어. 실제 지도상의 일부 점 위치는 코스 선형을 따라 추정한 계획용 표시이며, 대피소 숙박·식수·통행 가능 여부는 별도로 확인해.</div></details></section><div class="right"><section class="card"><div class="cardTitle">거리 · 고도 정보</div><div class="mval"><div><label>거리</label><strong id="distance">—</strong></div><div><label>최고 고도</label><strong id="maxAlt">—</strong></div><div><label>누적 상승</label><strong id="gain">—</strong></div><div><label>누적 하강</label><strong id="loss">—</strong></div></div><div class="metriclist" id="courseDetail"></div></section><section class="card"><div class="cardTitle">고도그래프</div><div class="chartbox"><svg id="chart" viewBox="0 0 700 170" aria-label="선택 코스의 고도 그래프"></svg></div></section><div class="note">공식 코스 거리가 있는 경우 해당 거리를 사용해. 나머지는 원본 등산로를 토대로 계산한 계획용 거리야. 일부 국립공원의 코스 지도는 경유순서만 나타낸 개념도야. 경유지 연결도 기반 루트 제작을 지원해. 실제 좌표선형이 없는 경우 GeoJSON 내보내기 대신 계획표를 저장해.</div></div></div></div>
+<div id="viewerPanel"><div class="bodygrid"><section class="card"><div class="cardTitle row"><span>등산로 지도</span><span class="small" id="areaName"></span></div><svg id="map" viewBox="0 0 900 600" role="img" aria-label="선택한 산의 등산로 지도"></svg><div class="mapcontrols"><button type="button" id="fitRoute">선택 코스</button><button type="button" id="fitAll">전체 보기</button><button type="button" id="zoomIn">＋</button><button type="button" id="zoomOut">－</button></div><div class="legend"><span>선택한 코스</span><span>다른 연결 선형</span><span>주요지점</span></div><details class="poi-index" id="poiIndex"><summary><span id="poiSummaryTitle">주요지점 목록</span> <span class="small">지도 표기가 겹치면 여기서 확인</span></summary><div id="poiIndexBody"></div><div class="small poi-footnote">지점명은 공식 코스 안내·기존 공간자료를 참고했어. 실제 지도상의 일부 점 위치는 코스 선형을 따라 추정한 계획용 표시이며, 대피소 숙박·식수·통행 가능 여부는 별도로 확인해.</div></details></section><div class="right"><section class="card"><div class="cardTitle">거리 · 고도 정보</div><div class="mval"><div><label>거리</label><strong id="distance">—</strong></div><div><label>최고 고도</label><strong id="maxAlt">—</strong></div><div><label>누적 상승</label><strong id="gain">—</strong></div><div><label>누적 하강</label><strong id="loss">—</strong></div></div><div class="metriclist" id="courseDetail"></div></section><section class="card"><div class="cardTitle">고도그래프</div><div class="chartbox"><svg id="chart" viewBox="0 0 700 170" aria-label="선택 코스의 고도 그래프"></svg></div></section><div class="note">공식 코스 거리가 있는 경우 해당 거리를 사용해. 나머지는 원본 등산로를 토대로 계산한 계획용 거리야. 일부 국립공원의 코스 지도는 경유순서만 나타낸 개념도야. 경유지 연결도 기반 루트 제작을 지원해. 실제 좌표선형이 없는 경우 GeoJSON 내보내기 대신 계획표를 저장해.</div></div></div></div>
 <div id="builderPanel">
 <div id="planBuilder" style="display:none" class="bodygrid">
  <section class="card"><div class="cardTitle row"><span>등산로 경유지 연결도</span><span class="small">길게 눌러 경유지 선택</span></div>
@@ -260,35 +260,6 @@ function graphPoiLabels(svgId,course,parkData,m){
  svg.insertAdjacentHTML('beforeend',g);
 }
 
-// v32: visual proximity audit against original GeoJSON-derived network.
-// Nearness does NOT demonstrate continuous, legal or currently open passage.
-function originalNetworkProximity(p,line){
- if(!p.net?.edges?.length||!line?.length)return null;
- const candidates=[];for(const edge of p.net.edges)for(let i=1;i<edge[3].length;i++){
-  const a=edge[3][i-1],b=edge[3][i];if(!a||!b)continue;
-  candidates.push([a,b,Math.min(a[0],b[0])-.001,Math.max(a[0],b[0])+.001,Math.min(a[1],b[1])-.001,Math.max(a[1],b[1])+.001]);
- }
- function nearestKm(pt){
-  const co=Math.cos(pt[1]*Math.PI/180);let best=Infinity;
-  for(const [a,b,minX,maxX,minY,maxY] of candidates){
-   if(pt[0]<minX||pt[0]>maxX||pt[1]<minY||pt[1]>maxY)continue;
-   const vx=(b[0]-a[0])*co,vy=b[1]-a[1],wx=(pt[0]-a[0])*co,wy=pt[1]-a[1];
-   const t=Math.max(0,Math.min(1,(vx*wx+vy*wy)/(vx*vx+vy*vy||1)));
-   best=Math.min(best,hav(pt,[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]));
-  }
-  return best;
- }
- let segments=[],counts={near:0,review:0,unsupported:0},lengths={near:0,review:0,unsupported:0};
- for(let i=1;i<line.length;i++){
-  const a=line[i-1],b=line[i],distance=hav(a,b),n=Math.max(1,Math.ceil(distance/.025));
-  let furthest=0;
-  for(let k=0;k<=n;k++){const t=k/n,pt=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];furthest=Math.max(furthest,nearestKm(pt))}
-  // Wide gaps are only cautiously treated as proximity-supported, even when endpoints align.
-  const state=furthest>.025?'unsupported':furthest>.012||distance>.08?'review':'near';
-  segments.push({a,b,state,distance,furthest});counts[state]++;lengths[state]+=distance;
- }
- return {segments,counts,lengths};
-}
 function drawMap(id){const p=park(),svg=$(id),net=p.net,mode=id==='map'?'view':'build';let base=canvasBounds(p,mode);if(!base?.length){svg.innerHTML='<rect width="900" height="600" fill="#eff3ec"/><text x="450" y="280" text-anchor="middle" font-size="27" fill="#698071">탐방로 자료 준비 중</text><text x="450" y="319" text-anchor="middle" font-size="17" fill="#829789">원본 선형 확인 후 추가 예정</text>';return}
  const Q=projection(id,base,p);if(!Q)return;maps[id].Q=Q;
  let s='<rect width="900" height="600" fill="#edf3ea"/>';
@@ -299,9 +270,7 @@ function drawMap(id){const p=park(),svg=$(id),net=p.net,mode=id==='map'?'view':'
  if(mode==='build'&&!builder.line&&course?.line?.length&&!course?.schematic){s+=`<path d="${poly(course.line,Q.project)}" stroke="#70c9a0" stroke-width="8" opacity=".8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
  const focus=mode==='view'?course?.line:builder.line;
  if(focus?.length){s+=`<path d="${poly(focus,Q.project)}" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
- const audit=mode==='view'&&!course?.schematic?originalNetworkProximity(p,focus):null;
- if(audit){for(const part of audit.segments){const color=part.state==='near'?'#16805b':part.state==='review'?'#d89821':'#d24d43';s+=`<path d="${poly([part.a,part.b],Q.project)}" stroke="${color}" stroke-width="6.4" fill="none" stroke-linecap="round" stroke-linejoin="round" ${part.state==='near'?'':'stroke-dasharray="10 7"'}/>`;}}
- else{s+=`<path d="${poly(focus,Q.project)}" stroke="#16805b" stroke-width="5.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
+ s+=`<path d="${poly(focus,Q.project)}" stroke="#16805b" stroke-width="5.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
 
  for(const [i,c] of [[0,'#138f66'],[focus.length-1,'#d67547']]){const [x,y]=Q.project(focus[i]);s+=`<circle cx="${x}" cy="${y}" r="9" fill="white" stroke="${c}" stroke-width="4"/>`}}
  // Named landmarks are shown on both map views; anonymous graph nodes stay hidden.
@@ -347,37 +316,6 @@ function updatePoiIndex(){
  if(p.unmappedPlaces?.length){const more=document.createElement('div');more.className='poi-unmapped';more.textContent='위치 확인 전 주요지점 (지도 미표시): '+p.unmappedPlaces.map(q=>q.name).join(' · ');el.append(more)}
 }
 
-// v31: transparent, conservative geometry inspection. These flags are NOT trail validation.
-function routeAudit(c,p){
- const details=document.createElement('details');details.className='route-audit';
- const head=document.createElement('summary');head.textContent='경로 신뢰도 · 선형 점검';details.append(head);
- const box=document.createElement('div');box.className='route-audit-body';details.append(box);
- const add=(title,value)=>{const row=document.createElement('div');const b=document.createElement('b');b.textContent=title+' ';const span=document.createElement('span');span.textContent=value;row.append(b,span);box.append(row)};
- if(c.schematic||!Array.isArray(c.line)||c.line.length<2){
-  add('지도 선형','개념도 또는 실제 지리 선형 없음');add('현장 활용','위치 안내 및 내비게이션용 사용 불가');return details;
- }
- const line=c.line;
- const audit=originalNetworkProximity(p,line);
- if(audit){
-  const total=audit.lengths.near+audit.lengths.review+audit.lengths.unsupported;
-  const pct=key=>total>0?(audit.lengths[key]/total*100).toFixed(1)+'%':'—';
-  add('GIS 겹침 분석','녹색(근접) '+pct('near')+' · 황색(확인 필요) '+pct('review')+' · 적색(근거 부족) '+pct('unsupported'));
-  add('색상 기준','녹색: 12m 이내·짧은 좌표 간격 / 황색: 25m 이내 또는 80m 초과 좌표 간격 / 적색: GIS 선형에서 25m 초과');
-  add('주의','녹색도 GIS 선형 근접을 뜻할 뿐 탐방로 연결·현장 통행 검증이 아님');
- }
- let raw=0,maxStep=0,missingZ=0;
- for(let i=0;i<line.length;i++){if(!Number.isFinite(line[i][2]))missingZ++;if(i){const km=hav(line[i-1],line[i]);raw+=km;maxStep=Math.max(maxStep,km)}}
- const official=Number.isFinite(c.km)?c.km:null;
- add('자료 분류',c.composed?'기존 안내구간 조합 (공식 독립코스 아님)':c.official?'공식 안내거리 + 검증 전 GIS 선형':'기존 GIS 연결망 기반 계획용 경로');
- add('선형 검증',c.geometry_verified===true?'데이터에 검증 완료 표시 있음 (현재 통제 여부는 별개)':'미검증 — 실제 탐방로 연속성 미확인');
- add('좌표 선형 길이',raw.toFixed(2)+'km · '+line.length+'개 좌표');
- if(official!==null){const difference=raw-official;add('안내거리 비교',official.toFixed(2)+'km 대비 '+(difference>=0?'+':'')+difference.toFixed(2)+'km ('+(official>0?Math.abs(difference)/official*100:0).toFixed(1)+'% 차이)');}
- add('좌표 간 최대 간격',(maxStep*1000).toFixed(0)+'m'+(maxStep>.15?' · 큰 간격 존재, 그 사이 실제 길 확인 필요':' · 연속 경로임을 보증하지 않음'));
- if(missingZ)add('고도 좌표',missingZ+'개 지점의 고도 누락');
- add('연결 확인','좌표의 인접성만으로 등산로 연결·통행 가능·탐방 허용을 확정할 수 없음');
- const warning=document.createElement('p');warning.textContent='미확인 구간을 임의로 연결하거나 검증된 탐방로로 표시하지 않습니다. 지도와 고도는 계획용이며 실제 이동 전에 공식 탐방 정보와 통제 공지를 확인하세요.';box.append(warning);
- return details;
-}
 function updateView(){const p=park();$('areaName').textContent=p.area||'';const sel=$('courseSelect');sel.innerHTML='';
  if(!p.courses.length){sel.add(new Option('등록 경로 없음', ''));sel.disabled=true;$('courseDetail').textContent='해당 공원은 원본 등산로 연결망이 아직 확보되지 않았어.'}
  else{sel.disabled=false;p.courses.forEach((c,i)=>sel.add(new Option(c.name+(c.composed?' · 구간 조합':c.schematic?' · 개념도':c.official?' · 안내 코스':' · 경로 후보'),i)));view.course=Math.min(view.course,p.courses.length-1);sel.value=view.course}
@@ -392,7 +330,7 @@ function updateView(){const p=park();$('areaName').textContent=p.area||'';const 
   const target=$('courseDetail');target.replaceChildren();
   const typ=document.createElement('strong');typ.className='course-provenance';typ.textContent=label;
   const info=document.createElement('div');info.textContent=detail;target.append(typ,info);
-  target.append(routeAudit(c,p));
+
   const urls=[...(c.source_urls||[]),...(c.source_url?[c.source_url]:[])].filter((v,i,a)=>typeof v==='string'&&/^https:\/\//.test(v)&&a.indexOf(v)===i);
   if(urls.length){const links=document.createElement('div');links.className='source-links';urls.forEach((url,i)=>{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='코스 참고자료'+(urls.length>1?' '+(i+1):'');links.append(a);});target.append(links)}
  }

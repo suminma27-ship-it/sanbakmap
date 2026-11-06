@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v41 | 전국 국립공원 산행계획</title>
+<title>산박지도 v42 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -230,7 +230,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 }
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v41</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v42</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -1017,51 +1017,110 @@ function addWaypoint(q){const p=park();if(!p.net)return;
  q.name=q.namedPoi?q.name:(builder.choices.length?'경유지':'출발지');builder.choices.push(q);builder.line=routeChoices(p.net,builder.choices);builder.focusIndex=builder.choices.length-1;updateBuilder();toast(`${builder.choices.length}번째 지점을 추가했어`);
 }
 function mapTouch(id,build){
- const el=$(id);let start=null,timer=null,moved=false;
- const point=e=>{
+ const el=$(id);
+ const pointers=new Map();
+ let drag=null,timer=null,moved=false,pinch=null,locked=false,redrawQueued=false;
+ const pointXY=(x,y)=>{
   const m=el.getScreenCTM();
-  if(m){const q=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse());return [q.x,q.y]}
-  const r=el.getBoundingClientRect(),vb=el.viewBox.baseVal;return [(e.clientX-r.left)*vb.width/(r.width||1),(e.clientY-r.top)*vb.height/(r.height||1)]
+  if(m){const q=new DOMPoint(x,y).matrixTransform(m.inverse());return [q.x,q.y]}
+  const r=el.getBoundingClientRect(),vb=el.viewBox.baseVal;
+  return [(x-r.left)*vb.width/(r.width||1),(y-r.top)*vb.height/(r.height||1)];
  };
- const cancel=()=>{clearTimeout(timer);timer=null;start=null;moved=false};
+ const stopHold=()=>{clearTimeout(timer);timer=null};
+ const redraw=()=>{
+  if(redrawQueued)return;
+  redrawQueued=true;
+  requestAnimationFrame(()=>{redrawQueued=false;drawMap(id)});
+ };
+ const finishPointer=e=>{
+  if(!pointers.has(e.pointerId))return;
+  pointers.delete(e.pointerId);
+  if(pinch?.ids.includes(e.pointerId))pinch=null;
+  if(drag?.id===e.pointerId)drag=null;
+  if(!pointers.size){stopHold();pinch=null;locked=false;moved=false}
+ };
+ function beginPinch(){
+  const pair=[...pointers.entries()].slice(0,2);
+  if(pair.length!==2)return;
+  const [[idA,a],[idB,b]]=pair;
+  const center=pointXY((a.x+b.x)/2,(a.y+b.y)/2);
+  pinch={
+   ids:[idA,idB],
+   distance:Math.max(8,Math.hypot(a.x-b.x,a.y-b.y)),
+   zoom:maps[id].zoom,panX:maps[id].panX,panY:maps[id].panY,center
+  };
+  stopHold();drag=null;moved=true;locked=true;
+ }
  el.addEventListener('contextmenu',e=>e.preventDefault());
  el.addEventListener('pointerdown',e=>{
   if(e.pointerType==='mouse'&&e.button!==0)return;
-  if(start||e.isPrimary===false)return;
-  const marker=build&&e.target?.closest?.('[data-route-poi]');
-  start={id:e.pointerId,at:point(e),x:e.clientX,y:e.clientY,panX:maps[id].panX,panY:maps[id].panY,poiName:marker?.getAttribute('data-route-poi')||null};moved=false;
-  try{el.setPointerCapture(e.pointerId)}catch(err){}
-  clearTimeout(timer);
-  if(build&&park().net&&!start.poiName)timer=setTimeout(()=>{
-   if(!start||moved)return;
-   const Q=maps[id].Q;if(!Q){cancel();return}
-   const ll=Q.inverse(...start.at);const q=nearest(park().net,...ll);
-   if(!q){toast('등산로를 찾을 수 없어');cancel();return}
-   const xy=Q.project(q.xy);const visualGap=Math.hypot(xy[0]-start.at[0],xy[1]-start.at[1]);
-   const unitPerPx=el.getScreenCTM()?.a||1;
-   const gapPx=visualGap*unitPerPx;
-   // For tiny traces, allow a short finger-sized snap, but never across distant trails.
-   if(gapPx<=22&&q.km<=.4)q.km=Math.min(q.km,.12);
-   addWaypoint(q);cancel();
-  },560);
+  if(pointers.has(e.pointerId))return;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  try{el.setPointerCapture(e.pointerId)}catch(_){}
+  if(pointers.size===1&&!locked){
+   const marker=build&&e.target?.closest?.('[data-route-poi]');
+   drag={id:e.pointerId,at:pointXY(e.clientX,e.clientY),
+    x:e.clientX,y:e.clientY,panX:maps[id].panX,panY:maps[id].panY,
+    poiName:marker?.getAttribute('data-route-poi')||null};
+   moved=false;stopHold();
+   if(build&&park().net&&!drag.poiName)timer=setTimeout(()=>{
+    if(!drag||moved||locked||pointers.size!==1)return;
+    const Q=maps[id].Q;
+    if(!Q){stopHold();return}
+    const ll=Q.inverse(...drag.at),q=nearest(park().net,...ll);
+    if(!q){toast('등산로를 찾을 수 없어');stopHold();return}
+    const xy=Q.project(q.xy),visualGap=Math.hypot(xy[0]-drag.at[0],xy[1]-drag.at[1]);
+    const unitPerPx=el.getScreenCTM()?.a||1;
+    const gapPx=visualGap*unitPerPx;
+    // Keep the existing strict route-network snap and connectivity checks.
+    if(gapPx<=22&&q.km<=.4)q.km=Math.min(q.km,.12);
+    addWaypoint(q);
+    stopHold();drag=null;locked=true;
+   },560);
+  }else{
+   stopHold();drag=null;locked=true;
+   if(pointers.size===2)beginPinch();
+  }
  });
  el.addEventListener('pointermove',e=>{
-  if(!start||e.pointerId!==start.id)return;
-  const distancePx=Math.hypot(e.clientX-start.x,e.clientY-start.y);
-  if(distancePx>12){moved=true;clearTimeout(timer);timer=null}
-  if(moved){const q=point(e);maps[id].panX=start.panX+q[0]-start.at[0];maps[id].panY=start.panY+q[1]-start.at[1];drawMap(id)}
+  if(!pointers.has(e.pointerId))return;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch&&pinch.ids.every(key=>pointers.has(key))){
+   const a=pointers.get(pinch.ids[0]),b=pointers.get(pinch.ids[1]);
+   const dist=Math.max(8,Math.hypot(a.x-b.x,a.y-b.y));
+   const target=pointXY((a.x+b.x)/2,(a.y+b.y)/2);
+   const map=maps[id],zoom=Math.min(12,Math.max(.55,pinch.zoom*dist/pinch.distance));
+   const dims=mapViewport(id),bounds=mobileMapVerticalBounds(id,dims.H);
+   const cx=dims.W/2,cy=(bounds.top+bounds.bottom)/2,ratio=zoom/pinch.zoom;
+   map.zoom=zoom;
+   // Anchor the geographical spot beneath the initial two-finger midpoint.
+   map.panX=target[0]-cx-(pinch.center[0]-cx-pinch.panX)*ratio;
+   map.panY=target[1]-cy-(pinch.center[1]-cy-pinch.panY)*ratio;
+   redraw();return;
+  }
+  if(!drag||locked||drag.id!==e.pointerId)return;
+  if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>12){
+   moved=true;stopHold();
+  }
+  if(moved){
+   const at=pointXY(e.clientX,e.clientY);
+   maps[id].panX=drag.panX+at[0]-drag.at[0];
+   maps[id].panY=drag.panY+at[1]-drag.at[1];
+   redraw();
+  }
  });
  el.addEventListener('pointerup',e=>{
-  if(build&&start?.poiName&&!moved&&start.id===e.pointerId)chooseGeoPoi(start.poiName);
-  cancel();
+  if(build&&!locked&&drag?.poiName&&!moved&&drag.id===e.pointerId)
+   chooseGeoPoi(drag.poiName);
+  finishPointer(e);
  });
  el.addEventListener('keydown',e=>{
   if(!build||!(e.key==='Enter'||e.key===' '))return;
   const marker=e.target?.closest?.('[data-route-poi]');if(!marker)return;
   e.preventDefault();chooseGeoPoi(marker.getAttribute('data-route-poi'));
  });
- el.addEventListener('pointercancel',cancel);
- el.addEventListener('lostpointercapture',cancel);
+ el.addEventListener('pointercancel',finishPointer);
+ el.addEventListener('lostpointercapture',finishPointer);
 }
 
 function bindRouteChart(){

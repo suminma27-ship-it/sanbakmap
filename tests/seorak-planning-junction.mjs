@@ -20,6 +20,7 @@ const code=[
  "return {parks,installSeorakPlanningBridge,routeUsesPlanningBridge,checkedGeoGraph,routeGraph};"
 ].join('\n');
 const api=new Function('source',code)(seorak),net=api.parks[0].net;
+assert.equal(api.installSeorakPlanningBridge(),true,'Requested bridge must be installed');
 assert.equal(net.edges.length,sourceEdges+5,'Two splits and one provisional connector expected');
 assert.equal(net.nodes.length,sourceNodes+2);
 assert.equal(JSON.stringify([net.edges[9],net.edges[22]]),oldSegments,'Original edge IDs must stay intact');

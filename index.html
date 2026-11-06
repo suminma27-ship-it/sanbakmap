@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v48 | 전국 국립공원 산행계획</title>
+<title>산박지도 v49 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v48</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v49</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -681,6 +681,116 @@ function updateStatus(){const p=park();$('status').textContent=`${p.name} · 등
 // v25 plan-only router for parks with official waypoint order but no original geographic route geometry.
 const plan={choices:[],result:null,preset:null,focusIndex:null,stepKm:[]};
 
+// v49: non-intrusive, per-park working drafts. Separate from the named route library.
+const DRAFT_PREFIX='sanbakmap_working_v49_';
+const DRAFT_ACTIVE_KEY='sanbakmap_working_active_v49';
+let draftPaused=false,draftSignature=null,draftStorageWarned=false;
+function draftKey(parkId){return DRAFT_PREFIX+parkId}
+function draftPayload(kind){
+ const p=park();
+ if(kind==='plan')return {
+  version:49,parkId:p.id,kind:'plan',
+  choices:plan.choices.slice(),preset:plan.preset,
+  focusIndex:plan.focusIndex
+ };
+ return {
+  version:49,parkId:p.id,kind:'geo',
+  choices:builder.choices.map(q=>({edge:q.edge,t:q.t,name:q.name,namedPoi:!!q.namedPoi})),
+  focusIndex:builder.focusIndex
+ };
+}
+function draftContentSignature(payload){
+ return JSON.stringify([payload.parkId,payload.kind,payload.choices,payload.preset||null]);
+}
+function persistWorkingDraft(kind){
+ if(draftPaused)return;
+ const p=park();
+ if(!p||(kind==='plan')!==!!p.plan_graph)return;
+ const payload=draftPayload(kind),signature=draftContentSignature(payload);
+ if(draftSignature===signature)return;
+ try{
+  if(payload.choices.length){
+   localStorage.setItem(draftKey(p.id),JSON.stringify(payload));
+   localStorage.setItem(DRAFT_ACTIVE_KEY,p.id);
+  }else{
+   localStorage.removeItem(draftKey(p.id));
+   if(localStorage.getItem(DRAFT_ACTIVE_KEY)===p.id)localStorage.removeItem(DRAFT_ACTIVE_KEY);
+  }
+  draftSignature=signature;
+ }catch(error){
+  if(!draftStorageWarned){
+   draftStorageWarned=true;
+   toast('브라우저 저장이 제한되어 작업 중 루트를 자동 복구할 수 없어. 계획표를 따로 저장해줘');
+  }
+ }
+}
+function clearDraftAfterPermanentSave(){
+ const p=park();
+ if(!p)return;
+ try{
+  localStorage.removeItem(draftKey(p.id));
+  if(localStorage.getItem(DRAFT_ACTIVE_KEY)===p.id)localStorage.removeItem(DRAFT_ACTIVE_KEY);
+  draftSignature=draftContentSignature(draftPayload(p.plan_graph?'plan':'geo'));
+ }catch(error){}
+}
+function restoreWorkingDraft(){
+ const p=park(),kind=p.plan_graph?'plan':'geo';
+ let draft;
+ try{
+  const raw=localStorage.getItem(draftKey(p.id));
+  if(!raw)return false;
+  draft=JSON.parse(raw);
+ }catch(error){return false}
+ if(!draft||draft.version!==49||draft.parkId!==p.id||draft.kind!==kind
+    ||!Array.isArray(draft.choices)||draft.choices.length<1||draft.choices.length>150)return false;
+ const selected=Number.isInteger(draft.focusIndex)&&draft.focusIndex>=0&&draft.focusIndex<draft.choices.length
+  ?draft.focusIndex:draft.choices.length-1;
+ if(kind==='plan'){
+  const net=p.plan_graph;
+  if(!net||!draft.choices.every(n=>Number.isInteger(n)&&n>=0&&n<net.nodes.length))return false;
+  for(let i=1;i<draft.choices.length;i++){
+   const leg=planPath(draft.choices[i-1],draft.choices[i],net);
+   if(!leg||!leg.edgeIds.length)return false;
+  }
+  let preset=null;
+  if(typeof draft.preset==='string'&&net.courses?.[draft.preset]){
+   const nodes=net.courses[draft.preset].nodes;
+   if(draft.choices.join(',')===nodes.join(',')||draft.choices.join(',')===nodes.slice().reverse().join(','))
+    preset=draft.preset;
+  }
+  plan.choices=draft.choices.slice();
+  plan.preset=preset;plan.focusIndex=selected;
+  updatePlan();
+ }else{
+  const net=p.net;
+  if(!net?.edges?.length)return false;
+  if(!draft.choices.every(q=>q&&Number.isInteger(q.edge)&&q.edge>=0&&q.edge<net.edges.length
+      &&Number.isFinite(q.t)&&q.t>=0&&q.t<=1))return false;
+  const restored=[];
+  for(const q of draft.choices){
+   const edge=net.edges[q.edge];
+   if(!Array.isArray(edge?.[3])||edge[3].length<2)return false;
+   const xy=lineSub(edge,q.t,q.t)[0];
+   if(!Array.isArray(xy)||!xy.every(Number.isFinite))return false;
+   restored.push({edge:q.edge,t:q.t,xy,km:0,
+    name:typeof q.name==='string'?q.name.slice(0,100):'경유지',namedPoi:!!q.namedPoi});
+  }
+  const line=restored.length>=2?routeChoices(net,restored):null;
+  if(restored.length>=2&&!line)return false;
+  builder.choices=restored;builder.line=line;builder.focusIndex=selected;builder.focusKm=null;
+  updateBuilder();
+ }
+ draftSignature=draftContentSignature(draftPayload(kind));
+ return true;
+}
+function initialDraftParkIndex(){
+ try{
+  const id=localStorage.getItem(DRAFT_ACTIVE_KEY);
+  if(!id||!localStorage.getItem(draftKey(id)))return -1;
+  return parks.findIndex(p=>p.id===id);
+ }catch(error){return -1}
+}
+
 // v45: per-editor undo + redo stacks. Only completed edits reach the history.
 const editUndoHistory={geo:[],plan:[]};
 const editRedoHistory={geo:[],plan:[]};
@@ -925,6 +1035,7 @@ function updatePlan(){
  plan.stepKm=planStepDistances(net,plan.choices,m,plan.preset);
  renderPlanStepRows(net);
  syncWaypointToolbar('plan',plan.choices,plan.focusIndex,movePlanStepTo);
+ persistWorkingDraft('plan');
  updateMobileSummary('planQuickSummary',plan.choices.length+'개 지점'+(m?' · '+fmt(m.km,'km',1):''));
  $('planDistance').textContent=m?`${fmt(m.km,'km',1)}`:'—';$('planGain').textContent=m?`약 ${fmt(Math.round(m.gain),'m')}`:'—';$('planLoss').textContent=m?`약 ${fmt(Math.round(m.loss),'m')}`:'—';$('planMax').textContent=m?fmt(Math.round(m.max),'m'):'—';
  $('planReturn').disabled=plan.choices.length<2||plan.choices.at(-1)===plan.choices[0];
@@ -1014,7 +1125,7 @@ function saveCurrent(){
  const choices=isPlan?plan.choices.map(Number):builder.choices.map(q=>({edge:q.edge,t:q.t,xy:q.xy,name:q.name,namedPoi:!!q.namedPoi}));
  if(choices.length<2){toast('출발지와 도착지를 선택해줘');return}
  const item={id:'route_'+Date.now()+'_'+Math.round(Math.random()*1e6),version:26,parkId:pk.id,parkName:pk.name,name:title,kind:isPlan?'plan':'geo',choices,courseId:isPlan?plan.preset:null,km:Number(m.km.toFixed(2)),gain_m:Math.round(m.gain),loss_m:Math.round(m.loss),saved_at:new Date().toISOString()};
- savedRoutes.unshift(item);savedRoutes=savedRoutes.slice(0,200);saveLocal();renderSaved();if(!storageOk)downloadJSON({format:'sanbakmap-routes',version:26,routes:savedRoutes},'sanbakmap-routes-auto-backup.json');toast(storageOk?'루트를 보관했어. 보관함에서 다시 열 수 있어':'브라우저 저장이 차단되어 백업 JSON을 다운로드했어');
+ savedRoutes.unshift(item);savedRoutes=savedRoutes.slice(0,200);saveLocal();renderSaved();if(storageOk)clearDraftAfterPermanentSave();if(!storageOk)downloadJSON({format:'sanbakmap-routes',version:26,routes:savedRoutes},'sanbakmap-routes-auto-backup.json');toast(storageOk?'루트를 보관했어. 보관함에서 다시 열 수 있어':'브라우저 저장이 차단되어 백업 JSON을 다운로드했어');
 }
 function loadSaved(id){
  const item=savedRoutes.find(s=>s.id===id);if(!item)return;
@@ -1180,7 +1291,25 @@ function initializeMobilePanels(){
 }
 let updateMobileWorkspace=()=>{};
 function updateMobileSummary(id,text){const el=$(id);if(el)el.textContent=text}
-function parkChanged(){resetEditHistory();$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();updateMobileWorkspace();if(view.tab==='build'&&!park().plan_graph)drawMap('builderMap');renderSaved();}
+function parkChanged(){
+ // Initialization must not erase a previously saved draft before it is restored.
+ draftPaused=true;draftSignature=null;
+ try{
+  resetEditHistory();$('routeName').value='';
+  view.park=+($('parkSelect').value);view.course=0;
+  builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];
+  plan.choices=[];plan.preset=null;plan.focusIndex=null;plan.stepKm=[];
+  maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};
+  updateStatus();updateView();updateBuilder();planUI();
+  const restored=restoreWorkingDraft();
+  if(!restored)draftSignature=draftContentSignature(draftPayload(park().plan_graph?'plan':'geo'));
+  updateMobileWorkspace();
+  if(view.tab==='build'&&!park().plan_graph)drawMap('builderMap');
+  renderSaved();
+  if(restored)toast('작성 중이던 루트를 자동 복구했어');
+  return restored;
+ }finally{draftPaused=false}
+}
 // Waypoint controls for geographic and schematic planners.
 // Row size is invariant under selection: moving waypoint 4 must not hide waypoint 3.
 function waypointRow(container,i,total,label,selected,onFocus,onMove,onRemove,meta){
@@ -1312,6 +1441,7 @@ function updateBuilder(){
  else if(builder.focusKm!==null)builder.focusKm=Math.max(0,Math.min(m.km,builder.focusKm));
  renderGeoSteps();renderGeoPoiButtons();
  syncWaypointToolbar('geo',builder.choices,builder.focusIndex,moveGeoStepTo);
+ persistWorkingDraft('geo');
  updateMobileSummary('geoQuickSummary',builder.choices.length+'개 지점'+(m?' · '+fmt(m.km,'km',2):''));
  $('myDistance').textContent=m?fmt(m.km,'km',2):'—';$('myGain').textContent=m?fmt(Math.round(m.gain),'m'):'—';$('myLoss').textContent=m?fmt(Math.round(m.loss),'m'):'—';$('myMax').textContent=m?fmt(Math.round(m.max),'m'):'—';
  plot('myChart',m);drawMap('builderMap');
@@ -1504,7 +1634,10 @@ $('reverseGeo').onclick=reverseGeoRoute;
 $('editUndoGeo').onclick=()=>undoLastEdit('geo');
 $('editRedoGeo').onclick=()=>redoLastEdit('geo');
 $('returnStart').onclick=()=>{let q=builder.choices[0];if(!q||builder.choices.length<2)return;addWaypoint({...q,name:q.namedPoi?q.name:'출발지'})};$('download').onclick=download;
-updateMobileWorkspace=initializeMobilePanels();initializeMapFocus();mapTouch('map',false);mapTouch('builderMap',true);bindRouteChart();$('parkSelect').value=parks.findIndex(p=>p.id==='seorak');parkChanged();setTab('view');
+updateMobileWorkspace=initializeMobilePanels();initializeMapFocus();mapTouch('map',false);mapTouch('builderMap',true);bindRouteChart();
+ const resumeIndex=initialDraftParkIndex();
+ $('parkSelect').value=resumeIndex>=0?resumeIndex:parks.findIndex(p=>p.id==='seorak');
+ const didResume=parkChanged();setTab(didResume?'build':'view');
 })();
 </script>
 <script id="sanbak-pwa-registration">

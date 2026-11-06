@@ -14,9 +14,13 @@ for(const mountain of catalog.index){
 }
 const paths=JSON.parse(gunzipSync(Buffer.from(catalog.compressed,'base64')).toString('utf8'));
 assert.equal(Object.keys(paths).length,2932,'Preview geometry count mismatch');
+const missing=[];
 for(const x of catalog.index){
- assert(typeof paths[x.c]==='string'&&paths[x.c].startsWith('M'),x.c+' has no source trail preview');
+ assert(typeof paths[x.c]==='string',x.c+' has no preview record');
+ if(!paths[x.c]){missing.push(x.c);continue}
+ assert(paths[x.c].startsWith('M'),x.c+' SVG preview does not start with a move command');
 }
+assert.deepEqual(missing,['491106604'],'Documented source record with no rendered trail must remain unfilled');
 const html=readFileSync(new URL('../national.html',import.meta.url),'utf8');
 assert(html.includes('national_data.js'),'Viewer must load published catalog automatically');
 assert(html.includes('initNationwide();'),'Automatic initialization absent');

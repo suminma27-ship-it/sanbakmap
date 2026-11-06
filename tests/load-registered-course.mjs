@@ -9,7 +9,8 @@ const source=name=>{
  assert(begin>=0&&end>begin,'Missing function '+name);
  return html.slice(begin,end+2);
 };
-assert(html.includes('산박지도 v57'));
+const version=Number(html.match(/산박지도 v(\d+)/)?.[1]);
+assert(version>=57,'Requires v57 or later');
 assert(html.includes('id="loadGeoCourse"'));
 assert(html.includes("$('loadGeoCourse').onclick=loadSelectedGeoCourse;"));
 const parks=JSON.parse(html.match(/<script id="parkData" type="application\/json">([\s\S]*?)<\/script>/)[1]);

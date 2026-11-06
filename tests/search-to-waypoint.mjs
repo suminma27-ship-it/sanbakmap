@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
-assert(html.includes('산박지도 v56'));
+const version=Number(html.match(/산박지도 v(\d+)/)?.[1]);
+assert(version>=56,'Requires v56 or later');
 assert(html.includes('id="poiSearchAdd"'));
 function source(name){
  const a=html.indexOf('function '+name+'('),b=html.indexOf('\n}',a);

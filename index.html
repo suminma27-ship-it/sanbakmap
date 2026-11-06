@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v49 | 전국 국립공원 산행계획</title>
+<title>산박지도 v50 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v49</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v50</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -334,7 +334,11 @@ function lineSub(edge,t0,t1){
  return t0<=t1?forward(t0,t1):forward(t1,t0).reverse();
 }
 function routeGraph(net,a,b){
- if(!net||!net.edges?.length)return null;
+ // v50: reject missing graph references before pathfinding or geometry access.
+ if(!net?.nodes?.length||!net.edges?.length||!a||!b
+    ||![a,b].every(q=>Number.isInteger(q.edge)&&q.edge>=0&&q.edge<net.edges.length
+       &&Number.isFinite(q.t)&&q.t>=0&&q.t<=1
+       &&Array.isArray(net.edges[q.edge]?.[3])&&net.edges[q.edge][3].length>=2))return null;
  let edges=net.edges,adj=Array.from({length:net.nodes.length},()=>[]);
  edges.forEach((e,i)=>{if(e[0]===e[1])return;adj[e[0]].push([e[1],e[2],i]);adj[e[1]].push([e[0],e[2],i])});
  function path(n0,n1){if(n0===n1)return {distance:0,parts:[]};const N=adj.length,dist=new Float64Array(N);dist.fill(Infinity);dist[n0]=0;let prev=new Int32Array(N).fill(-1),prevEdge=new Int32Array(N).fill(-1),q=[[0,n0]];
@@ -354,8 +358,21 @@ function routeGraph(net,a,b){
  }
  return best?.line?.length>=2?best.line:null
 }
-function routeChoices(net,choices){if(choices.length<2)return null;let final=[];for(let i=1;i<choices.length;i++){
- const part=routeGraph(net,choices[i-1],choices[i]);if(!part)return null;if(final.length&&hav(final.at(-1),part[0])<.015)part.shift();final.push(...part)}return final}
+function routeChoices(net,choices){
+ if(!Array.isArray(choices)||choices.length<2)return null;
+ let final=[];
+ for(let i=1;i<choices.length;i++){
+  const part=routeGraph(net,choices[i-1],choices[i]);
+  if(!part?.length)return null;
+  if(final.length){
+   // A leg cannot silently jump across a gap not supported by a shared graph node.
+   if(hav(final.at(-1),part[0])>.015)return null;
+   part.shift();
+  }
+  final.push(...part);
+ }
+ return final.length>=2&&lineDistance(final)>.001?final:null;
+}
 function nearest(net,lon,lat){if(!net?.edges?.length)return null;
  let best=null,cos=Math.cos(lat*Math.PI/180);
  net.edges.forEach((e,edge)=>{let p=e[3],ds=[0];for(let i=1;i<p.length;i++)ds.push(ds.at(-1)+hav(p[i-1],p[i]));let len=ds.at(-1)||1;
@@ -742,42 +759,17 @@ function restoreWorkingDraft(){
   draft=JSON.parse(raw);
  }catch(error){return false}
  if(!draft||draft.version!==49||draft.parkId!==p.id||draft.kind!==kind
-    ||!Array.isArray(draft.choices)||draft.choices.length<1||draft.choices.length>150)return false;
- const selected=Number.isInteger(draft.focusIndex)&&draft.focusIndex>=0&&draft.focusIndex<draft.choices.length
-  ?draft.focusIndex:draft.choices.length-1;
+    ||!Array.isArray(draft.choices)||draft.choices.length<1)return false;
  if(kind==='plan'){
-  const net=p.plan_graph;
-  if(!net||!draft.choices.every(n=>Number.isInteger(n)&&n>=0&&n<net.nodes.length))return false;
-  for(let i=1;i<draft.choices.length;i++){
-   const leg=planPath(draft.choices[i-1],draft.choices[i],net);
-   if(!leg||!leg.edgeIds.length)return false;
-  }
-  let preset=null;
-  if(typeof draft.preset==='string'&&net.courses?.[draft.preset]){
-   const nodes=net.courses[draft.preset].nodes;
-   if(draft.choices.join(',')===nodes.join(',')||draft.choices.join(',')===nodes.slice().reverse().join(','))
-    preset=draft.preset;
-  }
-  plan.choices=draft.choices.slice();
-  plan.preset=preset;plan.focusIndex=selected;
+  const verified=verifiedPlanSnapshot(p.plan_graph,draft.choices,draft.preset,draft.focusIndex);
+  if(!verified)return false;
+  plan.choices=verified.choices;plan.preset=verified.preset;plan.focusIndex=verified.focusIndex;
   updatePlan();
  }else{
-  const net=p.net;
-  if(!net?.edges?.length)return false;
-  if(!draft.choices.every(q=>q&&Number.isInteger(q.edge)&&q.edge>=0&&q.edge<net.edges.length
-      &&Number.isFinite(q.t)&&q.t>=0&&q.t<=1))return false;
-  const restored=[];
-  for(const q of draft.choices){
-   const edge=net.edges[q.edge];
-   if(!Array.isArray(edge?.[3])||edge[3].length<2)return false;
-   const xy=lineSub(edge,q.t,q.t)[0];
-   if(!Array.isArray(xy)||!xy.every(Number.isFinite))return false;
-   restored.push({edge:q.edge,t:q.t,xy,km:0,
-    name:typeof q.name==='string'?q.name.slice(0,100):'경유지',namedPoi:!!q.namedPoi});
-  }
-  const line=restored.length>=2?routeChoices(net,restored):null;
-  if(restored.length>=2&&!line)return false;
-  builder.choices=restored;builder.line=line;builder.focusIndex=selected;builder.focusKm=null;
+  const verified=verifiedGeoSnapshot(p.net,draft.choices,draft.focusIndex);
+  if(!verified)return false;
+  builder.choices=verified.choices;builder.line=verified.line;
+  builder.focusIndex=verified.focusIndex;builder.focusKm=null;
   updateBuilder();
  }
  draftSignature=draftContentSignature(draftPayload(kind));
@@ -841,22 +833,17 @@ function resetEditHistory(){
 function applyEditSnapshot(kind,snapshot){
  if(!snapshot||snapshot.parkId!==park().id)return false;
  if(kind==='geo'){
-  if(!park().net)return false;
-  const restored=snapshot.choices.map(q=>({...q,xy:Array.isArray(q.xy)?q.xy.slice():q.xy}));
-  const line=restored.length>=2?routeChoices(park().net,restored):null;
-  if(restored.length>=2&&!line)return false;
-  builder.choices=restored;builder.line=line;
-  builder.focusIndex=snapshot.focusIndex;builder.focusKm=snapshot.focusKm;
-  updateBuilder();
-  return true;
+  const verified=verifiedGeoSnapshot(park().net,snapshot.choices,snapshot.focusIndex,snapshot.focusKm);
+  if(!verified)return false;
+  builder.choices=verified.choices;builder.line=verified.line;
+  builder.focusIndex=verified.focusIndex;builder.focusKm=verified.focusKm;
+  updateBuilder();return true;
  }
  if(kind==='plan'){
-  const net=planNet();if(!net)return false;
-  for(let i=1;i<snapshot.choices.length;i++){
-   if(!planPath(snapshot.choices[i-1],snapshot.choices[i],net))return false;
-  }
-  plan.choices=snapshot.choices.slice();plan.preset=snapshot.preset;
-  plan.focusIndex=snapshot.focusIndex;updatePlan();return true;
+  const verified=verifiedPlanSnapshot(planNet(),snapshot.choices,snapshot.preset,snapshot.focusIndex);
+  if(!verified)return false;
+  plan.choices=verified.choices;plan.preset=verified.preset;
+  plan.focusIndex=verified.focusIndex;updatePlan();return true;
  }
  return false;
 }
@@ -891,6 +878,47 @@ function planPath(a,b,net){
  let cur=b,verts=[b],edgeIds=[];
  while(cur!==a){let q=prev[cur];if(!q)return null;edgeIds.push(q[1]);cur=q[0];verts.push(cur)}
  return {distance:D[b],vertices:verts.reverse(),edgeIds:edgeIds.reverse()};
+}
+// v50: validated snapshots are prepared BEFORE changing either editor's state.
+function verifiedPlanSnapshot(net,raw,presetId=null,focus=null){
+ if(!net?.nodes||!Array.isArray(raw)||raw.length>150||!raw.every(n=>Number.isInteger(n)&&n>=0&&n<net.nodes.length))return null;
+ for(let i=1;i<raw.length;i++){
+  const leg=planPath(raw[i-1],raw[i],net);
+  if(!leg?.edgeIds?.length||!Number.isFinite(leg.distance)||leg.distance<=0)return null;
+ }
+ let preset=null;
+ if(typeof presetId==='string'&&net.courses?.[presetId]){
+  const nodes=net.courses[presetId].nodes;
+  const order=raw.join(',');
+  if(order===nodes.join(',')||order===nodes.slice().reverse().join(','))preset=presetId;
+ }
+ return {choices:raw.slice(),preset,
+  focusIndex:Number.isInteger(focus)&&focus>=0&&focus<raw.length?focus:(raw.length?raw.length-1:null)};
+}
+function verifiedGeoSnapshot(net,raw,focus=null,focusKm=null){
+ if(!net?.nodes||!net?.edges||!Array.isArray(raw)||raw.length>150)return null;
+ const choices=[];
+ for(const q of raw){
+  if(!q||!Number.isInteger(q.edge)||q.edge<0||q.edge>=net.edges.length||!Number.isFinite(q.t)||q.t<0||q.t>1)return null;
+  const edge=net.edges[q.edge],points=edge?.[3];
+  if(!Array.isArray(points)||points.length<2||!points.every(p=>Array.isArray(p)&&p.length>=3&&p.slice(0,3).every(Number.isFinite)))return null;
+  const xy=lineSub(edge,q.t,q.t)[0];
+  if(!xy||!xy.slice(0,3).every(Number.isFinite))return null;
+  choices.push({edge:q.edge,t:q.t,xy,km:0,name:typeof q.name==='string'?q.name.slice(0,100):'경유지',namedPoi:!!q.namedPoi});
+ }
+ let line=null;
+ if(choices.length>=2){
+  for(let i=1;i<choices.length;i++){
+   const leg=routeGraph(net,choices[i-1],choices[i]);
+   if(!leg||lineDistance(leg)<.05)return null;
+  }
+  line=routeChoices(net,choices);
+  if(!line||!metrics(line))return null;
+  const cumulative=geoStepDistances(net,choices);
+  if(cumulative.length!==choices.length||Math.abs(cumulative.at(-1)-metrics(line).km)>.02)return null;
+ }
+ const index=Number.isInteger(focus)&&focus>=0&&focus<choices.length?focus:(choices.length?choices.length-1:null);
+ return {choices,line,focusIndex:index,focusKm:Number.isFinite(focusKm)&&focusKm>=0?Math.min(focusKm,metrics(line)?.km||0):null};
 }
 function planCompute(){
  const net=planNet();if(!net||plan.choices.length<2)return null;
@@ -1129,31 +1157,25 @@ function saveCurrent(){
 }
 function loadSaved(id){
  const item=savedRoutes.find(s=>s.id===id);if(!item)return;
- const idx=parks.findIndex(p=>p.id===item.parkId);if(idx<0){toast('해당 산 데이터를 찾을 수 없어');return}
+ const idx=parks.findIndex(p=>p.id===item.parkId);
+ if(idx<0){toast('해당 산 데이터를 찾을 수 없어');return}
+ const target=parks[idx],isPlan=!!target.plan_graph;
+ if((isPlan?'plan':'geo')!==item.kind){toast('저장한 루트 종류가 현재 데이터와 달라');return}
+ // Validate BEFORE parkChanged(), so a corrupted route cannot erase the current plan.
+ const verified=isPlan
+  ?verifiedPlanSnapshot(target.plan_graph,item.choices,item.courseId)
+  :verifiedGeoSnapshot(target.net,item.choices);
+ if(!verified||verified.choices.length<2){
+  toast('경유지나 연결망이 유효하지 않아 기존 루트를 유지했어');return;
+ }
  $('parkSelect').value=String(idx);parkChanged();setTab('build');
- const pk=park();
- if(item.kind==='plan'){
-  if(!pk.plan_graph){toast('이 루트에 맞는 경유지 연결도가 없어');return}
-  if(!Array.isArray(item.choices)||!item.choices.every(n=>Number.isInteger(n)&&n>=0&&n<pk.plan_graph.nodes.length)){toast('지점 정보가 변경되어 불러올 수 없어');return}
-  plan.choices=[];plan.preset=null;
-  for(const n of item.choices){if(plan.choices.length){let prev=plan.choices.at(-1);if(!planPath(prev,n,pk.plan_graph)){toast('연결되지 않은 구간이 있어 불러오지 못했어');plan.choices=[];return}}plan.choices.push(n)}
-  if(item.courseId&&pk.plan_graph.courses[item.courseId]){
-   const nodes=pk.plan_graph.courses[item.courseId].nodes;
-   if(plan.choices.join(',')===nodes.join(',')||plan.choices.join(',')===nodes.slice().reverse().join(','))plan.preset=item.courseId;
-  }
-  plan.focusIndex=plan.choices.length?plan.choices.length-1:null;updatePlan();
+ if(isPlan){
+  plan.choices=verified.choices;plan.preset=verified.preset;plan.focusIndex=verified.focusIndex;
+  updatePlan();
  }else{
-  if(!pk.net){toast('이 산의 연결망을 찾을 수 없어');return}
-  if(!Array.isArray(item.choices)||!item.choices.every(q=>Number.isInteger(q.edge)&&q.edge>=0&&q.edge<pk.net.edges.length&&Number.isFinite(q.t)&&q.t>=0&&q.t<=1)){toast('지점 정보가 변경되어 불러올 수 없어');return}
-  const restored=[];
-  for(const q of item.choices){
-   const edge=pk.net.edges[q.edge],polyline=edge[3],t=q.t;
-   const point=lineSub(edge,t,t)[0];
-   const waypoint={edge:q.edge,t,xy:point,km:0,name:String(q.name||'경유지'),namedPoi:!!q.namedPoi};
-   if(restored.length){const part=routeGraph(pk.net,restored.at(-1),waypoint);if(!part){toast('연결되지 않은 구간이 있어 불러오지 못했어');return}}
-   restored.push(waypoint)
-  }
-  builder.choices=restored;builder.line=routeChoices(pk.net,restored);builder.focusIndex=restored.length?restored.length-1:null;updateBuilder();
+  builder.choices=verified.choices;builder.line=verified.line;
+  builder.focusIndex=verified.focusIndex;builder.focusKm=null;
+  updateBuilder();
  }
  $('routeName').value=item.name;toast('저장한 루트를 열었어');
 }
@@ -1182,9 +1204,19 @@ $('importBackup').onchange=async(e)=>{
   if(obj.format!=='sanbakmap-routes'||!Array.isArray(obj.routes))throw new Error('산박지도 백업 파일이 아니야');
   let count=0;
   for(const s of obj.routes.slice(0,200)){
-   if(!s||!parks.some(p=>p.id===s.parkId)||!['plan','geo'].includes(s.kind)||!Array.isArray(s.choices)||s.choices.length<2||typeof s.name!=='string')continue;
+   if(!s||!['plan','geo'].includes(s.kind)||!Array.isArray(s.choices)||s.choices.length<2||typeof s.name!=='string')continue;
+   const target=parks.find(p=>p.id===s.parkId);
+   if(!target||(target.plan_graph?'plan':'geo')!==s.kind)continue;
    if(savedRoutes.some(x=>x.id===s.id))continue;
-   savedRoutes.push({id:String(s.id||'import'+Date.now()+count),version:26,parkId:s.parkId,parkName:String(s.parkName||''),name:s.name.slice(0,60),kind:s.kind,choices:s.choices.slice(0,120),courseId:s.courseId||null,km:Number(s.km)||0,gain_m:Number(s.gain_m)||0,loss_m:Number(s.loss_m)||0,saved_at:s.saved_at||new Date().toISOString()});count++;
+   const verified=s.kind==='plan'
+    ?verifiedPlanSnapshot(target.plan_graph,s.choices,s.courseId)
+    :verifiedGeoSnapshot(target.net,s.choices);
+   if(!verified||verified.choices.length<2)continue;
+   savedRoutes.push({id:String(s.id||'import'+Date.now()+count),version:26,parkId:s.parkId,parkName:String(s.parkName||''),name:s.name.slice(0,60),kind:s.kind,
+    choices:s.kind==='plan'?verified.choices:verified.choices.map(q=>({edge:q.edge,t:q.t,xy:q.xy,name:q.name,namedPoi:q.namedPoi})),
+    courseId:s.kind==='plan'?verified.preset:null,
+    km:Number.isFinite(Number(s.km))?Number(s.km):0,gain_m:Number(s.gain_m)||0,loss_m:Number(s.loss_m)||0,
+    saved_at:typeof s.saved_at==='string'?s.saved_at:new Date().toISOString()});count++;
   }
   savedRoutes=savedRoutes.slice(0,200);saveLocal();renderSaved();toast(count+'개 루트를 불러왔어');
  }catch(err){toast('백업을 읽을 수 없어: '+String(err.message||err).slice(0,70))}

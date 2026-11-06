@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>산박지도 v36 | 전국 국립공원 산행계획</title>
+<title>산박지도 v37 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -98,9 +98,61 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
  #map,#builderMap{height:clamp(265px,47dvh,430px)!important}
  .legend{gap:8px}
 }
+</style><style id="v37-map-sheet-css">
+.sheet-drag-handle{display:none}
+@media(max-width:750px){
+ /* The map and its route editor share one height-bounded mobile workspace. */
+ #viewerPanel .bodygrid,#geoBuilder{
+  position:relative;display:block;isolation:isolate;
+  height:var(--sanbak-workspace-height,480px);min-height:310px;
+  overflow:hidden;border:1px solid #dbe6dc;border-radius:15px;background:#e9f1e8;
+ }
+ #viewerPanel .bodygrid>section.card:first-child,#geoBuilder>section.card:first-child{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  min-height:0;min-width:0;border:0;border-radius:0;box-shadow:none;background:#edf3ea;
+ }
+ #viewerPanel .bodygrid>section.card:first-child>.cardTitle,#geoBuilder>section.card:first-child>.cardTitle{flex:0 0 auto}
+ #map,#builderMap{height:auto!important;flex:1 1 auto;min-height:0!important;width:100%;display:block}
+ #viewerPanel .bodygrid>section.card:first-child>.mapcontrols,#geoBuilder>section.card:first-child>.mapcontrols{
+  position:absolute;left:7px;right:7px;top:52px;z-index:2;display:flex;
+  border:1px solid #d6e4d9;border-radius:11px;padding:5px;gap:5px;
+  background:#ffffffed;box-shadow:0 2px 12px #163e2821;
+ }
+ #viewerPanel .bodygrid>section.card:first-child>.legend,
+ #viewerPanel .bodygrid>section.card:first-child>.poi-index,
+ #geoBuilder>section.card:first-child>.descr,
+ #geoBuilder>section.card:first-child>.geo-poi-area{display:none}
+ .right.mobile-detail-panel{
+  position:absolute;bottom:0;left:0;right:0;z-index:5;
+  display:flex;flex-direction:column;gap:0;
+  height:auto;max-height:72%;min-height:0;
+  overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
+  border-radius:17px 17px 0 0;border:1px solid #ccdcd0;border-bottom:0;
+  background:white;box-shadow:0 -5px 22px #153a2930;
+  padding-bottom:env(safe-area-inset-bottom);
+ }
+ .right.mobile-detail-panel[data-sheet-state="half"]{height:55%;max-height:100%}
+ .right.mobile-detail-panel[data-sheet-state="full"]{height:calc(100% - 7px);max-height:100%}
+ .sheet-drag-handle{
+  display:flex;position:sticky;top:0;z-index:7;
+  align-items:center;justify-content:center;flex:0 0 22px;
+  min-height:22px;background:white;touch-action:none;cursor:ns-resize;
+ }
+ .sheet-drag-handle::after{content:'';display:block;width:40px;height:5px;border-radius:99px;background:#c2d1c6}
+ .mobile-detail-panel>.mobile-detail-toggle{
+  position:sticky;top:22px;z-index:7;background:#fff;flex:0 0 auto;
+  padding:9px 13px;min-height:45px;
+ }
+ .mobile-detail-panel>.mobile-stats{flex:0 0 auto}
+ .mobile-detail-panel>.elevation-card{flex:0 0 auto}
+ #geoStats>.geo-poi-area{border-top:1px solid #e5ece6}
+ #viewerStats>.poi-index{margin:9px 10px 11px}
+ #viewerPanel .bodygrid>section.card:first-child>.mapcontrols button,
+ #geoBuilder>section.card:first-child>.mapcontrols button{min-height:34px;padding:7px 10px}
+}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v36</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v37</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -262,8 +314,13 @@ function canvasBounds(p,mode){
  if(mode==='build' && maps.builderMap.fit==='course' && p.courses[view.course]?.line?.length)return p.courses[view.course].line;
  return mode==='view'&&maps.map.fit==='route'&&line?.length?line:all.length?all:line||[];
 }
+function mapViewport(id){
+ const el=$(id),box=el.getBoundingClientRect(),portrait=window.matchMedia('(max-width:750px)').matches;
+ const ratio=box.width>10&&box.height>10?box.height/box.width:2/3;
+ return {W:900,H:portrait?Math.max(600,Math.min(2000,Math.round(900*ratio))):600};
+}
 function projection(id,pts,p){
- const map=maps[id];let bounds=canvasBounds(p,id==='map'?'view':'build');if(!bounds.length)return null;
+ const {W,H}=mapViewport(id),map=maps[id];let bounds=canvasBounds(p,id==='map'?'view':'build');if(!bounds.length)return null;
  const cx0=bounds.reduce((s,a)=>s+a[0],0)/bounds.length,cy0=bounds.reduce((s,a)=>s+a[1],0)/bounds.length,cos=Math.cos(cy0*Math.PI/180);
  const xs=bounds.map(q=>q[0]*cos),ys=bounds.map(q=>q[1]);const lx=Math.min(...xs),rx=Math.max(...xs),by=Math.min(...ys),ty=Math.max(...ys);
  const scale=Math.min((W-105)/Math.max(.003,rx-lx),(H-105)/Math.max(.003,ty-by))*map.zoom;
@@ -289,7 +346,7 @@ function nearestPoiOnLine(poi,line){
  return best;
 }
 function poiMarkerSvg(p,id,Q,mode,focus){
- const W=900,H=600;let source=majorPoiList(p).map(q=>({...q}));
+ const {W,H}=mapViewport(id);let source=majorPoiList(p).map(q=>({...q}));
  // Use the current course's official trailhead and destination names when they
  // correspond to a stored GIS point, without displaying duplicate labels.
  if(mode==='view'||mode==='build'){
@@ -372,11 +429,11 @@ function graphPoiLabels(svgId,course,parkData,m){
  svg.insertAdjacentHTML('beforeend',g);
 }
 
-function drawMap(id){const p=park(),svg=$(id),net=p.net,mode=id==='map'?'view':'build';let base=canvasBounds(p,mode);if(!base?.length){svg.innerHTML='<rect width="900" height="600" fill="#eff3ec"/><text x="450" y="280" text-anchor="middle" font-size="27" fill="#698071">탐방로 자료 준비 중</text><text x="450" y="319" text-anchor="middle" font-size="17" fill="#829789">원본 선형 확인 후 추가 예정</text>';return}
+function drawMap(id){const p=park(),svg=$(id),net=p.net,mode=id==='map'?'view':'build',dims=mapViewport(id),W=dims.W,H=dims.H;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);let base=canvasBounds(p,mode);if(!base?.length){svg.innerHTML=`<rect width="${W}" height="${H}" fill="#eff3ec"/><text x="${W/2}" y="${H/2-20}" text-anchor="middle" font-size="27" fill="#698071">탐방로 자료 준비 중</text><text x="${W/2}" y="${H/2+20}" text-anchor="middle" font-size="17" fill="#829789">원본 선형 확인 후 추가 예정</text>`;return}
  const Q=projection(id,base,p);if(!Q)return;maps[id].Q=Q;
- let s='<rect width="900" height="600" fill="#edf3ea"/>';
+ let s=`<rect width="${W}" height="${H}" fill="#edf3ea"/>`;
  for(let i=0;i<14;i++){let x=i*75;s+=`<line x1="${x}" y1="0" x2="${x}" y2="600" stroke="#dfe8dd" stroke-width="1"/>`}
- for(let i=0;i<11;i++){let y=i*60;s+=`<line x1="0" y1="${y}" x2="900" y2="${y}" stroke="#dfe8dd" stroke-width="1"/>`}
+ for(let i=0;i<=Math.ceil(H/60);i++){let y=i*60;s+=`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#dfe8dd" stroke-width="1"/>`}
  for(const e of net?.edges||[]){const st=poly(e[3],Q.project);s+=`<path d="${st}" stroke="#a8bfb0" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`}
  const course=p.courses[view.course];
  if(mode==='build'&&!builder.line&&course?.line?.length&&!course?.schematic){s+=`<path d="${poly(course.line,Q.project)}" stroke="#70c9a0" stroke-width="8" opacity=".8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
@@ -686,16 +743,92 @@ $('importBackup').onchange=async(e)=>{
 };
 
 // v36: mobile map-first panel controls. Elevation charts are independent native details.
+// v37 mobile workspace: a map behind a compact / half / full sliding editor.
+// The native elevation disclosure remains independent of the editor height.
 function initializeMobilePanels(){
- const mobile=window.matchMedia('(max-width:750px)').matches;
- for(const [shellId,buttonId] of [['viewerDetailsShell','viewerDetailsToggle'],['geoDetailsShell','geoDetailsToggle'],['planDetailsShell','planDetailsToggle']]){
-  const shell=$(shellId),button=$(buttonId);
-  const sync=()=>{const open=shell.dataset.detailsOpen==='true';button.setAttribute('aria-expanded',String(open));button.querySelector('.mobile-toggle-label').textContent=open?'접기 −':'펼치기 ＋'};
-  shell.dataset.detailsOpen=mobile?'false':'true';sync();
-  button.addEventListener('click',()=>{shell.dataset.detailsOpen=shell.dataset.detailsOpen==='true'?'false':'true';sync()});
+ const shells=[['viewerDetailsShell','viewerDetailsToggle'],['geoDetailsShell','geoDetailsToggle'],['planDetailsShell','planDetailsToggle']];
+ const media=window.matchMedia('(max-width:750px)');
+ let lastMobile=media.matches,raf=0;
+ const moves=[
+  [document.querySelector('#viewerPanel .poi-index'),$('viewerStats')],
+  [document.querySelector('#geoBuilder .geo-poi-area'),$('geoStats')]
+ ].map(([node,target])=>{
+  const anchor=document.createComment('original map item position');
+  node.parentNode.insertBefore(anchor,node);
+  return {node,target,anchor};
+ });
+ function relocate(mobile){
+  for(const item of moves){
+   if(mobile)item.target.appendChild(item.node);
+   else item.anchor.parentNode.insertBefore(item.node,item.anchor.nextSibling);
+  }
  }
- for(const id of ['chartDisclosure','myChartDisclosure','planChartDisclosure'])$(id).open=!mobile;
+ const controllers=[];
+ for(const [shellId,buttonId] of shells){
+  const shell=$(shellId),button=$(buttonId);
+  const handle=document.createElement('div');
+  handle.className='sheet-drag-handle';handle.setAttribute('role','button');handle.tabIndex=0;
+  shell.insertBefore(handle,button);
+  function apply(state){
+   shell.dataset.sheetState=state;
+   const expanded=state!=='peek';
+   shell.dataset.detailsOpen=String(expanded);
+   button.setAttribute('aria-expanded',String(expanded));
+   button.querySelector('.mobile-toggle-label').textContent=state==='peek'?'펼치기 ＋':state==='half'?'접기 −':'간단히 보기 −';
+   handle.setAttribute('aria-label',state==='peek'?'하단 패널 위로 펼치기':state==='half'?'하단 패널 위로 전체 보기, 아래로 접기':'하단 패널 아래로 접기');
+  }
+  const states=['peek','half','full'];
+  const changeBy=step=>{const i=states.indexOf(shell.dataset.sheetState);apply(states[Math.min(2,Math.max(0,i+step))])};
+  let down=null;
+  handle.addEventListener('pointerdown',e=>{
+   if(e.pointerType==='mouse'&&e.button!==0)return;
+   down={id:e.pointerId,y:e.clientY};
+   try{handle.setPointerCapture(e.pointerId)}catch(_){}
+  });
+  handle.addEventListener('pointerup',e=>{
+   if(!down||down.id!==e.pointerId)return;
+   const delta=e.clientY-down.y;down=null;
+   if(delta< -34)changeBy(1);
+   else if(delta>34)changeBy(-1);
+   else apply(shell.dataset.sheetState==='peek'?'half':shell.dataset.sheetState==='half'?'full':'peek');
+  });
+  handle.addEventListener('pointercancel',()=>{down=null});
+  handle.addEventListener('keydown',e=>{
+   if(e.key==='ArrowUp'){e.preventDefault();changeBy(1)}
+   else if(e.key==='ArrowDown'){e.preventDefault();changeBy(-1)}
+   else if(e.key==='Enter'||e.key===' '){e.preventDefault();apply(shell.dataset.sheetState==='peek'?'half':shell.dataset.sheetState==='half'?'full':'peek')}
+  });
+  button.addEventListener('click',()=>apply(shell.dataset.sheetState==='peek'?'half':'peek'));
+  controllers.push({apply});
+ }
+ function layout(){
+  const mobile=media.matches;
+  if(lastMobile!==mobile){
+   lastMobile=mobile;relocate(mobile);
+   for(const c of controllers)c.apply(mobile?'peek':'full');
+   for(const id of ['chartDisclosure','myChartDisclosure','planChartDisclosure'])$(id).open=!mobile;
+  }
+  for(const grid of [document.querySelector('#viewerPanel .bodygrid'),$('geoBuilder')]){
+   if(!mobile){grid.style.removeProperty('--sanbak-workspace-height');continue}
+   if(!grid.getClientRects().length)continue;
+   const top=Math.max(0,grid.getBoundingClientRect().top);
+   const available=(window.visualViewport?.height||window.innerHeight)-top-5;
+   grid.style.setProperty('--sanbak-workspace-height',Math.max(315,Math.round(available))+'px');
+  }
+ }
+ function resize(){
+  if(raf)return;
+  raf=requestAnimationFrame(()=>{raf=0;layout();if(media.matches){if(view.tab==='view')drawMap('map');else if(!park().plan_graph)drawMap('builderMap')}});
+ }
+ relocate(media.matches);
+ for(const c of controllers)c.apply(media.matches?'peek':'full');
+ for(const id of ['chartDisclosure','myChartDisclosure','planChartDisclosure'])$(id).open=!media.matches;
+ window.addEventListener('resize',resize);
+ window.visualViewport?.addEventListener('resize',resize);
+ layout();
+ return layout;
 }
+let updateMobileWorkspace=()=>{};
 function updateMobileSummary(id,text){const el=$(id);if(el)el.textContent=text}
 function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();renderSaved();}
 // Waypoint controls for geographic and schematic planners.
@@ -763,7 +896,7 @@ function updateBuilder(){
  $('download').disabled=!m;$('returnStart').disabled=builder.choices.length<2;$('undo').disabled=!builder.choices.length;
 }
 function setTab(tab){view.tab=tab;$('viewerPanel').style.display=tab==='view'?'block':'none';$('builderPanel').style.display=tab==='build'?'block':'none';$('viewTab').classList.toggle('active',tab==='view');$('buildTab').classList.toggle('active',tab==='build');
- if(tab==='build'){planUI();if(!park().plan_graph)resetMap('builderMap','course');}else drawMap('map');}
+ if(tab==='build'){planUI();updateMobileWorkspace();if(!park().plan_graph)resetMap('builderMap','course');}else{updateMobileWorkspace();drawMap('map');}}
 function addWaypoint(q){const p=park();if(!p.net)return;
  if(q.km>.13){toast('등산로에서 너무 멀어. 선형 위를 다시 길게 눌러줘');return}
  if(builder.choices.length){let prev=builder.choices.at(-1);let same=prev.edge===q.edge&&Math.abs(prev.t-q.t)<.00001;if(same){toast('같은 지점이야. 다른 경유지를 선택해줘');return}
@@ -776,7 +909,7 @@ function mapTouch(id,build){
  const point=e=>{
   const m=el.getScreenCTM();
   if(m){const q=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse());return [q.x,q.y]}
-  const r=el.getBoundingClientRect();return [(e.clientX-r.left)*900/(r.width||1),(e.clientY-r.top)*600/(r.height||1)]
+  const r=el.getBoundingClientRect(),vb=el.viewBox.baseVal;return [(e.clientX-r.left)*vb.width/(r.width||1),(e.clientY-r.top)*vb.height/(r.height||1)]
  };
  const cancel=()=>{clearTimeout(timer);timer=null;start=null;moved=false};
  el.addEventListener('contextmenu',e=>e.preventDefault());
@@ -842,6 +975,6 @@ $('fitRoute').onclick=()=>resetMap('map','route');$('fitAll').onclick=()=>resetM
 for(const [id,mid,factor] of [['zoomIn','map',1.45],['zoomOut','map',1/1.45],['builderZoomIn','builderMap',1.45],['builderZoomOut','builderMap',1/1.45]])$(id).onclick=()=>{maps[mid].zoom=Math.min(12,Math.max(.55,maps[mid].zoom*factor));drawMap(mid)};
 $('clear').onclick=()=>{builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;updateBuilder()};$('undo').onclick=()=>{builder.choices.pop();builder.line=routeChoices(park().net,builder.choices);builder.focusIndex=builder.choices.length?builder.choices.length-1:null;updateBuilder()};
 $('returnStart').onclick=()=>{let q=builder.choices[0];if(!q||builder.choices.length<2)return;addWaypoint({...q,name:q.namedPoi?q.name:'출발지'})};$('download').onclick=download;
-initializeMobilePanels();mapTouch('map',false);mapTouch('builderMap',true);bindRouteChart();$('parkSelect').value=parks.findIndex(p=>p.id==='seorak');parkChanged();setTab('view');
+updateMobileWorkspace=initializeMobilePanels();mapTouch('map',false);mapTouch('builderMap',true);bindRouteChart();$('parkSelect').value=parks.findIndex(p=>p.id==='seorak');parkChanged();setTab('view');
 })();
 </script></body></html>

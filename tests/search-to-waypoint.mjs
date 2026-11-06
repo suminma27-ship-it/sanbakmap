@@ -12,7 +12,7 @@ function source(name){
 }
 const functions=['metrics','lineSub','checkedGeoGraph','routeGraph','assembleGeoRoute',
  'routeChoices','nearest','geoPoiChoices','geoCanAdd','lineDistance','searchPoiRouteChoice',
- 'searchPoiCanAdd','updatePoiSearchAddButton','addSearchedPoi','addWaypoint'];
+ 'searchPoiCanAdd','syncPoiInsertionOptions','searchPoiInsertionIndex','updatePoiSearchAddButton','addSearchedPoi','addWaypoint'];
 const fixture={name:'fixture',net:{
  nodes:[[126,37,100],[126.01,37,200],[126.02,37,200],[126.03,37,300]],
  edges:[

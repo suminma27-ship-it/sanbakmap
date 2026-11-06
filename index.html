@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v58 | 전국 국립공원 산행계획</title>
+<title>산박지도 v59 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -273,7 +273,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 .poi-insert-bar select{min-height:35px;max-width:220px;min-width:0;border:1px solid #cbdcd0;border-radius:8px;background:white;color:#254b36;padding:5px 8px;font-size:12px}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v58</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v59</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div><div class="field poi-search-field"><label for="poiSearch">주요지점 찾기 · 지도 위치 이동</label><div class="poi-search-controls"><input type="search" id="poiSearch" list="poiSearchHints" placeholder="예: 대청봉, 소청봉, 백운대" autocomplete="off" aria-label="주요지점 이름 검색"/><datalist id="poiSearchHints"></datalist><button class="action" type="button" id="poiSearchGo">찾기</button><button class="action" type="button" id="poiSearchAdd" aria-label="검색한 지점을 선택한 위치에 경유지로 추가" disabled>경유지 추가</button></div><div id="poiInsertBar" class="poi-insert-bar" hidden><label for="poiInsertAt">추가할 위치</label><select id="poiInsertAt" aria-label="검색한 지점을 삽입할 경유지 순서"><option value="">맨 뒤에 추가</option></select></div></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -353,23 +353,64 @@ function checkedGeoGraph(net){
      ||!Number.isFinite(e[2])||e[2]<=0||!Array.isArray(e[3])||e[3].length<2
      ||!goodPoint(net.nodes[e[0]])||!goodPoint(net.nodes[e[1]]))continue;
   const pts=e[3];if(!pts.every(goodPoint))continue;
-  // Reject endpoint gaps and zero-distance loops instead of inventing a bridge.
+  // Do not use source edges that have substantive endpoint gaps.
   if(hav(net.nodes[e[0]],pts[0])>.012||hav(net.nodes[e[1]],pts.at(-1))>.012)continue;
   let length=0;for(let j=1;j<pts.length;j++)length+=hav(pts[j-1],pts[j]);
   if(!Number.isFinite(length)||length<.0005)continue;
   valid[i]=1;
   if(e[0]!==e[1]){adj[e[0]].push([e[1],e[2],i]);adj[e[1]].push([e[0],e[2],i])}
  }
- const components=new Int32Array(N).fill(-1);let group=0;
- for(let start=0;start<N;start++){
-  if(components[start]!==-1)continue;
-  const queue=[start];components[start]=group;
-  for(let i=0;i<queue.length;i++)for(const [next] of adj[queue[i]]){
-   if(components[next]!==-1)continue;components[next]=group;queue.push(next);
+ const components=new Int32Array(N);
+ function labelComponents(){
+  components.fill(-1);let group=0;
+  for(let start=0;start<N;start++){
+   if(components[start]!==-1)continue;
+   const queue=[start];components[start]=group;
+   for(let i=0;i<queue.length;i++)for(const [next] of adj[queue[i]]){
+    if(components[next]!==-1)continue;components[next]=group;queue.push(next);
+   }
+   group++;
   }
-  group++;
+  return group;
  }
- const result={adj,valid,components,componentCount:group};
+ const originalComponentCount=labelComponents();
+ // v59: only reconcile unique coordinate-duplicate endpoints, not arbitrary crossings.
+ // Require a degree-one endpoint, <=0.75m horizontal and <=4m vertical difference.
+ const degrees=adj.map(edges=>edges.length),cellSize=.00002,cells=new Map();
+ for(let i=0;i<N;i++)if(degrees[i]&&goodPoint(net.nodes[i])){
+  const p=net.nodes[i],key=Math.floor(p[0]/cellSize)+','+Math.floor(p[1]/cellSize);
+  if(!cells.has(key))cells.set(key,[]);
+  cells.get(key).push(i);
+ }
+ const candidates=Array.from({length:N},()=>[]),nearMisses=[];
+ for(let i=0;i<N;i++)if(degrees[i]===1){
+  const p=net.nodes[i],x=Math.floor(p[0]/cellSize),y=Math.floor(p[1]/cellSize);
+  for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){
+   for(const j of cells.get((x+dx)+','+(y+dy))||[]){
+    if(i===j||components[i]===components[j])continue;
+    const q=net.nodes[j],meters=1000*hav(p,q);
+    if(meters>6)continue;
+    const elevation=Math.abs(p[2]-q[2]);
+    if(meters<=.75&&elevation<=4)candidates[i].push(j);
+    else if(nearMisses.length<80&&i<j)
+     nearMisses.push({from:i,to:j,horizontalMeters:meters,elevationMeters:elevation});
+   }
+  }
+ }
+ const reverseCounts=new Int32Array(N);
+ for(const choices of candidates)if(choices.length===1)reverseCounts[choices[0]]++;
+ const stitches=[],used=new Set();
+ for(let i=0;i<N;i++)if(candidates[i].length===1){
+  const j=candidates[i][0],key=Math.min(i,j)+':'+Math.max(i,j);
+  if(used.has(key)||reverseCounts[j]!==1)continue;
+  if(degrees[j]===1&&(candidates[j].length!==1||candidates[j][0]!==i))continue;
+  used.add(key);
+  const km=hav(net.nodes[i],net.nodes[j]);
+  adj[i].push([j,km,-1]);adj[j].push([i,km,-1]);
+  stitches.push({from:i,to:j,horizontalMeters:1000*km,elevationMeters:Math.abs(net.nodes[i][2]-net.nodes[j][2])});
+ }
+ const componentCount=labelComponents();
+ const result={adj,valid,components,componentCount,originalComponentCount,stitches,nearMisses};
  checkedGeoGraphs.set(net,result);return result;
 }
 function routeGraph(net,a,b){
@@ -390,7 +431,7 @@ function routeGraph(net,a,b){
   let mid=path(aNode,bNode);if(!mid)continue;
   let d=Math.abs(a.t-aT)*eA[2]+mid.distance+Math.abs(b.t-bT)*eB[2];if(best&&d>best.dist+1e-8)continue;
   let line=lineSub(eA,a.t,aT);
-  for(const [ei,from,to] of mid.parts){let edge=edges[ei],step=lineSub(edge,edge[0]===from?0:1,edge[1]===to?1:0);if(line.length&&hav(line.at(-1),step[0])<.015)step=step.slice(1);line.push(...step)}
+  for(const [ei,from,to] of mid.parts){let step;if(ei===-1)step=[net.nodes[from],net.nodes[to]];else{const edge=edges[ei];step=lineSub(edge,edge[0]===from?0:1,edge[1]===to?1:0)}if(line.length&&hav(line.at(-1),step[0])<.015)step=step.slice(1);line.push(...step)}
   let last=lineSub(eB,bT,b.t);if(line.length&&hav(line.at(-1),last[0])<.015)last=last.slice(1);line.push(...last);
   offer(d,line)
  }

@@ -108,6 +108,11 @@ assert.equal(api.checkedGeoGraph(invalid).valid[0],0,'Endpoint gap accepted');
 assert.equal(api.routeGraph(invalid,{edge:0,t:.2},{edge:0,t:.8}),null);
 const split={nodes:[[0,0,100],[.001,0,100],[.001,0,100],[.002,0,100]],
  edges:[[0,1,.111,[[0,0,100],[.001,0,100]]],[2,3,.111,[[.001,0,100],[.002,0,100]]]]};
-assert.equal(api.checkedGeoGraph(split).componentCount,2,'Disconnected groups incorrectly joined');
-assert.equal(api.routeGraph(split,{edge:0,t:.9},{edge:1,t:.1}),null);
+assert.equal(api.checkedGeoGraph(split).componentCount,1,'Identical endpoint coordinates should be joined');
+assert.equal(api.checkedGeoGraph(split).stitches.length,1,'Duplicate-node repair absent');
+assert(api.routeGraph(split,{edge:0,t:.9},{edge:1,t:.1}),'Duplicate endpoints not routable');
+const separated={nodes:[[0,0,100],[.001,0,100],[.00105,0,100],[.002,0,100]],
+ edges:[[0,1,.111,[[0,0,100],[.001,0,100]]],[2,3,.106,[[.00105,0,100],[.002,0,100]]]]};
+assert.equal(api.checkedGeoGraph(separated).componentCount,2,'Several-meter gap incorrectly joined');
+assert.equal(api.routeGraph(separated,{edge:0,t:.9},{edge:1,t:.1}),null);
 console.log(`PASS: GIS ${geo}, waypoint moves ${moved}, removals ${removed}, schematic ${schematic}, disconnected ${blocked}`);

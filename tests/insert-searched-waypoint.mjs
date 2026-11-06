@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
-assert(html.includes('산박지도 v58'));
+assert(Number(html.match(/산박지도 v(\d+)/)?.[1])>=58);
 assert(html.includes('id="poiInsertAt"')&&html.includes('id="poiInsertBar"'));
 function functionSource(name){
  const a=html.indexOf('function '+name+'('),b=html.indexOf('\n}',a);

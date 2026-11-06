@@ -24,6 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate route topology and UI regressions
+        run: |
+          set -euo pipefail
+          for file in tests/*.mjs; do node "$file"; done
+
       - name: Package website
         run: |
           set -euo pipefail

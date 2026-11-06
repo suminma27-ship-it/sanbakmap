@@ -1,7 +1,14 @@
 <!doctype html>
 <html lang="ko">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>산박지도 v37 | 전국 국립공원 산행계획</title>
+<meta name="theme-color" content="#123c2b"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
+<link rel="apple-touch-icon" href="./icon-192.png"/>
+
+<title>산박지도 v38 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -152,7 +159,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 }
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v37</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v38</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -977,4 +984,12 @@ $('clear').onclick=()=>{builder.choices=[];builder.line=null;builder.focusIndex=
 $('returnStart').onclick=()=>{let q=builder.choices[0];if(!q||builder.choices.length<2)return;addWaypoint({...q,name:q.namedPoi?q.name:'출발지'})};$('download').onclick=download;
 updateMobileWorkspace=initializeMobilePanels();mapTouch('map',false);mapTouch('builderMap',true);bindRouteChart();$('parkSelect').value=parks.findIndex(p=>p.id==='seorak');parkChanged();setTab('view');
 })();
+</script>
+<script id="sanbak-pwa-registration">
+if ('serviceWorker' in navigator && (window.isSecureContext || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope: './', updateViaCache: 'none'})
+      .catch(error => console.info('산박지도 오프라인 저장을 사용할 수 없습니다.', error));
+  });
+}
 </script></body></html>

@@ -1,5 +1,5 @@
-/* 산박지도 v61: always revalidate navigation HTML online; retain cached fallback offline. */
-const CACHE_NAME = 'sanbakmap-v61-fresh-1';
+/* 산박지도 v62: always revalidate navigation HTML online; retain cached fallback offline. */
+const CACHE_NAME = 'sanbakmap-v62-fresh-1';
 const APP_SHELL = ['./index.html','./national.html','./national_data.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
@@ -19,7 +19,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(req, {cache:'no-store'}).then(res => {
       if (res.ok) {
         const fresh = res.clone();
-        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put('./index.html', fresh)));
+        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(req, fresh)));
       }
       return res;
     }).catch(async () => await caches.match(req,{ignoreSearch:true}) || await caches.match('./index.html') || Response.error()));

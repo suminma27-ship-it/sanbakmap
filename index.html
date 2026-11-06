@@ -526,7 +526,7 @@ function saveCurrent(){
  if(!m){toast('먼저 출발지와 도착지까지 코스를 만들어줘');return}
  const title=$('routeName').value.trim()||pk.name+' · 나만의 루트';
  if(title.length>60){toast('이름은 60자 이하로 입력해줘');return}
- const choices=isPlan?plan.choices.map(Number):builder.choices.map(q=>({edge:q.edge,t:q.t,xy:q.xy,name:q.name}));
+ const choices=isPlan?plan.choices.map(Number):builder.choices.map(q=>({edge:q.edge,t:q.t,xy:q.xy,name:q.name,namedPoi:!!q.namedPoi}));
  if(choices.length<2){toast('출발지와 도착지를 선택해줘');return}
  const item={id:'route_'+Date.now()+'_'+Math.round(Math.random()*1e6),version:26,parkId:pk.id,parkName:pk.name,name:title,kind:isPlan?'plan':'geo',choices,courseId:isPlan?plan.preset:null,km:Number(m.km.toFixed(2)),gain_m:Math.round(m.gain),loss_m:Math.round(m.loss),saved_at:new Date().toISOString()};
  savedRoutes.unshift(item);savedRoutes=savedRoutes.slice(0,200);saveLocal();renderSaved();if(!storageOk)downloadJSON({format:'sanbakmap-routes',version:26,routes:savedRoutes},'sanbakmap-routes-auto-backup.json');toast(storageOk?'루트를 보관했어. 보관함에서 다시 열 수 있어':'브라우저 저장이 차단되어 백업 JSON을 다운로드했어');
@@ -550,7 +550,7 @@ function loadSaved(id){
   for(const q of item.choices){
    const edge=pk.net.edges[q.edge],polyline=edge[3],t=q.t;
    const point=lineSub(edge,t,t)[0];
-   const waypoint={edge:q.edge,t,xy:point,km:0,name:String(q.name||'경유지')};
+   const waypoint={edge:q.edge,t,xy:point,km:0,name:String(q.name||'경유지'),namedPoi:!!q.namedPoi};
    if(restored.length){const part=routeGraph(pk.net,restored.at(-1),waypoint);if(!part){toast('연결되지 않은 구간이 있어 불러오지 못했어');return}}
    restored.push(waypoint)
   }

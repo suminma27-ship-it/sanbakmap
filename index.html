@@ -1181,11 +1181,11 @@ function loadSaved(id){
 }
 function deleteSaved(id){savedRoutes=savedRoutes.filter(s=>s.id!==id);saveLocal();renderSaved();toast('보관함에서 삭제했어')}
 function renderSaved(){
- const items=savedRoutes.filter(s=>s.parkId===park().id), el=$('savedList');$('savedCount').textContent=items.length+'개';el.replaceChildren();
+ const items=savedRoutes.filter(s=>s&&s.parkId===park().id&&typeof s.name==='string'&&Array.isArray(s.choices)&&s.choices.length>=2), el=$('savedList');$('savedCount').textContent=items.length+'개';el.replaceChildren();
  if(!items.length){let t=document.createElement('div');t.className='small';t.textContent='이 산에 저장한 루트가 없어.';el.append(t);return}
  items.forEach(s=>{
   const row=document.createElement('div');row.className='saved-item';const left=document.createElement('div');left.className='saved-item-title';
-  const name=document.createElement('b');name.textContent=s.name;const info=document.createElement('small');info.textContent=s.km.toFixed(1)+'km · 상승 '+Math.round(s.gain_m)+'m · '+(s.saved_at||'').slice(0,10);left.append(name,info);
+  const name=document.createElement('b');name.textContent=s.name;const info=document.createElement('small');info.textContent=(Number.isFinite(Number(s.km))?Number(s.km).toFixed(1)+'km':'거리 미확인')+' · 상승 '+(Number.isFinite(Number(s.gain_m))?Math.round(Number(s.gain_m))+'m':'미확인')+' · '+String(s.saved_at||'').slice(0,10);left.append(name,info);
   const load=document.createElement('button');load.type='button';load.className='action primary';load.textContent='열기';load.onclick=()=>loadSaved(s.id);
   const del=document.createElement('button');del.type='button';del.className='action';del.textContent='삭제';del.onclick=()=>{if(confirm('이 루트를 보관함에서 삭제할까?'))deleteSaved(s.id)};
   row.append(left,load,del);el.append(row);

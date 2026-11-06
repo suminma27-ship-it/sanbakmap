@@ -1,5 +1,5 @@
-/* 산박지도 v55: 국립공원 계획용 HTML을 같은 기기에서 오프라인으로 다시 엽니다. */
-const CACHE_NAME = 'sanbakmap-v55-shell';
+/* 산박지도 v55: always revalidate navigation HTML online; retain cached fallback offline. */
+const CACHE_NAME = 'sanbakmap-v55-fresh-1';
 const APP_SHELL = ['./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
@@ -16,7 +16,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url), scope = new URL(self.registration.scope);
   if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
   if (req.mode === 'navigate') {
-    event.respondWith(fetch(req).then(res => {
+    event.respondWith(fetch(req, {cache:'no-store'}).then(res => {
       if (res.ok) {
         const fresh = res.clone();
         event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put('./index.html', fresh)));

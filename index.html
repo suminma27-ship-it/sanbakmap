@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v50.1 | 전국 국립공원 산행계획</title>
+<title>산박지도 v51 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v50.1</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v51</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -333,14 +333,47 @@ function lineSub(edge,t0,t1){
  function forward(a,b){const list=[pointAt(a)];for(let i=1;i<pts.length-1;i++){let t=cum[i]/D;if(t>a+1e-7&&t<b-1e-7)list.push(pts[i])}list.push(pointAt(b));return list}
  return t0<=t1?forward(t0,t1):forward(t1,t0).reverse();
 }
+// v51: audit the source edges once; disconnected components remain separate.
+const checkedGeoGraphs=new WeakMap();
+function checkedGeoGraph(net){
+ if(!net||!Array.isArray(net.nodes)||!Array.isArray(net.edges))return null;
+ const cached=checkedGeoGraphs.get(net);if(cached)return cached;
+ const N=net.nodes.length,valid=new Uint8Array(net.edges.length);
+ const adj=Array.from({length:N},()=>[]);
+ const goodPoint=p=>Array.isArray(p)&&p.length>=3&&p.slice(0,3).every(Number.isFinite);
+ for(let i=0;i<net.edges.length;i++){
+  const e=net.edges[i];
+  if(!Array.isArray(e)||e.length<4||!Number.isInteger(e[0])||!Number.isInteger(e[1])
+     ||e[0]<0||e[1]<0||e[0]>=N||e[1]>=N
+     ||!Number.isFinite(e[2])||e[2]<=0||!Array.isArray(e[3])||e[3].length<2
+     ||!goodPoint(net.nodes[e[0]])||!goodPoint(net.nodes[e[1]]))continue;
+  const pts=e[3];if(!pts.every(goodPoint))continue;
+  // Reject endpoint gaps and zero-distance loops instead of inventing a bridge.
+  if(hav(net.nodes[e[0]],pts[0])>.012||hav(net.nodes[e[1]],pts.at(-1))>.012)continue;
+  let length=0;for(let j=1;j<pts.length;j++)length+=hav(pts[j-1],pts[j]);
+  if(!Number.isFinite(length)||length<.0005)continue;
+  valid[i]=1;
+  if(e[0]!==e[1]){adj[e[0]].push([e[1],e[2],i]);adj[e[1]].push([e[0],e[2],i])}
+ }
+ const components=new Int32Array(N).fill(-1);let group=0;
+ for(let start=0;start<N;start++){
+  if(components[start]!==-1)continue;
+  const queue=[start];components[start]=group;
+  for(let i=0;i<queue.length;i++)for(const [next] of adj[queue[i]]){
+   if(components[next]!==-1)continue;components[next]=group;queue.push(next);
+  }
+  group++;
+ }
+ const result={adj,valid,components,componentCount:group};
+ checkedGeoGraphs.set(net,result);return result;
+}
 function routeGraph(net,a,b){
- // v50: reject missing graph references before pathfinding or geometry access.
- if(!net?.nodes?.length||!net.edges?.length||!a||!b
-    ||![a,b].every(q=>Number.isInteger(q.edge)&&q.edge>=0&&q.edge<net.edges.length
-       &&Number.isFinite(q.t)&&q.t>=0&&q.t<=1
-       &&Array.isArray(net.edges[q.edge]?.[3])&&net.edges[q.edge][3].length>=2))return null;
- let edges=net.edges,adj=Array.from({length:net.nodes.length},()=>[]);
- edges.forEach((e,i)=>{if(e[0]===e[1])return;adj[e[0]].push([e[1],e[2],i]);adj[e[1]].push([e[0],e[2],i])});
+ const graph=checkedGeoGraph(net);
+ if(!graph||!a||!b
+    ||![a,b].every(q=>Number.isInteger(q.edge)&&graph.valid[q.edge]===1
+       &&Number.isFinite(q.t)&&q.t>=0&&q.t<=1))return null;
+ let edges=net.edges,adj=graph.adj;
+ if(graph.components[edges[a.edge][0]]!==graph.components[edges[b.edge][0]])return null;
  function path(n0,n1){if(n0===n1)return {distance:0,parts:[]};const N=adj.length,dist=new Float64Array(N);dist.fill(Infinity);dist[n0]=0;let prev=new Int32Array(N).fill(-1),prevEdge=new Int32Array(N).fill(-1),q=[[0,n0]];
  while(q.length){q.sort((x,y)=>y[0]-x[0]);let [d,v]=q.pop();if(d>dist[v]+1e-9)continue;if(v===n1)break;for(const [n,w,ix] of adj[v])if(d+w<dist[n]-1e-9){dist[n]=d+w;prev[n]=v;prevEdge[n]=ix;q.push([dist[n],n])}}
  if(!Number.isFinite(dist[n1]))return null;let parts=[],v=n1;while(v!==n0){let x=prev[v];if(x<0)return null;parts.push([prevEdge[v],x,v]);v=x}parts.reverse();return {distance:dist[n1],parts}}
@@ -373,9 +406,10 @@ function routeChoices(net,choices){
  }
  return final.length>=2&&lineDistance(final)>.001?final:null;
 }
-function nearest(net,lon,lat){if(!net?.edges?.length)return null;
+function nearest(net,lon,lat){const graph=checkedGeoGraph(net);
+ if(!graph||!Number.isFinite(lon)||!Number.isFinite(lat))return null;
  let best=null,cos=Math.cos(lat*Math.PI/180);
- net.edges.forEach((e,edge)=>{let p=e[3],ds=[0];for(let i=1;i<p.length;i++)ds.push(ds.at(-1)+hav(p[i-1],p[i]));let len=ds.at(-1)||1;
+ net.edges.forEach((e,edge)=>{if(!graph.valid[edge])return;let p=e[3],ds=[0];for(let i=1;i<p.length;i++)ds.push(ds.at(-1)+hav(p[i-1],p[i]));let len=ds.at(-1)||1;
  for(let i=1;i<p.length;i++){let a=p[i-1],b=p[i];let ax=a[0]*cos,ay=a[1],bx=b[0]*cos,by=b[1],px=lon*cos,py=lat;
  let vx=bx-ax,vy=by-ay,f=Math.max(0,Math.min(1,((px-ax)*vx+(py-ay)*vy)/(vx*vx+vy*vy||1)));
  let xy=[a[0]+f*(b[0]-a[0]),a[1]+f*(b[1]-a[1]),a[2]+f*(b[2]-a[2])];let km=hav(xy,[lon,lat]);
@@ -404,17 +438,16 @@ function geoPoiChoices(p){
   if(!q||q.km>.13)continue;
   choices.push({...q,name:poi.name,poiName:poi.name,namedPoi:true,type:poi.type||'landmark'});
  }
- const parent=Array.from({length:p.net.nodes.length},(_,i)=>i);
- const root=n=>{while(parent[n]!==n){parent[n]=parent[parent[n]];n=parent[n]}return n};
- for(const edge of p.net.edges){const a=root(edge[0]),b=root(edge[1]);if(a!==b)parent[a]=b}
- const components=parent.map((_,i)=>root(i));
+ const components=checkedGeoGraph(p.net).components;
  const priority={trailhead:0,fork:1,shelter:2,summit:3,peak:4,ridge:5,landmark:6};
  choices.sort((a,b)=>(priority[a.type]??7)-(priority[b.type]??7)||a.name.localeCompare(b.name,'ko'));
  geoPoiCache.set(p,{choices,components});return choices;
 }
 function geoCanAdd(p,q){
- if(!p.net?.edges?.[q.edge])return false;
+ const graph=checkedGeoGraph(p.net);
+ if(!graph||!graph.valid[q?.edge])return false;
  const previous=builder.choices.at(-1);if(!previous)return true;
+ if(!graph.valid[previous.edge])return false;
  if(previous.edge===q.edge&&Math.abs(previous.t-q.t)<1e-5)return false;
  const info=geoPoiCache.get(p);if(!info)return false;
  const a=p.net.edges[previous.edge],b=p.net.edges[q.edge];
@@ -589,7 +622,8 @@ function drawMap(id){const p=park(),svg=$(id),net=p.net,mode=id==='map'?'view':'
  let s=`<rect width="${W}" height="${H}" fill="#edf3ea"/>`;
  for(let i=0;i<14;i++){let x=i*75;s+=`<line x1="${x}" y1="0" x2="${x}" y2="600" stroke="#dfe8dd" stroke-width="1"/>`}
  for(let i=0;i<=Math.ceil(H/60);i++){let y=i*60;s+=`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#dfe8dd" stroke-width="1"/>`}
- for(const e of net?.edges||[]){const st=poly(e[3],Q.project);s+=`<path d="${st}" stroke="#a8bfb0" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`}
+ const graph=checkedGeoGraph(net);
+ for(let i=0;i<(net?.edges.length||0);i++){if(!graph?.valid[i])continue;const st=poly(net.edges[i][3],Q.project);s+=`<path d="${st}" stroke="#a8bfb0" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`}
  const course=p.courses[view.course];
  if(mode==='build'&&!builder.line&&course?.line?.length&&!course?.schematic){s+=`<path d="${poly(course.line,Q.project)}" stroke="#70c9a0" stroke-width="8" opacity=".8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
  const focus=mode==='view'?course?.line:builder.line;
@@ -896,10 +930,11 @@ function verifiedPlanSnapshot(net,raw,presetId=null,focus=null){
   focusIndex:Number.isInteger(focus)&&focus>=0&&focus<raw.length?focus:(raw.length?raw.length-1:null)};
 }
 function verifiedGeoSnapshot(net,raw,focus=null,focusKm=null){
- if(!net?.nodes||!net?.edges||!Array.isArray(raw)||raw.length>150)return null;
+ const graph=checkedGeoGraph(net);
+ if(!graph||!Array.isArray(raw)||raw.length>150)return null;
  const choices=[];
  for(const q of raw){
-  if(!q||!Number.isInteger(q.edge)||q.edge<0||q.edge>=net.edges.length||!Number.isFinite(q.t)||q.t<0||q.t>1)return null;
+  if(!q||!Number.isInteger(q.edge)||!graph.valid[q.edge]||!Number.isFinite(q.t)||q.t<0||q.t>1)return null;
   const edge=net.edges[q.edge],points=edge?.[3];
   if(!Array.isArray(points)||points.length<2||!points.every(p=>Array.isArray(p)&&p.length>=3&&p.slice(0,3).every(Number.isFinite)))return null;
   const xy=lineSub(edge,q.t,q.t)[0];

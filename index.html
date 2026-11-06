@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v51 | 전국 국립공원 산행계획</title>
+<title>산박지도 v52 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v51</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v52</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -391,21 +391,27 @@ function routeGraph(net,a,b){
  }
  return best?.line?.length>=2?best.line:null
 }
-function routeChoices(net,choices){
+// v52: a single pass creates both the mapped route and per-waypoint cumulative distances.
+function assembleGeoRoute(net,choices,minLegKm=0){
  if(!Array.isArray(choices)||choices.length<2)return null;
- let final=[];
+ const line=[],stepKm=[0];let distance=0;
  for(let i=1;i<choices.length;i++){
-  const part=routeGraph(net,choices[i-1],choices[i]);
-  if(!part?.length)return null;
-  if(final.length){
-   // A leg cannot silently jump across a gap not supported by a shared graph node.
-   if(hav(final.at(-1),part[0])>.015)return null;
-   part.shift();
+  let part=routeGraph(net,choices[i-1],choices[i]);
+  if(!part?.length||lineDistance(part)<minLegKm)return null;
+  if(line.length){
+   if(hav(line.at(-1),part[0])>.015)return null;
+   part=part.slice(1);
   }
-  final.push(...part);
+  for(const point of part){
+   if(line.length)distance+=hav(line.at(-1),point);
+   line.push(point);
+  }
+  stepKm.push(distance);
  }
- return final.length>=2&&lineDistance(final)>.001?final:null;
+ if(line.length<2||distance<=.001)return null;
+ return {line,stepKm,km:distance};
 }
+function routeChoices(net,choices){return assembleGeoRoute(net,choices)?.line||null;}
 function nearest(net,lon,lat){const graph=checkedGeoGraph(net);
  if(!graph||!Number.isFinite(lon)||!Number.isFinite(lat))return null;
  let best=null,cos=Math.cos(lat*Math.PI/180);
@@ -943,14 +949,13 @@ function verifiedGeoSnapshot(net,raw,focus=null,focusKm=null){
  }
  let line=null;
  if(choices.length>=2){
-  for(let i=1;i<choices.length;i++){
-   const leg=routeGraph(net,choices[i-1],choices[i]);
-   if(!leg||lineDistance(leg)<.05)return null;
-  }
-  line=routeChoices(net,choices);
-  if(!line||!metrics(line))return null;
-  const cumulative=geoStepDistances(net,choices);
-  if(cumulative.length!==choices.length||Math.abs(cumulative.at(-1)-metrics(line).km)>.02)return null;
+  const assembled=assembleGeoRoute(net,choices,.05);
+  if(!assembled)return null;
+  const m=metrics(assembled.line);
+  if(!m||assembled.stepKm.length!==choices.length
+     ||Math.abs(assembled.stepKm.at(-1)-m.km)>1e-6
+     ||Math.abs(m.profile.at(-1)[0]-m.km)>1e-6)return null;
+  line=assembled.line;
  }
  const index=Number.isInteger(focus)&&focus>=0&&focus<choices.length?focus:(choices.length?choices.length-1:null);
  return {choices,line,focusIndex:index,focusKm:Number.isFinite(focusKm)&&focusKm>=0?Math.min(focusKm,metrics(line)?.km||0):null};
@@ -985,6 +990,18 @@ function planComputeFor(net,choices,preset){
  return {km,gain,loss,max:Math.max(...h),profile,verts,legs,official:!!(samePreset||reversedPreset)};
 }
 function planCompute(){return planComputeFor(planNet(),plan.choices,plan.preset)}
+function checkedPlanRoute(net,choices,preset){
+ if(!Array.isArray(choices))return null;
+ if(choices.length<2)return {result:null,stepKm:choices.length?[0]:[]};
+ const result=planComputeFor(net,choices,preset);
+ if(!result||!Number.isFinite(result.km)||result.km<=0||!result.profile?.length)return null;
+ const stepKm=planStepDistances(net,choices,result,preset);
+ if(stepKm.length!==choices.length||stepKm.some(km=>!Number.isFinite(km)||km<0)
+    ||stepKm.some((km,i)=>i>0&&km<=stepKm[i-1])
+    ||Math.abs(stepKm.at(-1)-result.km)>1e-6
+    ||Math.abs(result.profile.at(-1)[0]-result.km)>1e-6)return null;
+ return {result,stepKm};
+}
 // v48: use the same weighted edges as the plan chart and its official-distance scaling.
 function planStepDistances(net,choices,result,presetId){
  if(!choices.length)return [];
@@ -1095,8 +1112,9 @@ function renderPlanStepRows(net){
 }
 function updatePlan(){
  const p=park(),net=planNet();if(!net)return;
- plan.result=planCompute();let m=plan.result;
- plan.stepKm=planStepDistances(net,plan.choices,m,plan.preset);
+ const checked=checkedPlanRoute(net,plan.choices,plan.preset);
+ plan.result=checked?.result||null;let m=plan.result;
+ plan.stepKm=checked?.stepKm||[];
  renderPlanStepRows(net);
  syncWaypointToolbar('plan',plan.choices,plan.focusIndex,movePlanStepTo);
  persistWorkingDraft('plan');
@@ -1439,15 +1457,9 @@ function revealReorderedSteps(kind){
 }
 function lineDistance(points){let distance=0;for(let i=1;i<points.length;i++)distance+=hav(points[i-1],points[i]);return distance}
 function geoStepDistances(net,choices){
- if(!choices.length)return [];if(choices.length===1)return [0];
- let joined=[],km=0,stops=[0];
- for(let i=1;i<choices.length;i++){
-  let part=routeGraph(net,choices[i-1],choices[i]);if(!part)return [];
-  if(joined.length&&hav(joined.at(-1),part[0])<.015)part=part.slice(1);
-  for(const point of part){if(joined.length)km+=hav(joined.at(-1),point);joined.push(point)}
-  stops.push(km);
- }
- return stops;
+ if(!Array.isArray(choices)||!choices.length)return [];
+ if(choices.length===1)return [0];
+ return assembleGeoRoute(net,choices)?.stepKm||[];
 }
 function coordOnRoute(line,kilometers){
  if(!line?.length)return null;let left=Math.max(0,kilometers);
@@ -1519,8 +1531,11 @@ function renderGeoSteps(){
  });
 }
 function updateBuilder(){
- const p=park(),m=metrics(builder.line);
- builder.stepKm=geoStepDistances(p.net,builder.choices);
+ const p=park(),assembled=builder.choices.length>=2?assembleGeoRoute(p.net,builder.choices):null;
+ // The map line, distance badges, and chart always use one reconstructed route.
+ builder.line=assembled?.line||null;
+ builder.stepKm=assembled?.stepKm||(builder.choices.length===1?[0]:[]);
+ const m=metrics(builder.line);
  if(!m){builder.focusKm=null;if(!builder.choices.length)builder.focusIndex=null}
  else if(Number.isInteger(builder.focusIndex)&&builder.stepKm[builder.focusIndex]!==undefined)builder.focusKm=Math.min(m.km,builder.stepKm[builder.focusIndex]);
  else if(builder.focusKm!==null)builder.focusKm=Math.max(0,Math.min(m.km,builder.focusKm));

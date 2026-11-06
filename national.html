@@ -1,0 +1,146 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v60 | 전국 등산로</title><style>
+:root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b3024;background:#f5f8f4}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}header a{color:#fff;text-decoration:none}main{max-width:1240px;margin:auto;padding:18px 12px}h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0}p{line-height:1.5;margin:7px 0}.sub{font-size:13px;color:#61756a}
+.warning{background:#edf5ee;border:1px solid #d5e5d9;border-radius:10px;padding:11px;font-size:13px;margin:14px 0}
+.card{background:#fff;border:1px solid #d9e5dc;border-radius:14px;overflow:hidden}
+.upload{padding:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}.upload input{min-width:0;max-width:100%}#message{font-size:12px;color:#587361}
+.layout{display:grid;grid-template-columns:minmax(270px,330px) minmax(0,1fr);gap:12px;margin-top:12px}
+.filters{padding:11px;display:grid;gap:8px}input[type=search],select{width:100%;padding:10px;border:1px solid #c8d8cd;border-radius:10px;min-height:43px;background:white}
+.results{max-height:590px;overflow:auto;padding:0 8px 8px}.result{border:0;border-bottom:1px solid #e4ece7;background:white;width:100%;padding:10px;text-align:left}.result:hover,.result.active{background:#e9f4eb}.result strong,.result small{display:block}.result small{font-size:11px;color:#65776b;margin-top:4px}
+.head{padding:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.actions{display:flex;gap:5px}.actions button,.actions a{padding:7px 10px;border:1px solid #ccdcd0;border-radius:7px;background:white;color:#245b3c;text-decoration:none;font-weight:700}.actions button:disabled,.actions a[aria-disabled=true]{opacity:.4;pointer-events:none}
+#stats{font-size:12px;padding:10px;background:#f5f8f5}#map{width:100%;height:530px;background:#e8f1e9;touch-action:none;display:block;cursor:grab}.foot{padding:11px;font-size:12px;color:#5d7566}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.results{max-height:220px}#map{height:min(65vh,520px)}}
+</style></head><body>
+<header><a href="./index.html"><strong>▲ 산박지도</strong> <small>v60 · 국립공원 지도 돌아가기</small></a><span>전국 등산로 원본 조회</span></header>
+<main><h1>전국 등산로 자료</h1><p class="sub">기존 산행 계획용 지도와 분리된 원본 좌표 확인 화면이야. ZIP을 선택하면 산코드·산 이름으로 검색할 수 있어.</p>
+<div class="warning"><b>2016년 중심 과거 자료</b> · 현재 통행 가능 여부는 확인되지 않았어. 선들이 닿는다고 실제 연결된 길로 판단하지 않고, 고도와 자동 경로 만들기도 검증 전까지 제공하지 않아.</div>
+<div class="card upload"><label for="file"><b>전국 데이터 ZIP 열기</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">sanbak-trails-2932-geojson.zip을 선택해 줘. 데이터는 서버로 보내지 않아.</span></div>
+<div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">ZIP을 선택하면 목록이 표시돼.</div></div><div class="results" id="results"></div></aside>
+<section class="card"><div class="head"><div><h2 id="selected">산을 선택해 줘</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
+<div id="stats">등산로 · 주요지점 · 안전지점</div><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>자료는 브라우저에서 직접 해제되며, 산코드 파일 하나만 선택해 읽어 와. 현행 통제나 경로 연결 여부를 인증하는 지도가 아니야.</p></div></section></div></main><script>
+'use strict';
+const el=id=>document.getElementById(id),decoder=new TextDecoder('utf-8');
+let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null;
+const isCode=s=>/^\d{9}$/.test(String(s));
+function eocd(buf){
+ const d=new DataView(buf);let pos=-1;
+ for(let i=d.byteLength-22;i>=0;i--){if(d.getUint32(i,true)===0x06054b50){pos=i;break}}
+ if(pos<0)throw Error('일반 ZIP 파일이 아니야');
+ const count=d.getUint16(pos+10,true),size=d.getUint32(pos+12,true),offset=d.getUint32(pos+16,true);
+ if(count>6000||size>2000000)throw Error('ZIP 색인 범위를 초과했어');
+ return {count,size,offset};
+}
+function central(buf,count){
+ const d=new DataView(buf),found=new Map();let p=0;
+ for(let i=0;i<count;i++){
+  if(p+46>d.byteLength||d.getUint32(p,true)!==0x02014b50)throw Error('ZIP 목록 손상');
+  const len=d.getUint16(p+28,true),extra=d.getUint16(p+30,true),comment=d.getUint16(p+32,true);
+  const end=p+46+len+extra+comment;if(end>d.byteLength)throw Error('ZIP 목록 잘림');
+  const name=decoder.decode(new Uint8Array(buf,p+46,len));
+  if(name==='index.json'||/^geojson\/\d{9}\.geojson$/.test(name))found.set(name,{method:d.getUint16(p+10,true),compressed:d.getUint32(p+20,true),expanded:d.getUint32(p+24,true),offset:d.getUint32(p+42,true)});
+  p=end;
+ }
+ return found;
+}
+async function readEntry(file,item){
+ if(!item||item.expanded>4000000||item.compressed>4000000)throw Error('ZIP 데이터 크기 초과');
+ const h=new DataView(await file.slice(item.offset,item.offset+30).arrayBuffer());
+ if(h.byteLength<30||h.getUint32(0,true)!==0x04034b50)throw Error('ZIP 항목 위치 오류');
+ const start=item.offset+30+h.getUint16(26,true)+h.getUint16(28,true);
+ const input=await file.slice(start,start+item.compressed).arrayBuffer();
+ if(item.method===0)return input;
+ if(item.method!==8)throw Error('지원하지 않는 압축 방식');
+ if(typeof DecompressionStream!=='function')throw Error('최신 Chrome에서 ZIP을 열어 줘');
+ try{return await new Response(new Blob([input]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer()}
+ catch{throw Error('ZIP 압축 해제 실패. 최신 Chrome을 이용해 줘')}
+}
+async function loadArchive(file){
+ if(!file)return;
+ el('message').textContent='파일 색인 확인 중…';el('file').disabled=true;
+ try{
+  if(file.size>180000000||file.size<100)throw Error('지원 범위를 벗어난 파일 크기');
+  if(!file.name.toLowerCase().endsWith('.zip'))throw Error('sanbak-trails-2932-geojson.zip을 선택해 줘');
+  const size=Math.min(file.size,65557),info=eocd(await file.slice(file.size-size).arrayBuffer());
+  if(info.offset+info.size>file.size)throw Error('ZIP 목록 범위 오류');
+  const entries=central(await file.slice(info.offset,info.offset+info.size).arrayBuffer(),info.count);
+  const raw=await readEntry(file,entries.get('index.json'));
+  const list=JSON.parse(decoder.decode(raw));
+  if(!Array.isArray(list)||list.length!==2932||!list.every(r=>isCode(r.code)&&typeof r.name==='string'))throw Error('2,932개 산코드 색인이 아니야');
+  archive={file,entries};index=list;selected='';lines=[];spots=[];
+  el('search').disabled=false;el('region').disabled=false;
+  const ps=[...new Set(index.map(x=>x.province).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
+  el('region').replaceChildren(new Option('전국 전체',''),...ps.map(p=>new Option(p,p)));
+  el('selected').textContent='산을 검색해 선택해 줘';
+  el('message').textContent='전국 '+index.length.toLocaleString('ko-KR')+'개 산코드 준비 완료 · 선택한 파일은 서버로 전송되지 않아';
+  listItems();render();
+ }catch(err){archive=null;index=[];el('message').textContent='불러오기 실패: '+err.message;el('search').disabled=true;el('region').disabled=true}
+ finally{el('file').disabled=false}
+}
+function listItems(){
+ const q=el('search').value.toLocaleLowerCase('ko').trim(),r=el('region').value;
+ const found=index.filter(x=>(!r||x.province===r)&&(!q||(x.name+' '+x.code).toLocaleLowerCase('ko').includes(q)));
+ el('count').textContent=found.length.toLocaleString('ko-KR')+'개 검색됨 (앞의 100개 표시)';
+ const root=el('results');root.replaceChildren();
+ for(const x of found.slice(0,100)){
+  const button=document.createElement('button');button.type='button';button.className='result'+(selected===x.code?' active':'');
+  const strong=document.createElement('strong'),small=document.createElement('small');
+  strong.textContent=x.name;small.textContent=(x.province||'지역 미확인')+' · '+x.code+' · 선형 '+x.segments+'개';
+  button.append(strong,small);button.onclick=()=>choose(x);root.append(button);
+ }
+}
+function geometryOf(json){
+ const paths=[],markers=[];
+ for(const f of json.features||[]){
+  const g=f.geometry;if(!g)continue;
+  const candidates=g.type==='LineString'?[g.coordinates]:g.type==='MultiLineString'?g.coordinates:[];
+  for(const path of candidates){const okay=path.filter(p=>Array.isArray(p)&&Number.isFinite(p[0])&&Number.isFinite(p[1]));if(okay.length>=2)paths.push(okay)}
+  if(g.type==='Point'&&Array.isArray(g.coordinates)&&Number.isFinite(g.coordinates[0])&&Number.isFinite(g.coordinates[1]))markers.push({p:g.coordinates,safe:String(f.properties?.feature_kind||'').toLowerCase().includes('safe')});
+ }
+ return {paths,markers};
+}
+async function choose(item){
+ if(!archive)return;
+ selected=item.code;listItems();el('selected').textContent=item.name;el('detail').textContent=(item.province_full||item.province||'지역 미확인')+' · '+item.code+' · 기준 '+(item.source_date||'2016년 중심');
+ el('stats').textContent='GeoJSON 읽는 중…';
+ try{
+  const bytes=await readEntry(archive.file,archive.entries.get('geojson/'+item.code+'.geojson'));
+  if(selected!==item.code)return;
+  const data=JSON.parse(decoder.decode(bytes));if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('GeoJSON 구조 오류');
+  const result=geometryOf(data);lines=result.paths;spots=result.markers;
+  el('stats').textContent='등산로 선형 '+lines.length.toLocaleString('ko-KR')+'개 · 주요지점 '+spots.filter(x=>!x.safe).length+'개 · 안전지점 '+spots.filter(x=>x.safe).length+'개';
+  if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(new Blob([bytes],{type:'application/geo+json'}));
+  el('download').href=blobUrl;el('download').download=item.code+'.geojson';el('download').setAttribute('aria-disabled','false');
+  for(const n of ['zoomIn','zoomOut','fit'])el(n).disabled=false;
+  cam={z:1,x:0,y:0};render();
+ }catch(err){lines=[];spots=[];render();el('stats').textContent='불러오기 오류: '+err.message}
+}
+function render(){
+ const svg=el('map');svg.replaceChildren();const ns='http://www.w3.org/2000/svg';
+ if(!lines.length){const t=document.createElementNS(ns,'text');t.setAttribute('x','500');t.setAttribute('y','325');t.setAttribute('text-anchor','middle');t.textContent='산을 선택하면 등산로가 나타나';svg.append(t);return}
+ let lo=Infinity,hi=-Infinity,by=Infinity,ty=-Infinity;
+ for(const path of lines)for(const p of path){lo=Math.min(lo,p[0]);hi=Math.max(hi,p[0]);by=Math.min(by,p[1]);ty=Math.max(ty,p[1])}
+ const cos=Math.cos((ty+by)/2*Math.PI/180),k=Math.min(900/Math.max(.00005,(hi-lo)*cos),570/Math.max(.00005,ty-by));
+ const project=p=>[500+(p[0]-(lo+hi)/2)*cos*k,325-(p[1]-(by+ty)/2)*k];
+ const g=document.createElementNS(ns,'g');g.setAttribute('transform','translate('+cam.x+' '+cam.y+') translate(500 325) scale('+cam.z+') translate(-500 -325)');
+ for(const path of lines){
+  const node=document.createElementNS(ns,'path');node.setAttribute('d',path.map((p,i)=>{const c=project(p);return (i?'L':'M')+c[0].toFixed(1)+' '+c[1].toFixed(1)}).join(''));
+  node.setAttribute('fill','none');node.setAttribute('stroke','#27774e');node.setAttribute('stroke-width','2.4');node.setAttribute('vector-effect','non-scaling-stroke');g.append(node);
+ }
+ for(const m of spots){
+  if(m.safe?!el('safety').checked:!el('spots').checked)continue;
+  const c=project(m.p),node=document.createElementNS(ns,'circle');
+  node.setAttribute('cx',c[0]);node.setAttribute('cy',c[1]);node.setAttribute('r',m.safe?'4':'3');node.setAttribute('fill',m.safe?'#e9ad55':'white');node.setAttribute('stroke','#276442');g.append(node);
+ }
+ svg.append(g);
+}
+el('file').onchange=e=>loadArchive(e.target.files[0]);el('search').oninput=listItems;el('region').onchange=listItems;
+el('spots').onchange=render;el('safety').onchange=render;
+el('zoomIn').onclick=()=>{cam.z=Math.min(12,cam.z*1.4);render()};
+el('zoomOut').onclick=()=>{cam.z=Math.max(.6,cam.z/1.4);render()};
+el('fit').onclick=()=>{cam={z:1,x:0,y:0};render()};
+let drag=null;
+el('map').onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y};el('map').setPointerCapture(e.pointerId)};
+el('map').onpointermove=e=>{if(!drag)return;const b=el('map').getBoundingClientRect();cam.x=drag.cx+(e.clientX-drag.x)*1000/b.width;cam.y=drag.cy+(e.clientY-drag.y)*650/b.height;render()};
+el('map').onpointerup=()=>drag=null;el('map').onpointercancel=()=>drag=null;
+el('map').addEventListener('wheel',e=>{if(!lines.length)return;e.preventDefault();cam.z=Math.max(.6,Math.min(12,cam.z*(e.deltaY>0?.85:1.15)));render()},{passive:false});
+</script></body></html>

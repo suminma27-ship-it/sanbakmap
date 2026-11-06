@@ -830,7 +830,7 @@ function initializeMobilePanels(){
 }
 let updateMobileWorkspace=()=>{};
 function updateMobileSummary(id,text){const el=$(id);if(el)el.textContent=text}
-function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();renderSaved();}
+function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();updateMobileWorkspace();if(view.tab==='build'&&!park().plan_graph)drawMap('builderMap');renderSaved();}
 // Waypoint controls for geographic and schematic planners.
 function waypointRow(container,i,total,label,selected,onFocus,onMove){
  const row=document.createElement('div');row.className='waypoint-step'+(selected?' is-selected':'');

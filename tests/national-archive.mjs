@@ -9,9 +9,10 @@ const script=html.split('<script>')[1]?.split('</script>')[0];
 assert(script,'Browser script missing');
 new Function(script);
 function source(name){
- const start=script.indexOf('function '+name+'(');
- assert(start>=0,'Missing '+name);
- const pos=script.indexOf('\n}',start);
+ const found=script.indexOf('function '+name+'(');
+ assert(found>=0,'Missing '+name);
+ const start=script.slice(found-6,found)==='async '?found-6:found;
+ const pos=script.indexOf('\n}',found);
  assert(pos>start,'Closing brace missing for '+name);
  return script.slice(start,pos+2);
 }

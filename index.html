@@ -419,7 +419,7 @@ function updateView(){const p=park();$('areaName').textContent=p.area||'';const 
 function updateStatus(){const p=park();$('status').textContent=`${p.name} · 등록 코스 ${p.courses.length}개(구간 조합 ${p.courses.filter(c=>c.composed).length}개 포함) · ${p.schematic_only?'경유지 순서로 구성한 참고 지도':'등산로 기반 계획 지도'} · 산행 전 거리와 높이 변화를 살펴봐. 현장 탐방로 통제와 경로는 출발 전에 별도로 확인해.`}
 
 // v25 plan-only router for parks with official waypoint order but no original geographic route geometry.
-const plan={choices:[],result:null,preset:null};
+const plan={choices:[],result:null,preset:null,focusIndex:null};
 function planNet(){return park().plan_graph;}
 function planAdj(net){let adj=Array.from({length:net.nodes.length},()=>[]);net.edges.forEach((e,i)=>{if(e.a===e.b)return;adj[e.a].push([e.b,e.km,i]);adj[e.b].push([e.a,e.km,i]);});return adj;}
 function planPath(a,b,net){
@@ -461,12 +461,34 @@ function planSelect(node){
   if(prev===node){toast('같은 지점이야. 다른 경유지나 출발지로 돌아오기를 선택해줘');return}
   if(!planPath(prev,node,net)){toast('연결되지 않은 지점이야. 다른 경유지를 골라줘');return}
  }
- plan.choices.push(node);plan.preset=null;updatePlan();
+ plan.choices.push(node);plan.preset=null;plan.focusIndex=plan.choices.length-1;updatePlan();
+}
+// v35: reorder the planning-only schematic route without inventing map geometry.
+function movePlanStep(index,offset){
+ const j=index+offset;if(index<0||j<0||j>=plan.choices.length)return;
+ const proposed=plan.choices.slice();
+ [proposed[index],proposed[j]]=[proposed[j],proposed[index]];
+ const net=planNet();
+ for(let i=1;i<proposed.length;i++){
+  if(proposed[i]===proposed[i-1]||!planPath(proposed[i-1],proposed[i],net)){
+   toast('이 순서에서는 연결되지 않는 경유지가 있어');return;
+  }
+ }
+ plan.choices=proposed;plan.preset=null;plan.focusIndex=j;updatePlan();toast('계획 경유지 순서를 변경했어');
+}
+function focusPlanStep(i){if(i<0||i>=plan.choices.length)return;plan.focusIndex=i;updatePlan()}
+function renderPlanStepRows(net){
+ const steps=$('planSteps');steps.replaceChildren();
+ if(!plan.choices.length){const text=document.createElement('span');text.className='small';text.textContent='경유지를 길게 누르거나 아래 버튼에서 선택해';steps.append(text);return}
+ plan.choices.forEach((n,i)=>{
+  const role=i===0?'출발':i===plan.choices.length-1?'도착':'경유';
+  waypointRow(steps,i,plan.choices.length,(i+1)+' '+role+' · '+net.nodes[n].name,plan.focusIndex===i,focusPlanStep,movePlanStep);
+ });
 }
 function updatePlan(){
  const p=park(),net=planNet();if(!net)return;
  plan.result=planCompute();let m=plan.result;
- $('planSteps').innerHTML=plan.choices.length?plan.choices.map((k,i)=>`<span class="chip">${i===0?'출발':i===plan.choices.length-1?'도착':'경유'} · ${esc(net.nodes[k].name)}</span>`).join(''):'<span class="small">경유지를 길게 누르거나 아래 버튼에서 선택해</span>';
+ renderPlanStepRows(net);
  $('planDistance').textContent=m?`${fmt(m.km,'km',1)}`:'—';$('planGain').textContent=m?`약 ${fmt(Math.round(m.gain),'m')}`:'—';$('planLoss').textContent=m?`약 ${fmt(Math.round(m.loss),'m')}`:'—';$('planMax').textContent=m?fmt(Math.round(m.max),'m'):'—';
  $('planReturn').disabled=plan.choices.length<2||plan.choices.at(-1)===plan.choices[0];
  $('planUndo').disabled=!plan.choices.length;$('planSave').disabled=!m;
@@ -498,8 +520,8 @@ function drawPlan(){
    s+=`<path d="M${a.x.toFixed(1)} ${a.y}L${b.x.toFixed(1)} ${b.y}" fill="none" stroke="${active?'#177d57':'#a9c2af'}" stroke-width="${active?9:6}" stroke-linecap="round"/>`;
   }
   route.places.forEach((place,i)=>{
-   let active=plan.choices.includes(place.idx),n=ns[place.idx],up=i%2===0,yy=place.y+(up?-21:40);
-   s+=`<circle cx="${place.x.toFixed(1)}" cy="${place.y}" r="${active?13:10}" fill="white" stroke="${active?'#177c57':'#578a70'}" stroke-width="${active?5:3}"/>`;
+   let active=plan.choices.includes(place.idx),focused=plan.focusIndex!==null&&plan.choices[plan.focusIndex]===place.idx,n=ns[place.idx],up=i%2===0,yy=place.y+(up?-21:40);
+   s+=`<circle cx="${place.x.toFixed(1)}" cy="${place.y}" r="${focused?17:active?13:10}" fill="white" stroke="${active?'#177c57':'#578a70'}" stroke-width="${focused?6:active?5:3}"/>`;
    // Labels are simplified on the map only; full names remain accessible on the buttons.
    let label=n.name.length>8?n.name.slice(0,7)+'…':n.name;
    s+=`<text x="${place.x.toFixed(1)}" y="${yy}" text-anchor="middle" fill="#234832" font-size="16" font-weight="740" stroke="#eef5ef" stroke-width="4" paint-order="stroke">${esc(label)}</text>`;
@@ -528,11 +550,11 @@ function exportPlan(){let m=plan.result,net=planNet(),p=park();if(!m)return;
  let blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`sanbak-${p.id}-plan.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1200);
 }
 function planUI(){let schematic=!!park().plan_graph;$('geoBuilder').style.display=schematic?'none':'';$('planBuilder').style.display=schematic?'':'none';if(schematic){updatePlan();} }
-$('planClear').onclick=()=>{plan.choices=[];plan.preset=null;updatePlan()};
-$('planUndo').onclick=()=>{plan.choices.pop();plan.preset=null;updatePlan()};
+$('planClear').onclick=()=>{plan.choices=[];plan.preset=null;plan.focusIndex=null;updatePlan()};
+$('planUndo').onclick=()=>{plan.choices.pop();plan.preset=null;plan.focusIndex=plan.choices.length?plan.choices.length-1:null;updatePlan()};
 $('planReturn').onclick=()=>{if(plan.choices.length>1)planSelect(plan.choices[0])};
 $('planSave').onclick=exportPlan;
-$('planLoadCourse').onclick=()=>{let net=planNet(),c=park().courses[view.course],preset=net?.courses[c?.id];if(!preset)return;plan.choices=preset.nodes.slice();plan.preset=c.id;updatePlan()};
+$('planLoadCourse').onclick=()=>{let net=planNet(),c=park().courses[view.course],preset=net?.courses[c?.id];if(!preset)return;plan.choices=preset.nodes.slice();plan.preset=c.id;plan.focusIndex=plan.choices.length-1;updatePlan()};
 initializePlanMap();
 
 
@@ -564,7 +586,7 @@ function loadSaved(id){
   plan.choices=[];plan.preset=null;
   for(const n of item.choices){if(plan.choices.length){let prev=plan.choices.at(-1);if(!planPath(prev,n,pk.plan_graph)){toast('연결되지 않은 구간이 있어 불러오지 못했어');plan.choices=[];return}}plan.choices.push(n)}
   if(item.courseId&&pk.plan_graph.courses[item.courseId]&&plan.choices.join(',')===pk.plan_graph.courses[item.courseId].nodes.join(','))plan.preset=item.courseId;
-  updatePlan();
+  plan.focusIndex=plan.choices.length?plan.choices.length-1:null;updatePlan();
  }else{
   if(!pk.net){toast('이 산의 연결망을 찾을 수 없어');return}
   if(!Array.isArray(item.choices)||!item.choices.every(q=>Number.isInteger(q.edge)&&q.edge>=0&&q.edge<pk.net.edges.length&&Number.isFinite(q.t)&&q.t>=0&&q.t<=1)){toast('지점 정보가 변경되어 불러올 수 없어');return}
@@ -614,7 +636,7 @@ $('importBackup').onchange=async(e)=>{
  e.target.value='';
 };
 
-function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();renderSaved();}
+function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();renderSaved();}
 // Waypoint controls for geographic and schematic planners.
 function waypointRow(container,i,total,label,selected,onFocus,onMove){
  const row=document.createElement('div');row.className='waypoint-step'+(selected?' is-selected':'');

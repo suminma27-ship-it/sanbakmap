@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v42 | 전국 국립공원 산행계획</title>
+<title>산박지도 v43 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -228,9 +228,19 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
     order:2;flex:1 1 auto;min-height:0!important;
   }
 }
+</style><style id="v43-waypoint-remove-css">
+.waypoint-step .waypoint-remove{flex:0 0 auto;min-height:38px;min-width:40px;padding:6px 8px;background:#fff;border:1px solid #cbdcd0;color:#536d5e;font-size:12px;font-weight:800}
+.waypoint-step .waypoint-remove:hover{background:#f2f7f2}
+@media(max-width:440px){
+ #steps.buildSteps,#planSteps.buildSteps{padding-left:8px;padding-right:8px}
+ .waypoint-step{gap:4px}
+ .waypoint-step .waypoint-name{font-size:12px;padding:7px 8px}
+ .waypoint-step .waypoint-move{min-width:31px;padding:6px}
+ .waypoint-step .waypoint-remove{min-width:34px;padding:6px;font-size:11px}
+}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v42</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v43</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -681,13 +691,26 @@ function movePlanStep(index,offset){
  }
  plan.choices=proposed;plan.preset=null;plan.focusIndex=j;updatePlan();toast('계획 경유지 순서를 변경했어');
 }
+function removePlanStep(index){
+ if(index<0||index>=plan.choices.length)return;
+ const proposed=plan.choices.filter((_,i)=>i!==index),net=planNet();
+ if(!net)return;
+ for(let i=1;i<proposed.length;i++){
+  const path=planPath(proposed[i-1],proposed[i],net);
+  if(!path||!path.edgeIds.length){toast('삭제 후 연결되지 않는 경유지가 있어 기존 계획을 유지했어');return}
+ }
+ const previous=plan.focusIndex;
+ plan.choices=proposed;plan.preset=null;
+ plan.focusIndex=proposed.length?Math.min(proposed.length-1,Math.max(0,Number.isInteger(previous)?previous-(previous>index?1:0):index)):null;
+ updatePlan();toast('경유지를 삭제하고 계획 거리를 다시 계산했어');
+}
 function focusPlanStep(i){if(i<0||i>=plan.choices.length)return;plan.focusIndex=i;updatePlan()}
 function renderPlanStepRows(net){
  const steps=$('planSteps');steps.replaceChildren();
  if(!plan.choices.length){const text=document.createElement('span');text.className='small';text.textContent='경유지를 길게 누르거나 아래 버튼에서 선택해';steps.append(text);return}
  plan.choices.forEach((n,i)=>{
   const role=i===0?'출발':i===plan.choices.length-1?'도착':'경유';
-  waypointRow(steps,i,plan.choices.length,(i+1)+' '+role+' · '+net.nodes[n].name,plan.focusIndex===i,focusPlanStep,movePlanStep);
+  waypointRow(steps,i,plan.choices.length,(i+1)+' '+role+' · '+net.nodes[n].name,plan.focusIndex===i,focusPlanStep,movePlanStep,removePlanStep);
  });
 }
 function updatePlan(){
@@ -944,12 +967,16 @@ let updateMobileWorkspace=()=>{};
 function updateMobileSummary(id,text){const el=$(id);if(el)el.textContent=text}
 function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;builder.stepKm=[];plan.choices=[];plan.preset=null;plan.focusIndex=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();updateMobileWorkspace();if(view.tab==='build'&&!park().plan_graph)drawMap('builderMap');renderSaved();}
 // Waypoint controls for geographic and schematic planners.
-function waypointRow(container,i,total,label,selected,onFocus,onMove){
+function waypointRow(container,i,total,label,selected,onFocus,onMove,onRemove){
  const row=document.createElement('div');row.className='waypoint-step'+(selected?' is-selected':'');
  const btn=document.createElement('button');btn.type='button';btn.className='chip waypoint-name';btn.textContent=label;btn.setAttribute('aria-pressed',String(selected));btn.title='이 지점 강조';btn.onclick=()=>onFocus(i);row.append(btn);
  for(const [offset,symbol,desc] of [[-1,'↑','앞으로'],[1,'↓','뒤로']]){
   const move=document.createElement('button');move.type='button';move.className='action waypoint-move';move.textContent=symbol;move.setAttribute('aria-label',label+' 순서 '+desc);move.disabled=(i+offset<0||i+offset>=total);move.onclick=()=>onMove(i,offset);row.append(move);
  }
+ const remove=document.createElement('button');
+ remove.type='button';remove.className='action waypoint-remove';remove.textContent='삭제';
+ remove.setAttribute('aria-label',label+' 삭제');remove.title='이 경유지를 삭제하고 남은 경로 다시 계산';
+ remove.onclick=()=>onRemove(i);row.append(remove);
  container.append(row);
 }
 function lineDistance(points){let distance=0;for(let i=1;i<points.length;i++)distance+=hav(points[i-1],points[i]);return distance}
@@ -983,12 +1010,30 @@ function moveGeoStep(i,direction){
  const line=routeChoices(park().net,choices);if(!line){toast('경로를 만들 수 없어');return}
  builder.choices=choices;builder.line=line;builder.focusIndex=j;updateBuilder();toast('경유지 순서를 바꿨어');
 }
+function removeGeoStep(index){
+ if(index<0||index>=builder.choices.length)return;
+ const proposed=builder.choices.filter((_,i)=>i!==index),net=park().net;
+ if(!net)return;
+ let line=null;
+ if(proposed.length>=2){
+  for(let i=1;i<proposed.length;i++){
+   const part=routeGraph(net,proposed[i-1],proposed[i]);
+   if(!part||lineDistance(part)<.05){toast('삭제 후 연결되지 않는 구간이 있어 기존 루트를 유지했어');return}
+  }
+  line=routeChoices(net,proposed);
+  if(!line){toast('삭제 후 루트를 다시 연결할 수 없어');return}
+ }
+ const previous=builder.focusIndex;
+ builder.choices=proposed;builder.line=line;
+ builder.focusIndex=proposed.length?Math.min(proposed.length-1,Math.max(0,Number.isInteger(previous)?previous-(previous>index?1:0):index)):null;
+ builder.focusKm=null;updateBuilder();toast('경유지를 삭제하고 거리·고도를 다시 계산했어');
+}
 function renderGeoSteps(){
  const target=$('steps');target.replaceChildren();
  if(!builder.choices.length){const p=document.createElement('span');p.className='small';p.textContent='지도 이름을 탭하거나 선형을 길게 눌러 출발지를 선택해';target.append(p);return}
  builder.choices.forEach((q,i)=>{
   const role=i===0?'출발':i===builder.choices.length-1?'도착':'경유';
-  waypointRow(target,i,builder.choices.length,(i+1)+' '+role+' · '+q.name,builder.focusIndex===i,selectGeoStep,moveGeoStep);
+  waypointRow(target,i,builder.choices.length,(i+1)+' '+role+' · '+q.name,builder.focusIndex===i,selectGeoStep,moveGeoStep,removeGeoStep);
  });
 }
 function updateBuilder(){

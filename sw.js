@@ -1,5 +1,5 @@
-/* 산박지도 v47.1: 국립공원 계획용 HTML을 같은 기기에서 오프라인으로 다시 엽니다. */
-const CACHE_NAME = 'sanbakmap-v47-1-shell';
+/* 산박지도 v47.2: 국립공원 계획용 HTML을 같은 기기에서 오프라인으로 다시 엽니다. */
+const CACHE_NAME = 'sanbakmap-v47-2-shell';
 const APP_SHELL = ['./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));

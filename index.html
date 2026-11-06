@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v40 | 전국 국립공원 산행계획</title>
+<title>산박지도 v41 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -190,9 +190,47 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
   body[data-focused-map="builderMap"] #geoBuilder>section.card:first-child{border-radius:0!important}
   body[data-focused-map] .map-focus-button{background:#176548;color:white;border-color:#176548}
 }
+</style><style id="v41-mobile-control-layout-css">
+/* Keep all map actions in their own accessible row, never over the map heading. */
+@media(max-width:750px){
+  #viewerPanel .bodygrid>section.card:first-child>.cardTitle,
+  #geoBuilder>section.card:first-child>.cardTitle{
+    display:flex;align-items:center;flex-wrap:nowrap;
+    padding:8px 10px!important;
+    gap:8px!important;min-height:48px;
+  }
+  #viewerPanel .bodygrid>section.card:first-child>.cardTitle>span:first-child,
+  #geoBuilder>section.card:first-child>.cardTitle>span:first-child{
+    min-width:0;flex:1 1 auto;line-height:1.35;
+  }
+  #geoBuilder>section.card:first-child>.cardTitle>span:first-child{font-size:12px}
+  #viewerPanel .map-heading-actions,#geoBuilder .map-heading-actions{flex:0 0 auto;min-width:0}
+  #viewerPanel .map-heading-actions>.small,#geoBuilder .map-heading-actions>.small{display:none}
+  #viewerPanel .map-heading-actions .map-focus-button,
+  #geoBuilder .map-heading-actions .map-focus-button{position:relative;z-index:2;min-height:38px;padding:7px 10px}
+  #viewerPanel .bodygrid>section.card:first-child>.mapcontrols,
+  #geoBuilder>section.card:first-child>.mapcontrols{
+    position:relative!important;inset:auto!important;
+    order:1;z-index:1;flex:0 0 auto;align-self:stretch;
+    display:flex;flex-wrap:nowrap!important;width:100%!important;max-width:100%!important;
+    margin:0!important;padding:5px 8px!important;gap:6px;
+    border:0!important;border-top:1px solid #d9e6dc!important;
+    border-radius:0!important;box-shadow:none!important;
+    background:#f6faf6!important;overflow-x:auto!important;
+    overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  }
+  #viewerPanel .bodygrid>section.card:first-child>.mapcontrols button,
+  #geoBuilder>section.card:first-child>.mapcontrols button{
+    flex:0 0 auto;white-space:nowrap;min-height:38px;padding:6px 11px;
+  }
+  #viewerPanel .bodygrid>section.card:first-child>#map,
+  #geoBuilder>section.card:first-child>#builderMap{
+    order:2;flex:1 1 auto;min-height:0!important;
+  }
+}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v40</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v41</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>

@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v56 | 전국 국립공원 산행계획</title>
+<title>산박지도 v57 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style><style id="v55-poi-search-css">.poi-search-field{grid-column:1/-1}.poi-search-controls{display:flex;gap:8px}.poi-search-controls input{flex:1;min-width:0;min-height:43px;border:1px solid #c7d9ce;border-radius:10px;padding:8px 12px;background:#fff;color:#1d4030;font-size:13px}.poi-search-controls button{white-space:nowrap;padding:8px 10px}@media(max-width:440px){.poi-search-controls{gap:5px}.poi-search-controls input{font-size:12px;padding:8px 7px}.poi-search-controls button{font-size:12px;padding:7px 8px}}</style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v56</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v57</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div><div class="field poi-search-field"><label for="poiSearch">주요지점 찾기 · 지도 위치 이동</label><div class="poi-search-controls"><input type="search" id="poiSearch" list="poiSearchHints" placeholder="예: 대청봉, 소청봉, 백운대" autocomplete="off" aria-label="주요지점 이름 검색"/><datalist id="poiSearchHints"></datalist><button class="action" type="button" id="poiSearchGo">찾기</button><button class="action" type="button" id="poiSearchAdd" aria-label="검색한 지점을 현재 코스의 다음 경유지로 추가" disabled>경유지 추가</button></div></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -289,7 +289,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
  <details class="card elevation-card" id="planChartDisclosure" open><summary class="cardTitle">고도그래프</summary><div class="chartbox"><svg id="planChart" viewBox="0 0 700 170" aria-label="경유지 기반 개략 고도그래프" style="width:100%;height:170px"></svg></div></details>
  <section class="card subcard"><div class="row"><strong>계획 저장</strong><button type="button" id="planSave" class="action primary">계획표 JSON 저장</button><button type="button" id="planCopy" class="action" disabled>요약 복사</button></div><div class="small" style="margin-top:8px">여기는 GPS 좌표가 없어 GeoJSON은 제공하지 않아. 경유지 순서와 계산 거리·고도차를 JSON 계획표로 저장해.</div></section></div>
  </div>
- <div id="geoBuilder" class="bodygrid"><section class="card"><div class="cardTitle row"><span>주요지점을 탭하거나 등산로를 길게 누르기</span><span class="map-heading-actions"><span class="small">순서대로 선택</span><button type="button" id="builderMapFocus" class="map-focus-button" aria-pressed="false">지도 크게 ⛶</button></span></div><svg id="builderMap" viewBox="0 0 900 600" role="img" aria-label="길게 눌러 지점을 선택하는 지도" style="width:100%;height:448px;touch-action:none;background:#e9f1e8;display:block"></svg><div class="mapcontrols"><button type="button" id="builderFit">전체 보기</button><button type="button" id="builderFitCourse">선택 코스 확대</button><button type="button" id="builderFitRoute">선택 루트 확대</button><button type="button" id="builderZoomIn">＋</button><button type="button" id="builderZoomOut">－</button></div><div class="descr">지도에 표시된 주요지점 이름을 탭하면 바로 선택할 수 있어. 이름 없는 등산로 지점은 약 0.6초 길게 눌러 선택해. 기존 연결망에 없는 구간은 자동으로 이어 붙이지 않아.</div><div class="geo-poi-area"><strong>주요지점에서 코스 만들기</strong><div id="geoPoiButtons" class="geo-poi-buttons"></div><p class="small">지점명과 위치는 산행 계획용 자료야. 미연결 지점은 선택할 수 없어.</p></div></section><div class="right mobile-detail-panel" id="geoDetailsShell" data-details-open="false"><button type="button" class="mobile-detail-toggle" id="geoDetailsToggle" aria-expanded="false" aria-controls="geoStats"><span>상세 <small id="geoQuickSummary">루트 정보</small></span><span class="mobile-toggle-label">펼치기 ＋</span></button><section class="card mobile-stats" id="geoStats"><div class="cardTitle">내 루트</div><div class="waypoint-toolbar"><span class="waypoint-toolbar-summary" id="geoStepSummary" aria-live="polite">경유지 0개</span><select class="waypoint-toolbar-select" id="geoMoveTo" aria-label="선택한 경유지를 이동할 위치" disabled><option value="">이동할 위치</option></select></div><div id="steps" class="buildSteps"></div><div class="buttonrow"><button class="action" type="button" id="returnStart">출발지로 돌아오기</button><button class="action" type="button" id="reverseGeo" title="전체 경유지 순서를 반대로 바꿉니다" disabled>⇄ 루트 역순</button><button class="action" type="button" id="undo">마지막 취소</button><button class="action edit-undo-button" type="button" id="editUndoGeo" disabled>↶ 편집 되돌리기</button><button type="button" class="action edit-redo-button" id="editRedoGeo" disabled>↷ 다시 실행</button><button class="action" type="button" id="clear">초기화</button></div><div class="mval"><div><label>거리</label><strong id="myDistance">—</strong></div><div><label>누적 상승</label><strong id="myGain">—</strong></div><div><label>누적 하강</label><strong id="myLoss">—</strong></div><div><label>최고 고도</label><strong id="myMax">—</strong></div></div></section><details class="card elevation-card" id="myChartDisclosure" open><summary class="cardTitle">고도그래프</summary><div class="chartbox"><svg id="myChart" viewBox="0 0 700 170" aria-label="코스 위치를 선택하는 고도그래프" tabindex="0"></svg><div id="builderFocusInfo" class="small" role="status" aria-live="polite">고도그래프를 탭하면 지도에서도 위치가 표시돼.</div></div></details><section class="card subcard"><div class="row"><strong>루트 내보내기</strong><button type="button" id="download" class="action primary">GeoJSON 저장</button><button type="button" id="copyGeo" class="action" disabled>요약 복사</button></div><div class="small" style="margin-top:8px">출발지와 도착지를 선택해야 저장할 수 있어. 동일 지점으로 돌아오는 왕복 코스도 가능해.</div></section></div></div>
+ <div id="geoBuilder" class="bodygrid"><section class="card"><div class="cardTitle row"><span>주요지점을 탭하거나 등산로를 길게 누르기</span><span class="map-heading-actions"><span class="small">순서대로 선택</span><button type="button" id="builderMapFocus" class="map-focus-button" aria-pressed="false">지도 크게 ⛶</button></span></div><svg id="builderMap" viewBox="0 0 900 600" role="img" aria-label="길게 눌러 지점을 선택하는 지도" style="width:100%;height:448px;touch-action:none;background:#e9f1e8;display:block"></svg><div class="mapcontrols"><button type="button" id="builderFit">전체 보기</button><button type="button" id="builderFitCourse">선택 코스 확대</button><button type="button" id="loadGeoCourse">현재 코스 불러오기</button><button type="button" id="builderFitRoute">선택 루트 확대</button><button type="button" id="builderZoomIn">＋</button><button type="button" id="builderZoomOut">－</button></div><div class="descr">지도에 표시된 주요지점 이름을 탭하면 바로 선택할 수 있어. 이름 없는 등산로 지점은 약 0.6초 길게 눌러 선택해. 기존 연결망에 없는 구간은 자동으로 이어 붙이지 않아.</div><div class="geo-poi-area"><strong>주요지점에서 코스 만들기</strong><div id="geoPoiButtons" class="geo-poi-buttons"></div><p class="small">지점명과 위치는 산행 계획용 자료야. 미연결 지점은 선택할 수 없어.</p></div></section><div class="right mobile-detail-panel" id="geoDetailsShell" data-details-open="false"><button type="button" class="mobile-detail-toggle" id="geoDetailsToggle" aria-expanded="false" aria-controls="geoStats"><span>상세 <small id="geoQuickSummary">루트 정보</small></span><span class="mobile-toggle-label">펼치기 ＋</span></button><section class="card mobile-stats" id="geoStats"><div class="cardTitle">내 루트</div><div class="waypoint-toolbar"><span class="waypoint-toolbar-summary" id="geoStepSummary" aria-live="polite">경유지 0개</span><select class="waypoint-toolbar-select" id="geoMoveTo" aria-label="선택한 경유지를 이동할 위치" disabled><option value="">이동할 위치</option></select></div><div id="steps" class="buildSteps"></div><div class="buttonrow"><button class="action" type="button" id="returnStart">출발지로 돌아오기</button><button class="action" type="button" id="reverseGeo" title="전체 경유지 순서를 반대로 바꿉니다" disabled>⇄ 루트 역순</button><button class="action" type="button" id="undo">마지막 취소</button><button class="action edit-undo-button" type="button" id="editUndoGeo" disabled>↶ 편집 되돌리기</button><button type="button" class="action edit-redo-button" id="editRedoGeo" disabled>↷ 다시 실행</button><button class="action" type="button" id="clear">초기화</button></div><div class="mval"><div><label>거리</label><strong id="myDistance">—</strong></div><div><label>누적 상승</label><strong id="myGain">—</strong></div><div><label>누적 하강</label><strong id="myLoss">—</strong></div><div><label>최고 고도</label><strong id="myMax">—</strong></div></div></section><details class="card elevation-card" id="myChartDisclosure" open><summary class="cardTitle">고도그래프</summary><div class="chartbox"><svg id="myChart" viewBox="0 0 700 170" aria-label="코스 위치를 선택하는 고도그래프" tabindex="0"></svg><div id="builderFocusInfo" class="small" role="status" aria-live="polite">고도그래프를 탭하면 지도에서도 위치가 표시돼.</div></div></details><section class="card subcard"><div class="row"><strong>루트 내보내기</strong><button type="button" id="download" class="action primary">GeoJSON 저장</button><button type="button" id="copyGeo" class="action" disabled>요약 복사</button></div><div class="small" style="margin-top:8px">출발지와 도착지를 선택해야 저장할 수 있어. 동일 지점으로 돌아오는 왕복 코스도 가능해.</div></section></div></div>
 <section class="card saved-manager" id="savedManager">
  <h3>내 루트 보관함 <span id="savedCount" class="small"></span></h3>
  <div class="small">이 산에서 만든 루트를 이름 붙여 보관하고, 다음에 다시 불러올 수 있어.</div>
@@ -525,6 +525,67 @@ function poly(pts,pr){return pts.map((q,i)=>{const [x,y]=pr(q);return (i?'L':'M'
 
 // v26.2: user-visible landmark overlays are separate from graph routing nodes.
 function majorPoiList(p){return p.poiLabels||[]}
+// v57: turn the registered course into a waypoint plan without inventing trail connections.
+function sampleCourseLine(line,fractions){
+ if(!Array.isArray(line)||line.length<2||line.some(q=>!Array.isArray(q)||q.length<3||!q.slice(0,3).every(Number.isFinite)))return null;
+ const cumulative=[0];
+ for(let i=1;i<line.length;i++)cumulative.push(cumulative.at(-1)+hav(line[i-1],line[i]));
+ const total=cumulative.at(-1);if(!Number.isFinite(total)||total<.1)return null;
+ return fractions.map(t=>{
+  const target=total*t;let i=1;
+  while(i<cumulative.length-1&&cumulative[i]<target)i++;
+  const a=line[i-1],b=line[i],ratio=Math.max(0,Math.min(1,(target-cumulative[i-1])/(cumulative[i]-cumulative[i-1]||1)));
+  return a.map((v,k)=>v+(b[k]-v)*ratio);
+ });
+}
+function proposedGeoCourse(p,course){
+ const net=p?.net;
+ if(!net?.edges?.length||!course||course.schematic||!course.line?.length)return null;
+ const rawKm=lineDistance(course.line);
+ const points=sampleCourseLine(course.line,[0,.25,.5,.75,1]);
+ if(!points)return null;
+ const labels=geoPoiChoices(p);
+ const choices=points.map((point,i)=>{
+  const q=nearest(net,point[0],point[1]);
+  if(!q||q.km>.13)return null;
+  let name=i===0?(course.start_name||'출발지')
+        :i===points.length-1?(course.end_name||'도착지'):'코스 중간 지점 '+i;
+  let namedPoi=!!(i===0?course.start_name:i===points.length-1?course.end_name:false);
+  if(i>0&&i<points.length-1){
+   const named=labels.filter(c=>hav(c.xy,point)<.09)
+     .sort((a,b)=>hav(a.xy,point)-hav(b.xy,point))[0];
+   if(named){name=named.name;namedPoi=true}
+  }
+  return {...q,name,namedPoi};
+ });
+ if(choices.some(q=>!q))return null;
+ const verified=verifiedGeoSnapshot(net,choices);
+ if(!verified?.line)return null;
+ const measured=lineDistance(verified.line);
+ if(Math.abs(measured-rawKm)>Math.max(.4,rawKm*.22))return null;
+ const checkpoints=sampleCourseLine(course.line,[0,.125,.25,.375,.5,.625,.75,.875,1]);
+ if(checkpoints.some(point=>nearestPoiOnLine({lon:point[0],lat:point[1]},verified.line).dist>.2))return null;
+ return {choices:verified.choices,line:verified.line,rawKm,measured};
+}
+function loadSelectedGeoCourse(){
+ const p=park(),course=p.courses[view.course];
+ const next=proposedGeoCourse(p,course);
+ if(!next){
+  toast('선택 코스를 기존 등산로 연결망에서 재구성할 수 없어. 현재 계획은 유지했어');
+  return false;
+ }
+ if(builder.choices.length&&!confirm('현재 작성 중인 루트를 선택 코스로 교체할까? 기존 계획은 편집 되돌리기로 복원할 수 있어.'))return false;
+ rememberEdit('geo');
+ builder.choices=next.choices;
+ builder.line=next.line;
+ builder.focusIndex=next.choices.length-1;
+ builder.focusKm=null;
+ updateBuilder();
+ resetMap('builderMap','route');
+ toast('선택 코스를 불러왔어. 거리·고도는 연결망으로 다시 계산한 계획용 값이야');
+ return true;
+}
+
 // v56: a searched landmark is not a route waypoint until the explicit add action.
 let selectedSearchPoi=null;
 function searchPoiRouteChoice(p,poi){
@@ -837,6 +898,7 @@ function updateView(){const p=park();$('areaName').textContent=p.area||'';const 
   if(urls.length){const links=document.createElement('div');links.className='source-links';urls.forEach((url,i)=>{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='코스 참고자료'+(urls.length>1?' '+(i+1):'');links.append(a);});target.append(links)}
  }
 
+ $('loadGeoCourse').disabled=!p.net||!c?.line?.length||!!c.schematic;
  updatePoiIndex();plot('chart',m);if(c&&!c.schematic)graphPoiLabels('chart',c,p,m);if(c?.schematic){$('chart').setAttribute('aria-label','개략 경유 지점 높이 흐름. DEM 고도그래프가 아닙니다.');}else{$('chart').setAttribute('aria-label','선택 코스의 고도그래프');}resetMap('map','route');
 }
 function updateStatus(){const p=park();$('status').textContent=`${p.name} · 등록 코스 ${p.courses.length}개(구간 조합 ${p.courses.filter(c=>c.composed).length}개 포함) · ${p.schematic_only?'경유지 순서로 구성한 참고 지도':'등산로 기반 계획 지도'} · 산행 전 거리와 높이 변화를 살펴봐. 현장 탐방로 통제와 경로는 출발 전에 별도로 확인해.`}
@@ -1951,6 +2013,7 @@ $('poiSearch').onchange=()=>{const name=$('poiSearch').value.trim(),exact=findPo
 $('poiSearch').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();goToPoiSearch()}else if(e.key==='Escape')$('poiSearchHints').replaceChildren()};
 $('courseSelect').onchange=()=>{view.course=+$('courseSelect').value;updateView()};
 $('viewTab').onclick=()=>setTab('view');$('buildTab').onclick=()=>setTab('build');
+$('loadGeoCourse').onclick=loadSelectedGeoCourse;
 $('fitRoute').onclick=()=>resetMap('map','route');$('fitAll').onclick=()=>resetMap('map','all');$('builderFit').onclick=()=>resetMap('builderMap','all');$('builderFitCourse').onclick=()=>resetMap('builderMap','course');$('builderFitRoute').onclick=()=>{if(!builder.line){toast('먼저 루트의 두 지점을 선택해줘');return}resetMap('builderMap','route')};
 for(const [id,mid,factor] of [['zoomIn','map',1.45],['zoomOut','map',1/1.45],['builderZoomIn','builderMap',1.45],['builderZoomOut','builderMap',1/1.45]])$(id).onclick=()=>{maps[mid].zoom=Math.min(12,Math.max(.55,maps[mid].zoom*factor));drawMap(mid)};
 $('clear').onclick=()=>{if(!builder.choices.length)return;rememberEdit('geo');builder.choices=[];builder.line=null;builder.focusIndex=null;builder.focusKm=null;updateBuilder()};$('undo').onclick=()=>{if(!builder.choices.length)return;rememberEdit('geo');builder.choices.pop();builder.line=routeChoices(park().net,builder.choices);builder.focusIndex=builder.choices.length?builder.choices.length-1:null;updateBuilder()};

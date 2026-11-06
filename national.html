@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v63 | 전국 등산로</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v64 | 전국 등산로</title><style>
 :root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b3024;background:#f5f8f4}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
 header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}header a{color:#fff;text-decoration:none}main{max-width:1240px;margin:auto;padding:18px 12px}h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0}p{line-height:1.5;margin:7px 0}.sub{font-size:13px;color:#61756a}
 .warning{background:#edf5ee;border:1px solid #d5e5d9;border-radius:10px;padding:11px;font-size:13px;margin:14px 0}
@@ -17,10 +17,10 @@ header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wra
 <div class="card upload"><label for="file"><b>상세 원본 ZIP 열기 (선택 사항)</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">전국 검색과 선형 미리보기는 자동으로 불러와. ZIP은 상세 원본 확인 시에만 선택하면 돼.</span></div>
 <div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">전국 산 목록을 자동으로 불러오는 중…</div></div><div class="results" id="results"></div></aside>
 <section class="card"><div class="head"><div><h2 id="selected">불러오는 중…</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
-<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p><div id="connectivityCandidates" class="candidate-list" role="group" aria-label="접점 확인 후보"></div><p id="connectivityStatus" class="diagnostic-status" role="status" aria-live="polite"></p></details><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script>
+<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p><div id="connectivityCandidates" class="candidate-list" role="group" aria-label="접점 확인 후보"></div><p id="connectivityStatus" class="diagnostic-status" role="status" aria-live="polite"></p><a id="planningDownload" hidden aria-disabled="true">계획용 연결 GeoJSON 저장</a></details><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script>
 'use strict';
 const el=id=>document.getElementById(id),decoder=new TextDecoder('utf-8');
-let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview',connectivity=null,selectionGeneration=0,selectedCandidate=-1;
+let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview',connectivity=null,selectionGeneration=0,selectedCandidate=-1,planningConnectors=[],planningBlobUrl=null;
 const isCode=s=>/^\d{9}$/.test(String(s));
 function eocd(buf){
  const d=new DataView(buf);let pos=-1;
@@ -137,7 +137,7 @@ function diagnoseConnectivity(paths){
   const k=x+','+y;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(v);
  }
  gaps.sort((a,b)=>a.meters-b.meters);
- return {components:components.size,vertices:parent.length,segments,dangling:endpoints.length,candidates:gaps.slice(0,8),candidateTotal:gaps.length};
+ return {components:components.size,vertices:parent.length,segments,dangling:endpoints.length,candidates:gaps,candidateTotal:gaps.length};
 }
 function fullProjection(paths){
  let lo=Infinity,hi=-Infinity,by=Infinity,ty=-Infinity;
@@ -168,8 +168,8 @@ function showConnectivity(result){
  el('connectivity').hidden=false;
  el('connectivityText').textContent='공유 좌표 기준 연결 요소 '+result.components.toLocaleString('ko-KR')+
   '개 · 선 끝 '+result.dangling.toLocaleString('ko-KR')+'개 · 30m 이내 다른 요소의 가까운 선 끝 '+
-  result.candidateTotal.toLocaleString('ko-KR')+'쌍. 최대 8쌍을 선택해서 확대 확인할 수 있어. '+
-  '좌표가 가까워도 실제 길이 연결되었다거나 통행 가능한 것은 아니야.';
+  result.candidateTotal.toLocaleString('ko-KR')+'쌍을 계획용 직선으로 모두 표시했어. '+
+  '원본 좌표는 유지하며 실제 길의 존재나 통행 가능 여부는 미확인 상태야.';
  el('connectivityStatus').textContent='';
  renderCandidateList();
 }
@@ -196,8 +196,10 @@ function focusConnectivityCandidate(index){
 async function choose(item){
  if(!item)return;
  const generation=++selectionGeneration;selected=item.code;listItems();
- connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;
+ connectivity=null;selectedCandidate=-1;planningConnectors=[];el('connectivity').hidden=true;
  el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
+ if(planningBlobUrl){URL.revokeObjectURL(planningBlobUrl);planningBlobUrl=null}
+ el('planningDownload').hidden=true;el('planningDownload').removeAttribute('href');el('planningDownload').setAttribute('aria-disabled','true');
  el('selected').textContent=item.name;
  el('detail').textContent=(item.province||'지역 확인 필요')+' · 산코드 '+item.code+' · 자료 2016년 중심';
  el('download').removeAttribute('href');el('download').setAttribute('aria-disabled','true');
@@ -216,18 +218,33 @@ async function choose(item){
   if(generation!==selectionGeneration)return;
   const data=JSON.parse(decoder.decode(bytes));
   if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('GeoJSON 구조 오류');
-  const result=geometryOf(data);lines=result.paths;spots=result.markers;
-  showConnectivity(diagnoseConnectivity(lines));
+  const result=geometryOf(data),diagnosis=diagnoseConnectivity(result.paths);
+  planningConnectors=diagnosis.candidates.map(c=>({
+   type:'Feature',
+   properties:{feature_kind:'planning_connector',verified:false,status:'source_coordinates_nearby_not_field_verified',
+    distance_m:Number(c.meters.toFixed(3)),note:'사용자 요청 계획용 직선 연결 · 현장 탐방로 확인 필요'},
+   geometry:{type:'LineString',coordinates:[c.a.slice(0,2),c.b.slice(0,2)]}
+  }));
+  lines=result.paths.concat(planningConnectors.map(f=>f.geometry.coordinates));spots=result.markers;
+  showConnectivity(diagnosis);
+  if(planningConnectors.length){
+   const combined={...data,features:data.features.concat(planningConnectors)};
+   planningBlobUrl=URL.createObjectURL(new Blob([JSON.stringify(combined)],{type:'application/geo+json'}));
+   el('planningDownload').href=planningBlobUrl;
+   el('planningDownload').download=item.code+'.planning.geojson';
+   el('planningDownload').hidden=false;el('planningDownload').setAttribute('aria-disabled','false');
+  }
   el('spots').disabled=false;el('safety').disabled=false;
-  el('stats').textContent='상세 원본 선형 '+lines.length.toLocaleString('ko-KR')+'개 · 주요지점 '+spots.filter(x=>!x.safe).length+'개 · 안전지점 '+spots.filter(x=>x.safe).length+'개';
+  el('stats').textContent='상세 원본 선형 '+result.paths.length.toLocaleString('ko-KR')+'개 · 계획용 연결 '+planningConnectors.length.toLocaleString('ko-KR')+'건(현장 미검증) · 주요지점 '+spots.filter(x=>!x.safe).length+'개 · 안전지점 '+spots.filter(x=>x.safe).length+'개';
   blobUrl=URL.createObjectURL(new Blob([bytes],{type:'application/geo+json'}));
   el('download').href=blobUrl;el('download').download=item.code+'.geojson';el('download').setAttribute('aria-disabled','false');
   for(const n of ['zoomIn','zoomOut','fit'])el(n).disabled=false;
   render();
  }catch(err){
   if(generation!==selectionGeneration)return;
-  connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;
+  connectivity=null;selectedCandidate=-1;planningConnectors=[];el('connectivity').hidden=true;
   el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
+  el('planningDownload').hidden=true;
   displayMode='preview';lines=[];spots=[];
   el('spots').disabled=true;el('safety').disabled=true;
   el('stats').textContent='원본 ZIP에서 찾지 못했어: '+err.message+' · 미리보기 표시';

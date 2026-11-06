@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v60 | 전국 등산로</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v61 | 전국 등산로</title><style>
 :root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b3024;background:#f5f8f4}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
 header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}header a{color:#fff;text-decoration:none}main{max-width:1240px;margin:auto;padding:18px 12px}h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0}p{line-height:1.5;margin:7px 0}.sub{font-size:13px;color:#61756a}
 .warning{background:#edf5ee;border:1px solid #d5e5d9;border-radius:10px;padding:11px;font-size:13px;margin:14px 0}
@@ -12,15 +12,15 @@ header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wra
 @media(max-width:760px){.layout{grid-template-columns:1fr}.results{max-height:220px}#map{height:min(65vh,520px)}}
 </style></head><body>
 <header><a href="./index.html"><strong>▲ 산박지도</strong> <small>v60 · 국립공원 지도 돌아가기</small></a><span>전국 등산로 원본 조회</span></header>
-<main><h1>전국 등산로 자료</h1><p class="sub">기존 산행 계획용 지도와 분리된 원본 좌표 확인 화면이야. ZIP을 선택하면 산코드·산 이름으로 검색할 수 있어.</p>
-<div class="warning"><b>2016년 중심 과거 자료</b> · 현재 통행 가능 여부는 확인되지 않았어. 선들이 닿는다고 실제 연결된 길로 판단하지 않고, 고도와 자동 경로 만들기도 검증 전까지 제공하지 않아.</div>
-<div class="card upload"><label for="file"><b>전국 데이터 ZIP 열기</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">sanbak-trails-2932-geojson.zip을 선택해 줘. 데이터는 서버로 보내지 않아.</span></div>
-<div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">ZIP을 선택하면 목록이 표시돼.</div></div><div class="results" id="results"></div></aside>
-<section class="card"><div class="head"><div><h2 id="selected">산을 선택해 줘</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
-<div id="stats">등산로 · 주요지점 · 안전지점</div><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>자료는 브라우저에서 직접 해제되며, 산코드 파일 하나만 선택해 읽어 와. 현행 통제나 경로 연결 여부를 인증하는 지도가 아니야.</p></div></section></div></main><script>
+<main><h1>전국 등산로 자료</h1><p class="sub">전국 2,932개 산코드를 ZIP 없이 검색하고, 보유 공간자료를 기반으로 만든 등산로 단순화 미리보기를 확인할 수 있어.</p>
+<div class="warning"><b>2016년 중심 과거 자료</b> · 기본 지도는 실제 선형을 단순화한 미리보기이며, 현행 통행 가능 여부·분기점 연결은 검증되지 않았어. 상세 원본 지도를 보려면 별도 GeoJSON ZIP을 선택해 줘.</div>
+<div class="card upload"><label for="file"><b>상세 원본 ZIP 열기 (선택 사항)</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">전국 검색과 선형 미리보기는 자동으로 불러와. ZIP은 상세 원본 확인 시에만 선택하면 돼.</span></div>
+<div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">전국 산 목록을 자동으로 불러오는 중…</div></div><div class="results" id="results"></div></aside>
+<section class="card"><div class="head"><div><h2 id="selected">불러오는 중…</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
+<div id="stats">등산로 · 주요지점 · 안전지점</div><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script>
 'use strict';
 const el=id=>document.getElementById(id),decoder=new TextDecoder('utf-8');
-let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null;
+let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview';
 const isCode=s=>/^\d{9}$/.test(String(s));
 function eocd(buf){
  const d=new DataView(buf);let pos=-1;
@@ -56,25 +56,25 @@ async function readEntry(file,item){
 }
 async function loadArchive(file){
  if(!file)return;
- el('message').textContent='파일 색인 확인 중…';el('file').disabled=true;
+ el('message').textContent='상세 원본 ZIP 확인 중…';el('file').disabled=true;
  try{
-  if(file.size>180000000||file.size<100)throw Error('지원 범위를 벗어난 파일 크기');
-  if(!file.name.toLowerCase().endsWith('.zip'))throw Error('sanbak-trails-2932-geojson.zip을 선택해 줘');
+  if(file.size>180000000||file.size<100||!file.name.toLowerCase().endsWith('.zip'))
+   throw Error('sanbak-trails-2932-geojson.zip을 선택해 줘');
   const size=Math.min(file.size,65557),info=eocd(await file.slice(file.size-size).arrayBuffer());
   if(info.offset+info.size>file.size)throw Error('ZIP 목록 범위 오류');
   const entries=central(await file.slice(info.offset,info.offset+info.size).arrayBuffer(),info.count);
   const raw=await readEntry(file,entries.get('index.json'));
   const list=JSON.parse(decoder.decode(raw));
-  if(!Array.isArray(list)||list.length!==2932||!list.every(r=>isCode(r.code)&&typeof r.name==='string'))throw Error('2,932개 산코드 색인이 아니야');
-  archive={file,entries};index=list;selected='';lines=[];spots=[];
-  el('search').disabled=false;el('region').disabled=false;
-  const ps=[...new Set(index.map(x=>x.province).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
-  el('region').replaceChildren(new Option('전국 전체',''),...ps.map(p=>new Option(p,p)));
-  el('selected').textContent='산을 검색해 선택해 줘';
-  el('message').textContent='전국 '+index.length.toLocaleString('ko-KR')+'개 산코드 준비 완료 · 선택한 파일은 서버로 전송되지 않아';
-  listItems();render();
- }catch(err){archive=null;index=[];el('message').textContent='불러오기 실패: '+err.message;el('search').disabled=true;el('region').disabled=true}
- finally{el('file').disabled=false}
+  if(!Array.isArray(list)||list.length!==2932||!list.every(r=>isCode(r.code)&&typeof r.name==='string'))
+   throw Error('2,932개 산코드 색인이 아니야');
+  archive={file,entries};
+  el('message').textContent='상세 GeoJSON ZIP 연결 완료 · 선택한 산코드의 원본만 읽어 와 · 서버 업로드 없음';
+  const item=index.find(x=>x.code===selected);
+  if(item)await choose(item);else listItems();
+ }catch(err){
+  archive=null;el('message').textContent='ZIP을 읽지 못했어: '+err.message+' · 기본 전국 검색은 계속 가능';
+  const item=index.find(x=>x.code===selected);if(item)await choose(item);
+ }finally{el('file').disabled=false}
 }
 function listItems(){
  const q=el('search').value.toLocaleLowerCase('ko').trim(),r=el('region').value;
@@ -99,22 +99,59 @@ function geometryOf(json){
  return {paths,markers};
 }
 async function choose(item){
- if(!archive)return;
- selected=item.code;listItems();el('selected').textContent=item.name;el('detail').textContent=(item.province_full||item.province||'지역 미확인')+' · '+item.code+' · 기준 '+(item.source_date||'2016년 중심');
- el('stats').textContent='GeoJSON 읽는 중…';
+ if(!item)return;
+ selected=item.code;listItems();
+ el('selected').textContent=item.name;
+ el('detail').textContent=(item.province||'지역 확인 필요')+' · 산코드 '+item.code+' · 자료 2016년 중심';
+ el('download').removeAttribute('href');el('download').setAttribute('aria-disabled','true');
+ if(blobUrl){URL.revokeObjectURL(blobUrl);blobUrl=null}
+ cam={z:1,x:0,y:0};
+ if(!archive){
+  displayMode='preview';lines=[];spots=[];
+  el('spots').disabled=true;el('safety').disabled=true;
+  el('stats').textContent='원본 등산로 선형 '+Number(item.segments||0).toLocaleString('ko-KR')+'개 · 지점 '+Number(item.spots||0).toLocaleString('ko-KR')+'개 · 선형 단순화 미리보기 / 상세 원본은 ZIP 선택';
+  for(const n of ['zoomIn','zoomOut','fit'])el(n).disabled=false;
+  render();return;
+ }
+ displayMode='full';el('stats').textContent='상세 원본 읽는 중…';
  try{
   const bytes=await readEntry(archive.file,archive.entries.get('geojson/'+item.code+'.geojson'));
   if(selected!==item.code)return;
-  const data=JSON.parse(decoder.decode(bytes));if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('GeoJSON 구조 오류');
+  const data=JSON.parse(decoder.decode(bytes));
+  if(data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('GeoJSON 구조 오류');
   const result=geometryOf(data);lines=result.paths;spots=result.markers;
-  el('stats').textContent='등산로 선형 '+lines.length.toLocaleString('ko-KR')+'개 · 주요지점 '+spots.filter(x=>!x.safe).length+'개 · 안전지점 '+spots.filter(x=>x.safe).length+'개';
-  if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(new Blob([bytes],{type:'application/geo+json'}));
+  el('spots').disabled=false;el('safety').disabled=false;
+  el('stats').textContent='상세 원본 선형 '+lines.length.toLocaleString('ko-KR')+'개 · 주요지점 '+spots.filter(x=>!x.safe).length+'개 · 안전지점 '+spots.filter(x=>x.safe).length+'개';
+  blobUrl=URL.createObjectURL(new Blob([bytes],{type:'application/geo+json'}));
   el('download').href=blobUrl;el('download').download=item.code+'.geojson';el('download').setAttribute('aria-disabled','false');
   for(const n of ['zoomIn','zoomOut','fit'])el(n).disabled=false;
-  cam={z:1,x:0,y:0};render();
- }catch(err){lines=[];spots=[];render();el('stats').textContent='불러오기 오류: '+err.message}
+  render();
+ }catch(err){
+  displayMode='preview';lines=[];spots=[];
+  el('spots').disabled=true;el('safety').disabled=true;
+  el('stats').textContent='원본 ZIP에서 찾지 못했어: '+err.message+' · 미리보기 표시';
+  render();
+ }
+}
+function drawPreview(){
+ const svg=el('map'),ns='http://www.w3.org/2000/svg';
+ svg.setAttribute('viewBox','0 0 1000 710');svg.replaceChildren();
+ const str=previewPaths?.[selected];
+ if(!str){
+  const t=document.createElementNS(ns,'text');t.setAttribute('x','500');t.setAttribute('y','355');
+  t.setAttribute('text-anchor','middle');t.setAttribute('fill','#607e6c');
+  t.textContent=previewPaths?'이 산은 미리보기 선형이 없어':'전국 등산로 미리보기를 준비 중…';
+  svg.append(t);return;
+ }
+ const g=document.createElementNS(ns,'g');
+ g.setAttribute('transform','translate('+cam.x+' '+cam.y+') translate(500 355) scale('+cam.z+') translate(-500 -355)');
+ const p=document.createElementNS(ns,'path');p.setAttribute('d',str);p.setAttribute('fill','none');
+ p.setAttribute('stroke','#27774e');p.setAttribute('stroke-width','1.8');p.setAttribute('vector-effect','non-scaling-stroke');
+ g.append(p);svg.append(g);
 }
 function render(){
+ if(displayMode==='preview'){drawPreview();return}
+ el('map').setAttribute('viewBox','0 0 1000 650');
  const svg=el('map');svg.replaceChildren();const ns='http://www.w3.org/2000/svg';
  if(!lines.length){const t=document.createElementNS(ns,'text');t.setAttribute('x','500');t.setAttribute('y','325');t.setAttribute('text-anchor','middle');t.textContent='산을 선택하면 등산로가 나타나';svg.append(t);return}
  let lo=Infinity,hi=-Infinity,by=Infinity,ty=-Infinity;
@@ -143,4 +180,36 @@ el('map').onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y};el(
 el('map').onpointermove=e=>{if(!drag)return;const b=el('map').getBoundingClientRect();cam.x=drag.cx+(e.clientX-drag.x)*1000/b.width;cam.y=drag.cy+(e.clientY-drag.y)*650/b.height;render()};
 el('map').onpointerup=()=>drag=null;el('map').onpointercancel=()=>drag=null;
 el('map').addEventListener('wheel',e=>{if(!lines.length)return;e.preventDefault();cam.z=Math.max(.6,Math.min(12,cam.z*(e.deltaY>0?.85:1.15)));render()},{passive:false});
+// v61: load all 2,932 search records and simplified route preview without file selection.
+function regionName(code){
+ const area={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
+ return area[String(code).slice(0,2)]||'지역 미확인';
+}
+function initNationwide(){
+ const source=window.SANBAK_NATIONAL_INDEX;
+ if(!Array.isArray(source)||source.length!==2932){
+  el('message').textContent='전국 산코드 파일을 불러오지 못했어. 네트워크 연결을 확인해 줘';return;
+ }
+ index=source.map(x=>({code:x.c,name:x.n,province:regionName(x.c),
+  segments:x.s,spots:x.p,safety:x.pn,components:x.j,demCoverage:x.e}));
+ el('search').disabled=false;el('region').disabled=false;
+ const ps=[...new Set(index.map(x=>x.province))].sort((a,b)=>a.localeCompare(b,'ko'));
+ el('region').replaceChildren(new Option('전국 전체',''),...ps.map(x=>new Option(x,x)));
+ el('message').textContent='전국 '+index.length.toLocaleString('ko-KR')+'개 산코드 자동 로딩 완료 · 상세 원본만 ZIP 선택';
+ listItems();
+ choose(index.find(x=>x.code==='428302602')||index[0]);
+ loadPreview().catch(err=>{console.error(err);el('message').textContent='전국 검색은 가능하지만 선형 미리보기를 읽지 못했어: '+err.message;render()});
+}
+async function loadPreview(){
+ const encoded=window.SANBAK_NATIONAL_SVG_GZIP_BASE64;
+ if(typeof encoded!=='string'||encoded.length<100000)throw Error('선형 파일이 누락됐어');
+ if(typeof DecompressionStream!=='function')throw Error('브라우저 압축 해제 지원이 필요해');
+ const input=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0));
+ const stream=new Blob([input]).stream().pipeThrough(new DecompressionStream('gzip'));
+ const decoded=JSON.parse(await new Response(stream).text());
+ if(!decoded||Object.keys(decoded).length!==2932)throw Error('미리보기 산코드 수가 올바르지 않아');
+ previewPaths=decoded;
+ if(displayMode==='preview')render();
+}
+initNationwide();
 </script></body></html>

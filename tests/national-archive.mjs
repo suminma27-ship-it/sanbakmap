@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {deflateRawSync} from 'node:zlib';
 const html=readFileSync(new URL('../national.html',import.meta.url),'utf8');
-assert(html.includes('산박지도 v60'));
+assert(Number(html.match(/산박지도 v(\d+)/)?.[1])>=60);
 for(const id of ['file','search','region','results','map','download'])assert(html.includes('id="'+id+'"'));
 const script=html.split('<script>')[1]?.split('</script>')[0];
 assert(script,'Browser script missing');

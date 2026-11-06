@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>산박지도 v33 | 전국 국립공원 산행계획</title>
+<title>산박지도 v34 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -43,9 +43,9 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 .poi-footnote{padding-top:12px;line-height:1.6}
 .poi-unmapped{color:#748578;font-size:11px;margin-top:8px;line-height:1.5}
 @media(max-width:520px){.poi-index{margin:9px 7px;padding:9px}.poi-chip{font-size:11px}}
-</style><style id="v30-course-source-css">.course-provenance{display:inline-block;padding:5px 9px;margin-bottom:7px;color:#265d46;border:1px solid #cde2d2;background:#f1f8f1;border-radius:7px;font-size:12px}.source-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.source-links a{font-weight:750;color:#126846;text-decoration:underline;text-underline-offset:2px}.metriclist{line-height:1.6}</style></head>
+</style><style id="v30-course-source-css">.course-provenance{display:inline-block;padding:5px 9px;margin-bottom:7px;color:#265d46;border:1px solid #cde2d2;background:#f1f8f1;border-radius:7px;font-size:12px}.source-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.source-links a{font-weight:750;color:#126846;text-decoration:underline;text-underline-offset:2px}.metriclist{line-height:1.6}</style><style id="v34-geo-poi-css">.geo-poi-area{padding:12px 13px;border-top:1px solid #e5ece6}.geo-poi-area strong{font-size:13px}.geo-poi-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.geo-poi-buttons .action{font-size:12px;padding:8px 10px;min-height:38px}.geo-poi-buttons .action:disabled{opacity:.4;cursor:not-allowed}.geo-poi-area p{margin:10px 0 0;line-height:1.5}.major-poi[data-route-poi]{cursor:pointer}.major-poi[data-route-poi]:focus{outline:none}.major-poi[data-route-poi]:focus rect{stroke-width:3}</style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v33</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v34</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -66,7 +66,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
  <section class="card"><div class="cardTitle">고도그래프</div><div class="chartbox"><svg id="planChart" viewBox="0 0 700 170" aria-label="경유지 기반 개략 고도그래프" style="width:100%;height:170px"></svg></div></section>
  <section class="card subcard"><div class="row"><strong>계획 저장</strong><button type="button" id="planSave" class="action primary">계획표 JSON 저장</button></div><div class="small" style="margin-top:8px">여기는 GPS 좌표가 없어 GeoJSON은 제공하지 않아. 경유지 순서와 계산 거리·고도차를 JSON 계획표로 저장해.</div></section></div>
  </div>
- <div id="geoBuilder" class="bodygrid"><section class="card"><div class="cardTitle row"><span>등산로 위의 두 지점을 길게 누르기</span><span class="small">약 0.6초</span></div><svg id="builderMap" viewBox="0 0 900 600" role="img" aria-label="길게 눌러 지점을 선택하는 지도" style="width:100%;height:448px;touch-action:none;background:#e9f1e8;display:block"></svg><div class="mapcontrols"><button type="button" id="builderFit">전체 보기</button><button type="button" id="builderFitCourse">선택 코스 확대</button><button type="button" id="builderFitRoute">선택 루트 확대</button><button type="button" id="builderZoomIn">＋</button><button type="button" id="builderZoomOut">－</button></div><div class="descr">지도를 움직여 길을 찾은 뒤, 출발지와 도착지를 각각 약 0.6초 누르면 돼. 선택된 지점은 ①·②로 표시돼. 연결되지 않는 구간은 추가되지 않아.</div></section><div class="right"><section class="card"><div class="cardTitle">내 루트</div><div id="steps" class="buildSteps"></div><div class="buttonrow"><button class="action" type="button" id="returnStart">출발지로 돌아오기</button><button class="action" type="button" id="undo">마지막 취소</button><button class="action" type="button" id="clear">초기화</button></div><div class="mval"><div><label>거리</label><strong id="myDistance">—</strong></div><div><label>누적 상승</label><strong id="myGain">—</strong></div><div><label>누적 하강</label><strong id="myLoss">—</strong></div><div><label>최고 고도</label><strong id="myMax">—</strong></div></div></section><section class="card"><div class="cardTitle">고도그래프</div><div class="chartbox"><svg id="myChart" viewBox="0 0 700 170" aria-label="내 루트 고도그래프"></svg></div></section><section class="card subcard"><div class="row"><strong>루트 내보내기</strong><button type="button" id="download" class="action primary">GeoJSON 저장</button></div><div class="small" style="margin-top:8px">출발지와 도착지를 선택해야 저장할 수 있어. 동일 지점으로 돌아오는 왕복 코스도 가능해.</div></section></div></div>
+ <div id="geoBuilder" class="bodygrid"><section class="card"><div class="cardTitle row"><span>주요지점을 탭하거나 등산로를 길게 누르기</span><span class="small">순서대로 선택</span></div><svg id="builderMap" viewBox="0 0 900 600" role="img" aria-label="길게 눌러 지점을 선택하는 지도" style="width:100%;height:448px;touch-action:none;background:#e9f1e8;display:block"></svg><div class="mapcontrols"><button type="button" id="builderFit">전체 보기</button><button type="button" id="builderFitCourse">선택 코스 확대</button><button type="button" id="builderFitRoute">선택 루트 확대</button><button type="button" id="builderZoomIn">＋</button><button type="button" id="builderZoomOut">－</button></div><div class="descr">지도에 표시된 주요지점 이름을 탭하면 바로 선택할 수 있어. 이름 없는 등산로 지점은 약 0.6초 길게 눌러 선택해. 기존 연결망에 없는 구간은 자동으로 이어 붙이지 않아.</div><div class="geo-poi-area"><strong>주요지점에서 코스 만들기</strong><div id="geoPoiButtons" class="geo-poi-buttons"></div><p class="small">지점명과 위치는 산행 계획용 자료야. 미연결 지점은 선택할 수 없어.</p></div></section><div class="right"><section class="card"><div class="cardTitle">내 루트</div><div id="steps" class="buildSteps"></div><div class="buttonrow"><button class="action" type="button" id="returnStart">출발지로 돌아오기</button><button class="action" type="button" id="undo">마지막 취소</button><button class="action" type="button" id="clear">초기화</button></div><div class="mval"><div><label>거리</label><strong id="myDistance">—</strong></div><div><label>누적 상승</label><strong id="myGain">—</strong></div><div><label>누적 하강</label><strong id="myLoss">—</strong></div><div><label>최고 고도</label><strong id="myMax">—</strong></div></div></section><section class="card"><div class="cardTitle">고도그래프</div><div class="chartbox"><svg id="myChart" viewBox="0 0 700 170" aria-label="내 루트 고도그래프"></svg></div></section><section class="card subcard"><div class="row"><strong>루트 내보내기</strong><button type="button" id="download" class="action primary">GeoJSON 저장</button></div><div class="small" style="margin-top:8px">출발지와 도착지를 선택해야 저장할 수 있어. 동일 지점으로 돌아오는 왕복 코스도 가능해.</div></section></div></div>
 <section class="card saved-manager" id="savedManager">
  <h3>내 루트 보관함 <span id="savedCount" class="small"></span></h3>
  <div class="small">이 산에서 만든 루트를 이름 붙여 보관하고, 다음에 다시 불러올 수 있어.</div>
@@ -143,6 +143,61 @@ function nearest(net,lon,lat){if(!net?.edges?.length)return null;
  }});
  return best;
 }
+// v34 named waypoint routing: use only existing network edges, never straight-line links.
+const geoPoiCache=new WeakMap();
+function geoPoiChoices(p){
+ if(!p?.net?.edges?.length)return [];
+ const cached=geoPoiCache.get(p);if(cached)return cached.choices;
+ const source=majorPoiList(p).map(x=>({...x}));
+ const named=new Set(source.map(x=>x.name));
+ for(const c of p.courses||[]){
+  if(c.schematic||!c.line?.length)continue;
+  for(const [point,name,type] of [[c.line[0],c.start_name,'trailhead'],[c.line[c.line.length-1],c.end_name,'summit']]){
+   if(!name||named.has(name))continue;
+   source.push({name,type,lon:point[0],lat:point[1]});named.add(name);
+  }
+ }
+ const choices=[];
+ for(const poi of source){
+  if(!Number.isFinite(poi.lon)||!Number.isFinite(poi.lat)||!poi.name)continue;
+  const q=nearest(p.net,poi.lon,poi.lat);
+  if(!q||q.km>.13)continue;
+  choices.push({...q,name:poi.name,poiName:poi.name,namedPoi:true,type:poi.type||'landmark'});
+ }
+ const parent=Array.from({length:p.net.nodes.length},(_,i)=>i);
+ const root=n=>{while(parent[n]!==n){parent[n]=parent[parent[n]];n=parent[n]}return n};
+ for(const edge of p.net.edges){const a=root(edge[0]),b=root(edge[1]);if(a!==b)parent[a]=b}
+ const components=parent.map((_,i)=>root(i));
+ const priority={trailhead:0,fork:1,shelter:2,summit:3,peak:4,ridge:5,landmark:6};
+ choices.sort((a,b)=>(priority[a.type]??7)-(priority[b.type]??7)||a.name.localeCompare(b.name,'ko'));
+ geoPoiCache.set(p,{choices,components});return choices;
+}
+function geoCanAdd(p,q){
+ if(!p.net?.edges?.[q.edge])return false;
+ const previous=builder.choices.at(-1);if(!previous)return true;
+ if(previous.edge===q.edge&&Math.abs(previous.t-q.t)<1e-5)return false;
+ const info=geoPoiCache.get(p);if(!info)return false;
+ const a=p.net.edges[previous.edge],b=p.net.edges[q.edge];
+ if(!a||!b)return false;
+ return previous.edge===q.edge||info.components[a[0]]===info.components[b[0]];
+}
+function chooseGeoPoi(name){
+ const p=park(),q=geoPoiChoices(p).find(q=>q.name===name);
+ if(!q){toast('이 지점은 연결망에 위치를 연결할 수 없어');return}
+ if(!geoCanAdd(p,q)){toast('현재 경유지에서 연결되지 않는 지점이야');return}
+ addWaypoint({...q,xy:q.xy.slice()});
+}
+function renderGeoPoiButtons(){
+ const el=$('geoPoiButtons'),p=park();if(!el)return;
+ el.replaceChildren();const choices=geoPoiChoices(p);
+ if(!choices.length){const msg=document.createElement('span');msg.className='small';msg.textContent='선택 가능한 이름 지점이 없어. 지도에서 등산로를 길게 눌러줘.';el.append(msg);return}
+ for(const q of choices){
+  const button=document.createElement('button');button.type='button';button.className='action';
+  button.textContent=q.name;button.disabled=!geoCanAdd(p,q);
+  button.title=button.disabled?'연결되지 않았거나 이미 선택한 지점':'이 지점을 다음 경유지로 추가';
+  button.onclick=()=>chooseGeoPoi(q.name);el.append(button);
+ }
+}
 const W=900,H=600;
 let maps={map:{zoom:1,panX:0,panY:0,fit:'route'},builderMap:{zoom:1,panX:0,panY:0,fit:'course'}};
 function canvasBounds(p,mode){
@@ -182,7 +237,7 @@ function poiMarkerSvg(p,id,Q,mode,focus){
  const W=900,H=600;let source=majorPoiList(p).map(q=>({...q}));
  // Use the current course's official trailhead and destination names when they
  // correspond to a stored GIS point, without displaying duplicate labels.
- if(mode==='view'){
+ if(mode==='view'||mode==='build'){
   const c=p.courses[view.course];
   if(c?.line?.length&&!c.schematic){
    for(const [pt,n,t] of [[c.line[0],c.start_name,'trailhead'],[c.line[c.line.length-1],c.end_name,'summit']]){
@@ -229,7 +284,9 @@ function poiMarkerSvg(p,id,Q,mode,focus){
   const color=poi.type==='shelter'?'#4872a0':poi.type==='summit'||poi.type==='peak'?'#b06c31':poi.type==='trailhead'?'#167e58':poi.type==='fork'?'#7964aa':'#3e7d69';
   const emphasis=poi.onRoute?'#d5ebdb':'#ffffff';
   const px=poi.x.toFixed(1),py=poi.y.toFixed(1);
-  result+=`<g class="major-poi" pointer-events="none" data-poi="${esc(poi.name)}">`;
+  const matched=mode==='build'?geoPoiChoices(p).find(v=>v.name===poi.name):null;
+  const usable=matched&&geoCanAdd(p,matched);
+  result+=`<g class="major-poi" pointer-events="${usable?'all':'none'}" ${usable?'data-route-poi="'+esc(poi.name)+'" tabindex="0" role="button" aria-label="'+esc(poi.name)+' 코스에 추가"':''} data-poi="${esc(poi.name)}">`;
   result+=`<path d="M${px},${py} L${(b.x+Math.min(b.w-12,Math.max(12,poi.x-b.x))).toFixed(1)},${(b.y+(b.y>poi.y?0:bh)).toFixed(1)}" stroke="${color}" stroke-width="1.9" opacity=".77"/>`;
   if(poi.type==='summit'||poi.type==='peak')result+=`<path d="M${px},${(poi.y-8).toFixed(1)} l-8,15 h16 Z" fill="${color}" stroke="white" stroke-width="2"/>`;
   else if(poi.type==='shelter')result+=`<rect x="${(poi.x-6).toFixed(1)}" y="${(poi.y-6).toFixed(1)}" width="12" height="12" rx="2.5" fill="${color}" stroke="white" stroke-width="2"/>`;
@@ -536,8 +593,9 @@ $('importBackup').onchange=async(e)=>{
 };
 
 function parkChanged(){$('routeName').value='';view.park=+($('parkSelect').value);view.course=0;builder.choices=[];builder.line=null;plan.choices=[];plan.preset=null;maps.builderMap={zoom:1,panX:0,panY:0,fit:'course'};updateStatus();updateView();updateBuilder();planUI();renderSaved();}
-function updateBuilder(){const p=park();let m=metrics(builder.line);$('steps').innerHTML='';if(!builder.choices.length)$('steps').innerHTML='<span class="small">등산로를 길게 눌러 출발 지점을 선택해</span>';
+function updateBuilder(){const p=park();let m=metrics(builder.line);$('steps').innerHTML='';if(!builder.choices.length)$('steps').innerHTML='<span class="small">지도에 표시된 주요지점 이름을 탭하거나, 등산로를 길게 눌러 출발지를 선택해.</span>';
  builder.choices.forEach((q,i)=>{const chip=document.createElement('span');chip.className='chip';chip.textContent=(i+1)+(i===0?' 출발':' 경유')+' · '+q.name;$('steps').append(chip)});
+ renderGeoPoiButtons();
  $('myDistance').textContent=m?fmt(m.km,'km',2):'—';$('myGain').textContent=m?fmt(Math.round(m.gain),'m'):'—';$('myLoss').textContent=m?fmt(Math.round(m.loss),'m'):'—';$('myMax').textContent=m?fmt(Math.round(m.max),'m'):'—';plot('myChart',m);drawMap('builderMap');
  $('download').disabled=!m;$('returnStart').disabled=builder.choices.length<2;$('undo').disabled=!builder.choices.length;
 }
@@ -548,7 +606,7 @@ function addWaypoint(q){const p=park();if(!p.net)return;
  if(builder.choices.length){let prev=builder.choices.at(-1);let same=prev.edge===q.edge&&Math.abs(prev.t-q.t)<.00001;if(same){toast('같은 지점이야. 다른 경유지를 선택해줘');return}
  let segment=routeGraph(p.net,prev,q);if(!segment){toast('이어지지 않는 구간이야. 연결 가능한 지점을 선택해줘');return}
  let km=metrics(segment)?.km||0;if(km<.05){toast('너무 가까운 지점이야. 다른 지점을 선택해줘');return}}
- q.name=builder.choices.length?'경유지':'출발지';builder.choices.push(q);builder.line=routeChoices(p.net,builder.choices);updateBuilder();toast(`${builder.choices.length}번째 지점을 추가했어`);
+ q.name=q.namedPoi?q.name:(builder.choices.length?'경유지':'출발지');builder.choices.push(q);builder.line=routeChoices(p.net,builder.choices);updateBuilder();toast(`${builder.choices.length}번째 지점을 추가했어`);
 }
 function mapTouch(id,build){
  const el=$(id);let start=null,timer=null,moved=false;
@@ -562,10 +620,11 @@ function mapTouch(id,build){
  el.addEventListener('pointerdown',e=>{
   if(e.pointerType==='mouse'&&e.button!==0)return;
   if(start||e.isPrimary===false)return;
-  start={id:e.pointerId,at:point(e),x:e.clientX,y:e.clientY,panX:maps[id].panX,panY:maps[id].panY};moved=false;
+  const marker=build&&e.target?.closest?.('[data-route-poi]');
+  start={id:e.pointerId,at:point(e),x:e.clientX,y:e.clientY,panX:maps[id].panX,panY:maps[id].panY,poiName:marker?.getAttribute('data-route-poi')||null};moved=false;
   try{el.setPointerCapture(e.pointerId)}catch(err){}
   clearTimeout(timer);
-  if(build&&park().net)timer=setTimeout(()=>{
+  if(build&&park().net&&!start.poiName)timer=setTimeout(()=>{
    if(!start||moved)return;
    const Q=maps[id].Q;if(!Q){cancel();return}
    const ll=Q.inverse(...start.at);const q=nearest(park().net,...ll);
@@ -584,7 +643,15 @@ function mapTouch(id,build){
   if(distancePx>12){moved=true;clearTimeout(timer);timer=null}
   if(moved){const q=point(e);maps[id].panX=start.panX+q[0]-start.at[0];maps[id].panY=start.panY+q[1]-start.at[1];drawMap(id)}
  });
- el.addEventListener('pointerup',cancel);
+ el.addEventListener('pointerup',e=>{
+  if(build&&start?.poiName&&!moved&&start.id===e.pointerId)chooseGeoPoi(start.poiName);
+  cancel();
+ });
+ el.addEventListener('keydown',e=>{
+  if(!build||!(e.key==='Enter'||e.key===' '))return;
+  const marker=e.target?.closest?.('[data-route-poi]');if(!marker)return;
+  e.preventDefault();chooseGeoPoi(marker.getAttribute('data-route-poi'));
+ });
  el.addEventListener('pointercancel',cancel);
  el.addEventListener('lostpointercapture',cancel);
 }
@@ -597,7 +664,7 @@ $('viewTab').onclick=()=>setTab('view');$('buildTab').onclick=()=>setTab('build'
 $('fitRoute').onclick=()=>resetMap('map','route');$('fitAll').onclick=()=>resetMap('map','all');$('builderFit').onclick=()=>resetMap('builderMap','all');$('builderFitCourse').onclick=()=>resetMap('builderMap','course');$('builderFitRoute').onclick=()=>{if(!builder.line){toast('먼저 루트의 두 지점을 선택해줘');return}resetMap('builderMap','route')};
 for(const [id,mid,factor] of [['zoomIn','map',1.45],['zoomOut','map',1/1.45],['builderZoomIn','builderMap',1.45],['builderZoomOut','builderMap',1/1.45]])$(id).onclick=()=>{maps[mid].zoom=Math.min(12,Math.max(.55,maps[mid].zoom*factor));drawMap(mid)};
 $('clear').onclick=()=>{builder.choices=[];builder.line=null;updateBuilder()};$('undo').onclick=()=>{builder.choices.pop();builder.line=routeChoices(park().net,builder.choices);updateBuilder()};
-$('returnStart').onclick=()=>{let q=builder.choices[0];if(!q||builder.choices.length<2)return;addWaypoint({...q,name:'출발지'})};$('download').onclick=download;
+$('returnStart').onclick=()=>{let q=builder.choices[0];if(!q||builder.choices.length<2)return;addWaypoint({...q,name:q.namedPoi?q.name:'출발지'})};$('download').onclick=download;
 mapTouch('map',false);mapTouch('builderMap',true);$('parkSelect').value=parks.findIndex(p=>p.id==='seorak');parkChanged();setTab('view');
 })();
 </script></body></html>

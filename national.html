@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v62 | 전국 등산로</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#123c2b"/><title>산박지도 v63 | 전국 등산로</title><style>
 :root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b3024;background:#f5f8f4}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
 header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}header a{color:#fff;text-decoration:none}main{max-width:1240px;margin:auto;padding:18px 12px}h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0}p{line-height:1.5;margin:7px 0}.sub{font-size:13px;color:#61756a}
 .warning{background:#edf5ee;border:1px solid #d5e5d9;border-radius:10px;padding:11px;font-size:13px;margin:14px 0}
@@ -8,7 +8,7 @@ header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wra
 .filters{padding:11px;display:grid;gap:8px}input[type=search],select{width:100%;padding:10px;border:1px solid #c8d8cd;border-radius:10px;min-height:43px;background:white}
 .results{max-height:590px;overflow:auto;padding:0 8px 8px}.result{border:0;border-bottom:1px solid #e4ece7;background:white;width:100%;padding:10px;text-align:left}.result:hover,.result.active{background:#e9f4eb}.result strong,.result small{display:block}.result small{font-size:11px;color:#65776b;margin-top:4px}
 .head{padding:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.actions{display:flex;gap:5px}.actions button,.actions a{padding:7px 10px;border:1px solid #ccdcd0;border-radius:7px;background:white;color:#245b3c;text-decoration:none;font-weight:700}.actions button:disabled,.actions a[aria-disabled=true]{opacity:.4;pointer-events:none}
-#stats{font-size:12px;padding:10px;background:#f5f8f5}#map{width:100%;height:530px;background:#e8f1e9;touch-action:none;display:block;cursor:grab}.foot{padding:11px;font-size:12px;color:#5d7566}.diagnostics{border-top:1px solid #d9e5dc;padding:9px 11px;font-size:12px}.diagnostics summary{cursor:pointer;font-weight:700}.diagnostics p{margin:5px 0}
+#stats{font-size:12px;padding:10px;background:#f5f8f5}#map{width:100%;height:530px;background:#e8f1e9;touch-action:none;display:block;cursor:grab}.foot{padding:11px;font-size:12px;color:#5d7566}.diagnostics{border-top:1px solid #d9e5dc;padding:9px 11px;font-size:12px}.diagnostics summary{cursor:pointer;font-weight:700}.diagnostics p{margin:5px 0}.candidate-list{display:grid;gap:5px;margin:9px 0}.candidate-list button{width:100%;text-align:left;border:1px solid #ccdcd0;border-radius:8px;background:#fff;color:#184c31;min-height:40px;padding:8px 10px}.candidate-list button[aria-pressed=true]{background:#e2f1e7;border-color:#184c31;font-weight:700}.candidate-list button:focus-visible{outline:3px solid #659f79;outline-offset:2px}.diagnostic-status{font-size:12px;color:#315943;min-height:1.4em}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.results{max-height:220px}#map{height:min(65vh,520px)}}
 </style></head><body>
 <header><a href="./index.html"><strong>▲ 산박지도</strong> <small>국립공원 지도 돌아가기</small></a><span>전국 등산로 원본 조회</span></header>
@@ -17,10 +17,10 @@ header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wra
 <div class="card upload"><label for="file"><b>상세 원본 ZIP 열기 (선택 사항)</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">전국 검색과 선형 미리보기는 자동으로 불러와. ZIP은 상세 원본 확인 시에만 선택하면 돼.</span></div>
 <div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">전국 산 목록을 자동으로 불러오는 중…</div></div><div class="results" id="results"></div></aside>
 <section class="card"><div class="head"><div><h2 id="selected">불러오는 중…</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
-<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p></details><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script>
+<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p><div id="connectivityCandidates" class="candidate-list" role="group" aria-label="접점 확인 후보"></div><p id="connectivityStatus" class="diagnostic-status" role="status" aria-live="polite"></p></details><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script>
 'use strict';
 const el=id=>document.getElementById(id),decoder=new TextDecoder('utf-8');
-let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview',connectivity=null,selectionGeneration=0;
+let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview',connectivity=null,selectionGeneration=0,selectedCandidate=-1;
 const isCode=s=>/^\d{9}$/.test(String(s));
 function eocd(buf){
  const d=new DataView(buf);let pos=-1;
@@ -139,21 +139,65 @@ function diagnoseConnectivity(paths){
  gaps.sort((a,b)=>a.meters-b.meters);
  return {components:components.size,vertices:parent.length,segments,dangling:endpoints.length,candidates:gaps.slice(0,8),candidateTotal:gaps.length};
 }
+function fullProjection(paths){
+ let lo=Infinity,hi=-Infinity,by=Infinity,ty=-Infinity;
+ for(const path of paths)for(const p of path){lo=Math.min(lo,p[0]);hi=Math.max(hi,p[0]);by=Math.min(by,p[1]);ty=Math.max(ty,p[1])}
+ if(!Number.isFinite(lo))return null;
+ const cos=Math.cos((ty+by)/2*Math.PI/180),k=Math.min(900/Math.max(.00005,(hi-lo)*cos),570/Math.max(.00005,ty-by));
+ return p=>[500+(p[0]-(lo+hi)/2)*cos*k,325-(p[1]-(by+ty)/2)*k];
+}
+function renderCandidateList(){
+ const wrap=el('connectivityCandidates');wrap.replaceChildren();
+ if(!connectivity)return;
+ if(!connectivity.candidates.length){
+  const p=document.createElement('p');
+  p.textContent='30m 이내에 있는 서로 다른 연결 요소의 선 끝 후보는 없어. 다른 위치의 단절이 없다는 뜻은 아니야.';
+  wrap.append(p);return;
+ }
+ connectivity.candidates.forEach((c,i)=>{
+  const button=document.createElement('button');button.type='button';
+  button.textContent='후보 '+(i+1)+' · 선 끝 간격 약 '+c.meters.toFixed(1)+'m · 지도에서 보기';
+  button.setAttribute('aria-pressed',String(i===selectedCandidate));
+  button.setAttribute('aria-label','접점 후보 '+(i+1)+', 간격 약 '+c.meters.toFixed(1)+'미터, 지도로 이동');
+  button.onclick=()=>focusConnectivityCandidate(i);
+  wrap.append(button);
+ });
+}
 function showConnectivity(result){
- const detail=el('connectivity');
- connectivity=result;
- detail.hidden=false;
+ connectivity=result;selectedCandidate=-1;
+ el('connectivity').hidden=false;
  el('connectivityText').textContent='공유 좌표 기준 연결 요소 '+result.components.toLocaleString('ko-KR')+
   '개 · 선 끝 '+result.dangling.toLocaleString('ko-KR')+'개 · 30m 이내 다른 요소의 가까운 선 끝 '+
-  result.candidateTotal.toLocaleString('ko-KR')+'쌍. '+
-  (result.candidateTotal?'펼치면 지도에 가까운 후보 최대 8쌍을 동그라미로 표시해. ':'')+
-  '단순한 좌표 근접만으로 실제 연결·통행 가능 여부는 판단할 수 없어. 선끼리 교차하더라도 공유 정점이 없으면 연결하지 않아.';
+  result.candidateTotal.toLocaleString('ko-KR')+'쌍. 최대 8쌍을 선택해서 확대 확인할 수 있어. '+
+  '좌표가 가까워도 실제 길이 연결되었다거나 통행 가능한 것은 아니야.';
+ el('connectivityStatus').textContent='';
+ renderCandidateList();
+}
+function focusConnectivityCandidate(index){
+ if(displayMode!=='full'||!connectivity||!Number.isInteger(index))return false;
+ const candidate=connectivity.candidates[index],project=fullProjection(lines);
+ if(!candidate||!project)return false;
+ const a=project(candidate.a),b=project(candidate.b);
+ const mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+ const screenGap=Math.hypot(a[0]-b[0],a[1]-b[1]);
+ selectedCandidate=index;
+ cam.z=Math.max(12,Math.min(300,80/Math.max(screenGap,.001)));
+ cam.x=-cam.z*(mid[0]-500);cam.y=-cam.z*(mid[1]-325);
+ el('connectivity').open=true;
+ el('connectivityStatus').textContent='후보 '+(index+1)+' 확대 · 약 '+candidate.meters.toFixed(1)+
+  'm · A '+candidate.a[1].toFixed(6)+', '+candidate.a[0].toFixed(6)+
+  ' / B '+candidate.b[1].toFixed(6)+', '+candidate.b[0].toFixed(6)+
+  ' (위도, 경도). 두 선은 자동 연결하지 않아.';
+ renderCandidateList();render();
+ el('map').scrollIntoView?.({block:'nearest',behavior:'smooth'});
+ return true;
 }
 
 async function choose(item){
  if(!item)return;
  const generation=++selectionGeneration;selected=item.code;listItems();
- connectivity=null;el('connectivity').hidden=true;
+ connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;
+ el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
  el('selected').textContent=item.name;
  el('detail').textContent=(item.province||'지역 확인 필요')+' · 산코드 '+item.code+' · 자료 2016년 중심';
  el('download').removeAttribute('href');el('download').setAttribute('aria-disabled','true');
@@ -182,7 +226,8 @@ async function choose(item){
   render();
  }catch(err){
   if(generation!==selectionGeneration)return;
-  connectivity=null;el('connectivity').hidden=true;
+  connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;
+  el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
   displayMode='preview';lines=[];spots=[];
   el('spots').disabled=true;el('safety').disabled=true;
   el('stats').textContent='원본 ZIP에서 찾지 못했어: '+err.message+' · 미리보기 표시';
@@ -210,13 +255,10 @@ function render(){
  el('map').setAttribute('viewBox','0 0 1000 650');
  const svg=el('map');svg.replaceChildren();const ns='http://www.w3.org/2000/svg';
  if(!lines.length){const t=document.createElementNS(ns,'text');t.setAttribute('x','500');t.setAttribute('y','325');t.setAttribute('text-anchor','middle');t.textContent='산을 선택하면 등산로가 나타나';svg.append(t);return}
- let lo=Infinity,hi=-Infinity,by=Infinity,ty=-Infinity;
- for(const path of lines)for(const p of path){lo=Math.min(lo,p[0]);hi=Math.max(hi,p[0]);by=Math.min(by,p[1]);ty=Math.max(ty,p[1])}
- const cos=Math.cos((ty+by)/2*Math.PI/180),k=Math.min(900/Math.max(.00005,(hi-lo)*cos),570/Math.max(.00005,ty-by));
- const project=p=>[500+(p[0]-(lo+hi)/2)*cos*k,325-(p[1]-(by+ty)/2)*k];
+ const project=fullProjection(lines);
  const g=document.createElementNS(ns,'g');g.setAttribute('transform','translate('+cam.x+' '+cam.y+') translate(500 325) scale('+cam.z+') translate(-500 -325)');
  for(const path of lines){
-  const node=document.createElementNS(ns,'path');node.setAttribute('d',path.map((p,i)=>{const c=project(p);return (i?'L':'M')+c[0].toFixed(1)+' '+c[1].toFixed(1)}).join(''));
+  const node=document.createElementNS(ns,'path');node.setAttribute('d',path.map((p,i)=>{const c=project(p);return (i?'L':'M')+c[0].toFixed(3)+' '+c[1].toFixed(3)}).join(''));
   node.setAttribute('fill','none');node.setAttribute('stroke','#27774e');node.setAttribute('stroke-width','2.4');node.setAttribute('vector-effect','non-scaling-stroke');g.append(node);
  }
  for(const m of spots){
@@ -225,12 +267,23 @@ function render(){
   node.setAttribute('cx',c[0]);node.setAttribute('cy',c[1]);node.setAttribute('r',m.safe?'4':'3');node.setAttribute('fill',m.safe?'#e9ad55':'white');node.setAttribute('stroke','#276442');g.append(node);
  }
  if(connectivity&&el('connectivity').open){
-  for(const candidate of connectivity.candidates){
-   for(const point of [candidate.a,candidate.b]){
+  const visible=selectedCandidate>=0?[connectivity.candidates[selectedCandidate]]:connectivity.candidates;
+  for(const candidate of visible){
+   if(!candidate)continue;
+   for(const [i,point] of [candidate.a,candidate.b].entries()){
     const c=project(point),mark=document.createElementNS(ns,'circle');
-    mark.setAttribute('cx',c[0]);mark.setAttribute('cy',c[1]);mark.setAttribute('r','7');
-    mark.setAttribute('fill','none');mark.setAttribute('stroke','#123c2b');mark.setAttribute('stroke-width','2');
-    mark.setAttribute('vector-effect','non-scaling-stroke');g.append(mark);
+    mark.setAttribute('cx',c[0]);mark.setAttribute('cy',c[1]);
+    mark.setAttribute('r',String((selectedCandidate>=0?9:6)/cam.z));
+    mark.setAttribute('fill','none');mark.setAttribute('stroke','#123c2b');
+    mark.setAttribute('stroke-width',String((selectedCandidate>=0?3:2)/cam.z));g.append(mark);
+    if(selectedCandidate>=0){
+     const label=document.createElementNS(ns,'text');
+     label.setAttribute('x',c[0]+11/cam.z);label.setAttribute('y',c[1]-11/cam.z);
+     label.setAttribute('font-size',String(14/cam.z));label.setAttribute('font-weight','700');
+     label.setAttribute('stroke','white');label.setAttribute('stroke-width',String(3/cam.z));
+     label.setAttribute('paint-order','stroke');label.setAttribute('fill','#123c2b');
+     label.textContent=i===0?'A':'B';g.append(label);
+    }
    }
   }
  }
@@ -238,14 +291,14 @@ function render(){
 }
 el('file').onchange=e=>loadArchive(e.target.files[0]);el('search').oninput=listItems;el('region').onchange=listItems;
 el('spots').onchange=render;el('safety').onchange=render;el('connectivity').ontoggle=render;
-el('zoomIn').onclick=()=>{cam.z=Math.min(12,cam.z*1.4);render()};
+el('zoomIn').onclick=()=>{cam.z=Math.min(displayMode==='full'?300:12,cam.z*1.4);render()};
 el('zoomOut').onclick=()=>{cam.z=Math.max(.6,cam.z/1.4);render()};
-el('fit').onclick=()=>{cam={z:1,x:0,y:0};render()};
+el('fit').onclick=()=>{cam={z:1,x:0,y:0};selectedCandidate=-1;if(connectivity){renderCandidateList();el('connectivityStatus').textContent='전체 보기로 돌아왔어. 후보를 다시 선택하면 확대할 수 있어.'}render()};
 let drag=null;
 el('map').onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y};el('map').setPointerCapture(e.pointerId)};
 el('map').onpointermove=e=>{if(!drag)return;const b=el('map').getBoundingClientRect();cam.x=drag.cx+(e.clientX-drag.x)*1000/b.width;cam.y=drag.cy+(e.clientY-drag.y)*(displayMode==='preview'?710:650)/b.height;render()};
 el('map').onpointerup=()=>drag=null;el('map').onpointercancel=()=>drag=null;
-el('map').addEventListener('wheel',e=>{if(displayMode!=='preview'&&!lines.length)return;e.preventDefault();cam.z=Math.max(.6,Math.min(12,cam.z*(e.deltaY>0?.85:1.15)));render()},{passive:false});
+el('map').addEventListener('wheel',e=>{if(displayMode!=='preview'&&!lines.length)return;e.preventDefault();cam.z=Math.max(.6,Math.min(displayMode==='full'?300:12,cam.z*(e.deltaY>0?.85:1.15)));render()},{passive:false});
 // v61: load all 2,932 search records and simplified route preview without file selection.
 function regionName(code){
  const area={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};

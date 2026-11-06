@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 
-<title>산박지도 v52 | 전국 국립공원 산행계획</title>
+<title>산박지도 v53 | 전국 국립공원 산행계획</title>
 <style>
 :root{color-scheme:light;--green:#176548;--mint:#e9f4eb;--ink:#182e24;--muted:#677b6c;--border:#dbe6dc;--paper:#f5f8f4}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
@@ -268,7 +268,7 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 @media(max-width:440px){.waypoint-step .waypoint-meta{font-size:10px}}
 </style></head>
 <body>
-<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v52</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
+<header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v53</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span></header>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>
@@ -1168,13 +1168,56 @@ function planPickAt(point){const net=planNet();if(!net)return;let best=null;
  }));
  if(best&&best.di<=39)planSelect(best.idx);else toast('표시된 탐방로 선이나 경유지를 길게 눌러줘');
 }
-function initializePlanMap(){const svg=$('planMap');let start=null,timer=null;
- const local=e=>{let r=svg.getBoundingClientRect();return [(e.clientX-r.left)*900/(r.width||1),(e.clientY-r.top)*570/(r.height||1)]};
- svg.addEventListener('pointerdown',e=>{if(e.button!==0)return;start={id:e.pointerId,pt:local(e),x:e.clientX,y:e.clientY};clearTimeout(timer);
-  timer=setTimeout(()=>{if(start){planPickAt(start.pt);start=null;}},540)});
- svg.addEventListener('pointermove',e=>{if(!start||e.pointerId!==start.id)return;
-  if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>10){clearTimeout(timer);start=null;}});
- for(const event of ['pointerup','pointercancel','pointerleave'])svg.addEventListener(event,()=>{clearTimeout(timer);start=null});
+// v53: ignore multi-touch, scrolling, cancellation, and movement during long-press selection.
+function initializePlanMap(){
+ const svg=$('planMap'),active=new Map();
+ let start=null,timer=null,blocked=false;
+ function cancelHold(){clearTimeout(timer);timer=null;start=null}
+ function local(e){
+  const matrix=svg.getScreenCTM?.();
+  if(matrix&&typeof DOMPoint!=='undefined'){
+   const pt=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());
+   return [pt.x,pt.y];
+  }
+  const rect=svg.getBoundingClientRect();
+  return [(e.clientX-rect.left)*900/(rect.width||1),(e.clientY-rect.top)*570/(rect.height||1)];
+ }
+ svg.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(active.has(e.pointerId))return;
+  active.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  try{svg.setPointerCapture(e.pointerId)}catch(_){}
+  if(active.size>1){blocked=true;cancelHold();return}
+  if(blocked)return;
+  start={id:e.pointerId,pt:local(e),x:e.clientX,y:e.clientY};
+  const candidate=start;
+  timer=setTimeout(()=>{
+   if(blocked||start!==candidate||active.size!==1)return;
+   blocked=true;cancelHold();
+   planPickAt(candidate.pt);
+  },540);
+ });
+ svg.addEventListener('pointermove',e=>{
+  if(!active.has(e.pointerId)||!start||e.pointerId!==start.id)return;
+  if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>10){
+   blocked=true;cancelHold();
+  }
+ });
+ function finish(e,canceled){
+  if(!active.has(e.pointerId))return;
+  if(canceled)blocked=true;
+  active.delete(e.pointerId);
+  if(start?.id===e.pointerId)cancelHold();
+  if(!active.size){cancelHold();blocked=false}
+ }
+ svg.addEventListener('pointerup',e=>finish(e,false));
+ svg.addEventListener('pointercancel',e=>finish(e,true));
+ svg.addEventListener('lostpointercapture',e=>finish(e,true));
+ svg.addEventListener('pointerleave',e=>{
+  if(active.has(e.pointerId)&&!(svg.hasPointerCapture?.(e.pointerId))){
+   blocked=true;cancelHold();
+  }
+ });
 }
 function exportPlan(){let m=plan.result,net=planNet(),p=park();if(!m)return;
  let obj={type:'sanbakmap-plan',version:25,park:p.name,mode:'waypoint_schematic',distance_km:Number(m.km.toFixed(2)),distance_source:m.official?'official_course_total':'estimated_from_published_total',elevation_gain_estimated_m:Math.round(m.gain),elevation_loss_estimated_m:Math.round(m.loss),waypoints:plan.choices.map(i=>({name:net.nodes[i].name,altitude_hint_m:net.nodes[i].h})),warning:'GPS 지도가 아닌 경유지 연결도입니다. 실제 탐방로와 고도차를 확인해 주세요.'};
@@ -1445,15 +1488,29 @@ function syncWaypointToolbar(kind,items,focus,onMoveTo){
  select.disabled=!valid||items.length<2;select.value='';
  select.onchange=()=>{if(select.value==='')return;const target=Number(select.value);select.value='';onMoveTo(focus,target)};
 }
+// v53: keep the user's sheet height instead of hiding the map after a reorder.
 function revealReorderedSteps(kind){
  if(!window.matchMedia('(max-width:750px)').matches)return;
  const shell=$(kind==='geo'?'geoDetailsShell':'planDetailsShell');
  const button=$(kind==='geo'?'geoDetailsToggle':'planDetailsToggle');
  if(!shell||!button)return;
- shell.dataset.detailsOpen='true';shell.dataset.sheetState='full';button.setAttribute('aria-expanded','true');
- const text=button.querySelector('.mobile-toggle-label');
- if(text)text.textContent='간단히 보기 −';
- requestAnimationFrame(()=>{shell.scrollTop=0});
+ if(shell.dataset.sheetState==='peek'){
+  shell.dataset.sheetState='half';
+  shell.dataset.detailsOpen='true';button.setAttribute('aria-expanded','true');
+  const label=button.querySelector('.mobile-toggle-label');
+  if(label)label.textContent='접기 −';
+  shell.querySelector('.sheet-drag-handle')?.setAttribute('aria-label','하단 패널 위로 전체 보기, 아래로 접기');
+ }
+ const index=kind==='geo'?builder.focusIndex:plan.focusIndex;
+ requestAnimationFrame(()=>{
+  if(!Number.isInteger(index))return;
+  const row=shell.querySelector('.waypoint-step[data-waypoint-position="'+(index+1)+'"]');
+  if(!row)return;
+  const shellRect=shell.getBoundingClientRect(),rowRect=row.getBoundingClientRect();
+  const pinned=button.getBoundingClientRect().bottom;
+  if(rowRect.top<pinned+8)shell.scrollTop-=pinned+8-rowRect.top;
+  else if(rowRect.bottom>shellRect.bottom-8)shell.scrollTop+=rowRect.bottom-shellRect.bottom+8;
+ });
 }
 function lineDistance(points){let distance=0;for(let i=1;i<points.length;i++)distance+=hav(points[i-1],points[i]);return distance}
 function geoStepDistances(net,choices){
@@ -1602,10 +1659,10 @@ function mapTouch(id,build){
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   try{el.setPointerCapture(e.pointerId)}catch(_){}
   if(pointers.size===1&&!locked){
-   const marker=build&&e.target?.closest?.('[data-route-poi]');
+   const marker=build?e.target?.closest?.('[data-route-poi]'):null;
    drag={id:e.pointerId,at:pointXY(e.clientX,e.clientY),
     x:e.clientX,y:e.clientY,panX:maps[id].panX,panY:maps[id].panY,
-    poiName:marker?.getAttribute('data-route-poi')||null};
+    poiName:marker?.getAttribute?.('data-route-poi')||null};
    moved=false;stopHold();
    if(build&&park().net&&!drag.poiName)timer=setTimeout(()=>{
     if(!drag||moved||locked||pointers.size!==1)return;
@@ -1667,9 +1724,23 @@ function mapTouch(id,build){
  el.addEventListener('lostpointercapture',finishPointer);
 }
 
+// v53: chart location changes only on a completed tap, never a scroll or pinch.
 function bindRouteChart(){
- const svg=$('myChart');
+ const svg=$('myChart'),active=new Map();
+ svg.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  active.set(e.pointerId,{x:e.clientX,y:e.clientY,moved:false});
+  if(active.size>1)for(const p of active.values())p.moved=true;
+ });
+ svg.addEventListener('pointermove',e=>{
+  const p=active.get(e.pointerId);if(!p)return;
+  if(Math.hypot(e.clientX-p.x,e.clientY-p.y)>10)p.moved=true;
+ });
+ svg.addEventListener('pointercancel',e=>active.delete(e.pointerId));
+ svg.addEventListener('lostpointercapture',e=>active.delete(e.pointerId));
  svg.addEventListener('pointerup',e=>{
+  const p=active.get(e.pointerId);active.delete(e.pointerId);
+  if(!p||p.moved||active.size>0)return;
   if(view.tab!=='build'||park().plan_graph||!builder.line?.length)return;
   const m=metrics(builder.line);if(!m)return;
   const matrix=svg.getScreenCTM(),x=matrix?new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse()).x:(e.clientX-svg.getBoundingClientRect().left)*700/(svg.getBoundingClientRect().width||1);

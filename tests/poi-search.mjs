@@ -29,11 +29,11 @@ const maps={map:{zoom:1,panX:0,panY:0,fit:'route'},builderMap:{zoom:1,panX:0,pan
 const builder={choices:[{name:'original'}],line:[[128.4,38.1],[128.5,38.2]]};
 const input={value:''},mapEl={scrollIntoView(){}};
 const focus=new Function('park','searchablePoiLocations','hav','view','maps','projection',
- 'mapViewport','mobileMapVerticalBounds','drawMap','$','toast',
- source('focusMapOnPoi')+'\nreturn focusMapOnPoi;')(
+ 'mapViewport','mobileMapVerticalBounds','drawMap','$','toast','updatePoiSearchAddButton',
+ 'let selectedSearchPoi=null;\n'+source('focusMapOnPoi')+'\nreturn focusMapOnPoi;')(
  ()=>seorak,api.searchablePoiLocations,hav,{tab:'build'},maps,
  ()=>({project:()=>[120,160]}),()=>({W:900,H:600}),()=>({top:60,bottom:540}),
- id=>draws.push(id),id=>id==='poiSearch'?input:mapEl,s=>toasts.push(s));
+ id=>draws.push(id),id=>id==='poiSearch'?input:mapEl,s=>toasts.push(s),()=>{});
 assert.equal(focus(target),true,'Known point should be found');
 assert.equal(maps.builderMap.zoom,3);
 assert.equal(maps.builderMap.fit,'all');

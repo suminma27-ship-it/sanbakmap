@@ -196,7 +196,7 @@ function focusConnectivityCandidate(index){
 async function choose(item){
  if(!item)return;
  const generation=++selectionGeneration;selected=item.code;listItems();
- connectivity=null;selectedCandidate=-1;planningConnectors=[];el('connectivity').hidden=true;
+ connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;planningConnectors=[];
  el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
  if(planningBlobUrl){URL.revokeObjectURL(planningBlobUrl);planningBlobUrl=null}
  el('planningDownload').hidden=true;el('planningDownload').removeAttribute('href');el('planningDownload').setAttribute('aria-disabled','true');
@@ -242,7 +242,7 @@ async function choose(item){
   render();
  }catch(err){
   if(generation!==selectionGeneration)return;
-  connectivity=null;selectedCandidate=-1;planningConnectors=[];el('connectivity').hidden=true;
+  connectivity=null;selectedCandidate=-1;el('connectivity').hidden=true;planningConnectors=[];
   el('connectivityCandidates').replaceChildren();el('connectivityStatus').textContent='';
   el('planningDownload').hidden=true;
   displayMode='preview';lines=[];spots=[];

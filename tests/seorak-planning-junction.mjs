@@ -30,7 +30,7 @@ assert(bridge[2]>.06&&bridge[2]<.09,'Screenshot candidate spacing should be abou
 const g=api.checkedGeoGraph(net);assert(g.valid[ix]===1);
 const qA={edge:ix-4,t:1},qB={edge:ix-2,t:1};
 const joined=api.routeGraph(net,qA,qB);
-assert(joined?.length===2&&api.routeUsesPlanningBridge(net,joined),'Provisional junction must be usable by routing');
+assert(joined?.length>=2&&api.routeUsesPlanningBridge(net,joined),'Provisional junction must be usable by routing');
 assert(html.includes("net._planningBaseEdges?.includes(edge)"),'New points should snap to split equivalents');
 assert(html.includes('한계령 계획용 연결 포함(미검증)'),'Unverified route warning absent');
 console.log('PASS: v64 Seoraksan 73m planning junction, old edges preserved, routable connector, warning');

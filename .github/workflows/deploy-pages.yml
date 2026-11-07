@@ -50,6 +50,8 @@ jobs:
             test -f "$file"
           done
           test -f core/trail-visibility.js
+          test -f nationwide-full.html
+          test "$(find data/nationwide-full -maxdepth 1 -name 'part-*.js' -type f | wc -l)" -eq 11
           test -f data/knps-seorak-2018.geojson
           for f in nationwide-official.html core/nationwide-source-loader.js core/nationwide-app.js data/nationwide/index.json data/nationwide/bucket-00.json; do test -f "$f"; done
           grep -q '산박지도 v' index.html
@@ -65,6 +67,9 @@ jobs:
           mkdir -p site/data/nationwide
           cp data/nationwide/*.json site/data/nationwide/
           cp nationwide-official.html site/nationwide-official.html
+          cp nationwide-full.html site/nationwide-full.html
+          mkdir -p site/data/nationwide-full
+          cp data/nationwide-full/part-*.js site/data/nationwide-full/
           cp core/nationwide-source-loader.js core/nationwide-app.js site/core/
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
           cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json

@@ -77,7 +77,7 @@ for(const group of components){
 }
 assert.equal(components.find(x=>x.displayed_way_id===1000552594).held_adjacent_in_component,8);
 const html=read('national-parks-trails.html');
-assert(html.includes('국립공원 등산로 원본 · v85'));
+assert(html.includes('국립공원 등산로 원본 · v'),'current version remains labeled while historical topology test is release-independent');
 assert(html.includes("v77.a.filter(r=>!excludedFacilityPathIds.has(r.i))"));
 assert(html.includes("v78.paths.filter(r=>r.h==='track')"));
 assert(html.includes('outerSeorak.features.push(...added83)'));

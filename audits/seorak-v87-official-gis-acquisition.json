@@ -1,0 +1,60 @@
+{
+  "version": 87,
+  "as_of": "2026-11-07",
+  "goal": "Obtain authoritative forestry-road geometry and verify the two exact OSM source-node-linked, held grade1 track ways without inference",
+  "candidate_osm_way_ids": [
+    658252273,
+    1496520172
+  ],
+  "candidate_count": 2,
+  "official_data_status": "official_catalog_verified_download_application_required",
+  "official_imdo_geometry_acquired": false,
+  "official_geometry_coordinate_match_results": null,
+  "official_current_public_access_or_closure_verified": false,
+  "add_to_hiking_map": false,
+  "added_map_segments": 0,
+  "displayed_seoraksan_segments_unchanged": 703,
+  "held_paved_or_grade1_osm_ways_unchanged": 125,
+  "existing_topological_connection_verified_only": true,
+  "sources": [
+    {
+      "provider": "Korea Forest Service",
+      "dataset": "임도망도 (공공데이터 개방목록 PBD0000062)",
+      "url": "https://www.forest.go.kr/kfsweb/kfi/kfs/trail/fRMap.do?mn=NKFS_06_08_02&pblicDataId=PBD0000062&subTitle=%EC%9E%84%EB%8F%84%EB%A7%9D%EB%8F%84&tabs=1",
+      "geodata": "imdo.zip / imdo.shp, imdo.shx, imdo.dbf",
+      "access": "Open the 산림공간정보서비스 and submit the free download application selecting theme map and geographical area, use/purpose",
+      "notes": "KFS metadata: trail route, installation period and length. No direct anonymous link containing the actual requested Seoraksan geometry was found or downloaded."
+    },
+    {
+      "provider": "Korea Forest Service",
+      "dataset": "산림공간정보서비스",
+      "url": "https://map.forest.go.kr/",
+      "access": "산림공간정보 다운로드 무료신청 (general public or public/research); choose 임도망도 and locality; state usage",
+      "notes": "The service presents the 임도망도 layer, but the map image cannot replace coordinate-resolved SHP."
+    },
+    {
+      "provider": "Big Data Forest private derived 2019 source",
+      "dataset": "임도망도(산길)_전국 FRT002601",
+      "url": "https://www.bigdata-forest.kr/product/FRT002601",
+      "access": "2019 national data 25.71MB; listing says base price 0 KRW but still uses login and purchase workflow.",
+      "crs_from_listing": "EPSG:5179",
+      "notes": "Separate older privately distributed derivative. Not substituted for 2026 official original or counted as a current official geometry match."
+    }
+  ],
+  "data_format_caveats": [
+    "KFS PBD0000062 use page calls imdo.zip a SHP set and reports projected GRS80/TM central coordinates and geometry type Polygon; other older private derivative advertises polyline and EPSG:5179. Inspect actual geometry type and the accompanying .prj before any comparison.",
+    "Never take projected x/y meters as GPS WGS84 lon/lat, and never convert a Polygon border to a 'forest road centerline' automatically.",
+    "Do not use a WMS map image (raster) as proof of centimeter- or meter-scale connection geometry."
+  ],
+  "tool_in_repository": "tools/compare-official-imdo.mjs",
+  "official_shp_ingestion_command_example": "ogr2ogr -f GeoJSON -t_srs EPSG:4326 imdo-wgs84.geojson imdo.shp",
+  "comparator_command_example": "node tools/compare-official-imdo.mjs --geojson imdo-wgs84.geojson --output imdo-review.json",
+  "conditions_before_running": [
+    "Acquire the actual KFS imdo.zip from the official service with appropriate license/terms; inspect SHP, SHX, DBF and .prj (ask data provider for the CRS if .prj is missing).",
+    "Only export actual line centerline geometries; if KFS source is polygons, refuse rather than fabricate a line.",
+    "Reproject using .prj's original CRS (with GDAL/ogr2ogr or QGIS) to WGS84 GeoJSON, then use the comparison tool.",
+    "Even 15-meter, 70%-length geometry correspondence indicates only possible alignment; confirmation of present-day access/closures requires official park/forest restrictions."
+  ],
+  "automated_release_checks": "tests/official-imdo-v87.mjs",
+  "limitation": "Source files not downloaded due to interactive application; matching has deliberately NOT been run. No official designation, official geometry match, legal access or current closure decision is asserted."
+}

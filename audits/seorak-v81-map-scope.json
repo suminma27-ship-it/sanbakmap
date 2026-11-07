@@ -1,0 +1,38 @@
+{
+  "version": 81,
+  "source": "Geofabrik South Korea OSM PBF 2026-11-05",
+  "purpose": "Show hiking trails and mountain forest tracks; exclude facility/pocket-park walks.",
+  "original_v78_source_way_count": 9,
+  "original_v78_displayed_way_count": 9,
+  "excluded_v78_footway_ids": [
+    485958072,
+    485958073,
+    485958082,
+    485958095,
+    485958098,
+    1167747440
+  ],
+  "retained_v78_track_ids": [
+    472291917,
+    1198859148,
+    1323980564
+  ],
+  "excluded_v80_audit_only_footway_ids": [
+    485958084,
+    485958093,
+    485958097,
+    485958100,
+    485958102
+  ],
+  "previous_displayed_seorak_lines": 713,
+  "current_displayed_seorak_lines": 707,
+  "audit_only_source_kept": true,
+  "field_verified": false,
+  "routing_allowed": false,
+  "selection_policy": {
+    "include_when": "Trail or mountain access track is supported by contextual evidence (terrain, official trail data, independent GPX/field inspection, and source tags), not only connected vertices.",
+    "exclude_when": "Facility/campus/urban or pocket-park walking paths; building-area loops and pedestrian walkways without trail context.",
+    "ambiguous": "Keep the original way in an audit queue; never auto-promote to map or route calculation.",
+    "note": "v81 filtering is specific to the six v78 footways identified in this review. Other earlier OSM material is not yet fully field audited."
+  }
+}

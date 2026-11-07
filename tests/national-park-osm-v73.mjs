@@ -27,7 +27,7 @@ for(const [name,expected] of Object.entries(counts)){
 }
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];assert.equal(scripts.length,2);
 for(const s of scripts)new Function(s[1]);
-for(const token of ['<svg id="parkMap"','value="seorak"','value="jiri"','value="bukhan"','국립공원 등산로 표시','source']){
+for(const token of ['<svg id="parkMap"','value="seorak"','value="jiri"','value="bukhan"','국립공원 등산로 표시','OSM']){
  assert(html.includes(token),'missing UI/source '+token);
 }
 assert(!html.includes('window.SanbakNationalRoutes.shortest'),'No route building introduced');

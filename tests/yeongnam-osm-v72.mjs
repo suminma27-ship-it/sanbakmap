@@ -40,7 +40,7 @@ assert.equal(scripts.length,2);
 for(const s of scripts)new Function(s[1]);
 const worker=readFileSync(new URL('sw.js',root),'utf8');
 const flow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');
-assert(worker.includes('sanbakmap-v74-fresh-1'));
+assert(worker.includes('sanbakmap-v75-fresh-1'));
 assert(worker.includes('./yeongnam-course-v72.js'));
 assert(flow.includes('yeongnam-course-v72.js'));
 console.log('PASS: v72 30 directional continuous ridge selections, strict joins, export and SVG UI');

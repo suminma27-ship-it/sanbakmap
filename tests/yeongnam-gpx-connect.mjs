@@ -29,7 +29,7 @@ for(const s of scripts)new Function(s[1]);
 for(const text of ['id="focusJunction"','id="focusSummit"','id="export"',
  'allow_in_routing:false','GPX 없음','2.46m'])assert(page.includes(text),text);
 const worker=readFileSync(new URL('sw.js',base),'utf8');
-assert(worker.includes('sanbakmap-v74-fresh-1')&&worker.includes('./yeongnam-gpx-connect.html'));
+assert(worker.includes('sanbakmap-v75-fresh-1')&&worker.includes('./yeongnam-gpx-connect.html'));
 const flow=readFileSync(new URL('.github/workflows/deploy-pages.yml',base),'utf8');
 assert(flow.includes('yeongnam-gpx-connect.html'));
 console.log('PASS: v68 dual GPX, 8 source segments, 2.46m provisional join, incomplete summit and responsive viewer');

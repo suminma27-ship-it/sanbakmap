@@ -42,4 +42,6 @@ assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
 assert(html.includes('국립공원 등산로 원본 · v92'));
 assert(read('.github/workflows/deploy-pages.yml').includes('seorak-review-queue-v93.mjs --output-dir site'));
 assert(read('README.md').includes('v93 검토 목록'));
+assert.equal(read('audits/seorak-v93-pending-footways.json'),JSON.stringify(q,null,2)+'\n');
+assert.equal(read('audits/seorak-v93-pending-footways.csv'),'\uFEFF'+asCSV(q));
 console.log('PASS v93: 47 review rows exported; source unchanged; no new routing or UI overlays');

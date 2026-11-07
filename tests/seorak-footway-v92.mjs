@@ -70,7 +70,7 @@ assert.equal(base.parks.bukhan.line_count,1173);
 assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
 assert(html.includes('record.segments.trail.filter((_,i)=>!excludedSeorakInsideTrailIndices.has(i))'));
 assert(html.includes('insideDisplayedCount+extra.length'));
-assert(html.includes('등산로 v92 / 주요지점 계획 v96'));
+assert(html.includes('산박지도 v96 · 주요지점 순서 계획'));
 assert(!html.includes('window.SanbakNationalRoutes.shortest'));
 assert(!html.includes('seorak-v92-park-candidate-overlay.js'));
 assert(html.includes("v77.a.filter(r=>!excludedFacilityPathIds.has(r.i))"));

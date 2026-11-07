@@ -1,0 +1,114 @@
+{
+  "version": 86,
+  "reviewed_on": "2026-11-07",
+  "previous_release_version": 85,
+  "study_area": "Seoraksan OSM boundary relation 17335482 exterior 1500m, not entire South Korea",
+  "osm_source": "Geofabrik South Korea OSM PBF 2026-11-05",
+  "historic_gpx_source": "한국등산트레킹지원센터 전국 주요 봉우리 코스 2022-11-16",
+  "historic_gpx_archive_file_count": 6748,
+  "method": {
+    "topology": "Match original 7-decimal WGS84 OSM way vertices to existing map source vertices; no snapping or inferred edges.",
+    "exterior_length": "Clip original OSM way geometry to outside boundary within 1500m, calculate projected length using EPSG:32652 (UTM 52N).",
+    "gpx": "Read original trkpt/rtept/wpt samples from all 6748 archived GPX files; nearest projected distance in EPSG:32652 between GPS sample and clipped exterior OSM way. GPX archive does not establish current legal access.",
+    "official_sources": "Found forestry road map dataset metadata and park official trail/course notices, but did not obtain corresponding coordinate-resolved official GIS layers for either way; do not infer that a way is official or closed from non-matching public pages.",
+    "no_road_promotion": "OSM highway=track, surface=concrete/tracktype=grade1, and an exact vertex junction are insufficient alone to classify a safe or permitted hiking/forest road."
+  },
+  "official_reference_catalog": {
+    "forestry_source": "Korea Forest Service public dataset '임도망도' (PBD0000062; imdo.zip, imdo.shp). Official metadata describes possible recreational use and warns access can be restricted; coordinates not downloaded or verified in v86.",
+    "forestry_home": "https://www.forest.go.kr",
+    "knps_seoraksan_course_url": "https://www.knps.or.kr/front/portal/visit/visitCourseMain.do?menuNo=8000275&parkId=120400",
+    "knps_notice_status": "Public trail information and 2026-10-30 seasonal restriction notice were found, but no coordinate-specific match to either OSM way was established."
+  },
+  "candidates": [
+    {
+      "osm_way_id": 658252273,
+      "osm_highway": "track",
+      "osm_name": "",
+      "osm_tags": {
+        "surface": "concrete",
+        "tracktype": "grade1"
+      },
+      "original_way_length_m": 1009.1,
+      "reviewed_exterior_length_m": 652.2,
+      "exact_shared_original_vertex": [
+        128.5992011,
+        38.1671305
+      ],
+      "shared_vertex_with_displayed_way_id": 1198859144,
+      "displayed_neighbor_highway": "path",
+      "source_context": "A longer concrete OSM track touching a displayed OSM path by source vertex; no separate official forest-road classification or historic GPX traversal in the review area.",
+      "nearest_archived_gpx_distance_to_exterior_m": 1085.2,
+      "nearest_archived_gpx_file": "2322010612_청대산/청대산_0000000004.gpx",
+      "nearest_archived_gpx_sample_lonlat": [
+        128.592055,
+        38.178341
+      ],
+      "nearest_point_on_reviewed_osm_way_lonlat": [
+        128.60058680632446,
+        38.17124897497707
+      ],
+      "archived_gpx_samples_within_30m": 0,
+      "archived_gpx_samples_within_100m": 0,
+      "official_vector_geometry_matched": false,
+      "field_verified": false,
+      "currently_open_for_public_hiking_verified": false,
+      "decision": "hold_not_displayed",
+      "followup": "Obtain forestry imdo GIS or official local trail/forest-road vector data before considering inclusion."
+    },
+    {
+      "osm_way_id": 1496520172,
+      "osm_highway": "track",
+      "osm_name": "",
+      "osm_tags": {
+        "surface": "concrete",
+        "tracktype": "grade1"
+      },
+      "original_way_length_m": 9,
+      "reviewed_exterior_length_m": 9,
+      "exact_shared_original_vertex": [
+        128.5615329,
+        38.1411273
+      ],
+      "shared_vertex_with_displayed_way_id": 1000552594,
+      "displayed_neighbor_highway": "track",
+      "source_context": "Nine-metre connector touching a previously displayed 2022-GPX-aligned OSM road. Nearby GPS samples are 65m away at minimum and do not independently cover the connector.",
+      "nearest_archived_gpx_distance_to_exterior_m": 64.6,
+      "nearest_archived_gpx_file": "2322010424_송암산/송암산_0000000001.gpx",
+      "nearest_archived_gpx_sample_lonlat": [
+        128.561062,
+        38.141575
+      ],
+      "nearest_point_on_reviewed_osm_way_lonlat": [
+        128.5615329,
+        38.1411273
+      ],
+      "archived_gpx_samples_within_30m": 0,
+      "archived_gpx_samples_within_100m": 5,
+      "official_vector_geometry_matched": false,
+      "field_verified": false,
+      "currently_open_for_public_hiking_verified": false,
+      "decision": "hold_not_displayed",
+      "followup": "Treat as an unverified short spur, not proof that the connected road is open or that a hiking route may be extended."
+    }
+  ],
+  "earlier_distance_correction": {
+    "osm_way_id": 658252273,
+    "full_way_nearest_archived_gpx_m_approx": 979.9,
+    "exterior_clipped_nearest_archived_gpx_m_approx": 1085.2,
+    "reason": "Full OSM way extends outside the explicitly reviewed park exterior polygon; v86 uses only the clipped review scope."
+  },
+  "review_outcome": {
+    "candidate_ways": 2,
+    "approved_for_addition": 0,
+    "held_way_ids": [
+      658252273,
+      1496520172
+    ],
+    "new_map_lines": 0,
+    "displayed_seorak_lines_unchanged": 703,
+    "retained_paved_grade1_candidates_held": 125,
+    "auto_routing_changes": false,
+    "source_way_geometries_modified": false,
+    "legal_or_closure_decision": "not assessed; official current trail and land-access information must be checked separately before hiking."
+  }
+}

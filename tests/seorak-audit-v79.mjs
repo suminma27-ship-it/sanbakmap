@@ -49,7 +49,7 @@ const v78=JSON.parse(gunzipSync(Buffer.from(raw,'base64')).toString('utf8'));
 assert.equal(v78.paths.length,9);
 for(const row of v78.paths)assert(!held.has(row.i),'v78 displayed way must not be in held review');
 const readme=source('README.md');
-assert(readme.includes('**현재 버전: v79**'));
+assert(readme.includes('## v79 업데이트'),'v79 audit changelog must remain available after later releases');
 assert(readme.includes('보류 후보 224개'));
 const html=source('national-parks-trails.html');
 assert(html.includes('seorak-v78-extra.js'));

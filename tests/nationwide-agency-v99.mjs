@@ -28,9 +28,9 @@ assert.equal(official.routable,false);assert.equal(official.currentlyOpenVerifie
 assert.equal(src.choose('428302602',{park:knps}).kind,'knps');
 assert.equal(src.choose(code,{agencyData:sample}).kind,'agency');
 const html=read('nationwide-official.html');
-for(const key of ['전국 기관 수록 등산로 · v99','id="search"','id="region"','id="map"','id="sourceProof"','id="routeHint"','core/nationwide-app.js','core/nationwide-source-loader.js','national_data.js'])assert(html.includes(key),key);
+for(const key of ['전국 기관 수록 등산로 · v101','id="search"','id="region"','id="map"','id="sourceProof"','id="routeHint"','core/nationwide-app.js','core/nationwide-source-loader.js','national_data.js'])assert(html.includes(key),key);
 const app=read('core/nationwide-app.js');new Function(app);
-for(const key of ['core.catalog(window.SANBAK_NATIONAL_INDEX)','state.source=core.preview','loadInstitutional(code)','./data/knps-seorak-2018.geojson',"state.source=core.choose","state.sourceIndex=null"])assert(app.includes(key),key);
+for(const key of ['core.catalog(window.SANBAK_NATIONAL_INDEX)','state.source=core.empty','loadInstitutional(code)','./data/knps-seorak-2018.geojson',"state.source=core.choose","state.sourceIndex=null"])assert(app.includes(key),key);
 assert(!app.includes('SanbakNationalRoutes.shortest'),'Do not allow routing on source-only visual lines');
 const workflow=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(workflow.includes('cp data/nationwide/*.json site/data/nationwide/'));

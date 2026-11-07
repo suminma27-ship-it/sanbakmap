@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v99 | 전국 기관 수록 등산로</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v101 | 전국 기관 수록 등산로</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#20372a;background:#f4f7f4}
 *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
@@ -29,9 +29,9 @@ input,select{width:100%;min-height:42px;border:1px solid #cbdccd;border-radius:8
 .notice{padding:12px 14px;border-radius:10px;border:1px solid #d9e4db;background:#ebf2ec;font-size:12px;color:#34543f}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.list{max-height:210px}#map{min-height:330px;height:52vh}header small{font-size:11px}}
 </style></head><body>
-<header><a href="./index.html"><strong>▲ 산박지도</strong></a><span>전국 기관 수록 등산로 · v99</span><a href="./national-parks-trails.html"><small>설악산 기존 지도</small></a></header>
+<header><a href="./index.html"><strong>▲ 산박지도</strong></a><span>전국 기관 수록 등산로 · v101</span><a href="./national-parks-trails.html"><small>설악산 기존 지도</small></a></header>
 <main><h1>전국 등산로</h1>
-<p class="explain">전국 산코드 2,932개를 검색해. 설악산은 국립공원공단 2018년 탐방로 선형, 다른 산은 산림청 수록 등산로를 우선 사용해. 정밀 자료가 아직 배포되지 않은 산은 기존 산별 원본의 단순화 미리보기로 표시해.</p>
+<p class="explain">전국 산코드 2,932개를 검색하고, 산림청 역사적 등산로가 수록된 2,902개 산의 상세 선형을 산 선택 시 자동으로 불러와. 설악산은 국립공원공단 2018년 탐방로를 우선 표시해. 자료가 없는 나머지 30개 산은 임의로 길을 추가하지 않아.</p>
 <div class="notice"><strong>자료 분류와 현재 출입은 별개야.</strong> 기관에 수록된 선형은 대부분 2016~2018년 자료이며 2026년 현재 법정 탐방로 지정·개방·통제를 보장하지 않아. 연결점·거리·고도는 검증 후 코스 계획 기능에 적용할 거야.</div>
 <div class="layout">
 <aside class="panel"><div class="filter"><label for="search" class="muted">산 이름 또는 9자리 산코드</label><input type="search" id="search" placeholder="설악산, 지리산, 관악산…" disabled autocomplete="off"><select id="region" disabled aria-label="지역 선택"><option value="">전국 전체</option></select><div id="resultsCount" class="muted">산 목록 준비 중…</div></div><div id="results" class="list" role="group" aria-label="산 목록"></div></aside>

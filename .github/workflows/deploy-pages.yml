@@ -66,6 +66,8 @@ jobs:
           cp data/knps-seorak-2018.geojson site/data/knps-seorak-2018.geojson
           mkdir -p site/data/nationwide
           cp data/nationwide/*.json site/data/nationwide/
+          node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
+          test "$(find site/data/nationwide -maxdepth 1 -name 'bucket-*.json' -type f | wc -l)" -eq 32
           cp nationwide-official.html site/nationwide-official.html
           cp nationwide-full.html site/nationwide-full.html
           mkdir -p site/data/nationwide-full

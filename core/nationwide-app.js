@@ -96,20 +96,20 @@ async function select(code){
  const m=state.catalog.find(x=>x.code===code);if(!m)return;
  const generation=++state.generation;
  state.code=code;resetCamera();viewMountains();
- state.source=core.preview(code,m.name,state.previewPaths?.[code]);
+ state.source=core.empty(code,m.name);
  updateInfo();render();
  message(m.name+' 기관 수록 등산로 확인 중…');
  let official=null,rawAgency=null;
  if(code==='428302602'){
   try{official=await fetchJSON('./data/knps-seorak-2018.geojson')}catch(e){console.warn('KNPS sample fallback',e)}
- }else{
-  rawAgency=await loadInstitutional(code);
  }
+ if(!official)rawAgency=await loadInstitutional(code);
  if(generation!==state.generation)return;
- try{state.source=core.choose(code,{park:official,agencyData:rawAgency,previewPath:state.previewPaths?.[code]});
+ try{
+  state.source=official||rawAgency?core.choose(code,{park:official,agencyData:rawAgency}):core.empty(code,m.name);
  }catch(e){
-  console.warn('Source did not pass validation; using preview',e);
-  state.source=core.preview(code,m.name,state.previewPaths?.[code]);
+  console.warn('Institution dataset failed verification; no inferred trails will be shown',e);
+  state.source=core.empty(code,m.name);
  }
  updateInfo();render();message(m.name+' · '+state.source.label+' 표시 중');
 }

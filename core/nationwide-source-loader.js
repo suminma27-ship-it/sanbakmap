@@ -88,6 +88,12 @@ function knps(raw){
    sourceCount:19,previewPath:null,historic:true,officiallyDesignated:false,currentlyOpenVerified:false,routable:false,
    note:'공단의 2018년 시설 분류이며 현행 개방 여부·법정 지정은 별도 최신 확인이 필요해.'};
 }
+function empty(code,name){
+ return {kind:'empty',label:'기관 등록 등산로 선형 없음',date:'공식자료 미확보',lines:[],
+  sourceCount:0,previewPath:null,historic:false,officiallyDesignated:false,
+  currentlyOpenVerified:false,routable:false,
+  note:'이 산코드에는 현재 확보한 기관 등록 상세 등산로가 없어. OSM 등 다른 미확인 길을 임의로 공식 탐방로로 표시하지 않아.'};
+}
 function preview(code,name,svg){
  return {kind:'preview',label:'산림청 산별 원본 미리보기',date:'주로 2016',lines:[],
   previewPath:typeof svg==='string'?svg:'',sourceCount:0,historic:true,
@@ -99,5 +105,5 @@ function choose(code,{park=null,agencyData=null,previewPath=''}={}){
  if(agencyData)return agency(agencyData,code);
  return preview(code,'',previewPath);
 }
-root.SanbakNationwideAgency=Object.freeze({version:1,catalog,index,decodeLine,agency,knps,preview,choose,inKorea});
+root.SanbakNationwideAgency=Object.freeze({version:1,catalog,index,decodeLine,agency,knps,preview,empty,choose,inKorea});
 })(typeof window!=='undefined'?window:globalThis);

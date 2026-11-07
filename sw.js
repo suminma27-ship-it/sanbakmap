@@ -1,5 +1,5 @@
 /* 산박지도 v83: always revalidate navigation HTML online; retain cached fallback offline. */
-const CACHE_NAME = 'sanbakmap-v100-full-agency-map-1';
+const CACHE_NAME = 'sanbakmap-v101-national-lazy-32';
 const APP_SHELL = ['./index.html','./national.html','./national_data.js','./national_routes.js','./ganwol-review.html','./yeongnam-gpx-connect.html','./yeongnam-osm.html','./yeongnam-course-v72.js','./national-parks-trails.html','./national-parks-basemap.js','./seorak-v76-extra.js','./seorak-v77-extra.js','./seorak-v78-extra.js','./seorak-v83-gpx-tracks.js','./seorak-v95-pois.js','./seorak-v96-plan.js','./core/trail-visibility.js','./data/knps-seorak-2018.geojson','./nationwide-official.html','./nationwide-full.html','./core/nationwide-source-loader.js','./core/nationwide-app.js','./data/nationwide/index.json','./ganwol-review-data.js','./ganwol-verify.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));

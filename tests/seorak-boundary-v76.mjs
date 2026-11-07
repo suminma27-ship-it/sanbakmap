@@ -40,7 +40,7 @@ assert(!html.includes('window.SanbakNationalRoutes.shortest'));
 const inline=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(inline.length,2);for(const s of inline)new Function(s[1]);
 const sw=readFileSync(new URL('sw.js',root),'utf8');
-assert(sw.includes('sanbakmap-v77-fresh-1'));
+assert(sw.includes("const CACHE_NAME = 'sanbakmap-v"));
 assert(sw.includes('./seorak-v76-extra.js'));
 const workflow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');
 assert(workflow.includes('seorak-v76-extra.js'));

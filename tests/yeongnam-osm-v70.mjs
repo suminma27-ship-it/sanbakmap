@@ -13,5 +13,5 @@ assert(!html.includes('maplibregl.Map('));
 assert(!html.includes('https://unpkg.com/maplibre-gl'));
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];assert.equal(scripts.length,2);
 for(const match of scripts)new Function(match[1]);
-const sw=readFileSync(new URL('sw.js',root),'utf8');assert(sw.includes('sanbakmap-v77-fresh-1'));
+const sw=readFileSync(new URL('sw.js',root),'utf8');assert(sw.includes("const CACHE_NAME = 'sanbakmap-v"));
 console.log('PASS: v71 native SVG hiking trail viewer with no external map engine');

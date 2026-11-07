@@ -30,5 +30,5 @@ for(const part of ['id="routePlanner"','id="plannerToggle"','id="plannerReset"',
 const workflow=readFileSync(new URL('../.github/workflows/deploy-pages.yml',import.meta.url),'utf8');
 assert(workflow.includes('national_routes.js'));
 const worker=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
-assert(Number(worker.match(/sanbakmap-v(\d+)-fresh-1/)?.[1])>=65&&worker.includes('./national_routes.js'));
+assert(Number(worker.match(/const CACHE_NAME = 'sanbakmap-v(\d+)-/)?.[1])>=65&&worker.includes('./national_routes.js'));
 console.log('PASS: v65 source graph, shortest paths, tagged bridges, touch selection and deployment');

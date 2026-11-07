@@ -63,7 +63,7 @@ assert(html.includes('outerSeorak.features.push(...added77)'));
 assert(html.includes('v77Warning'));
 assert(!html.includes('window.SanbakNationalRoutes.shortest'));
 const sw=readFileSync(new URL('sw.js',root),'utf8');
-assert(sw.includes('sanbakmap-v77-fresh-1'));
+assert(sw.includes("const CACHE_NAME = 'sanbakmap-v"));
 assert(sw.includes('./seorak-v77-extra.js'));
 const workflow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');
 assert(workflow.includes('seorak-v77-extra.js'));

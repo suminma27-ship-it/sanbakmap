@@ -25,7 +25,7 @@ assert.equal(walks.length,6);
 const html=read('national-parks-trails.html');
 assert(html.includes("v78.paths.filter(r=>r.h==='track').map(r=>{"));
 assert(html.includes("outerSeorak.features.push(...added78)"));
-assert(html.includes("국립공원 등산로 원본 · v81"));
+assert(html.includes("국립공원 등산로 원본 · v"),'national parks map must have a release marker');
 for(const word of ['reviewToolbar','reviewToggle','reviewSpot','reviewVisible',
   'reviewMarkerLayer','seorak-v80-review','drawReviewPaths','focusReview']) {
  assert(!html.includes(word),'Facility walkway overlay still exists: '+word);
@@ -39,5 +39,5 @@ assert.deepEqual(sorted(v80.features.map(f=>Number(f.properties.osm_id))),
   sorted(scope.excluded_v80_audit_only_footway_ids));
 assert.equal(v80.display_in_map,false);
 assert.equal(v80.route_allowed,false);
-assert(read('README.md').includes('**현재 버전: v81**'));
+assert(read('README.md').includes('## v81 업데이트'),'v81 policy history must be retained');
 console.log('PASS v81: six unverified footways and five audit overlays excluded, three forest tracks retained, 707 lines');

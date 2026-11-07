@@ -64,7 +64,7 @@ assert(html.includes("v77.a.filter(r=>!excludedFacilityPathIds.has(r.i)).map(r=>
 assert(html.includes("v78.paths.filter(r=>r.h==='track').map(r=>{"));
 assert(!html.includes('reviewToggle')&&!html.includes('seorak-v80-review'));
 assert(!html.includes('window.SanbakNationalRoutes.shortest'));
-assert(read('README.md').includes('**현재 버전: v82**'));
+assert(read('README.md').includes('## v82 업데이트'),'v82 audit history remains available');
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(scripts.length,2);
 for(const m of scripts)new Function(m[1]);

@@ -85,5 +85,5 @@ assert(!html.includes('seorak-v85-extra.js')&&!html.includes('reviewToggle'));
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(scripts.length,2);
 for(const x of scripts)new Function(x[1]);
-assert(read('README.md').includes('**현재 버전: v85**'));
+assert(read('README.md').includes('## v85 업데이트'),'v85 source audit history must remain available');
 console.log('PASS v85: 129 source roads, 125 held, 2 exact shared-node contacts, 2 near-only gaps; 703 drawn lines remain');

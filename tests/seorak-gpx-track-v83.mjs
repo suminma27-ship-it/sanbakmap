@@ -48,7 +48,7 @@ for(const row of trails.paths){
 assert(totalLength>1020&&totalLength<1035);
 assert.deepEqual(new Set(trails.paths.map(r=>r.i)),aligned);
 const html=read('national-parks-trails.html');
-assert(html.includes('국립공원 등산로 원본 · v83'));
+assert(html.includes('국립공원 등산로 원본 · v'),'v83 geometry does not depend on latest map label');
 assert(html.includes('seorak-v83-gpx-tracks.js'));
 assert(html.includes('outerSeorak.features.push(...added83)'));
 assert(html.includes("v77.a.filter(r=>!excludedFacilityPathIds.has(r.i))"));
@@ -67,5 +67,5 @@ for(const file of ['seorak-v78-extra.js','seorak-v83-gpx-tracks.js']){
  assert(required.includes(file),'Pages deployment must verify '+file);
  assert(read('sw.js').includes('./'+file),'offline shell should cache '+file);
 }
-assert(read('README.md').includes('**현재 버전: v83**'));
+assert(read('README.md').includes('## v83 업데이트'),'v83 source history must remain visible');
 console.log('PASS v83: 4 GPS-aligned OSM tracks ~1.03km, 125 held, v78+v83 assets deployed, no new routing');

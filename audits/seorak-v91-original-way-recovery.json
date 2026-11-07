@@ -1,0 +1,63 @@
+{
+  "version": 91,
+  "analysis_date": "2026-11-08",
+  "user_supplied_pbf": "south-korea-261105.osm.pbf",
+  "pbf_sha256": "9debe407f31db923be2cb481d41c2e0100ed831555da011853eecacd44193ca8",
+  "v73_embedded_gz_base64_sha256": "18f7e230d9dbdec2a84b9dba701883b01555eca8c2c943bc2830c9de9573e037",
+  "original_gdal_osm_way_count_in_seoraksan_bounding_region": 2942,
+  "displayed_inside_line_count": 499,
+  "unique_original_way_ids": 457,
+  "original_PBF_Way_refs_extracted": 457,
+  "mapping": {
+    "ordered_source_node_subsequence": 412,
+    "single_unique_geometric_candidate_only": 87,
+    "ambiguous_source_ways": 0,
+    "unmatched_display_lines": 0,
+    "geometric_max_endpoint_offset_m_approx": 0.006,
+    "geometric_max_hausdorff_m_for_non_subsequence_approx": 0.755,
+    "display_vertices": 16830,
+    "display_vertices_exactly_assignable_to_unique_original_node_ID": 16691,
+    "display_vertices_withheld_node_id_due_to_simplification_or_repeat": 139,
+    "unique_assigned_original_node_IDs": 16236,
+    "tags_in_original_inside_lines": {
+      "path": 383,
+      "footway": 73,
+      "steps": 22,
+      "pedestrian": 2,
+      "track": 19
+    },
+    "note": "Source way candidate in the 87 geometry-only cases is unique within a 3-m same-date geometric screening, but not proven by full displayed-node subsequence. 412 displayed lines are ordered original-way vertex subsequences. Even mapped ways do not prove legal/current access or hiking suitability."
+  },
+  "v90_crossings": {
+    "candidate_count": 26,
+    "way_id_pair_consistency_with_v91_display_mapping": 26,
+    "still_not_authorized_for_navigation": true,
+    "path_path": 18,
+    "track_track": 2,
+    "includes_pedestrian_or_footway": 6
+  },
+  "v89_near_endpoint_cases": {
+    "distinct_gap_candidate_pairs": 42,
+    "source_OSM_way_pairs_share_nearby_original_node": 30,
+    "among_shared_node_pairs_path_or_track_only": 18,
+    "among_shared_node_pairs_include_footway_or_pedestrian": 12,
+    "remaining_without_shared_nearby_source_node": 12,
+    "verification_radius_from_both_display_endpoints_m": 45,
+    "note": "Comparison is of source way's original node-ID intersections within a 45m local vicinity of both displayed endpoints; not a proof every 30 gap pairs is legally or physically traversable. Some apparent disconnected endpoints reference the same way pair or source node."
+  },
+  "output_files_for_user": {
+    "source_full_node_mapping": "seorak-v91-original-node-map.json",
+    "source_map_sha256": "b110ab63c70001628dd9ff745e0a5c8fd1422fdb72122f32350d82f33d9f2b04",
+    "near_endpoint_verification": "seorak-v91-near-gap-audit.json"
+  },
+  "routing_allowed": false,
+  "map_line_count_before": 703,
+  "map_line_count_after": 703,
+  "graph_components_unmodified": 67,
+  "facility_path_promotions": 0,
+  "geometry_snap_joints": 0,
+  "automatic_path_creation": 0,
+  "original_pbf_in_github": false,
+  "original_full_mapping_in_github": false,
+  "note": "Audit summary committed; complete large source-node per-line report offered separately as a downloadable file and regenerated with tools/seorak-recover-v91.py. Original 291MB user PBF is not hosted on GitHub."
+}

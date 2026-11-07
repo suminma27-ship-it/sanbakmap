@@ -73,7 +73,7 @@ const components=audit.gpx_displayed_road_components_in_paved_grade1_subset;
 assert.equal(components.length,4);
 for(const group of components){
  assert(prev.shown_way_ids.includes(group.displayed_way_id));
- assert.equal(group.component_way_ids?.length||1,group.component_way_count);
+ assert.equal(group.component_source_way_ids?.length||1,group.component_way_count);
 }
 assert.equal(components.find(x=>x.displayed_way_id===1000552594).held_adjacent_in_component,8);
 const html=read('national-parks-trails.html');

@@ -30,7 +30,8 @@ for(const [name,park] of Object.entries(data.parks)){
 }
 for(const token of ['value="standard" selected','value="topo"','value="lines"',
  'national-parks-basemap.js',"tileLayer=elem('g'","href:tile.url"])assert(html.includes(token),token);
-assert(html.indexOf("tileLayer=elem('g'")<html.indexOf('const trails=filteredTrails.map'),'tiles must be behind trails');
+assert(html.indexOf("tileLayer=elem('g'")<html.indexOf('const trails=visibleTrails.map'),'tiles must be behind trails');
+assert(html.includes('const visibleTrails=showSeorak'),'Display-mode filtering should not change tile layering');
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(scripts.length,2);
 for(const item of scripts)new Function(item[1]);

@@ -35,5 +35,5 @@ api.setMode('preview');assert.equal(api.focusConnectivityCandidate(0),false,'Pre
 assert(html.includes('selectedCandidate=-1;if(connectivity)'),'Full extent should clear candidate focus');
 assert(html.includes("selectedCandidate=-1;el('connectivity').hidden=true"),'Selecting new mountain should clear focus');
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
-assert(Number(sw.match(/sanbakmap-v(\d+)-fresh-1/)?.[1])>=63,'PWA cache not invalidated');
+assert(Number(sw.match(/const CACHE_NAME = 'sanbakmap-v(\d+)-/)?.[1])>=63,'PWA cache not invalidated');
 console.log('PASS: v63 candidate focus, exact midpoint, invalid selection, preview guard, coordinates, reset and cache');

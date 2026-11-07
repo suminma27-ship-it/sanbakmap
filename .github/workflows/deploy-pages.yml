@@ -27,8 +27,21 @@ jobs:
       - name: Validate route topology and UI regressions
         run: |
           set -euo pipefail
-          for file in tests/*.mjs; do node "$file"; done
-          python -m py_compile tools/seorak-recover-v91.py
+          failed=0
+          for file in tests/*.mjs; do
+            if ! node "$file"; then
+              echo "::error file=$file::Regression test failed"
+              failed=1
+            fi
+          done
+          if ! python -m py_compile tools/seorak-recover-v91.py; then
+            echo "::error::Python source compilation failed"
+            failed=1
+          fi
+          if [ "$failed" -ne 0 ]; then
+            echo "::error::Some regression tests failed; refusing site deployment."
+            exit 1
+          fi
 
       - name: Package website
         run: |

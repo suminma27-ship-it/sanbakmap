@@ -1,0 +1,1108 @@
+{
+  "schema_version": 93,
+  "source_v92_review": "audits/seorak-v92-inside-footway-review.json",
+  "osm_snapshot_date": "2026-11-05",
+  "source_pbf_sha256": "9debe407f31db923be2cb481d41c2e0100ed831555da011853eecacd44193ca8",
+  "source_gpx": "Historical 2022 archive only; not current verification",
+  "note": "Review queue only. OSM source ways and dated GPX proximity do NOT establish current access rights, official KNPS routes, or route connectivity. Preserve all 47 displayed paths until separate evidence-based review.",
+  "map_visible_lines_unchanged": 700,
+  "new_route_links": 0,
+  "routes_removed": 0,
+  "routing_allowed": false,
+  "summary": {
+    "reviewed": 75,
+    "unchanged_exclusions": 3,
+    "retained_with_prior_evidence": 25,
+    "needs_review": 47,
+    "groups": {
+      "pedestrian": 1,
+      "bridge": 12,
+      "long_no_gpx": 6,
+      "long_with_gpx": 10,
+      "short": 18
+    }
+  },
+  "pending": [
+    {
+      "display_line_id": "v73:trail:415",
+      "inside_trail_index": 415,
+      "osm_way_id": 1533443355,
+      "osm_way_url": "https://www.openstreetmap.org/way/1533443355",
+      "highway": "pedestrian",
+      "display_length_m": 52.9,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "pedestrian",
+      "review_question": "Check against authoritative park-trail map: is this facility access, authorized park approach, or a hiking trail?",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:132",
+      "inside_trail_index": 132,
+      "osm_way_id": 566820977,
+      "osm_way_url": "https://www.openstreetmap.org/way/566820977",
+      "highway": "footway",
+      "display_length_m": 87.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:3",
+      "inside_trail_index": 3,
+      "osm_way_id": 37861944,
+      "osm_way_url": "https://www.openstreetmap.org/way/37861944",
+      "highway": "footway",
+      "display_length_m": 81.6,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:143",
+      "inside_trail_index": 143,
+      "osm_way_id": 661061550,
+      "osm_way_url": "https://www.openstreetmap.org/way/661061550",
+      "highway": "footway",
+      "display_length_m": 55.6,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 4,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:1",
+      "inside_trail_index": 1,
+      "osm_way_id": 37861938,
+      "osm_way_url": "https://www.openstreetmap.org/way/37861938",
+      "highway": "footway",
+      "display_length_m": 35.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:18",
+      "inside_trail_index": 18,
+      "osm_way_id": 77867956,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867956",
+      "highway": "footway",
+      "display_length_m": 29.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:13",
+      "inside_trail_index": 13,
+      "osm_way_id": 77867932,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867932",
+      "highway": "footway",
+      "display_length_m": 24.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:20",
+      "inside_trail_index": 20,
+      "osm_way_id": 77867959,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867959",
+      "highway": "footway",
+      "display_length_m": 21.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.667,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:412",
+      "inside_trail_index": 412,
+      "osm_way_id": 1530743249,
+      "osm_way_url": "https://www.openstreetmap.org/way/1530743249",
+      "highway": "footway",
+      "display_length_m": 12.5,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:10",
+      "inside_trail_index": 10,
+      "osm_way_id": 77867913,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867913",
+      "highway": "footway",
+      "display_length_m": 12.3,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 2,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:378",
+      "inside_trail_index": 378,
+      "osm_way_id": 1527113396,
+      "osm_way_url": "https://www.openstreetmap.org/way/1527113396",
+      "highway": "footway",
+      "display_length_m": 6.6,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:402",
+      "inside_trail_index": 402,
+      "osm_way_id": 1530740674,
+      "osm_way_url": "https://www.openstreetmap.org/way/1530740674",
+      "highway": "footway",
+      "display_length_m": 3.9,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:410",
+      "inside_trail_index": 410,
+      "osm_way_id": 1530743058,
+      "osm_way_url": "https://www.openstreetmap.org/way/1530743058",
+      "highway": "footway",
+      "display_length_m": 2.8,
+      "osm_flags": {
+        "bridge": true,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "bridge",
+      "review_question": "Confirm whether this short bridge is part of a connected legal mountain route; do not delete based on length or one GPX crossing.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:387",
+      "inside_trail_index": 387,
+      "osm_way_id": 1527118863,
+      "osm_way_url": "https://www.openstreetmap.org/way/1527118863",
+      "highway": "footway",
+      "display_length_m": 1321,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:144",
+      "inside_trail_index": 144,
+      "osm_way_id": 711262947,
+      "osm_way_url": "https://www.openstreetmap.org/way/711262947",
+      "highway": "footway",
+      "display_length_m": 240.7,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:0",
+      "inside_trail_index": 0,
+      "osm_way_id": 37861937,
+      "osm_way_url": "https://www.openstreetmap.org/way/37861937",
+      "highway": "footway",
+      "display_length_m": 204.8,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:158",
+      "inside_trail_index": 158,
+      "osm_way_id": 897897603,
+      "osm_way_url": "https://www.openstreetmap.org/way/897897603",
+      "highway": "footway",
+      "display_length_m": 106.3,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:388",
+      "inside_trail_index": 388,
+      "osm_way_id": 1527118863,
+      "osm_way_url": "https://www.openstreetmap.org/way/1527118863",
+      "highway": "footway",
+      "display_length_m": 99.2,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:159",
+      "inside_trail_index": 159,
+      "osm_way_id": 897897603,
+      "osm_way_url": "https://www.openstreetmap.org/way/897897603",
+      "highway": "footway",
+      "display_length_m": 86.6,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "long_no_gpx",
+      "review_question": "Cross-reference official trail geometry and newer GPS traces; 2022 archive had no nearby samples.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:154",
+      "inside_trail_index": 154,
+      "osm_way_id": 825546469,
+      "osm_way_url": "https://www.openstreetmap.org/way/825546469",
+      "highway": "footway",
+      "display_length_m": 285.7,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.267,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:83",
+      "inside_trail_index": 83,
+      "osm_way_id": 343751140,
+      "osm_way_url": "https://www.openstreetmap.org/way/343751140",
+      "highway": "footway",
+      "display_length_m": 165.3,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.222,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:149",
+      "inside_trail_index": 149,
+      "osm_way_id": 711262953,
+      "osm_way_url": "https://www.openstreetmap.org/way/711262953",
+      "highway": "footway",
+      "display_length_m": 141.6,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.267,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:17",
+      "inside_trail_index": 17,
+      "osm_way_id": 77867955,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867955",
+      "highway": "footway",
+      "display_length_m": 141.2,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.267,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:4",
+      "inside_trail_index": 4,
+      "osm_way_id": 37862160,
+      "osm_way_url": "https://www.openstreetmap.org/way/37862160",
+      "highway": "footway",
+      "display_length_m": 135.8,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.467,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:318",
+      "inside_trail_index": 318,
+      "osm_way_id": 1255224771,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224771",
+      "highway": "footway",
+      "display_length_m": 128.1,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.286,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:151",
+      "inside_trail_index": 151,
+      "osm_way_id": 711262955,
+      "osm_way_url": "https://www.openstreetmap.org/way/711262955",
+      "highway": "footway",
+      "display_length_m": 122,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.308,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:321",
+      "inside_trail_index": 321,
+      "osm_way_id": 1255224777,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224777",
+      "highway": "footway",
+      "display_length_m": 106.4,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.667,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:22",
+      "inside_trail_index": 22,
+      "osm_way_id": 77867962,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867962",
+      "highway": "footway",
+      "display_length_m": 98,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.636,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:317",
+      "inside_trail_index": 317,
+      "osm_way_id": 1255224770,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224770",
+      "highway": "footway",
+      "display_length_m": 82.9,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.333,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "long_with_gpx",
+      "review_question": "Inspect lengthwise continuity against official trail geometry and recent GPS; historical partial coverage is insufficient.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:384",
+      "inside_trail_index": 384,
+      "osm_way_id": 1527118860,
+      "osm_way_url": "https://www.openstreetmap.org/way/1527118860",
+      "highway": "footway",
+      "display_length_m": 72.6,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:15",
+      "inside_trail_index": 15,
+      "osm_way_id": 77867935,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867935",
+      "highway": "footway",
+      "display_length_m": 69.1,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.375,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:322",
+      "inside_trail_index": 322,
+      "osm_way_id": 1255224778,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224778",
+      "highway": "footway",
+      "display_length_m": 58.1,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.429,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:284",
+      "inside_trail_index": 284,
+      "osm_way_id": 1218425399,
+      "osm_way_url": "https://www.openstreetmap.org/way/1218425399",
+      "highway": "footway",
+      "display_length_m": 56.4,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:379",
+      "inside_trail_index": 379,
+      "osm_way_id": 1527113397,
+      "osm_way_url": "https://www.openstreetmap.org/way/1527113397",
+      "highway": "footway",
+      "display_length_m": 55.8,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:82",
+      "inside_trail_index": 82,
+      "osm_way_id": 343751139,
+      "osm_way_url": "https://www.openstreetmap.org/way/343751139",
+      "highway": "footway",
+      "display_length_m": 53.5,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.667,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:12",
+      "inside_trail_index": 12,
+      "osm_way_id": 77867919,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867919",
+      "highway": "footway",
+      "display_length_m": 53,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:323",
+      "inside_trail_index": 323,
+      "osm_way_id": 1255224790,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224790",
+      "highway": "footway",
+      "display_length_m": 45.2,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.833,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:14",
+      "inside_trail_index": 14,
+      "osm_way_id": 77867933,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867933",
+      "highway": "footway",
+      "display_length_m": 41.6,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.6,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:409",
+      "inside_trail_index": 409,
+      "osm_way_id": 1530743042,
+      "osm_way_url": "https://www.openstreetmap.org/way/1530743042",
+      "highway": "footway",
+      "display_length_m": 38.8,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0.8,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:30",
+      "inside_trail_index": 30,
+      "osm_way_id": 77993122,
+      "osm_way_url": "https://www.openstreetmap.org/way/77993122",
+      "highway": "footway",
+      "display_length_m": 31.9,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:316",
+      "inside_trail_index": 316,
+      "osm_way_id": 1255224769,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224769",
+      "highway": "footway",
+      "display_length_m": 30.9,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 0,
+        "nearby_archive_count": 0,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:411",
+      "inside_trail_index": 411,
+      "osm_way_id": 1530743238,
+      "osm_way_url": "https://www.openstreetmap.org/way/1530743238",
+      "highway": "footway",
+      "display_length_m": 23.5,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:8",
+      "inside_trail_index": 8,
+      "osm_way_id": 77867911,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867911",
+      "highway": "footway",
+      "display_length_m": 21.1,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:320",
+      "inside_trail_index": 320,
+      "osm_way_id": 1255224774,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224774",
+      "highway": "footway",
+      "display_length_m": 20.4,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 5,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:16",
+      "inside_trail_index": 16,
+      "osm_way_id": 77867954,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867954",
+      "highway": "footway",
+      "display_length_m": 18.5,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:319",
+      "inside_trail_index": 319,
+      "osm_way_id": 1255224773,
+      "osm_way_url": "https://www.openstreetmap.org/way/1255224773",
+      "highway": "footway",
+      "display_length_m": 11.9,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    },
+    {
+      "display_line_id": "v73:trail:7",
+      "inside_trail_index": 7,
+      "osm_way_id": 77867909,
+      "osm_way_url": "https://www.openstreetmap.org/way/77867909",
+      "highway": "footway",
+      "display_length_m": 9.3,
+      "osm_flags": {
+        "bridge": false,
+        "hiking_scale": false
+      },
+      "historical_gpx_2022": {
+        "max_single_archive_approx_coverage": 1,
+        "nearby_archive_count": 1,
+        "buffer_m": 30
+      },
+      "review_group": "short",
+      "review_question": "Determine whether this is a true mountain-route connector or a building/park walkway, using authoritative imagery and access rules.",
+      "official_trail_match": "not_checked",
+      "current_access_permission": "not_checked",
+      "pending_review": true,
+      "routing_allowed": false
+    }
+  ]
+}

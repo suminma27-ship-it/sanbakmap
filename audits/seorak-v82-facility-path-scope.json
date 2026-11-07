@@ -1,0 +1,104 @@
+{
+  "version": 82,
+  "source": "Geofabrik South Korea OSM PBF 2026-11-05",
+  "scope": "Existing v77 OSM path segments within 1500m outside mapped Seoraksan park border; review near facility-scale OSM footway network excluded in v81",
+  "highway": "path",
+  "status": "audit_only_excluded_from_hiking_and_forest_road_display",
+  "removal_reason": "Facility-area short OSM path network: only source geometry and topological links available; no independent mountain-trail or forestry-road evidence. Not a statement of legal closure or absence.",
+  "excluded_way_ids": [
+    485958070,
+    485958071,
+    485958085,
+    485958086,
+    1167747441,
+    1167747442,
+    1167747443
+  ],
+  "source_fragment_count": 8,
+  "total_removed_source_line_length_m_approx": 770.1,
+  "fragments": [
+    {
+      "id": 485958070,
+      "length_m": 15.1,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": []
+    },
+    {
+      "id": 485958071,
+      "length_m": 149,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": [
+        485958072,
+        485958073,
+        485958082,
+        485958095
+      ]
+    },
+    {
+      "id": 485958085,
+      "length_m": 83.7,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": [
+        485958082,
+        485958098
+      ]
+    },
+    {
+      "id": 485958086,
+      "length_m": 10.4,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": []
+    },
+    {
+      "id": 1167747441,
+      "length_m": 241.7,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": [
+        1167747440
+      ]
+    },
+    {
+      "id": 1167747441,
+      "length_m": 173.5,
+      "fragment": 2,
+      "links_to_excluded_v78_footway_ids": []
+    },
+    {
+      "id": 1167747442,
+      "length_m": 72.5,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": []
+    },
+    {
+      "id": 1167747443,
+      "length_m": 24.2,
+      "fragment": 1,
+      "links_to_excluded_v78_footway_ids": [
+        1167747440
+      ]
+    }
+  ],
+  "facility_clusters_bbox_lonlat": [
+    [
+      128.493,
+      38.21117,
+      128.49409,
+      38.21186
+    ],
+    [
+      128.495,
+      38.20796,
+      128.49628,
+      38.20897
+    ]
+  ],
+  "original_v77_source_fragments": 27,
+  "originally_displayed_seorak_lines": 707,
+  "new_displayed_seorak_lines": 699,
+  "retained_v77_source_fragments": 19,
+  "retained_v78_tracks": 3,
+  "original_source_data_modified": false,
+  "field_verified": false,
+  "routing_allowed": false,
+  "possible_reclassification": "Only if future independently sourced hiking/forest-road evidence supports it; keep original OSM way IDs for review."
+}

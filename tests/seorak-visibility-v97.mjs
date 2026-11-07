@@ -58,6 +58,6 @@ for(const script of scripts)new Function(script[1]);
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/trail-visibility.js site/core/trail-visibility.js'));
 assert(sw.includes("'./core/trail-visibility.js'"));
-assert.equal(JSON.parse(read('deployment-version.json')).ui_version,'v97');
+assert.equal(JSON.parse(read('deployment-version.json')).ui_version,'v98');
 assert(read('README.md').includes('## v97 설악산 길 표시 간소화'));
 console.log('PASS v97: three OSM display modes, 75 review indexes, source hash preserved, 700 source lines retained');

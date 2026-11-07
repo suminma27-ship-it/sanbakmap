@@ -126,7 +126,7 @@ async function init(){
   map.on('error',e=>{
    const source=e.sourceId||e.error?.sourceId||'';
    const message=String(e.error?.message||'');
-   if(el('basemap').value!=='lines'&&(source==='basemap'||/tile\\.openstreetmap\\.org|tile\\.opentopomap\\.org/i.test(message))){
+   if(el('basemap').value!=='lines'&&(source==='basemap'||/tile\.openstreetmap\.org|tile\.opentopomap\.org/i.test(message))){
     if(++tileErrors>=4)fallbackToLines();
    }else if(source==='hiking-ways'||source==='ridge-route')el('status').textContent='등산로 표시 오류: '+message;
   });

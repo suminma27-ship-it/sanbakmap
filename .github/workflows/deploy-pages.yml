@@ -32,12 +32,12 @@ jobs:
       - name: Package website
         run: |
           set -euo pipefail
-          for file in index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
+          for file in index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
             test -f "$file"
           done
           grep -q '산박지도 v' index.html
           mkdir -p site
-          cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
+          cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

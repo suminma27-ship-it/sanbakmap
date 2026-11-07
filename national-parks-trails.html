@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v77 | 설악산 OSM 경계 바깥 보행 산길 추가</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v78 | 설악산 OSM 보행로·임도 접점 검증</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#23392c;background:#f4f7f4}*{box-sizing:border-box}body{margin:0}header{padding:15px max(14px,calc((100% - 1240px)/2));background:#123c2b;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header a{color:white;text-decoration:none;font-weight:750}main{max-width:1240px;margin:0 auto;padding:15px 12px 38px}h1{font-size:23px;margin:0 0 8px}p{font-size:13px;line-height:1.6;margin:8px 0 12px}.note{padding:12px;background:#edf4ee;border:1px solid #d6e4d7;border-radius:11px;font-size:12px;line-height:1.65}.toolbar{background:white;border:1px solid #d9e5dd;border-radius:12px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}.toolbar label{font-size:12px;font-weight:800}.toolbar select{min-height:41px;padding:9px 12px;min-width:180px;border:1px solid #cbd9ce;border-radius:8px;background:white;color:inherit}.toolbar button{background:#fff;border:1px solid #c9d9cd;color:#276343;font-weight:700;padding:9px 12px;border-radius:8px;cursor:pointer;min-height:41px}.toolbar button:focus-visible,.toolbar select:focus-visible{outline:2px solid #2f9569}.stat{font-size:12px;color:#59725e;flex:1 1 260px}.mapbox{background:#fff;border:1px solid #d6e2d7;border-radius:14px;overflow:hidden}.mapbox svg{display:block;width:100%;height:min(72vh,760px);min-height:450px;touch-action:none;cursor:grab;background:#eef3ed;user-select:none}.mapbox svg:active{cursor:grabbing}.foot{padding:11px 13px;color:#526c5a;font-size:12px;border-top:1px solid #e0e8e0}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin:11px 0}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:22px;height:0;border-top:3px solid #267653}.swatch.track{border-color:#816d4b;border-top-style:dashed}footer{font-size:11px;line-height:1.6;color:#6a796e;margin-top:16px}footer a{color:#366e4a}@media(max-width:700px){h1{font-size:19px}.mapbox svg{height:66vh;min-height:400px}.toolbar{gap:7px}.toolbar select{min-width:140px}}
 </style></head><body>
-<header><a href="./index.html">▲ 산박지도</a><span>국립공원 등산로 원본 · v76</span><a href="./national.html">전국 등산로</a></header>
+<header><a href="./index.html">▲ 산박지도</a><span>국립공원 등산로 원본 · v78</span><a href="./national.html">전국 등산로</a></header>
 <main><h1>국립공원 등산로 표시 — 1차</h1>
-<p class="note">2026년 11월 5일 대한민국 OpenStreetMap 원본에서 국립공원 경계 안의 등산로·보행로·계단·임도를 추출했어. <strong>현재는 존재 기록이 있는 선형을 표시하는 단계</strong>이며, 현장 위치의 정확성이나 현재 상태는 아직 별도로 조사하지 않았어. 설악산은 국립공원 경계 바깥 1.5km 안에서 공원 경계 교차 길과 원본 OSM 정점을 공유하는 산길을 끝까지 추적해 표시했어. v75에 비해 원본 way 20개(표시 선형 22개)를 추가했으며 임의 연결선은 없어. 경계도 OSM 등록 자료 기준이므로 공식 법정 경계의 최신 상태와 다를 수 있어.</p>
+<p class="note">2026년 11월 5일 OpenStreetMap 원본의 설악산·지리산·북한산 산길을 표시해. <strong>현재는 지도에 등록된 원본 선형을 검토하는 단계</strong>이며 현장 통행이나 최신 탐방 통제 여부는 검증하지 않았어. 설악산은 공원 경계 밖 1.5km 범위에서 v77 경로와 OSM 원본 정점을 정확히 공유하는 보행로 6개·임도 3개(약 2.08km)를 v78에 추가했어. 인도와 포장 임도, 접점이 불확실한 계단은 제외했으며 직선 연결·자동 길찾기에는 넣지 않았어.</p>
 <div class="toolbar"><label for="park">공원</label><select id="park" aria-label="국립공원 선택"><option value="seorak">설악산</option><option value="jiri">지리산</option><option value="bukhan">북한산·도봉산</option></select><label for="basemap">바탕지도</label><select id="basemap" aria-label="바탕지도 선택"><option value="standard" selected>일반 지도</option><option value="topo">등고선 지형도</option><option value="lines">등산로만</option></select>
 <button id="fit" type="button">전체 보기</button><button id="zoomIn" type="button">확대 ＋</button><button id="zoomOut" type="button">축소 −</button><span id="count" class="stat">원본 등산로를 불러오는 중…</span></div>
 <div class="legend"><span><i class="swatch"></i>등산로·보행로·계단</span><span><i class="swatch track"></i>임도·작업로</span></div>
@@ -23,6 +23,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
 <script src="./national-parks-basemap.js"></script>
 <script src="./seorak-v76-extra.js"></script>
 <script src="./seorak-v77-extra.js"></script>
+<script src="./seorak-v78-extra.js"></script>
 <script>
 (()=>{'use strict';
  const $=id=>document.getElementById(id),ns='http://www.w3.org/2000/svg',svg=$('parkMap'),W=1000,H=700;
@@ -123,6 +124,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
     v76Warning=' · v76 연장자료 일부를 표시하지 못했어: '+e.message;
     console.warn('v76 원본 확인 실패 (v75 자료는 유지)',e);
   }
+  let v77SourceNodes=null;
   let v77Warning='';
   try{
     if(!outerSeorak)throw Error('이전 경계 원본 없음');
@@ -168,12 +170,48 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
         geometry:{type:'LineString',coordinates:decodePathV77(r.e)}};
     });
     outerSeorak.features.push(...added77);
+    v77SourceNodes=new Set(added77.flatMap(f=>f.geometry.coordinates.map(p=>p.join(','))));
   }catch(e){
     v77Warning=' · v77 독립 산길 일부를 표시하지 못했어: '+e.message;
     console.warn('v77 자료 로드 실패 (v75/v76 산길은 유지)',e);
   }
+
+  let v78Warning='';
+  try{
+    if(!outerSeorak||!v77SourceNodes||v77Warning)throw Error('v77 원본이 아직 준비되지 않았어');
+    if(typeof window.SANBAK_SEORAK_V78_B64!=='string')throw Error('v78 추가 OSM 파일이 없어');
+    const bytes78=Uint8Array.from(atob(window.SANBAK_SEORAK_V78_B64),c=>c.charCodeAt(0));
+    const v78=JSON.parse(await new Response(new Blob([bytes78]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
+    if(v78.v!==78||v78.source!=='OSM 2026-11-05'||v78.boundary_id!=='17335482'
+      ||v78.buffer_m!==1500||v78.route_allowed!==false
+      ||!Array.isArray(v78.paths)||v78.paths.length!==9
+      ||new Set(v78.paths.map(r=>r.i)).size!==9)
+      throw Error('v78 자료 개수·출처 오류');
+    const previous=new Set(outerSeorak.features.map(f=>String(f.properties?.osm_id)));
+    const added78=v78.paths.map(r=>{
+      if(!Number.isInteger(r.i)||previous.has(String(r.i))||!['footway','track'].includes(r.h))
+        throw Error('v78 분류 또는 중복 OSM way');
+      if(!Array.isArray(r.p)||r.p.length<2||!Array.isArray(r.j)||r.j.length!==2
+        ||r.p.some(p=>!Array.isArray(p)||p.length!==2
+          ||!Number.isFinite(p[0])||!Number.isFinite(p[1])
+          ||!(p[0]>128.1&&p[0]<128.75&&p[1]>37.9&&p[1]<38.38)))
+        throw Error('v78 산길 좌표 오류');
+      if(!v77SourceNodes.has(r.j.join(','))
+        ||!r.p.some(p=>p[0]===r.j[0]&&p[1]===r.j[1]))
+        throw Error('v77 경로와 원본 공유 정점 불일치');
+      return {type:'Feature',properties:{
+        osm_id:String(r.i),highway:r.h,source:'OSM 2026-11-05',
+        source_only:true,field_verified:false,routing_allowed:false,
+        shares_osm_vertex_with_v77:true},
+        geometry:{type:'LineString',coordinates:r.p}};
+    });
+    outerSeorak.features.push(...added78);
+  }catch(e){
+    v78Warning=' · v78 접점 검증 자료를 표시하지 못했어: '+e.message;
+    console.warn('v78 원본 검사 실패 (기존 산길은 유지)',e);
+  }
   draw();
-  if(v76Warning||v77Warning)$('message').textContent+=v76Warning+v77Warning;
+  if(v76Warning||v77Warning||v78Warning)$('message').textContent+=v76Warning+v77Warning+v78Warning;
  }catch(e){$('message').textContent='원본 등산로를 표시하지 못했어: '+e.message}}
  init();
 })();

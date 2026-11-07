@@ -1,8 +1,8 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123c2b"><title>산박지도 v66 | 간월산 등산로 정확도 비교</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123c2b"><title>산박지도 v67 | 간월산 등산로 정확도 비교</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#183528;background:#f5f8f4}*{box-sizing:border-box}body{margin:0}header{background:#123c2b;color:white;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}header a{color:#fff;text-decoration:none;font-weight:700}header span{font-size:12px;color:#c3ddcb}main{max-width:1120px;margin:auto;padding:20px 12px 30px}h1{font-size:23px;letter-spacing:-.035em;margin:0 0 9px}h2{font-size:17px;margin:0}.sub{color:#597063;font-size:13px;line-height:1.6}p{line-height:1.55}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:17px 0}.stat{background:#fff;border:1px solid #dce8de;border-radius:13px;padding:14px}.stat small{display:block;font-size:11px;color:#68776d;margin-bottom:7px}.stat strong{font-size:24px;font-variant-numeric:tabular-nums}.card{border:1px solid #dce8de;background:#fff;border-radius:13px;overflow:hidden}.tools{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:12px;border-bottom:1px solid #e5ece7}.legend{display:flex;gap:10px 16px;flex-wrap:wrap;font-size:12px}.legend label{display:flex;gap:5px;align-items:center;cursor:pointer}.legend input{accent-color:#176548}.buttons{display:flex;gap:6px;flex-wrap:wrap}button,a.action{border:1px solid #c7d8cb;border-radius:8px;background:white;color:#215a3d;min-height:38px;padding:8px 10px;font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}button:hover,a.action:hover{background:#edf5ef}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #7db58b;outline-offset:2px}.swatch{display:inline-block;width:19px;height:0;border-top:3px solid #647a6d;vertical-align:middle}.swatch.old{border-top-style:dashed}.swatch.gpx{border-color:#167f57}.swatch.gap{border-color:#b97727;border-top-style:dashed}#map{height:min(68vh,650px);min-height:350px;width:100%;display:block;touch-action:none;background:#edf3ee;cursor:grab}#info{padding:10px 12px;font-size:12px;color:#53705d;border-top:1px solid #e5ece7}.notice{background:#f4f7f1;border:1px solid #dbe7dd;border-radius:12px;padding:13px 14px;margin:15px 0;font-size:13px}.details{margin-top:16px;padding:14px}.details p{font-size:13px;color:#51665a}.notes{font-size:12px;color:#697c70;margin:15px 0}.dim{color:#789084}.warning{color:#745527;font-weight:700}.status{color:#496354;font-size:12px;margin:7px 0}@media(max-width:680px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat strong{font-size:22px}#map{height:min(62vh,540px)}}
 </style></head><body>
-<header><a href="./national.html">〈 전국 등산로 지도로 돌아가기</a><span>간월산 정확도 검증 · v66</span></header>
+<header><a href="./national.html">〈 전국 등산로 지도로 돌아가기</a><span>간월산 정확도 검증 · v67</span></header>
 <main><h1>간월산 등산로 좌표 비교</h1>
 <p class="sub">산코드 317104301 · 산림청 기반 기존 자료(2016년)와 한국등산트레킹지원센터 간월산 GPX(2022년 공개)를 같은 지리 좌표 위에 표시했어.</p>
 <div class="stats">
@@ -12,27 +12,33 @@
  <div class="stat"><small>기존 선에서 50m 초과</small><strong>403점</strong><span class="dim"> / 408점</span></div>
 </div>
 <div class="notice"><strong>검토 결과:</strong> 정상 시작점은 기존 등산로와 거의 겹치지만, 동쪽 하산 방향으로 갈수록 기존 선형과 차이가 커져. 네이버 화면에 나타난 굽이길과 GPX의 형태가 유사하나, 이 비교만으로 해당 길의 현재 개방 여부를 확인할 수는 없어.</div>
-<section class="card" aria-label="간월산 지리좌표 비교 지도">
+<div class="notice"><strong>연속 이격 검토:</strong> GPX 5~407번 좌표, 총 403점이 기존 등산로에서 50m 이상 떨어져 있어. 이 구간의 기록상 길이는 <strong>약 4.54km</strong>야. GPX가 현재 통행 가능한 길이라는 판정은 아니야.</div><section class="card" aria-label="간월산 지리좌표 비교 지도">
  <div class="tools"><div class="legend">
   <label><input type="checkbox" id="showOld" checked><span class="swatch old"></span>기존 2016년 선형</label>
   <label><input type="checkbox" id="showGpx" checked><span class="swatch gpx"></span>2022년 GPX</label>
-  <label><input type="checkbox" id="showGaps" checked><span class="swatch gap"></span>50m 초과 이격 구간</label>
+  <label><input type="checkbox" id="showGaps" checked><span class="swatch gap"></span>50m 초과 이격 구간</label><label><input type="checkbox" id="showReference" checked>추가 대조자료</label>
  </div>
  <div class="buttons"><button id="zoomIn" type="button" aria-label="확대">＋</button><button id="zoomOut" type="button" aria-label="축소">－</button><button id="fit" type="button">전체</button><button id="summit" type="button">정상부</button><button id="east" type="button">동쪽 하산부</button></div></div>
  <svg id="map" viewBox="0 0 1000 650" aria-label="2016년 원본과 2022년 GPX를 지리 좌표로 겹쳐 표시한 지도" role="img"></svg>
  <div id="info" role="status" aria-live="polite">비교 좌표를 불러오는 중…</div>
 </section>
+<section class="card details" aria-label="추가 원본자료 대조"><h2>간월산 공식자료 교차검증</h2>
+<p>산림청 1:5,000 등산로 등 공식 자료를 받았다면 WGS84(EPSG:4326) <strong>GeoJSON 또는 GPX</strong>로 불러와. SHP는 QGIS에서 GeoJSON으로 변환해야 해. 파일은 서버에 업로드하지 않고 이 브라우저에서만 대조해.</p>
+<input type="file" id="referenceFile" accept=".geojson,.json,.gpx,application/geo+json,application/gpx+xml" aria-label="간월산 참고 등산로 파일">
+<button id="clearReference" type="button">대조자료 해제</button>
+<p id="referenceStatus" class="status" role="status" aria-live="polite">공식 선형 원본 미확보. 2016년 자료와 2022년 GPX의 이격만 확인된 상태야.</p>
+<p>산림청 <a href="https://map.forest.go.kr/forest/" target="_blank" rel="noopener noreferrer">산림공간정보서비스의 등산로·등산로주요지점 신청</a>에서 원본을 확보할 수 있어. 자료를 겹쳤다고 현장 통행이나 파일의 공식 출처가 증명되는 것은 아니야.</p></section>
 <section class="card details"><h2>어떤 부분을 개선해야 할까?</h2>
 <p>2022년 GPX가 기존 선형으로부터 50m 이상 떨어진 구간을 <strong>검토 후보</strong>로 표시했어. 이 기준은 위치 차이를 탐지하기 위한 것이며, GPX가 정확하다거나 기존 등산로가 반드시 틀렸다는 판정은 아니야.</p>
 <p>실제 등산로를 현행 지도·국립공원 또는 지자체 자료·현장 GPS 기록으로 확인한 뒤에만 정식 산박지도 길찾기에 합칠 예정이야. 기존 산코드의 등산로는 삭제하거나 수정하지 않았어.</p>
-<button id="downloadCandidate" type="button">간월산 GPX 검토 후보 GeoJSON 저장</button>
+<button id="downloadCandidate" type="button">간월산 GPX 검토 후보 GeoJSON 저장</button> <button id="downloadGap" type="button">4.54km 이격 구간만 저장</button>
 <p class="notes">출처: 산림청 기반 산코드 317104301 원본 GeoJSON(2016-12-31), 한국등산트레킹지원센터 전국 주요 봉우리 코스 GPX(2022-11-16). 원본 선형 1,235개 정점은 2m 이내 오차로 화면용 단순화해 327개 점으로 표시했으며, <strong>거리·이격 수치는 단순화 이전 원본 전체를 기준</strong>으로 산출했어. 네이버 캡처는 형태 비교 참고이며 좌표값 계산에는 사용하지 않았어. 배경 위성영상은 포함되지 않아. GPX에 기록된 시간은 동일값이어서 산행 일시로 해석하지 않아.</p>
 </section><p class="status" id="loadStatus"></p>
-</main><script src="./ganwol-review-data.js"></script>
+</main><script src="./ganwol-review-data.js"></script><script src="./ganwol-verify.js"></script>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),svg=$('map'),NS='http://www.w3.org/2000/svg';
-let data=null,center=[129.044,35.555],scale=0,camera={z:1,x:0,y:0},drag=null;
+let data=null,center=[129.044,35.555],scale=0,camera={z:1,x:0,y:0},drag=null,referencePaths=[],referenceStats=null;
 function make(tag,attrs,parent=svg){
  const el=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));parent.append(el);return el;
 }
@@ -53,6 +59,10 @@ function render(){
  const group=make('g',{transform:'translate('+camera.x+' '+camera.y+') translate(500 325) scale('+camera.z+') translate(-500 -325)'});
  for(const path of data.s)if($('showOld').checked&&path.length>1){
   make('path',{d:trace(path),stroke:'#82998b','stroke-width':2.3/camera.z,'stroke-dasharray':(5/camera.z)+' '+(4/camera.z),fill:'none','stroke-linejoin':'round'},group);
+ }
+ if($('showReference').checked&&referencePaths.length)for(const path of referencePaths){
+  make('path',{d:trace(path),stroke:'#46536c','stroke-width':2.6/camera.z,
+   'stroke-dasharray':(4/camera.z)+' '+(3/camera.z),fill:'none'},group);
  }
  if($('showGpx').checked){
   make('path',{d:trace(data.g),stroke:'#167f57','stroke-width':4.3/camera.z,fill:'none','stroke-linejoin':'round','stroke-linecap':'round'},group);
@@ -85,7 +95,7 @@ async function init(){
   $('loadStatus').textContent='원본/GPX 비교 데이터 준비 완료. 확대·이동으로 구간을 확인할 수 있어.';
  }catch(error){$('info').textContent='비교 자료를 열지 못했어: '+error.message;$('loadStatus').textContent='최신 모바일 Chrome에서 다시 열어줘.'}
 }
-for(const key of ['showOld','showGpx','showGaps'])$(key).onchange=render;
+for(const key of ['showOld','showGpx','showGaps','showReference'])$(key).onchange=render;
 $('zoomIn').onclick=()=>{camera.z=Math.min(100,camera.z*1.5);render()};
 $('zoomOut').onclick=()=>{camera.z=Math.max(.7,camera.z/1.5);render()};
 $('fit').onclick=()=>{camera={z:1,x:0,y:0};render()};
@@ -95,6 +105,44 @@ svg.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,panX:camera.x,panY:camera.y}
 svg.onpointermove=e=>{if(!drag)return;const r=svg.getBoundingClientRect();camera.x=drag.panX+(e.clientX-drag.x)*1000/r.width;camera.y=drag.panY+(e.clientY-drag.y)*650/r.height;render()};
 svg.onpointerup=()=>{drag=null};svg.onpointercancel=()=>{drag=null};
 svg.addEventListener('wheel',e=>{e.preventDefault();camera.z=Math.max(.7,Math.min(100,camera.z*(e.deltaY>0?.85:1.15)));render()},{passive:false});
+
+$('clearReference').onclick=()=>{
+ referencePaths=[];referenceStats=null;$('referenceFile').value='';
+ $('referenceStatus').textContent='참고자료 해제. 공식 선형 검증은 여전히 완료되지 않았어.';render();
+};
+$('referenceFile').onchange=async(e)=>{
+ const file=e.target.files?.[0];if(!file||!data)return;
+ try{
+  if(file.size>20*1024*1024)throw Error('20MB 이하의 간월산 주변 선형 파일을 선택해 줘.');
+  const raw=await file.text(),name=file.name.toLowerCase();
+  const paths=name.endsWith('.gpx')
+   ?window.SanbakGanwolVerify.gpx(raw,txt=>new DOMParser().parseFromString(txt,'application/xml'))
+   :name.endsWith('.geojson')||name.endsWith('.json')?window.SanbakGanwolVerify.geojson(raw):null;
+  if(!paths)throw Error('GeoJSON 또는 GPX 파일이 아니야.');
+  const stats=window.SanbakGanwolVerify.compare(data.g,paths,5);
+  referencePaths=paths;referenceStats=stats;
+  $('referenceStatus').textContent=file.name+' · '+stats.segments+'개 선분 · GPX 408점 중 대조자료 30m 이내 '+stats.near30+'점 / 50m 이내 '+stats.near50+'점. '+
+   '기존 원본에서 50m 이상 이격된 403점 중 대조자료 30m 이내 '+stats.gapNear30+'점 / 50m 이내 '+stats.gapNear50+
+   '점. 좌표 일치 참고치이며 현장·공식자료 진위는 미검증이야.';
+  render();
+ }catch(error){
+  referencePaths=[];referenceStats=null;render();
+  $('referenceStatus').textContent='대조 실패: '+error.message;
+ }
+};
+$('downloadGap').onclick=()=>{
+ if(!data)return;
+ const geojson={type:'FeatureCollection',name:'간월산 4.54km 이격 구간 검토',
+  metadata:{source:'한국등산트레킹지원센터 GPX 2022-11-16',
+   baseline:'산림청 2016 기반 기존 GeoJSON',distance_threshold_m:50,
+   estimated_length_km:4.538,points_above_threshold:403,verified:false,allow_in_routing:false,
+   imported_reference_support_30m:referenceStats?.gapNear30??null},
+  features:[{type:'Feature',properties:{feature_kind:'gpx_gap_review',verified:false,allow_in_routing:false},
+   geometry:{type:'LineString',coordinates:data.g.slice(4)}}]};
+ const url=URL.createObjectURL(new Blob([JSON.stringify(geojson)],{type:'application/geo+json'}));
+ const a=document.createElement('a');a.href=url;a.download='ganwol-gap-unverified.geojson';a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),10000);
+};
 $('downloadCandidate').onclick=()=>{
  if(!data)return;
  const geojson={type:'FeatureCollection',name:'간월산 GPX 대조 후보 (현장 미검증)',

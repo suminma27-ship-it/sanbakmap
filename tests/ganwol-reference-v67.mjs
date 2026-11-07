@@ -1,0 +1,27 @@
+// v67 Ganwolsan independent reference validation
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const base=new URL('../',import.meta.url);
+const source=readFileSync(new URL('ganwol-verify.js',base),'utf8');
+const api=new Function('const window={};\n'+source+'\nreturn window.SanbakGanwolVerify;')();
+const a=[129.04,35.552],b=[129.041,35.552],track=[a,b];
+const lines=api.geojson({type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'LineString',coordinates:track}}]});
+assert.deepEqual(lines[0],track);
+const points=[[129.04001,35.552],[129.0405,35.552],[129.045,35.552]];
+const stats=api.compare(points,lines,2);
+assert.equal(stats.total,3);assert.equal(stats.near30,2);
+assert.equal(stats.gapNear30,0);assert.equal(stats.verified,false);
+assert(api.nearest([129.0405,35.552],api.index(lines))<1);
+assert.throws(()=>api.geojson({type:'Point',coordinates:a}),/LineString/);
+assert.throws(()=>api.geojson({type:'LineString',coordinates:[[300000,400000],[300005,400005]]}),/LineString/);
+assert.throws(()=>api.geojson({type:'LineString',coordinates:[[127,37],[127.001,37]]}),/다른 지역/);
+assert.throws(()=>api.geojson({type:'FeatureCollection',crs:{properties:{name:'EPSG:5179'}},features:[]}),/WGS84/);
+const html=readFileSync(new URL('ganwol-review.html',base),'utf8');
+const inline=html.split('<script>\n')[1]?.split('</script>')[0];
+assert(inline);new Function(inline);
+for(const key of ['ganwol-verify.js','id="referenceFile"','id="referenceStatus"','id="showReference"','id="downloadGap"','data.g.slice(4)','allow_in_routing:false','window.SanbakGanwolVerify.compare'])assert(html.includes(key),key);
+const worker=readFileSync(new URL('sw.js',base),'utf8');
+assert(worker.includes('sanbakmap-v67-fresh-1')&&worker.includes('./ganwol-verify.js'));
+const flow=readFileSync(new URL('.github/workflows/deploy-pages.yml',base),'utf8');
+assert(flow.includes('ganwol-verify.js'));
+console.log('PASS: v67 GPX/GeoJSON reference matching, topology safety, WGS84 guard and deployment');

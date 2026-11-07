@@ -1,0 +1,38 @@
+{
+  "version": 96,
+  "park": "seorak",
+  "review_date": "2026-11-08",
+  "source_map_version": 92,
+  "original_osm_snapshot": "2026-11-05",
+  "evidence_inventory": {
+    "exact_source_shared_nodes": 26,
+    "original_path_path_contacts": 18,
+    "original_track_track_contacts": 2,
+    "original_contact_pairs_with_pedestrian_facilities": 6,
+    "named_public_junctions_matching_exact_original_node_and_official_record": 0
+  },
+  "checked_public_resource_descriptions": [
+    {
+      "institution": "Korea National Park Service",
+      "resource": "Seoraksan visitor course information and map downloads",
+      "url": "https://www.knps.or.kr/front/portal/visit/visitCourseMain.do?menuNo=8000275&parkId=120400",
+      "observation": "The publicly available park page describes trails and map downloads, but did not supply a coordinate+OSM node-ID junction record matched to any of the 26 source contacts during this review."
+    },
+    {
+      "institution": "Korea National Park Service / data.go.kr",
+      "resource": "National park linear facilities (trails and approach roads)",
+      "url": "https://www.data.go.kr/data/15091972/fileData.do",
+      "observation": "Published national park line-facility dataset is a candidate for later spatial comparison; raw geometry was not imported or individually crosschecked here. A line-dataset listing alone does not authenticate named junction point IDs."
+    }
+  ],
+  "v94_anchor_file": "audits/seorak-v94-source-contact-anchors.json",
+  "status": "not_enough_evidence_to_publish_named_junctions",
+  "named_junctions_added": 0,
+  "tracks_added": 0,
+  "generated_connectors": 0,
+  "new_authorized_routes": 0,
+  "current_access_verified": false,
+  "automatic_route_planning_enabled": false,
+  "v96_user_facing_feature": "order and locally save the existing four v95 display-only POIs; not actual trail routes",
+  "next_required_evidence": "Download and validate institution-sourced georeferenced junction points or official mapped trail positions; tie names to original OSM IDs only when source identities are provable, and verify current park restrictions independently."
+}

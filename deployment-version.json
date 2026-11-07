@@ -1,10 +1,10 @@
 {
   "product": "산박지도",
-  "ui_version": "v96",
+  "ui_version": "v97",
   "trail_geometry_version": "v92",
   "page": "national-parks-trails.html",
-  "expected_page_title": "산박지도 v96 | 설악산 주요지점 순서 계획",
-  "published_feature": "주요지점 방문 순서 추가·이동·삭제·로컬 보관",
+  "expected_page_title": "산박지도 v97 | 설악산 산길 표시 간소화",
+  "published_feature": "OSM 산길 중심 / 임도 포함 / 전체 원본 (source kept, no official route inference)",
   "generated_routes": false,
   "deployment_probe_version": 1
 }

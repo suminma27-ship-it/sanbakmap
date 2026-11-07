@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v96 | 설악산 주요지점 순서 계획</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v97 | 설악산 산길 표시 간소화</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#23392c;background:#f4f7f4}*{box-sizing:border-box}body{margin:0}header{padding:15px max(14px,calc((100% - 1240px)/2));background:#123c2b;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header a{color:white;text-decoration:none;font-weight:750}main{max-width:1240px;margin:0 auto;padding:15px 12px 38px}h1{font-size:23px;margin:0 0 8px}p{font-size:13px;line-height:1.6;margin:8px 0 12px}.note{padding:12px;background:#edf4ee;border:1px solid #d6e4d7;border-radius:11px;font-size:12px;line-height:1.65}.toolbar{background:white;border:1px solid #d9e5dd;border-radius:12px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}.toolbar label{font-size:12px;font-weight:800}.toolbar select{min-height:41px;padding:9px 12px;min-width:180px;border:1px solid #cbd9ce;border-radius:8px;background:white;color:inherit}.toolbar button{background:#fff;border:1px solid #c9d9cd;color:#276343;font-weight:700;padding:9px 12px;border-radius:8px;cursor:pointer;min-height:41px}.toolbar button:focus-visible,.toolbar select:focus-visible{outline:2px solid #2f9569}.stat{font-size:12px;color:#59725e;flex:1 1 260px}.mapbox{background:#fff;border:1px solid #d6e2d7;border-radius:14px;overflow:hidden}.mapbox svg{display:block;width:100%;height:min(72vh,760px);min-height:450px;touch-action:none;cursor:grab;background:#eef3ed;user-select:none}.mapbox svg:active{cursor:grabbing}.foot{padding:11px 13px;color:#526c5a;font-size:12px;border-top:1px solid #e0e8e0}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin:11px 0}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:22px;height:0;border-top:3px solid #267653}.swatch.track{border-color:#6A8567;border-top-style:dashed}footer{font-size:11px;line-height:1.6;color:#6a796e;margin-top:16px}footer a{color:#366e4a}@media(max-width:700px){h1{font-size:19px}.mapbox svg{height:66vh;min-height:400px}.toolbar{gap:7px}.toolbar select{min-width:140px}}
 .poi-switch{display:inline-flex;gap:6px;align-items:center;padding:5px 7px;font-size:12px;font-weight:700;white-space:nowrap}.poi-switch input{width:17px;height:17px;accent-color:#236b48}.named-poi{cursor:pointer;outline:none}.named-poi circle{stroke:#fff;stroke-width:1.6}.named-poi:focus-visible circle{stroke:#f6b73c;stroke-width:3}.named-poi text{font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;fill:#193d31;pointer-events:none}.poi-foot{font-size:12px;color:#536a5b;margin:9px 2px}#poiToggle:focus-visible{outline:2px solid #186b45;outline-offset:2px}.named-poi.is-planned circle{stroke:#e39d22;stroke-width:3}.poi-plan{margin:12px 0;padding:0 12px;border:1px solid #d1dfd5;border-radius:10px;background:#fff}.poi-plan[hidden]{display:none}.poi-plan summary{cursor:pointer;font-weight:750;padding:12px 2px;min-height:44px}.poi-plan summary span{font-size:12px;font-weight:500;color:#536f5d}.poi-plan p{margin:6px 0 11px}.poi-plan-controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:9px}.poi-plan-controls select{flex:1;min-width:145px;min-height:40px;padding:7px;border:1px solid #bacfc2;border-radius:8px;background:#fff}.poi-plan button{min-height:38px;border:1px solid #c4d5cb;border-radius:8px;padding:6px 10px;background:#f7faf8;font-weight:700;color:#20583d;cursor:pointer}.poi-plan button:disabled{opacity:.4;cursor:default}.poi-plan button:focus-visible{outline:2px solid #2b8254}.poi-plan ol{padding-left:25px;margin:6px 0 12px}.poi-plan li{padding:6px 0;border-top:1px solid #eef3ef}.poi-plan-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.poi-plan-row strong{flex:1 1 130px;font-size:13px}.poi-plan-row small{flex:1 1 100%;color:#647669;font-size:11px}.poi-plan .danger{color:#9b4932}.poi-plan .quiet{font-size:12px;color:#607464}.poi-plan[open] summary{border-bottom:1px solid #e4ece6;margin-bottom:9px}@media(max-width:700px){.poi-plan-row strong{flex-basis:100px}.poi-plan-row button{min-width:38px;padding:7px}}
 </style></head><body>
-<header><a href="./index.html">▲ 산박지도</a><span>산박지도 v96 · 주요지점 순서 계획</span><a href="./national.html">전국 등산로</a></header>
+<header><a href="./index.html">▲ 산박지도</a><span>산박지도 v97 · 산길 표시 간소화</span><a href="./national.html">전국 등산로</a></header>
 <main><h1>국립공원 등산로 표시 — 1차</h1>
-<p class="note">2026년 11월 5일 OpenStreetMap 자료를 바탕으로 국립공원 산길을 검토해. v92에서는 설악산 경계 내부의 일반 보행로 75개를 원본 OSM 태그 및 2022년 산행 GPX와 비교해, <strong>명시적 보도(sidewalk) 2개와 접근 불허(access=no) 1개</strong>만 지도 표시에서 제외했어. 총 <strong>700개 선형</strong>을 표시하며, 나머지 72개 일반 보행로는 산행 가능 여부가 확인되지 않은 상태로 유지해. 보행시설이나 다른 길이 가깝다는 이유로 연결선을 만들지 않고, 지도 선형은 현재 통행 허가·탐방 개방을 보증하지 않아.</p>
-<div class="toolbar"><label for="park">공원</label><select id="park" aria-label="국립공원 선택"><option value="seorak">설악산</option><option value="jiri">지리산</option><option value="bukhan">북한산·도봉산</option></select><label for="basemap">바탕지도</label><select id="basemap" aria-label="바탕지도 선택"><option value="standard" selected>일반 지도</option><option value="topo">등고선 지형도</option><option value="lines">등산로만</option></select>
+<p class="note">2026년 11월 5일 OpenStreetMap 자료를 바탕으로 국립공원 산길을 검토해. v92에서는 설악산 경계 내부의 일반 보행로 75개를 원본 OSM 태그 및 2022년 산행 GPX와 비교해, <strong>명시적 보도(sidewalk) 2개와 접근 불허(access=no) 1개</strong>만 지도 표시에서 제외했어. 총 <strong>700개 선형</strong>을 보존하되 기본 화면에서는 OSM 산길 위주로 보여 줘. 검토 보류한 72개 일반 보행로 등은 '전체 원본'에서 볼 수 있고, 산행 가능 여부는 확인되지 않았어. 보행시설이나 다른 길이 가깝다는 이유로 연결선을 만들지 않고, 지도 선형은 현재 통행 허가·탐방 개방을 보증하지 않아.</p>
+<div class="toolbar"><label for="park">공원</label><select id="park" aria-label="국립공원 선택"><option value="seorak">설악산</option><option value="jiri">지리산</option><option value="bukhan">북한산·도봉산</option></select><label for="pathMode" id="pathModeLabel">길 표시</label><select id="pathMode" aria-label="설악산 길 표시 범위"><option value="focus" selected>산길 중심</option><option value="roads">임도 포함</option><option value="all">전체 원본</option></select><label for="basemap">바탕지도</label><select id="basemap" aria-label="바탕지도 선택"><option value="standard" selected>일반 지도</option><option value="topo">등고선 지형도</option><option value="lines">등산로만</option></select>
 <button id="fit" type="button">전체 보기</button><button id="zoomIn" type="button">확대 ＋</button><button id="zoomOut" type="button">축소 −</button><label class="poi-switch"><input type="checkbox" id="poiToggle" checked>주요지점 4곳</label><span id="count" class="stat">원본 등산로를 불러오는 중…</span></div>
 
 <p class="poi-foot">v96 주요지점 계획: 지점을 눌러 방문 순서 목록에 추가할 수 있어. 이름은 공단 자료, 위치는 OSM 참고 좌표야. <strong>지점 순서만 정리하며 실제 경로·거리·고도·탐방 허가는 계산하거나 보장하지 않아.</strong> 중청대피소는 숙박이 아닌 임시 비상대피시설이야.</p>
-<div class="legend"><span><i class="swatch"></i>등산로·보행로·계단</span><span><i class="swatch track"></i>임도·작업로</span></div>
+<p class="poi-foot">길 표시: '산길 중심'은 OSM의 산길·계단 분류만 보여 줘. '임도 포함'은 임도도 표시하고, '전체 원본'은 검토 중인 보행시설까지 보여 줘. <strong>이는 정규탐방로 인증이나 현재 개방 여부를 뜻하지 않아.</strong></p><div class="legend"><span><i class="swatch"></i>OSM 산길·계단</span><span><i class="swatch track"></i>임도 (선택 시)</span></div>
 <div class="mapbox"><svg id="parkMap" viewBox="0 0 1000 700" role="img" aria-label="국립공원 OSM 등산로 선형 지도"><rect width="1000" height="700" fill="#edf3ea"/></svg>
 <div class="foot" role="status" id="message">원본 좌표를 읽는 중…</div></div>
 <details id="poiPlanPanel" class="poi-plan">
@@ -42,6 +42,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
 <script src="./seorak-v83-gpx-tracks.js"></script>
 <script src="./seorak-v95-pois.js"></script>
 <script src="./seorak-v96-plan.js"></script>
+<script src="./core/trail-visibility.js"></script>
 <script>
 (()=>{'use strict';
  const $=id=>document.getElementById(id),ns='http://www.w3.org/2000/svg',svg=$('parkMap'),W=1000,H=700;
@@ -160,12 +161,18 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
  }
  function apply(){const g=svg.querySelector('#paths');if(g)g.setAttribute('transform',`translate(${pan.x} ${pan.y}) translate(${W/2} ${H/2}) scale(${pan.z}) translate(${-W/2} ${-H/2})`);refreshTiles();renderNamedPOIs()}
  const excludedSeorakInsideTrailIndices=new Set([89,436,437]);
+ // Original v92 review: highway=footway/pedestrian display indexes (including 3 excluded in every mode).
+ const seorakUncertainInsideTrailIndices=new Set([0,1,2,3,4,7,8,10,11,12,13,14,15,16,17,18,20,21,22,24,27,30,35,81,82,83,84,87,89,90,132,133,141,143,144,145,148,149,150,151,154,156,158,159,283,284,316,317,318,319,320,321,322,323,378,379,384,387,388,399,400,401,402,403,404,406,407,408,409,410,411,412,415,436,437]);
+ const visibility=window.SanbakTrailVisibility;
  function draw(){if(!db)return;const record=db.parks[$('park').value];if(!record)return;
   // For Seoraksan include source OSM lines that continue beyond the park boundary.
   // The original inside-park source data remains untouched.
   const extra=$('park').value==='seorak'?outerSeorak?.features||[]:[];
+  const mode=$('park').value==='seorak'?$('pathMode').value:'all';
+  const visibleExtra=extra.filter(f=>visibility?.visible(mode,visibility.classifyOSM(f.properties?.highway))??true);
+  $('pathMode').disabled=$('park').value!=='seorak';
   const bbox=record.bbox.slice();
-  for(const f of extra)for(const [lon,lat] of f.geometry.coordinates){
+  for(const f of visibleExtra)for(const [lon,lat] of f.geometry.coordinates){
     bbox[0]=Math.min(bbox[0],lon);bbox[1]=Math.min(bbox[1],lat);
     bbox[2]=Math.max(bbox[2],lon);bbox[3]=Math.max(bbox[3],lat);
   }
@@ -175,15 +182,19 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
   const showSeorak=$('park').value==='seorak';
   const filteredTrails=showSeorak?record.segments.trail.filter((_,i)=>!excludedSeorakInsideTrailIndices.has(i)):record.segments.trail;
   const insideDisplayedCount=filteredTrails.length+record.segments.track.length;
-  const trails=filteredTrails.map(x=>path(x,p)).join('');
-  const roads=record.segments.track.map(x=>path(x,p)).join('');
+  const visibleTrails=showSeorak&&mode!=='all'?record.segments.trail.filter((_,i)=>
+    !excludedSeorakInsideTrailIndices.has(i)&&visibility.insideTrail(i,mode,seorakUncertainInsideTrailIndices)):filteredTrails;
+  const visibleRoads=showSeorak&&!visibility.visible(mode,'forest_road')?[]:record.segments.track;
+  const trails=visibleTrails.map(x=>path(x,p)).join('');
+  const roads=visibleRoads.map(x=>path(x,p)).join('');
+  const visibleCount=visibleTrails.length+visibleRoads.length+visibleExtra.length;
   elem('path',{d:roads,stroke:'#6A8567','stroke-width':1.5,'stroke-dasharray':'4 4',fill:'none','stroke-linecap':'round','vector-effect':'non-scaling-stroke'},stage);
   elem('path',{d:trails,stroke:'#267653','stroke-width':2,fill:'none','stroke-linejoin':'round','stroke-linecap':'round','vector-effect':'non-scaling-stroke'},stage);
   // Source extensions are drawn as original paths. Never draw a straight line between unrelated endpoints.
   // v81: facility/park footways are excluded from the display, while retained in the OSM audit.
-  if(extra.length){
+  if(visibleExtra.length){
     let extraTrails='',extraTracks='';
-    for(const f of extra){
+    for(const f of visibleExtra){
       const pts=f.geometry?.coordinates;
       if(!Array.isArray(pts)||pts.length<2)continue;
       if(f.properties?.highway==='track')extraTracks+=path(pts,p);
@@ -194,14 +205,12 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
   }
   elem('g',{id:'named-pois'},svg);
   pan={z:1,x:0,y:0};tileKey='';apply();
-  $('count').textContent=record.name+' · 경계 내부 '+insideDisplayedCount.toLocaleString('ko-KR')+'개'+
-    (extra.length?' · 경계 바깥 원본 '+extra.length+'개':'')+' · OSM 2026-11-05';
-  $('message').textContent='원본 OSM 산길 '+(insideDisplayedCount+extra.length).toLocaleString('ko-KR')+
-    '개 표시 · OSM 원본 선형만 사용(임의 연결 없음) · 현장 통행 가능 여부는 확인 전';
+  $('count').textContent=record.name+' · 화면 '+visibleCount.toLocaleString('ko-KR')+'개 / 보존 원본 '+(insideDisplayedCount+extra.length).toLocaleString('ko-KR')+'개';
+  $('message').textContent='OSM '+visibleCount.toLocaleString('ko-KR')+'개 표시 · 원본 '+(insideDisplayedCount+extra.length).toLocaleString('ko-KR')+'개 보존 · 공식 탐방로·출입허가 검증 전';
  }
  function zoom(mult,point=[W/2,H/2]){const old=pan.z,next=Math.max(.7,Math.min(90,old*mult));const m=next/old;pan.x=(point[0]-W/2)-m*((point[0]-W/2)-pan.x);pan.y=(point[1]-H/2)-m*((point[1]-H/2)-pan.y);pan.z=next;apply()}
  function local(e){const r=svg.getBoundingClientRect();return [(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
- $('park').onchange=()=>{draw();showPlanUI()};$('poiToggle').onchange=()=>{renderNamedPOIs()};
+ $('park').onchange=()=>{draw();showPlanUI()};$('pathMode').onchange=draw;$('poiToggle').onchange=()=>{renderNamedPOIs()};
  $('poiPlanAdd').onclick=()=>addPlannedPOI($('poiPlanPicker').value);
  $('poiPlanClear').onclick=()=>{
   planIDs=[];storePlan();showPlanUI();renderNamedPOIs();

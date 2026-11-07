@@ -1,11 +1,17 @@
-// v70 basemap resilience regression
+// v71: native SVG paths work without MapLibre, WebGL or a remote style.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-const root=new URL('../',import.meta.url);
-const html=readFileSync(new URL('yeongnam-osm.html',root),'utf8');
-const js=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)?.[1];
-assert(js);new Function(js);
-for(const keyword of ['value="lines"','style:selectedStyle()',"map.on('style.load'","layerSource();makePoi();",'fallbackToLines()', "map.setStyle(blankStyle)",'https://tile.openstreetmap.org/{z}/{x}/{y}.png'])assert(html.includes(keyword),keyword);
-assert(!html.includes("style:'https://tiles.openfreemap.org/styles/liberty'"));
-const sw=readFileSync(new URL('sw.js',root),'utf8');assert(sw.includes('sanbakmap-v70-fresh-1'));
-console.log('PASS: v70 raster basemap resilient to external style fetch failure');
+const root=new URL('../',import.meta.url),html=readFileSync(new URL('yeongnam-osm.html',root),'utf8');
+assert(html.includes('산박지도 v71'));
+assert(html.includes('value="lines" selected'));
+assert(html.includes('<svg id="map"'));
+for(const id of ['id="fitAllPaths"','id="zoomIn"','id="zoomOut"','id="showFoot"','id="showTrack"','id="showPoi"'])assert(html.includes(id),id);
+for(const token of ["layers.foot=el('g'","layers.track=el('g'","layers.route=el('g'","layers.poi=el('g'",
+'payload.trailNetwork.features',"svg.addEventListener('pointerdown'","svg.addEventListener('wheel'","typeof DecompressionStream!=='function'"])
+ assert(html.includes(token),'SVG viewer missing: '+token);
+assert(!html.includes('maplibregl.Map('));
+assert(!html.includes('https://unpkg.com/maplibre-gl'));
+const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];assert.equal(scripts.length,2);
+for(const match of scripts)new Function(match[1]);
+const sw=readFileSync(new URL('sw.js',root),'utf8');assert(sw.includes('sanbakmap-v71-fresh-1'));
+console.log('PASS: v71 native SVG hiking trail viewer with no external map engine');

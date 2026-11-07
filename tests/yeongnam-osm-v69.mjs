@@ -28,7 +28,7 @@ assert(Math.abs(metres/1000-8.159)<.05);
 for(const token of ['id="showFoot"','id="showTrack"','id="showTraverse"','id="showPoi"','id="basemap"','id="fitRoute"','allow_in_routing:false'])assert(html.includes(token),token);
 for(const s of html.matchAll(/<script>([\s\S]*?)<\/script>/g))new Function(s[1]);
 const service=readFileSync(new URL('sw.js',root),'utf8');
-assert(service.includes('sanbakmap-v70-fresh-1')&&service.includes('./yeongnam-osm.html'));
+assert(service.includes('sanbakmap-v71-fresh-1')&&service.includes('./yeongnam-osm.html'));
 const workflow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');assert(workflow.includes('yeongnam-osm.html'));
 const index=readFileSync(new URL('index.html',root),'utf8');assert(index.includes('href="./yeongnam-osm.html"'));
 console.log('PASS: v69 OSM national PBF, 1030 regional ways and connected 8.159km ridge');

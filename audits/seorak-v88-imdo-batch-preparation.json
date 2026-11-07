@@ -1,0 +1,48 @@
+{
+  "version": 88,
+  "as_of": "2026-11-07",
+  "source": "Geofabrik South Korea OSM PBF 2026-11-05, original source-way WGS84 coordinates",
+  "park_boundary_relation": "17335482",
+  "park_exterior_buffer_m": 1500,
+  "official_imdo_geometry_acquired": false,
+  "verified_official_matches": null,
+  "held_osm_ways": 125,
+  "exterior_line_fragments": 127,
+  "ways_split_into_multiple_exterior_parts": [
+    752860571,
+    1534178441
+  ],
+  "total_exterior_line_length_m": 33512.54,
+  "shortest_exterior_part_m": 2.38,
+  "source_forest_track_type": "paved/grade1 OSM highway=track only; excludes user-identified facility walking paths",
+  "original_source_file": "seorak-v88-held-125-exterior.geojson",
+  "original_source_file_sha256": "e10664f455855772a15018cdf2edfeb257c8b1a30975406b736d686fcfa514fd",
+  "original_source_file_bytes": 82504,
+  "source_file_available_as_conversation_download": true,
+  "source_file_checked_into_repository": false,
+  "reason_not_in_repo": "Source file is user-owned OSM-derived audit data and is delivered as a user-downloadable artifact; repository retains reproducible exporter and validation schema. It is NOT served as a hiking-map overlay.",
+  "preparation_script": "tools/prepare-seorak-candidates.py",
+  "preparation_input_files": [
+    "seorak-bbox-20261105-osm-lines.geojson (extracted from user-provided 2026-11-05 PBF)",
+    "seorak-park-boundary-candidates.json (includes OSM relation 17335482)",
+    "audits/seorak-v83-grade1-track-gpx-review.json (authoritative list of 125 held IDs)"
+  ],
+  "compare_tool": "tools/compare-official-imdo-batch.mjs",
+  "usage": "node tools/compare-official-imdo-batch.mjs --geojson official-imdo-wgs84-lines.geojson --candidates seorak-v88-held-125-exterior.geojson --output imdo-125-review.json",
+  "accepted_official_input": "User-provided officially obtained IMDO line-centerline data reprojected to EPSG:4326 GeoJSON. The tool cannot attest the GIS file's provenance; the user must verify original .prj, provider, vintage, and permission.",
+  "validation_principles": [
+    "125 unique source way IDs must agree exactly with the v83 held list; the source was clipped outside the OSM park boundary within 1500m using EPSG:32652, then converted back to WGS84.",
+    "Any source that lacks IDs, has duplicate parts, changes route_allowed/display_in_map to true, or uses projected non-WGS84 coordinates is rejected.",
+    "Multi-fragment ways are compared fragment-by-fragment; disconnected fragments are never stitched into a route.",
+    "Even geometry close to a purported official centerline is only a candidate for further documentary/field review; it cannot confirm public access, current trail status, or safe travel.",
+    "No synthetic road joins, no geometry promoted into maps or route calculations."
+  ],
+  "official_input_present_during_release": false,
+  "batch_comparison_against_official_gis_performed": false,
+  "source_osm_map_ways_added": 0,
+  "retained_held_paved_grade1_ways": 125,
+  "displayed_seorak_lines_unchanged": 703,
+  "ji_risan_and_bukhansan_modified": false,
+  "route_geometry_or_elevation_modified": false,
+  "user_interface_changes": "version label and explanatory text only; no new buttons, candidate overlays or color distinctions"
+}

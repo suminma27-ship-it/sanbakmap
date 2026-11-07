@@ -39,7 +39,10 @@ assert(csv[0].includes('review_question'));
 assert(csv.some(l=>l.includes('1533443355')));
 const html=read('national-parks-trails.html');
 assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
-assert(html.includes('국립공원 등산로 원본 · v92'));
+assert(html.includes('등산로 v92 / 주요지점 계획 v96'));
+assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
+assert(html.includes('<script src="./seorak-v96-plan.js"></script>'));
+
 assert(read('.github/workflows/deploy-pages.yml').includes('seorak-review-queue-v93.mjs --output-dir site'));
 assert(read('README.md').includes('v93 검토 목록'));
 assert.equal(read('audits/seorak-v93-pending-footways.json'),JSON.stringify(q,null,2)+'\n');

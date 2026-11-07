@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123c2b"><title>산박지도 v99 | 전국 기관 수록 등산로</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#20372a;background:#f4f7f4}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+header{background:#123c2b;color:#fff;padding:14px max(15px,calc((100% - 1260px)/2));display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+header a{color:white;text-decoration:none}header small{font-size:12px;opacity:.8}
+main{max-width:1260px;margin:auto;padding:18px 13px 40px}
+h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;margin:8px 0}
+.explain{font-size:13px;color:#526f5b}
+.layout{display:grid;grid-template-columns:minmax(260px,310px) minmax(0,1fr);gap:13px;margin-top:16px}
+.panel{border:1px solid #d9e5db;border-radius:12px;background:#fff;overflow:hidden}
+.filter{display:grid;gap:8px;padding:12px;border-bottom:1px solid #e0e9e1}
+input,select{width:100%;min-height:42px;border:1px solid #cbdccd;border-radius:8px;padding:8px 10px;background:#fff;color:inherit}
+.muted{font-size:12px;color:#63796a}.list{overflow-y:auto;max-height:610px}
+.mountain{width:100%;padding:11px 13px;text-align:left;border:0;border-bottom:1px solid #edf1ed;background:white;color:inherit;display:grid;gap:4px}
+.mountain strong{font-size:14px}.mountain small{font-size:11px;color:#64766b}
+.mountain.active,.mountain:hover{background:#e7f2e9}.mountain:focus-visible{outline:2px solid #438f61;outline-offset:-3px}
+.top{display:flex;align-items:flex-start;gap:9px;flex-wrap:wrap;justify-content:space-between;padding:13px 15px}
+.top h2{font-size:19px;margin:0 0 4px}
+.tools{display:flex;gap:5px}.tools button{border:1px solid #ceddd1;border-radius:7px;padding:6px 9px;background:#fff;color:#235e3e;font-weight:650}
+#map{width:100%;height:min(66vh,680px);min-height:390px;display:block;touch-action:none;background:#edf3ee;cursor:grab}
+.info{display:grid;gap:5px;padding:12px 15px;border-top:1px solid #e0e9e2}
+.info strong{font-size:14px}.info p{font-size:12px;margin:0}
+#sourceProof{font-size:11px;color:#597360}
+#routeHint{border-top:1px solid #e0e9e2;padding:11px 15px;font-size:12px;color:#657b6b}
+#status{padding:10px 13px;font-size:12px;color:#536f5a;border-top:1px solid #e0e9e2}
+.notice{padding:12px 14px;border-radius:10px;border:1px solid #d9e4db;background:#ebf2ec;font-size:12px;color:#34543f}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.list{max-height:210px}#map{min-height:330px;height:52vh}header small{font-size:11px}}
+</style></head><body>
+<header><a href="./index.html"><strong>▲ 산박지도</strong></a><span>전국 기관 수록 등산로 · v99</span><a href="./national-parks-trails.html"><small>설악산 기존 지도</small></a></header>
+<main><h1>전국 등산로</h1>
+<p class="explain">전국 산코드 2,932개를 검색해. 설악산은 국립공원공단 2018년 탐방로 선형, 다른 산은 산림청 수록 등산로를 우선 사용해. 정밀 자료가 아직 배포되지 않은 산은 기존 산별 원본의 단순화 미리보기로 표시해.</p>
+<div class="notice"><strong>자료 분류와 현재 출입은 별개야.</strong> 기관에 수록된 선형은 대부분 2016~2018년 자료이며 2026년 현재 법정 탐방로 지정·개방·통제를 보장하지 않아. 연결점·거리·고도는 검증 후 코스 계획 기능에 적용할 거야.</div>
+<div class="layout">
+<aside class="panel"><div class="filter"><label for="search" class="muted">산 이름 또는 9자리 산코드</label><input type="search" id="search" placeholder="설악산, 지리산, 관악산…" disabled autocomplete="off"><select id="region" disabled aria-label="지역 선택"><option value="">전국 전체</option></select><div id="resultsCount" class="muted">산 목록 준비 중…</div></div><div id="results" class="list" role="group" aria-label="산 목록"></div></aside>
+<section class="panel" aria-label="등산로 지도"><div class="top"><div><h2 id="selected">산을 선택해 줘</h2><div class="muted" id="source">공식 기관 등록 자료 준비 중</div></div><div class="tools"><button id="zoomIn" type="button" aria-label="확대">＋</button><button id="zoomOut" type="button" aria-label="축소">－</button><button id="fit" type="button">전체</button></div></div>
+<svg id="map" viewBox="0 0 1000 710" role="img" aria-label="기관 수록 등산로 선형 지도"><rect width="1000" height="710" fill="#edf3ee"/></svg>
+<div class="info"><strong id="sourceCount">등산로 정보를 불러오는 중…</strong><p id="sourceDetails"></p><div id="sourceProof"></div></div>
+<div id="routeHint"></div><div id="status" role="status">전국 자료를 불러오는 중…</div></section></div>
+</main>
+<script src="./national_data.js"></script><script src="./core/nationwide-source-loader.js"></script><script src="./core/nationwide-app.js"></script>
+</body></html>

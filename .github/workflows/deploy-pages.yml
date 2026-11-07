@@ -51,6 +51,7 @@ jobs:
           done
           test -f core/trail-visibility.js
           test -f data/knps-seorak-2018.geojson
+          for f in nationwide-official.html core/nationwide-source-loader.js core/nationwide-app.js data/nationwide/index.json data/nationwide/bucket-00.json; do test -f "$f"; done
           grep -q '산박지도 v' index.html
           mkdir -p site
           cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
@@ -61,6 +62,10 @@ jobs:
           mkdir -p site/core site/data
           cp core/trail-visibility.js site/core/trail-visibility.js
           cp data/knps-seorak-2018.geojson site/data/knps-seorak-2018.geojson
+          mkdir -p site/data/nationwide
+          cp data/nationwide/*.json site/data/nationwide/
+          cp nationwide-official.html site/nationwide-official.html
+          cp core/nationwide-source-loader.js core/nationwide-app.js site/core/
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
           cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json
 

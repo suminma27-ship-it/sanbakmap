@@ -8,7 +8,7 @@
 - **v92에서 검토 보류한 설악산 `footway/pedestrian` 47개를 빠짐없이 추적할 수 있는 검토용 목록** 추가. `tools/seorak-review-queue-v93.mjs`가 v92 원본 감사표에서 자동으로 JSON/CSV를 생성하며 수작업으로 새 경로를 판정하지 않음.
 - 검토 순서는 **보행자도로 1개 → 교량 12개 → GPX 흔적 없는 길이 80m 이상 보행로 6개 → 부분 기록만 있는 긴 보행로 10개 → 나머지 짧은 보행로 18개**. 이 순서는 **조사 편의용**이며 실제 등산로 판단, 코스 추천 우선순위, 통행 가능·허가 여부 판단이 아님.
 - 각 항목에 기존 표시 ID, 실제 OSM Way ID·원본 열람 링크, 대략적 표시 길이, 교량 여부, 2022년 GPX 근접 표본 수 및 대략적 구간 커버리지, 확인해야 할 질문을 기록. **공식 탐방로 대응 여부와 현행 출입 허용 여부는 모두 '미확인'**으로 유지. 2022년 기록이 있더라도 현행 개방 또는 원본 선형 전체의 유효성을 뜻하지 않음.
-- GitHub Pages 검토 자료: [JSON](https://suminma27-ship-it.github.io/sanbakmap/seorak-v93-pending-footways.json) / [CSV](https://suminma27-ship-it.github.io/sanbakmap/seorak-v93-pending-footways.csv). 자동 테스트 `tests/seorak-review-queue-v93.mjs`에서 **75개 = 기존 제외 3개 + 선행 근거 보존 25개 + 보류 47개**를 재현하고 누락·재분류·지도 변경을 방지.
+- 재현 가능한 원본 검토 목록은 저장소 `audits/seorak-v93-pending-footways.json`, `audits/seorak-v93-pending-footways.csv`에도 함께 보관. GitHub Pages 검토 자료: [JSON](https://suminma27-ship-it.github.io/sanbakmap/seorak-v93-pending-footways.json) / [CSV](https://suminma27-ship-it.github.io/sanbakmap/seorak-v93-pending-footways.csv). 자동 테스트 `tests/seorak-review-queue-v93.mjs`에서 **75개 = 기존 제외 3개 + 선행 근거 보존 25개 + 보류 47개**를 재현하고 누락·재분류·지도 변경을 방지.
 - **지도 표시 총 700개, 기존 초록색 등산로/올리브색 임도, 코스 편집기, 연결망 비활성 정책 모두 변경 없음.** v93은 운영 지도 버전이 아닌 **독립 데이터 검토 단계**다. 보류 목록은 지도에 별도 핀·후보 표시를 추가하지 않음.
 - 다음 작업: 공식 국립공원 탐방로·시설 공간자료 및 최근 GPX를 47개 원본 Way별로 일치 검증할 때에만 검토 상태 갱신. 산행 POI(정상·갈림길·대피소)는 정확히 검증된 원본 지점에만 연결.
 

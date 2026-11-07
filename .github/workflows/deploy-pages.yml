@@ -39,6 +39,7 @@ jobs:
           mkdir -p site
           cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
           node tools/seorak-topology-v89.mjs --output-dir site
+          cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

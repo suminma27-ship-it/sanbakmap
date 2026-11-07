@@ -57,5 +57,5 @@ assert(metres>413&&metres<416,'unexpected total length '+metres);
 const html=read('national-parks-trails.html');
 assert(!html.includes('seorak-v80-extra.js'),'no v80 map lines');
 assert(!html.includes('window.SanbakNationalRoutes.shortest'),'no new routing');
-assert(read('README.md').includes('**현재 버전: v80**'));
+assert(read('README.md').includes('## v80 업데이트'),'retained v80 source audit history');
 console.log('PASS v80: five held OSM footways '+metres.toFixed(1)+'m, 3 exact v78 neighbors, 1 loop, no routing');

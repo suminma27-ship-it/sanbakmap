@@ -1,0 +1,325 @@
+{
+  "type": "FeatureCollection",
+  "name": "Seoraksan v80 held footway source audit",
+  "data_version": 80,
+  "source": "Geofabrik South Korea OSM PBF 2026-11-05",
+  "source_archived_gpx": "한국등산트레킹지원센터 전국 주요 봉우리 코스 2022-11-16",
+  "reference_gpx_files_checked": 6748,
+  "reference_gpx_nearest_bbox_to_review_center_m_approx": 1913,
+  "reference_gpx_intersections_with_review_area": 0,
+  "reference_gpx_method": "All 6748 GPX metadata bounding rectangles; proximity is a lower bound to actual sampled track points, not field validation.",
+  "review_center_lonlat": [
+    128.4932,
+    38.2116
+  ],
+  "status": "held_insufficient_independent_evidence",
+  "display_in_map": false,
+  "route_allowed": false,
+  "field_verified": false,
+  "prior_held_candidates": 224,
+  "displayed_map_lines_unchanged": 713,
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "485958084",
+        "highway": "footway",
+        "osm_2026_tags": {
+          "highway": "footway"
+        },
+        "direct_displayed_neighbor": "485958072",
+        "direct_displayed_neighbor_highway": "footway",
+        "exact_shared_source_vertex": [
+          128.4933598,
+          38.2114373
+        ],
+        "closed_loop": true,
+        "length_m": 88,
+        "field_verified": false,
+        "routing_allowed": false,
+        "promotion_status": "hold: only source topology verified, no independent GPS or official/field traversability evidence"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            128.4933557,
+            38.2116275
+          ],
+          [
+            128.4933221,
+            38.2115937
+          ],
+          [
+            128.4933048,
+            38.2115531
+          ],
+          [
+            128.4933057,
+            38.2115103
+          ],
+          [
+            128.4933247,
+            38.2114701
+          ],
+          [
+            128.4933598,
+            38.2114373
+          ],
+          [
+            128.4934054,
+            38.2114159
+          ],
+          [
+            128.4934574,
+            38.2114073
+          ],
+          [
+            128.49351,
+            38.2114125
+          ],
+          [
+            128.4935577,
+            38.2114309
+          ],
+          [
+            128.4935941,
+            38.2114593
+          ],
+          [
+            128.4936173,
+            38.2114951
+          ],
+          [
+            128.493625,
+            38.211535
+          ],
+          [
+            128.4936204,
+            38.2115683
+          ],
+          [
+            128.4935923,
+            38.2116102
+          ],
+          [
+            128.4935553,
+            38.211638
+          ],
+          [
+            128.493509,
+            38.2116553
+          ],
+          [
+            128.4934548,
+            38.2116601
+          ],
+          [
+            128.4934017,
+            38.2116505
+          ],
+          [
+            128.4933557,
+            38.2116275
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "485958093",
+        "highway": "footway",
+        "osm_2026_tags": {
+          "highway": "footway"
+        },
+        "direct_displayed_neighbor": "485958082",
+        "direct_displayed_neighbor_highway": "footway",
+        "exact_shared_source_vertex": [
+          128.4939299,
+          38.2115746
+        ],
+        "closed_loop": false,
+        "length_m": 10.6,
+        "field_verified": false,
+        "routing_allowed": false,
+        "promotion_status": "hold: only source topology verified, no independent GPS or official/field traversability evidence"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            128.4939299,
+            38.2115746
+          ],
+          [
+            128.4940491,
+            38.2115591
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "485958097",
+        "highway": "footway",
+        "osm_2026_tags": {
+          "highway": "footway"
+        },
+        "direct_displayed_neighbor": "485958082",
+        "direct_displayed_neighbor_highway": "footway",
+        "exact_shared_source_vertex": [
+          128.4937849,
+          38.211647
+        ],
+        "closed_loop": false,
+        "length_m": 16.8,
+        "field_verified": false,
+        "routing_allowed": false,
+        "promotion_status": "hold: only source topology verified, no independent GPS or official/field traversability evidence"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            128.4936204,
+            38.2115683
+          ],
+          [
+            128.4937849,
+            38.211647
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "485958100",
+        "highway": "footway",
+        "osm_2026_tags": {
+          "highway": "footway"
+        },
+        "direct_displayed_neighbor": "485958098",
+        "direct_displayed_neighbor_highway": "footway",
+        "exact_shared_source_vertex": [
+          128.493858,
+          38.2118594
+        ],
+        "closed_loop": false,
+        "length_m": 286.7,
+        "field_verified": false,
+        "routing_allowed": false,
+        "promotion_status": "hold: only source topology verified, no independent GPS or official/field traversability evidence"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            128.49183,
+            38.2118046
+          ],
+          [
+            128.4922628,
+            38.2118031
+          ],
+          [
+            128.4923504,
+            38.2118046
+          ],
+          [
+            128.4929521,
+            38.2119803
+          ],
+          [
+            128.4930781,
+            38.211993
+          ],
+          [
+            128.4934393,
+            38.2119345
+          ],
+          [
+            128.4935607,
+            38.2119168
+          ],
+          [
+            128.4936095,
+            38.2119123
+          ],
+          [
+            128.4936961,
+            38.211894
+          ],
+          [
+            128.493858,
+            38.2118594
+          ],
+          [
+            128.4943059,
+            38.2117822
+          ],
+          [
+            128.4943913,
+            38.2117471
+          ],
+          [
+            128.4944563,
+            38.2116896
+          ],
+          [
+            128.4945336,
+            38.2115746
+          ],
+          [
+            128.4945742,
+            38.2115554
+          ],
+          [
+            128.4947328,
+            38.2113302
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "485958102",
+        "highway": "footway",
+        "osm_2026_tags": {
+          "highway": "footway"
+        },
+        "direct_displayed_neighbor": "485958072",
+        "direct_displayed_neighbor_highway": "footway",
+        "exact_shared_source_vertex": [
+          128.4924195,
+          38.2117119
+        ],
+        "closed_loop": false,
+        "length_m": 12.1,
+        "field_verified": false,
+        "routing_allowed": false,
+        "promotion_status": "hold: only source topology verified, no independent GPS or official/field traversability evidence"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            128.4923504,
+            38.2118046
+          ],
+          [
+            128.4924083,
+            38.2117422
+          ],
+          [
+            128.4924195,
+            38.2117119
+          ]
+        ]
+      }
+    }
+  ]
+}

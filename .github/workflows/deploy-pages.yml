@@ -42,6 +42,7 @@ jobs:
           node tools/seorak-topology-v89.mjs --output-dir site
           node tools/seorak-topology-v92.mjs --output-dir site
           node tools/seorak-review-queue-v93.mjs --output-dir site
+          node tools/seorak-poi-anchors-v94.mjs --output-dir site
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
           cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json
 

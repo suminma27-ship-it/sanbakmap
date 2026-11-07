@@ -26,7 +26,7 @@ const knps=JSON.parse(read('data/knps-seorak-2018.geojson'));
 const official=src.knps(knps);assert.equal(official.kind,'knps');assert.equal(official.sourceCount,19);
 assert.equal(official.routable,false);assert.equal(official.currentlyOpenVerified,false);
 assert.equal(src.choose('428302602',{park:knps}).kind,'knps');
-assert.equal(src.choose('428302602',{agencyData:sample}).kind,'agency');
+assert.equal(src.choose(code,{agencyData:sample}).kind,'agency');
 const html=read('nationwide-official.html');
 for(const key of ['전국 기관 수록 등산로 · v99','id="search"','id="region"','id="map"','id="sourceProof"','id="routeHint"','core/nationwide-app.js','core/nationwide-source-loader.js','national_data.js'])assert(html.includes(key),key);
 const app=read('core/nationwide-app.js');new Function(app);

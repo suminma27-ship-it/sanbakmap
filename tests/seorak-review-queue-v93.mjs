@@ -39,7 +39,7 @@ assert(csv[0].includes('review_question'));
 assert(csv.some(l=>l.includes('1533443355')));
 const html=read('national-parks-trails.html');
 assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
-assert(html.includes('등산로 v92 / 주요지점 계획 v96'));
+assert(html.includes('산박지도 v96 · 주요지점 순서 계획'));
 assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
 assert(html.includes('<script src="./seorak-v96-plan.js"></script>'));
 

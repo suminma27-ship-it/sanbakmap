@@ -3,13 +3,15 @@
 <meta name="theme-color" content="#123c2b"><title>산박지도 v92 | 산행로와 일반 보행로 원본 구분</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#23392c;background:#f4f7f4}*{box-sizing:border-box}body{margin:0}header{padding:15px max(14px,calc((100% - 1240px)/2));background:#123c2b;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header a{color:white;text-decoration:none;font-weight:750}main{max-width:1240px;margin:0 auto;padding:15px 12px 38px}h1{font-size:23px;margin:0 0 8px}p{font-size:13px;line-height:1.6;margin:8px 0 12px}.note{padding:12px;background:#edf4ee;border:1px solid #d6e4d7;border-radius:11px;font-size:12px;line-height:1.65}.toolbar{background:white;border:1px solid #d9e5dd;border-radius:12px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}.toolbar label{font-size:12px;font-weight:800}.toolbar select{min-height:41px;padding:9px 12px;min-width:180px;border:1px solid #cbd9ce;border-radius:8px;background:white;color:inherit}.toolbar button{background:#fff;border:1px solid #c9d9cd;color:#276343;font-weight:700;padding:9px 12px;border-radius:8px;cursor:pointer;min-height:41px}.toolbar button:focus-visible,.toolbar select:focus-visible{outline:2px solid #2f9569}.stat{font-size:12px;color:#59725e;flex:1 1 260px}.mapbox{background:#fff;border:1px solid #d6e2d7;border-radius:14px;overflow:hidden}.mapbox svg{display:block;width:100%;height:min(72vh,760px);min-height:450px;touch-action:none;cursor:grab;background:#eef3ed;user-select:none}.mapbox svg:active{cursor:grabbing}.foot{padding:11px 13px;color:#526c5a;font-size:12px;border-top:1px solid #e0e8e0}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin:11px 0}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:22px;height:0;border-top:3px solid #267653}.swatch.track{border-color:#6A8567;border-top-style:dashed}footer{font-size:11px;line-height:1.6;color:#6a796e;margin-top:16px}footer a{color:#366e4a}@media(max-width:700px){h1{font-size:19px}.mapbox svg{height:66vh;min-height:400px}.toolbar{gap:7px}.toolbar select{min-width:140px}}
+.poi-switch{display:inline-flex;gap:6px;align-items:center;padding:5px 7px;font-size:12px;font-weight:700;white-space:nowrap}.poi-switch input{width:17px;height:17px;accent-color:#236b48}.named-poi{cursor:pointer;outline:none}.named-poi circle{stroke:#fff;stroke-width:1.6}.named-poi:focus-visible circle{stroke:#f6b73c;stroke-width:3}.named-poi text{font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;fill:#193d31;pointer-events:none}.poi-foot{font-size:12px;color:#536a5b;margin:9px 2px}#poiToggle:focus-visible{outline:2px solid #186b45;outline-offset:2px}
 </style></head><body>
 <header><a href="./index.html">▲ 산박지도</a><span>국립공원 등산로 원본 · v92</span><a href="./national.html">전국 등산로</a></header>
 <main><h1>국립공원 등산로 표시 — 1차</h1>
 <p class="note">2026년 11월 5일 OpenStreetMap 자료를 바탕으로 국립공원 산길을 검토해. v92에서는 설악산 경계 내부의 일반 보행로 75개를 원본 OSM 태그 및 2022년 산행 GPX와 비교해, <strong>명시적 보도(sidewalk) 2개와 접근 불허(access=no) 1개</strong>만 지도 표시에서 제외했어. 총 <strong>700개 선형</strong>을 표시하며, 나머지 72개 일반 보행로는 산행 가능 여부가 확인되지 않은 상태로 유지해. 보행시설이나 다른 길이 가깝다는 이유로 연결선을 만들지 않고, 지도 선형은 현재 통행 허가·탐방 개방을 보증하지 않아.</p>
 <div class="toolbar"><label for="park">공원</label><select id="park" aria-label="국립공원 선택"><option value="seorak">설악산</option><option value="jiri">지리산</option><option value="bukhan">북한산·도봉산</option></select><label for="basemap">바탕지도</label><select id="basemap" aria-label="바탕지도 선택"><option value="standard" selected>일반 지도</option><option value="topo">등고선 지형도</option><option value="lines">등산로만</option></select>
-<button id="fit" type="button">전체 보기</button><button id="zoomIn" type="button">확대 ＋</button><button id="zoomOut" type="button">축소 −</button><span id="count" class="stat">원본 등산로를 불러오는 중…</span></div>
+<button id="fit" type="button">전체 보기</button><button id="zoomIn" type="button">확대 ＋</button><button id="zoomOut" type="button">축소 −</button><label class="poi-switch"><input type="checkbox" id="poiToggle" checked>주요지점 4곳</label><span id="count" class="stat">원본 등산로를 불러오는 중…</span></div>
 
+<p class="poi-foot">v95 주요지점: 이름은 공단 자료, 위치는 OSM 객체 좌표 기준으로 표시해. 확대하면 지점 이름을 볼 수 있어. 마커는 <strong>코스 경유지·출입 허가 지점이 아니며</strong> 자동 연결되지 않아. 중청대피소는 숙박이 아닌 임시 비상대피 시설이야.</p>
 <div class="legend"><span><i class="swatch"></i>등산로·보행로·계단</span><span><i class="swatch track"></i>임도·작업로</span></div>
 <div class="mapbox"><svg id="parkMap" viewBox="0 0 1000 700" role="img" aria-label="국립공원 OSM 등산로 선형 지도"><rect width="1000" height="700" fill="#edf3ea"/></svg>
 <div class="foot" role="status" id="message">원본 좌표를 읽는 중…</div></div>
@@ -26,6 +28,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
 <script src="./seorak-v77-extra.js"></script>
 <script src="./seorak-v78-extra.js"></script>
 <script src="./seorak-v83-gpx-tracks.js"></script>
+<script src="./seorak-v95-pois.js"></script>
 <script>
 (()=>{'use strict';
  const $=id=>document.getElementById(id),ns='http://www.w3.org/2000/svg',svg=$('parkMap'),W=1000,H=700;
@@ -48,7 +51,36 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
   }
  }
 
- function apply(){const g=svg.querySelector('#paths');if(g)g.setAttribute('transform',`translate(${pan.x} ${pan.y}) translate(${W/2} ${H/2}) scale(${pan.z}) translate(${-W/2} ${-H/2})`);refreshTiles()}
+ function renderNamedPOIs(){
+  const layer=svg.querySelector('#named-pois');
+  if(!layer)return;
+  layer.replaceChildren();
+  if(!$('poiToggle').checked||$('park').value!=='seorak'||!projection)return;
+  const data=window.SANBAK_SEORAK_V95_POIS;
+  if(!data||data.version!==95||data.park!=='seorak'||data.features?.length!==4||data.render_as_route_vertices!==false)return;
+  for(const item of data.features){
+   if(!item.display_allowed||item.route_anchor_verified!==false||item.official_trail_access_verified!==false||
+      !Array.isArray(item.lonlat)||item.lonlat.length!==2)continue;
+   const base=geo.xy(item.lonlat,projection,W,H);
+   if(!base.every(Number.isFinite))continue;
+   const x=W/2+pan.x+(base[0]-W/2)*pan.z,y=H/2+pan.y+(base[1]-H/2)*pan.z;
+   if(x< -15||x>W+15||y< -15||y>H+15)continue;
+   const g=elem('g',{'class':'named-poi',transform:'translate('+x+' '+y+')',
+     tabindex:0,role:'button','aria-label':item.name+' · '+item.status_note,'data-poi-id':item.id},layer);
+   const isPeak=item.kind==='summit';
+   elem('circle',{r:5.3,fill:isPeak?'#357f59':'#67518c'},g);
+   if(pan.z>=4){
+    const t=elem('text',{x:9,y:-7},g);t.textContent=item.name;
+   }
+   const tip=elem('title',{},g);tip.textContent=item.name+' · '+item.status_note;
+   const explain=()=>{$('message').textContent=item.name+' · '+item.status_note+
+     ' · 좌표는 OSM 기반 참고 위치, 기존 등산로 연결 없음'};
+   g.addEventListener('pointerdown',e=>e.stopPropagation());
+   g.addEventListener('click',e=>{e.stopPropagation();explain()});
+   g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();explain()}});
+  }
+ }
+ function apply(){const g=svg.querySelector('#paths');if(g)g.setAttribute('transform',`translate(${pan.x} ${pan.y}) translate(${W/2} ${H/2}) scale(${pan.z}) translate(${-W/2} ${-H/2})`);refreshTiles();renderNamedPOIs()}
  const excludedSeorakInsideTrailIndices=new Set([89,436,437]);
  function draw(){if(!db)return;const record=db.parks[$('park').value];if(!record)return;
   // For Seoraksan include source OSM lines that continue beyond the park boundary.
@@ -82,6 +114,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
     elem('path',{d:extraTracks,stroke:'#6A8567','stroke-width':1.5,'stroke-dasharray':'4 4',fill:'none','stroke-linecap':'round','vector-effect':'non-scaling-stroke'},stage);
     elem('path',{d:extraTrails,stroke:'#267653','stroke-width':2,fill:'none','stroke-linejoin':'round','stroke-linecap':'round','vector-effect':'non-scaling-stroke'},stage);
   }
+  elem('g',{id:'named-pois'},svg);
   pan={z:1,x:0,y:0};tileKey='';apply();
   $('count').textContent=record.name+' · 경계 내부 '+insideDisplayedCount.toLocaleString('ko-KR')+'개'+
     (extra.length?' · 경계 바깥 원본 '+extra.length+'개':'')+' · OSM 2026-11-05';
@@ -90,7 +123,7 @@ window.SANBAK_NP_OSM_B64="H4sIAAAAAAAC/4y9W85ux5ElNhWCz6xy3i/qN8NwP3Q32kA9FgoFFs
  }
  function zoom(mult,point=[W/2,H/2]){const old=pan.z,next=Math.max(.7,Math.min(90,old*mult));const m=next/old;pan.x=(point[0]-W/2)-m*((point[0]-W/2)-pan.x);pan.y=(point[1]-H/2)-m*((point[1]-H/2)-pan.y);pan.z=next;apply()}
  function local(e){const r=svg.getBoundingClientRect();return [(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
- $('park').onchange=draw;$('basemap').onchange=()=>{tileKey='';refreshTiles();if(db)$('message').textContent=$('basemap').value==='lines'?'OSM 등산로만 표시 중 · 바탕지도 없음':'등산로 위에 바탕지도 표시 중 · 외부 타일 오류가 나면 등산로만 선택해'};$('fit').onclick=()=>{pan={z:1,x:0,y:0};apply()};$('zoomIn').onclick=()=>zoom(1.4);$('zoomOut').onclick=()=>zoom(1/1.4);
+ $('park').onchange=draw;$('poiToggle').onchange=()=>{renderNamedPOIs()};$('basemap').onchange=()=>{tileKey='';refreshTiles();if(db)$('message').textContent=$('basemap').value==='lines'?'OSM 등산로만 표시 중 · 바탕지도 없음':'등산로 위에 바탕지도 표시 중 · 외부 타일 오류가 나면 등산로만 선택해'};$('fit').onclick=()=>{pan={z:1,x:0,y:0};apply()};$('zoomIn').onclick=()=>zoom(1.4);$('zoomOut').onclick=()=>zoom(1/1.4);
  svg.addEventListener('wheel',e=>{if(!db)return;e.preventDefault();zoom(e.deltaY<0?1.3:1/1.3,local(e))},{passive:false});
  svg.addEventListener('pointerdown',e=>{if(!db)return;pointer={x:e.clientX,y:e.clientY,dx:pan.x,dy:pan.y};svg.setPointerCapture(e.pointerId)});
  svg.addEventListener('pointermove',e=>{if(!pointer)return;const r=svg.getBoundingClientRect();pan.x=pointer.dx+(e.clientX-pointer.x)*W/r.width;pan.y=pointer.dy+(e.clientY-pointer.y)*H/r.height;apply()});

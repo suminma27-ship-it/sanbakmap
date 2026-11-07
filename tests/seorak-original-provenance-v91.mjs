@@ -63,7 +63,8 @@ for(const c of v90.cases){
 }
 assert.equal(index.routing_allowed,false);
 assert.equal(audit.routing_allowed,false);
-assert.equal(audit.auto_join_lines,0);
+assert.equal(audit.geometry_snap_joints,0);
+assert.equal(audit.automatic_path_creation,0);
 assert.equal(audit.facility_path_promotions,0);
 assert.equal(audit.map_line_count_before,703);
 assert.equal(audit.map_line_count_after,703);

@@ -1,0 +1,34 @@
+// Verify PBF-derived Yeongnam Alps source/graph and new OSM map.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+const root=new URL('../',import.meta.url),html=readFileSync(new URL('yeongnam-osm.html',root),'utf8');
+const base64=html.match(/window.SANBAK_OSM_ALPS_DATA_B64="([^\"]+)"/)?.[1];
+assert(base64,'No embedded OSM trails');
+const d=JSON.parse(gunzipSync(Buffer.from(base64,'base64')).toString());
+assert.equal(d.version,69);
+assert.equal(d.wayCount,1030);
+assert.equal(d.trailNetwork.features.length,1030);
+assert.equal(d.poi.length,6);
+assert.equal(d.routeGraph.vertices,32107);
+assert.equal(d.routeGraph.edges,32325);
+assert.equal(d.routeGraph.components,144);
+assert.equal(d.routeGraph.mainComponentVertices,16808);
+assert.deepEqual(d.poi.map(p=>p.name),['배내봉','간월산','간월재','신불산','신불재','영축산']);
+assert.deepEqual(d.legs.map(p=>p.km),[2.829,.814,1.606,.639,2.271]);
+assert.equal(d.route.properties.calculated_length_km,8.159);
+assert.equal(d.route.properties.verified_on_ground,false);
+assert.equal(d.route.properties.routing_access_confirmed,false);
+assert(d.poi.every(p=>p.offsetToNearestTrail_m<11));
+const points=d.route.geometry.coordinates;
+assert(points.length>400);
+const metric=(a,b)=>111195*Math.hypot((a[0]-b[0])*Math.cos((a[1]+b[1])*Math.PI/360),a[1]-b[1]);
+let metres=0;for(let i=1;i<points.length;i++){const edge=metric(points[i-1],points[i]);assert(edge<80,'Unexpected connector '+edge);metres+=edge}
+assert(Math.abs(metres/1000-8.159)<.05);
+for(const token of ['id="showFoot"','id="showTrack"','id="showTraverse"','id="showPoi"','id="basemap"','id="fitRoute"','allow_in_routing:false'])assert(html.includes(token),token);
+for(const s of html.matchAll(/<script>([\s\S]*?)<\/script>/g))new Function(s[1]);
+const service=readFileSync(new URL('sw.js',root),'utf8');
+assert(service.includes('sanbakmap-v69-fresh-1')&&service.includes('./yeongnam-osm.html'));
+const workflow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');assert(workflow.includes('yeongnam-osm.html'));
+const index=readFileSync(new URL('index.html',root),'utf8');assert(index.includes('href="./yeongnam-osm.html"'));
+console.log('PASS: v69 OSM national PBF, 1030 regional ways and connected 8.159km ridge');

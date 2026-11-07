@@ -26,7 +26,7 @@ for(const token of ['id="ganwolAuditLink"','ganwol-review.html','id="allowUnveri
  "node.setAttribute('stroke-dasharray','4 5')"])
  assert(national.includes(token),'Safety integration missing '+token);
 const worker=readFileSync(new URL('sw.js',root),'utf8');
-assert(worker.includes('sanbakmap-v68-fresh-1')&&worker.includes('./ganwol-review.html')&&worker.includes('./ganwol-review-data.js'));
+assert(worker.includes('sanbakmap-v69-fresh-1')&&worker.includes('./ganwol-review.html')&&worker.includes('./ganwol-review-data.js'));
 const workflow=readFileSync(new URL('.github/workflows/deploy-pages.yml',root),'utf8');
 assert(workflow.includes('ganwol-review.html')&&workflow.includes('ganwol-review-data.js'));
 console.log('PASS: v66 Ganwolsan GPX overlay, coordinate fixture, unverified default off and deploy assets');

@@ -1,0 +1,474 @@
+{
+  "version": 89,
+  "as_of": "2026-11-07",
+  "status": "verified_by_successful_GitHub_Actions_workflow",
+  "source_workflow_url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/42384816494",
+  "source_commit_sha": "4b007588768119666b5f1721029e94153caf49de",
+  "pipeline": "tools/seorak-topology-v89.mjs",
+  "map_display_lines": 703,
+  "source_breakdown": {
+    "inside_v73": {
+      "lines": 499,
+      "trail": 480,
+      "track": 19,
+      "vertices": 16830
+    },
+    "exterior_v75": {
+      "lines": 156,
+      "trail": 107,
+      "track": 49,
+      "vertices": 3879
+    },
+    "exterior_v76": {
+      "lines": 22,
+      "trail": 3,
+      "track": 19,
+      "vertices": 501
+    },
+    "exterior_v77": {
+      "lines": 19,
+      "trail": 19,
+      "track": 0,
+      "vertices": 688
+    },
+    "exterior_v78": {
+      "lines": 3,
+      "trail": 0,
+      "track": 3,
+      "vertices": 66
+    },
+    "exterior_v83": {
+      "lines": 4,
+      "trail": 0,
+      "track": 4,
+      "vertices": 64
+    }
+  },
+  "unique_stored_coordinate_nodes": 21339,
+  "consecutive_source_coordinate_edges": 21325,
+  "stored_vertex_connected_components": 67,
+  "single_line_components": 39,
+  "shared_coordinate_contacts": {
+    "shared_vertex_nodes": 645,
+    "shared_original_only_vertex_nodes": 93,
+    "mixed_display_and_original_vertex_nodes": 134,
+    "trail_track_vertex_nodes": 15,
+    "trail_track_original_only_vertex_nodes": 13,
+    "source_stage_border_vertex_nodes": 134
+  },
+  "different_component_endpoint_near_pairs": {
+    "endpoint_pairs_1_to_5m": 7,
+    "endpoint_pairs_5_to_15m": 16,
+    "endpoint_pairs_15_to_30m": 19,
+    "examples": [
+      {
+        "a": 14319,
+        "b": 14327,
+        "distance_m": 2.6,
+        "a_component": 22,
+        "b_component": 23
+      },
+      {
+        "a": 14317,
+        "b": 14330,
+        "distance_m": 2.8,
+        "a_component": 21,
+        "b_component": 23
+      },
+      {
+        "a": 2560,
+        "b": 11851,
+        "distance_m": 2.9,
+        "a_component": 0,
+        "b_component": 14
+      },
+      {
+        "a": 5952,
+        "b": 13071,
+        "distance_m": 4.1,
+        "a_component": 0,
+        "b_component": 19
+      },
+      {
+        "a": 9541,
+        "b": 19837,
+        "distance_m": 4.1,
+        "a_component": 0,
+        "b_component": 28
+      },
+      {
+        "a": 9541,
+        "b": 15316,
+        "distance_m": 4.5,
+        "a_component": 0,
+        "b_component": 28
+      }
+    ]
+  },
+  "geometric_2d_crossings_of_disconnected_components": {
+    "internal_2d_crossings_between_disconnected_components": 26,
+    "distinct_line_pairs": 26,
+    "examples": [
+      {
+        "line_a": "v73:trail:60",
+        "line_b": "v73:trail:55",
+        "at_lonlat": [
+          128.42268800717548,
+          38.054683540595995
+        ],
+        "a_component": 4,
+        "b_component": 3
+      },
+      {
+        "line_a": "v73:trail:150",
+        "line_b": "v73:trail:17",
+        "at_lonlat": [
+          128.48908938119388,
+          38.17374544725722
+        ],
+        "a_component": 0,
+        "b_component": 1
+      },
+      {
+        "line_a": "v73:trail:150",
+        "line_b": "v73:trail:30",
+        "at_lonlat": [
+          128.48870041472267,
+          38.17380185377859
+        ],
+        "a_component": 0,
+        "b_component": 2
+      },
+      {
+        "line_a": "v73:trail:175",
+        "line_b": "v73:trail:74",
+        "at_lonlat": [
+          128.45062241660722,
+          38.147652905684176
+        ],
+        "a_component": 9,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:194",
+        "line_b": "v73:trail:155",
+        "at_lonlat": [
+          128.49152824798924,
+          38.13906307520928
+        ],
+        "a_component": 0,
+        "b_component": 7
+      },
+      {
+        "line_a": "v73:trail:240",
+        "line_b": "v73:trail:160",
+        "at_lonlat": [
+          128.34243923326332,
+          38.13045599391965
+        ],
+        "a_component": 11,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:240",
+        "line_b": "v73:trail:189",
+        "at_lonlat": [
+          128.3370968349956,
+          38.13879246790734
+        ],
+        "a_component": 11,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:264",
+        "line_b": "v73:trail:130",
+        "at_lonlat": [
+          128.56587660344096,
+          38.17600849066794
+        ],
+        "a_component": 15,
+        "b_component": 6
+      },
+      {
+        "line_a": "v73:trail:285",
+        "line_b": "v73:trail:273",
+        "at_lonlat": [
+          128.42367741603846,
+          38.149597154926305
+        ],
+        "a_component": 0,
+        "b_component": 18
+      },
+      {
+        "line_a": "v73:trail:314",
+        "line_b": "v73:trail:123",
+        "at_lonlat": [
+          128.42600340342986,
+          38.10996028717499
+        ],
+        "a_component": 20,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:315",
+        "line_b": "v73:trail:314",
+        "at_lonlat": [
+          128.42925366688232,
+          38.11686110573527
+        ],
+        "a_component": 0,
+        "b_component": 20
+      },
+      {
+        "line_a": "v73:trail:320",
+        "line_b": "v73:trail:150",
+        "at_lonlat": [
+          128.49130080090313,
+          38.17330855946979
+        ],
+        "a_component": 22,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:330",
+        "line_b": "v73:trail:126",
+        "at_lonlat": [
+          128.45456268057634,
+          38.16563940815314
+        ],
+        "a_component": 25,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:331",
+        "line_b": "v73:trail:330",
+        "at_lonlat": [
+          128.44809675963452,
+          38.163763569980304
+        ],
+        "a_component": 0,
+        "b_component": 25
+      },
+      {
+        "line_a": "v73:trail:338",
+        "line_b": "v73:trail:128",
+        "at_lonlat": [
+          128.46008875686599,
+          38.12877882180532
+        ],
+        "a_component": 27,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:414",
+        "line_b": "v73:trail:180",
+        "at_lonlat": [
+          128.43480782612338,
+          38.0272765076004
+        ],
+        "a_component": 30,
+        "b_component": 4
+      },
+      {
+        "line_a": "v73:trail:415",
+        "line_b": "v73:trail:414",
+        "at_lonlat": [
+          128.43491708435982,
+          38.027308295449615
+        ],
+        "a_component": 31,
+        "b_component": 30
+      },
+      {
+        "line_a": "v73:trail:440",
+        "line_b": "v73:trail:325",
+        "at_lonlat": [
+          128.44885037766034,
+          38.08565750137233
+        ],
+        "a_component": 32,
+        "b_component": 0
+      },
+      {
+        "line_a": "v73:trail:458",
+        "line_b": "v73:trail:453",
+        "at_lonlat": [
+          128.37429138666727,
+          38.16481179993053
+        ],
+        "a_component": 34,
+        "b_component": 0
+      },
+      {
+        "line_a": "v75:94",
+        "line_b": "v75:26",
+        "at_lonlat": [
+          128.5730018100035,
+          38.17823198480439
+        ],
+        "a_component": 17,
+        "b_component": 6
+      },
+      {
+        "line_a": "v75:97",
+        "line_b": "v75:26",
+        "at_lonlat": [
+          128.57478499929775,
+          38.17957210014376
+        ],
+        "a_component": 43,
+        "b_component": 6
+      },
+      {
+        "line_a": "v75:116",
+        "line_b": "v75:23",
+        "at_lonlat": [
+          128.3947011808236,
+          38.02677706924747
+        ],
+        "a_component": 45,
+        "b_component": 3
+      },
+      {
+        "line_a": "v75:121",
+        "line_b": "v75:119",
+        "at_lonlat": [
+          128.57949559732808,
+          38.15470173875672
+        ],
+        "a_component": 47,
+        "b_component": 39
+      },
+      {
+        "line_a": "v75:137",
+        "line_b": "v75:52",
+        "at_lonlat": [
+          128.52095722839715,
+          38.16649973069067
+        ],
+        "a_component": 28,
+        "b_component": 0
+      },
+      {
+        "line_a": "v75:141",
+        "line_b": "v75:139",
+        "at_lonlat": [
+          128.5117836274382,
+          38.1691302930682
+        ],
+        "a_component": 28,
+        "b_component": 0
+      },
+      {
+        "line_a": "v75:149",
+        "line_b": "v75:148",
+        "at_lonlat": [
+          128.44649688731366,
+          38.07797996933375
+        ],
+        "a_component": 4,
+        "b_component": 33
+      }
+    ],
+    "limit_note": "2D planar crossings are audit candidates, NOT routable junctions"
+  },
+  "biggest_components": [
+    {
+      "id": 0,
+      "node_count": 13449,
+      "edge_count": 13493,
+      "line_count": 410,
+      "trail_line_count": 395,
+      "track_line_count": 15,
+      "simplified_inside_line_count": 346,
+      "exterior_source_line_count": 64,
+      "original_only": false
+    },
+    {
+      "id": 4,
+      "node_count": 2478,
+      "edge_count": 2483,
+      "line_count": 98,
+      "trail_line_count": 92,
+      "track_line_count": 6,
+      "simplified_inside_line_count": 79,
+      "exterior_source_line_count": 19,
+      "original_only": false
+    },
+    {
+      "id": 38,
+      "node_count": 493,
+      "edge_count": 492,
+      "line_count": 30,
+      "trail_line_count": 2,
+      "track_line_count": 28,
+      "simplified_inside_line_count": 13,
+      "exterior_source_line_count": 17,
+      "original_only": false
+    },
+    {
+      "id": 13,
+      "node_count": 210,
+      "edge_count": 209,
+      "line_count": 24,
+      "trail_line_count": 24,
+      "track_line_count": 0,
+      "simplified_inside_line_count": 10,
+      "exterior_source_line_count": 14,
+      "original_only": false
+    },
+    {
+      "id": 39,
+      "node_count": 264,
+      "edge_count": 263,
+      "line_count": 23,
+      "trail_line_count": 0,
+      "track_line_count": 23,
+      "simplified_inside_line_count": 2,
+      "exterior_source_line_count": 21,
+      "original_only": false
+    },
+    {
+      "id": 6,
+      "node_count": 197,
+      "edge_count": 197,
+      "line_count": 9,
+      "trail_line_count": 9,
+      "track_line_count": 0,
+      "simplified_inside_line_count": 4,
+      "exterior_source_line_count": 5,
+      "original_only": false
+    },
+    {
+      "id": 26,
+      "node_count": 456,
+      "edge_count": 455,
+      "line_count": 9,
+      "trail_line_count": 7,
+      "track_line_count": 2,
+      "simplified_inside_line_count": 3,
+      "exterior_source_line_count": 6,
+      "original_only": false
+    },
+    {
+      "id": 28,
+      "node_count": 48,
+      "edge_count": 47,
+      "line_count": 9,
+      "trail_line_count": 9,
+      "track_line_count": 0,
+      "simplified_inside_line_count": 3,
+      "exterior_source_line_count": 6,
+      "original_only": false
+    }
+  ],
+  "projection_and_provenance": "WGS84 7-digit and other stored source coords, inside-park v73 ~1m simplified display vertices and outside source-derived clipped ways. No snapping; exact stored-coordinate union only. Crossings are 2D geometry screen candidates, not automatic trail junctions.",
+  "graph_asset": "seorak-v89-topology.json.gz",
+  "summary_asset": "seorak-v89-topology-summary.json",
+  "fully_OSM_original_node_validated": false,
+  "routing_allowed": false,
+  "user_navigation_enabled": false,
+  "synthetic_joins_created": 0,
+  "display_and_other_park_data_changed": false,
+  "next_work": "Recover original OSM node/way identifiers for simplified inside-park lines, check crossings and near misses against original graph and official trails/closures, then attach POIs only to verified nodes."
+}

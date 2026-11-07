@@ -14,7 +14,7 @@ assert.equal(v78.buffer_m,1500);
 assert.equal(v78.route_allowed,false);
 assert.equal(v78.paths.length,9);
 assert.equal(new Set(v78.paths.map(r=>r.i)).size,9);
-const v75=JSON.parse(file('national-parks-trails.html').match(/<script id="seorak-border-v75" type="application\\/json">([\\s\\S]*?)<\\/script>/)?.[1]);
+const v75=JSON.parse(file('national-parks-trails.html').match(/<script id="seorak-border-v75" type="application\/json">([\s\S]*?)<\/script>/)?.[1]);
 const v76=extract('seorak-v76-extra.js','SANBAK_SEORAK_V76_B64');
 const old=new Set([...v75.features.map(f=>String(f.properties.osm_id)),...v76.paths.map(f=>String(f.i)),...v77.a.map(f=>String(f.i))]);
 const decode=encoded=>{
@@ -62,7 +62,7 @@ assert(html.includes('seorak-v78-extra.js'));
 assert(html.includes('outerSeorak.features.push(...added78)'));
 assert(html.includes('v77SourceNodes.has(r.j.join'));
 assert(!html.includes('window.SanbakNationalRoutes.shortest'),'no new routing allowed');
-const inline=[...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/g)];
+const inline=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(inline.length,2);
 for(const script of inline)new Function(script[1]);
 assert(file('sw.js').includes('./seorak-v78-extra.js'));

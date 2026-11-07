@@ -96,8 +96,7 @@ assert.equal(graph.stats.source_stage_breakdown.exterior_v77.trail,19);
 assert.equal(graph.stats.source_stage_breakdown.exterior_v75.lines,156);
 assert.equal(graph.stats.source_stage_breakdown.exterior_v76.lines,22);
 assert(graph.stats.important_source_limit.includes('display geometry'));
-assert.equal(graph.stats.component_stats.reduce((n,c)=>n+c.line_count,0)>=703,false);
- // top 20 components are not expected to include every displayed fragment.
+assert(graph.stats.component_stats.length<=20,'topology summary should be bounded');
 const html=read('national-parks-trails.html');
 assert(html.includes('국립공원 등산로 원본 · v89'));
 assert(!html.includes('seorak-v89-graph.js'),'routing graph must not be silently enabled in the map');

@@ -1,0 +1,830 @@
+{
+  "schema_version": 94,
+  "source_osm_snapshot": "2026-11-05 Geofabrik South Korea OSM PBF",
+  "source_pbf_sha256": "9debe407f31db923be2cb481d41c2e0100ed831555da011853eecacd44193ca8",
+  "evidence_from": "audits/seorak-v90-original-node-review.json",
+  "source_way_mapping": "audits/seorak-v91-display-way-index.json",
+  "visible_path_filter": "audits/seorak-v92-inside-footway-review.json",
+  "note": "Exact original shared OSM nodes are verified only as topological source contacts. They do not verify named trail junctions, summits, huts, bridges, official trails, or legal access. Do NOT render these as park POIs or add routing edges.",
+  "map_line_count_unchanged": 700,
+  "map_version_unchanged": 92,
+  "source_contacts": 26,
+  "named_summits_verified": 0,
+  "named_shelters_verified": 0,
+  "named_junctions_verified": 0,
+  "geometry_added": 0,
+  "routing_allowed": false,
+  "counts": {
+    "path_path": 18,
+    "track_track": 2,
+    "pedestrian_or_footway": 6
+  },
+  "contacts": [
+    {
+      "anchor_id": "pbf-node:916466349",
+      "original_osm_node_id": "916466349",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/916466349",
+      "original_wgs84_lonlat": [
+        128.4887007,
+        38.1738015
+      ],
+      "original_way_ids": [
+        "711262954",
+        "77993122"
+      ],
+      "display_line_ids": [
+        "v73:trail:150",
+        "v73:trail:30"
+      ],
+      "original_highway_tags": [
+        "footway",
+        "pedestrian"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:1881937608",
+      "original_osm_node_id": "1881937608",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/1881937608",
+      "original_wgs84_lonlat": [
+        128.4226951,
+        38.0546847
+      ],
+      "original_way_ids": [
+        "177777836",
+        "177777855"
+      ],
+      "display_line_ids": [
+        "v73:trail:60",
+        "v73:trail:55"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:9308132526",
+      "original_osm_node_id": "9308132526",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/9308132526",
+      "original_wgs84_lonlat": [
+        128.4506224,
+        38.1476529
+      ],
+      "original_way_ids": [
+        "1008821648",
+        "178142232"
+      ],
+      "display_line_ids": [
+        "v73:trail:175",
+        "v73:trail:74"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:10296987876",
+      "original_osm_node_id": "10296987876",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/10296987876",
+      "original_wgs84_lonlat": [
+        128.4464969,
+        38.07798
+      ],
+      "original_way_ids": [
+        "1566443128",
+        "1566443130"
+      ],
+      "display_line_ids": [
+        "v75:149",
+        "v75:148"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:10675354078",
+      "original_osm_node_id": "10675354078",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/10675354078",
+      "original_wgs84_lonlat": [
+        128.3370968,
+        38.1387925
+      ],
+      "original_way_ids": [
+        "1095061371",
+        "1147238022"
+      ],
+      "display_line_ids": [
+        "v73:trail:240",
+        "v73:trail:189"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:10675354133",
+      "original_osm_node_id": "10675354133",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/10675354133",
+      "original_wgs84_lonlat": [
+        128.3424428,
+        38.1304527
+      ],
+      "original_way_ids": [
+        "1147238022",
+        "917061194"
+      ],
+      "display_line_ids": [
+        "v73:trail:240",
+        "v73:trail:160"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11121229853",
+      "original_osm_node_id": "11121229853",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11121229853",
+      "original_wgs84_lonlat": [
+        128.5658782,
+        38.1760118
+      ],
+      "original_way_ids": [
+        "1198859164",
+        "470892963"
+      ],
+      "display_line_ids": [
+        "v73:trail:264",
+        "v73:trail:130"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11121230011",
+      "original_osm_node_id": "11121230011",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11121230011",
+      "original_wgs84_lonlat": [
+        128.5730018,
+        38.178232
+      ],
+      "original_way_ids": [
+        "1198859171",
+        "470892963"
+      ],
+      "display_line_ids": [
+        "v75:94",
+        "v75:26"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11121230363",
+      "original_osm_node_id": "11121230363",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11121230363",
+      "original_wgs84_lonlat": [
+        128.574785,
+        38.1795721
+      ],
+      "original_way_ids": [
+        "1198859176",
+        "470892963"
+      ],
+      "display_line_ids": [
+        "v75:97",
+        "v75:26"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11211431835",
+      "original_osm_node_id": "11211431835",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11211431835",
+      "original_wgs84_lonlat": [
+        128.4236817,
+        38.1496
+      ],
+      "original_way_ids": [
+        "1210282605",
+        "1218427802"
+      ],
+      "display_line_ids": [
+        "v73:trail:285",
+        "v73:trail:273"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11502471260",
+      "original_osm_node_id": "11502471260",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11502471260",
+      "original_wgs84_lonlat": [
+        128.4915245,
+        38.1390622
+      ],
+      "original_way_ids": [
+        "1120004240",
+        "839548659"
+      ],
+      "display_line_ids": [
+        "v73:trail:194",
+        "v73:trail:155"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11502638630",
+      "original_osm_node_id": "11502638630",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11502638630",
+      "original_wgs84_lonlat": [
+        128.4260034,
+        38.1099602
+      ],
+      "original_way_ids": [
+        "1238261592",
+        "376609671"
+      ],
+      "display_line_ids": [
+        "v73:trail:314",
+        "v73:trail:123"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11502643918",
+      "original_osm_node_id": "11502643918",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11502643918",
+      "original_wgs84_lonlat": [
+        128.4292551,
+        38.1168623
+      ],
+      "original_way_ids": [
+        "1238261592",
+        "1238261593"
+      ],
+      "display_line_ids": [
+        "v73:trail:315",
+        "v73:trail:314"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11668872897",
+      "original_osm_node_id": "11668872897",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11668872897",
+      "original_wgs84_lonlat": [
+        128.4913008,
+        38.1733086
+      ],
+      "original_way_ids": [
+        "1255224774",
+        "711262954"
+      ],
+      "display_line_ids": [
+        "v73:trail:320",
+        "v73:trail:150"
+      ],
+      "original_highway_tags": [
+        "pedestrian",
+        "footway"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:11668872957",
+      "original_osm_node_id": "11668872957",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/11668872957",
+      "original_wgs84_lonlat": [
+        128.4890894,
+        38.1737455
+      ],
+      "original_way_ids": [
+        "711262954",
+        "77867955"
+      ],
+      "display_line_ids": [
+        "v73:trail:150",
+        "v73:trail:17"
+      ],
+      "original_highway_tags": [
+        "footway",
+        "pedestrian"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:12139841643",
+      "original_osm_node_id": "12139841643",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/12139841643",
+      "original_wgs84_lonlat": [
+        128.4545627,
+        38.1656394
+      ],
+      "original_way_ids": [
+        "1311503258",
+        "376610576"
+      ],
+      "display_line_ids": [
+        "v73:trail:330",
+        "v73:trail:126"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:12139841695",
+      "original_osm_node_id": "12139841695",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/12139841695",
+      "original_wgs84_lonlat": [
+        128.4480967,
+        38.1637636
+      ],
+      "original_way_ids": [
+        "1311503258",
+        "1311503259"
+      ],
+      "display_line_ids": [
+        "v73:trail:331",
+        "v73:trail:330"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:12252742003",
+      "original_osm_node_id": "12252742003",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/12252742003",
+      "original_wgs84_lonlat": [
+        128.4600887,
+        38.1287788
+      ],
+      "original_way_ids": [
+        "1324092264",
+        "427326790"
+      ],
+      "display_line_ids": [
+        "v73:trail:338",
+        "v73:trail:128"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13179420123",
+      "original_osm_node_id": "13179420123",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13179420123",
+      "original_wgs84_lonlat": [
+        128.3947011,
+        38.0267771
+      ],
+      "original_way_ids": [
+        "1433930061",
+        "177777910"
+      ],
+      "display_line_ids": [
+        "v75:116",
+        "v75:23"
+      ],
+      "original_highway_tags": [
+        "track",
+        "track"
+      ],
+      "contact_type": "track_track",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13711298240",
+      "original_osm_node_id": "13711298240",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13711298240",
+      "original_wgs84_lonlat": [
+        128.5794956,
+        38.1547018
+      ],
+      "original_way_ids": [
+        "1497020019",
+        "1497020020"
+      ],
+      "display_line_ids": [
+        "v75:121",
+        "v75:119"
+      ],
+      "original_highway_tags": [
+        "track",
+        "track"
+      ],
+      "contact_type": "track_track",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13916800675",
+      "original_osm_node_id": "13916800675",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13916800675",
+      "original_wgs84_lonlat": [
+        128.5209536,
+        38.1664978
+      ],
+      "original_way_ids": [
+        "1121967104",
+        "1527118860"
+      ],
+      "display_line_ids": [
+        "v75:137",
+        "v75:52"
+      ],
+      "original_highway_tags": [
+        "path",
+        "footway"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13916800688",
+      "original_osm_node_id": "13916800688",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13916800688",
+      "original_wgs84_lonlat": [
+        128.5117833,
+        38.16913
+      ],
+      "original_way_ids": [
+        "1527118862",
+        "1527118863"
+      ],
+      "display_line_ids": [
+        "v75:141",
+        "v75:139"
+      ],
+      "original_highway_tags": [
+        "path",
+        "footway"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13974064015",
+      "original_osm_node_id": "13974064015",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13974064015",
+      "original_wgs84_lonlat": [
+        128.4349171,
+        38.0273083
+      ],
+      "original_way_ids": [
+        "1533443354",
+        "1533443355"
+      ],
+      "display_line_ids": [
+        "v73:trail:415",
+        "v73:trail:414"
+      ],
+      "original_highway_tags": [
+        "path",
+        "pedestrian"
+      ],
+      "contact_type": "pedestrian_or_footway",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:13974064016",
+      "original_osm_node_id": "13974064016",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/13974064016",
+      "original_wgs84_lonlat": [
+        128.4348078,
+        38.0272765
+      ],
+      "original_way_ids": [
+        "1054962322",
+        "1533443354"
+      ],
+      "display_line_ids": [
+        "v73:trail:414",
+        "v73:trail:180"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:14263837914",
+      "original_osm_node_id": "14263837914",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/14263837914",
+      "original_wgs84_lonlat": [
+        128.4488504,
+        38.0856575
+      ],
+      "original_way_ids": [
+        "1288894524",
+        "1566443121"
+      ],
+      "display_line_ids": [
+        "v73:trail:440",
+        "v73:trail:325"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    },
+    {
+      "anchor_id": "pbf-node:14275759732",
+      "original_osm_node_id": "14275759732",
+      "original_osm_node_url": "https://www.openstreetmap.org/node/14275759732",
+      "original_wgs84_lonlat": [
+        128.3742914,
+        38.1648118
+      ],
+      "original_way_ids": [
+        "1567515405",
+        "1567516596"
+      ],
+      "display_line_ids": [
+        "v73:trail:458",
+        "v73:trail:453"
+      ],
+      "original_highway_tags": [
+        "path",
+        "path"
+      ],
+      "contact_type": "path_path",
+      "original_way_node_identity": "confirmed_shared_source_node",
+      "original_2026_11_05_pbf_source_verified": true,
+      "name": null,
+      "named_poi_kind": null,
+      "official_trail_junction_verified": false,
+      "official_access_verified": false,
+      "render_as_named_poi": false,
+      "enable_routing": false,
+      "connecting_new_geometry": false
+    }
+  ]
+}

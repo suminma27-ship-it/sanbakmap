@@ -55,7 +55,7 @@ assert(geo.features.every(x=>x.type==='Feature'&&x.geometry.type==='Point'&&x.pr
 assert.equal(read('audits/seorak-v94-source-contact-anchors.json'),JSON.stringify(audit,null,2)+'\n');
 assert.equal(read('audits/seorak-v94-source-contact-anchors.geojson'),JSON.stringify(geo,null,2)+'\n');
 const html=read('national-parks-trails.html');
-assert(html.includes('등산로 v92 / 주요지점 계획 v96'));
+assert(html.includes('산박지도 v96 · 주요지점 순서 계획'));
 assert(html.includes('excludedSeorakInsideTrailIndices=new Set([89,436,437])'));
 assert(!html.includes('seorak-v94-source-contact-anchors.geojson'));
 assert(read('.github/workflows/deploy-pages.yml').includes('node tools/seorak-poi-anchors-v94.mjs --output-dir site'));

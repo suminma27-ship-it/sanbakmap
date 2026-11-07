@@ -56,7 +56,7 @@ function deserialize(raw,allowed){
  }catch(_){return [];}
 }
 function summary(state,allowed){
- return {kind:'unordered_route_geometry',waypoints:normalize(state,allowed).slice(),
+ return {kind:'waypoint_order_only',waypoints:normalize(state,allowed).slice(),
   routing_allowed:false,physical_track_created:false,distance_km:null,ascent_m:null,descent_m:null};
 }
 root.SanbakPOIPlanV96=Object.freeze({

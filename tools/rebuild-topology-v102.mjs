@@ -38,6 +38,7 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
   mountains:{}};
  let mountainTotal=0,nodeTotal=0,edgeTotal=0,partTotal=0,componentTotal=0,nearTotal=0;
  const writes=[];
+ if(!dryRun)await mkdir(outputDir,{recursive:true});
  for(let i=0;i<32;i++){
   const bucket=String(i).padStart(2,'0'),data=chunks[bucket];
   guard(data?.schema==='sanbak-geometric-topology-v1'&&data?.crs==='EPSG:5179'&&
@@ -60,7 +61,7 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
       edge[3]>=0&&edge[3]<graph.source_parts.length&&edge[2]>0,
       'Invalid source edge indices '+code);
    }
-   output.mountains[code]={bucket,parts:sm.parts,nodes:sm.nodes,edges:sm.edges.length===undefined?graph.edges.length:sm.edges,
+   output.mountains[code]={bucket,parts:sm.parts,nodes:sm.nodes,edges:sm.edges,
      components:sm.geometric_components,nearUnconnected:sm.near_end_pairs_unconnected};
    mountainTotal++;nodeTotal+=sm.nodes;edgeTotal+=sm.edges;partTotal+=sm.parts;
    componentTotal+=sm.geometric_components;nearTotal+=sm.near_end_pairs_unconnected;
@@ -73,8 +74,6 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
    componentTotal===manifest.geometric_components_sum&&nearTotal===manifest.near_end_pairs_unconnected,
    'Nationwide geometry totals do not match signed manifest');
  if(!dryRun){
-  await mkdir(outputDir,{recursive:true});
-  // Writes are queued only once the output directory exists.
   await Promise.all(writes);
   await writeFile(join(outputDir,'index.json'),JSON.stringify(output)+'\n');
  }

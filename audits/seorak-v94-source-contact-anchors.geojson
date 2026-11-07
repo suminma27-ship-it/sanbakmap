@@ -1,0 +1,710 @@
+{
+  "type": "FeatureCollection",
+  "name": "seorak-v94-source-contact-anchors-audit-only",
+  "routing_allowed": false,
+  "not_for_navigation": true,
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4887007,
+          38.1738015
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:916466349",
+        "osm_node_id": "916466349",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "711262954",
+          "77993122"
+        ],
+        "display_line_ids": [
+          "v73:trail:150",
+          "v73:trail:30"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4226951,
+          38.0546847
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:1881937608",
+        "osm_node_id": "1881937608",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "177777836",
+          "177777855"
+        ],
+        "display_line_ids": [
+          "v73:trail:60",
+          "v73:trail:55"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4506224,
+          38.1476529
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:9308132526",
+        "osm_node_id": "9308132526",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1008821648",
+          "178142232"
+        ],
+        "display_line_ids": [
+          "v73:trail:175",
+          "v73:trail:74"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4464969,
+          38.07798
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:10296987876",
+        "osm_node_id": "10296987876",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1566443128",
+          "1566443130"
+        ],
+        "display_line_ids": [
+          "v75:149",
+          "v75:148"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.3370968,
+          38.1387925
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:10675354078",
+        "osm_node_id": "10675354078",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1095061371",
+          "1147238022"
+        ],
+        "display_line_ids": [
+          "v73:trail:240",
+          "v73:trail:189"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.3424428,
+          38.1304527
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:10675354133",
+        "osm_node_id": "10675354133",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1147238022",
+          "917061194"
+        ],
+        "display_line_ids": [
+          "v73:trail:240",
+          "v73:trail:160"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.5658782,
+          38.1760118
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11121229853",
+        "osm_node_id": "11121229853",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1198859164",
+          "470892963"
+        ],
+        "display_line_ids": [
+          "v73:trail:264",
+          "v73:trail:130"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.5730018,
+          38.178232
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11121230011",
+        "osm_node_id": "11121230011",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1198859171",
+          "470892963"
+        ],
+        "display_line_ids": [
+          "v75:94",
+          "v75:26"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.574785,
+          38.1795721
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11121230363",
+        "osm_node_id": "11121230363",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1198859176",
+          "470892963"
+        ],
+        "display_line_ids": [
+          "v75:97",
+          "v75:26"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4236817,
+          38.1496
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11211431835",
+        "osm_node_id": "11211431835",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1210282605",
+          "1218427802"
+        ],
+        "display_line_ids": [
+          "v73:trail:285",
+          "v73:trail:273"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4915245,
+          38.1390622
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11502471260",
+        "osm_node_id": "11502471260",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1120004240",
+          "839548659"
+        ],
+        "display_line_ids": [
+          "v73:trail:194",
+          "v73:trail:155"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4260034,
+          38.1099602
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11502638630",
+        "osm_node_id": "11502638630",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1238261592",
+          "376609671"
+        ],
+        "display_line_ids": [
+          "v73:trail:314",
+          "v73:trail:123"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4292551,
+          38.1168623
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11502643918",
+        "osm_node_id": "11502643918",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1238261592",
+          "1238261593"
+        ],
+        "display_line_ids": [
+          "v73:trail:315",
+          "v73:trail:314"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4913008,
+          38.1733086
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11668872897",
+        "osm_node_id": "11668872897",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "1255224774",
+          "711262954"
+        ],
+        "display_line_ids": [
+          "v73:trail:320",
+          "v73:trail:150"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4890894,
+          38.1737455
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:11668872957",
+        "osm_node_id": "11668872957",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "711262954",
+          "77867955"
+        ],
+        "display_line_ids": [
+          "v73:trail:150",
+          "v73:trail:17"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4545627,
+          38.1656394
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:12139841643",
+        "osm_node_id": "12139841643",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1311503258",
+          "376610576"
+        ],
+        "display_line_ids": [
+          "v73:trail:330",
+          "v73:trail:126"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4480967,
+          38.1637636
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:12139841695",
+        "osm_node_id": "12139841695",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1311503258",
+          "1311503259"
+        ],
+        "display_line_ids": [
+          "v73:trail:331",
+          "v73:trail:330"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4600887,
+          38.1287788
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:12252742003",
+        "osm_node_id": "12252742003",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1324092264",
+          "427326790"
+        ],
+        "display_line_ids": [
+          "v73:trail:338",
+          "v73:trail:128"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.3947011,
+          38.0267771
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13179420123",
+        "osm_node_id": "13179420123",
+        "contact_type": "track_track",
+        "original_way_ids": [
+          "1433930061",
+          "177777910"
+        ],
+        "display_line_ids": [
+          "v75:116",
+          "v75:23"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.5794956,
+          38.1547018
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13711298240",
+        "osm_node_id": "13711298240",
+        "contact_type": "track_track",
+        "original_way_ids": [
+          "1497020019",
+          "1497020020"
+        ],
+        "display_line_ids": [
+          "v75:121",
+          "v75:119"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.5209536,
+          38.1664978
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13916800675",
+        "osm_node_id": "13916800675",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "1121967104",
+          "1527118860"
+        ],
+        "display_line_ids": [
+          "v75:137",
+          "v75:52"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.5117833,
+          38.16913
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13916800688",
+        "osm_node_id": "13916800688",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "1527118862",
+          "1527118863"
+        ],
+        "display_line_ids": [
+          "v75:141",
+          "v75:139"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4349171,
+          38.0273083
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13974064015",
+        "osm_node_id": "13974064015",
+        "contact_type": "pedestrian_or_footway",
+        "original_way_ids": [
+          "1533443354",
+          "1533443355"
+        ],
+        "display_line_ids": [
+          "v73:trail:415",
+          "v73:trail:414"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4348078,
+          38.0272765
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:13974064016",
+        "osm_node_id": "13974064016",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1054962322",
+          "1533443354"
+        ],
+        "display_line_ids": [
+          "v73:trail:414",
+          "v73:trail:180"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4488504,
+          38.0856575
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:14263837914",
+        "osm_node_id": "14263837914",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1288894524",
+          "1566443121"
+        ],
+        "display_line_ids": [
+          "v73:trail:440",
+          "v73:trail:325"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.3742914,
+          38.1648118
+        ]
+      },
+      "properties": {
+        "anchor_id": "pbf-node:14275759732",
+        "osm_node_id": "14275759732",
+        "contact_type": "path_path",
+        "original_way_ids": [
+          "1567515405",
+          "1567516596"
+        ],
+        "display_line_ids": [
+          "v73:trail:458",
+          "v73:trail:453"
+        ],
+        "official_junction_verified": false,
+        "named_poi": false,
+        "routing_allowed": false,
+        "display_on_map": false
+      }
+    }
+  ]
+}

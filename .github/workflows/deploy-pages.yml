@@ -33,12 +33,12 @@ jobs:
       - name: Package website
         run: |
           set -euo pipefail
-          for file in index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js seorak-v78-extra.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
+          for file in index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js seorak-v78-extra.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
             test -f "$file"
           done
           grep -q '산박지도 v' index.html
           mkdir -p site
-          cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
+          cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
           node tools/seorak-topology-v89.mjs --output-dir site
           node tools/seorak-topology-v92.mjs --output-dir site
           node tools/seorak-review-queue-v93.mjs --output-dir site

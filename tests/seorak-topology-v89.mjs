@@ -96,13 +96,26 @@ assert.equal(graph.stats.source_stage_breakdown.exterior_v77.trail,19);
 assert.equal(graph.stats.source_stage_breakdown.exterior_v75.lines,156);
 assert.equal(graph.stats.source_stage_breakdown.exterior_v76.lines,22);
 assert(graph.stats.important_source_limit.includes('display geometry'));
+const saved=JSON.parse(read('audits/seorak-v89-topology-audit.json'));
+assert.equal(saved.version,89);
+assert.equal(saved.map_display_lines,703);
+assert.equal(saved.unique_stored_coordinate_nodes,graph.stats.unique_stored_coordinate_nodes);
+assert.equal(saved.consecutive_source_coordinate_edges,graph.stats.source_consecutive_edges);
+assert.equal(saved.stored_vertex_connected_components,graph.stats.connected_components);
+assert.equal(saved.shared_coordinate_contacts.shared_vertex_nodes,graph.stats.contacts.shared_vertex_nodes);
+assert.equal(saved.different_component_endpoint_near_pairs.endpoint_pairs_1_to_5m,
+ graph.stats.near.endpoint_pairs_1_to_5m);
+assert.equal(saved.geometric_2d_crossings_of_disconnected_components.internal_2d_crossings_between_disconnected_components,
+ graph.stats.crossings.internal_2d_crossings_between_disconnected_components);
+assert.equal(saved.routing_allowed,false);
+assert.equal(saved.synthetic_joins_created,0);
 assert(graph.stats.component_stats.length<=20,'topology summary should be bounded');
 const html=read('national-parks-trails.html');
-assert(html.includes('국립공원 등산로 원본 · v89'));
+assert(html.includes('국립공원 등산로 원본 · v'),'map release label is present');
 assert(!html.includes('seorak-v89-graph.js'),'routing graph must not be silently enabled in the map');
 assert(html.includes('outerSeorak.features.push(...added83)'));
 assert(!html.includes('window.SanbakNationalRoutes.shortest'));
-assert(read('README.md').includes('**현재 버전: v89**'));
+assert(read('README.md').includes('## v89 업데이트'),'v89 audit history remains available');
 const workflow=read('.github/workflows/deploy-pages.yml');
 assert(workflow.includes('tools/seorak-topology-v89.mjs --output-dir site'));
 console.log('PASS v89: exact stored-vertex graph from all 703 displayed ways, no synthetic joins; preview non-navigational');

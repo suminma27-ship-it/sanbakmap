@@ -42,5 +42,5 @@ assert(!html.includes('window.SanbakNationalRoutes.shortest'));
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(scripts.length,2);for(const s of scripts)new Function(s[1]);
 const sw=readFileSync(new URL('sw.js',root),'utf8');
-assert(sw.includes('sanbakmap-v76-fresh-1'));
+assert(sw.includes('sanbakmap-v77-fresh-1'));
 console.log('PASS: v75 156 OSM border extensions, 109 original ways, previous 3 park baselines unchanged');

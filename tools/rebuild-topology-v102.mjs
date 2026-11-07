@@ -58,7 +58,7 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
    for(const edge of graph.edges){
     guard(Array.isArray(edge)&&edge.length===6&&
       edge[0]>=0&&edge[0]<graph.nodes.length&&edge[1]>=0&&edge[1]<graph.nodes.length&&
-      edge[3]>=0&&edge[3]<graph.source_parts.length&&edge[2]>0,
+      edge[3]>=0&&edge[3]<graph.source_parts.length&&edge[2]>=0,
       'Invalid source edge indices '+code);
    }
    output.mountains[code]={bucket,parts:sm.parts,nodes:sm.nodes,edges:sm.edges,

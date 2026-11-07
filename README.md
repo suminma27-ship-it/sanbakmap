@@ -4,6 +4,14 @@
 
 웹사이트: https://suminma27-ship-it.github.io/sanbakmap/
 
+## v94 원본 노드 접점 (2026-11-08; 지도 화면 v92 유지)
+- 설악산 **원본 OSM PBF 노드 ID를 실제 공유한 26곳**을 향후 정상·갈림길·대피소 POI와 정밀 대조할 수 있는 **비라우팅 접점 앵커**로 별도 저장. 근거는 v90 PBF 공유노드 감사, v91 표시 선형↔원본 Way 대응표, v92 지도에서 남은 700개 선형의 ID. 각 접점의 두 표시 선형이 현재 보존된 선형인지, 원본 Way ID 두 개가 실제 PBF 감사 기록과 일치하는지 필수 검증.
+- **18곳 path↔path, 2곳 track↔track, 6곳 footway/pedestrian 포함**으로 분류. 이는 원본 지도 노드의 일치이며 **공식 갈림길 여부, 이름 붙은 정상/대피소, 현행 출입 가능성, 지형적 통과 가능성, 독립적인 새 연결선**을 증명하지 않음. 따라서 **이름 있는 POI 0건, 새 지리 선형 0개, 라우팅 전환 0건** 유지.
+- 원본 PBF 노드 ID·정밀 WGS84 좌표·OSM 노드 링크·양측 Way ID·기존 지도 선형 ID를 기록한 [앵커 JSON](https://suminma27-ship-it.github.io/sanbakmap/seorak-v94-source-contact-anchors.json), [검토용 GeoJSON](https://suminma27-ship-it.github.io/sanbakmap/seorak-v94-source-contact-anchors.geojson) 생성. 원본 스냅샷은 `audits/seorak-v94-source-contact-anchors.json`, `audits/seorak-v94-source-contact-anchors.geojson`.
+- `tools/seorak-poi-anchors-v94.mjs`는 26개 실제 공유 노드를 재현하고 `matchNamedPOICandidates`로 **정확히 같은 원본 노드 ID**의 외부 이름 후보만 추가 검토 대상으로 분류. 좌표 거리·최근접 점으로 **자동 스냅하지 않음**. 원본 노드 ID가 일치하더라도 공식 장소명/통제 정보의 별도 검증 없이는 화면에 표시하거나 코스 연결에 사용하지 않음. 기존 주요지점 표시 기능을 변경하지 않음.
+- 자동 테스트 `tests/seorak-poi-anchors-v94.mjs`는 26개 ID/좌표/Way 대응, **원본과 분리된 시설 보행로 6건의 보류**, 임의 이름 또는 자동 길찾기 불허 및 현재 700개 선형 유지 여부를 검증. 기존 `national-parks-trails.html`은 **v92 그대로**.
+- **다음 작업:** 승인된 출처가 있는 설악산 정상·분기점·대피소 POI 목록의 고유 원본 ID와 좌표 확보. 실제 원본 정점 ID가 일치하는 지점만 명칭 검토 후 지도에 배치하며, 단순 좌표 근접이나 평면 교차는 절대 도로 연결 증거로 사용하지 않음. 현재 자료만으로 확인되지 않은 지점은 보류.
+
 ## v93 검토 목록 (2026-11-08; 지도 화면 v92 유지)
 - **v92에서 검토 보류한 설악산 `footway/pedestrian` 47개를 빠짐없이 추적할 수 있는 검토용 목록** 추가. `tools/seorak-review-queue-v93.mjs`가 v92 원본 감사표에서 자동으로 JSON/CSV를 생성하며 수작업으로 새 경로를 판정하지 않음.
 - 검토 순서는 **보행자도로 1개 → 교량 12개 → GPX 흔적 없는 길이 80m 이상 보행로 6개 → 부분 기록만 있는 긴 보행로 10개 → 나머지 짧은 보행로 18개**. 이 순서는 **조사 편의용**이며 실제 등산로 판단, 코스 추천 우선순위, 통행 가능·허가 여부 판단이 아님.

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#133b29"><title>산박지도 v102 | 전국 등산로 연결망</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#173327;background:#f5f8f5}
+*{box-sizing:border-box}body{margin:0}header{background:#123d2b;padding:15px max(16px,calc((100% - 1120px)/2));color:#fff;display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap}
+header a{color:#fff;text-decoration:none}header span{font-size:12px}main{max-width:1120px;margin:auto;padding:18px 13px 40px}
+h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;font-size:13px}.warn{padding:12px;border:1px solid #d5e4d9;border-radius:10px;background:#eff5f0}
+.grid{display:grid;grid-template-columns:minmax(235px,300px) minmax(0,1fr);gap:13px;margin-top:14px}
+.panel{background:#fff;border:1px solid #d6e4d8;border-radius:11px;overflow:hidden}
+.filter{padding:13px;border-bottom:1px solid #e1ece3}input{width:100%;font:inherit;min-height:42px;border:1px solid #c8dccc;border-radius:8px;padding:9px}
+#items{max-height:500px;overflow:auto}.item{width:100%;padding:11px 12px;display:block;text-align:left;background:#fff;border:0;border-bottom:1px solid #edf2ee;color:inherit;cursor:pointer}
+.item.active{background:#e5f1e8}.item small{display:block;color:#597565}
+.detail{padding:16px}.detail h2{font-size:20px;margin:0 0 7px}.hint{font-size:12px;color:#587360}
+.kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:16px 0}
+.metric{border:1px solid #e2ebe2;border-radius:8px;padding:12px 8px}.metric small{display:block;font-size:11px;color:#55725e}.metric strong{display:block;font-size:23px;margin-top:6px}
+#notice{font-size:13px;line-height:1.7}#status{padding:10px 16px;border-top:1px solid #e0eae0;font-size:12px;color:#5c7661}
+@media(max-width:760px){.grid{grid-template-columns:1fr}#items{max-height:185px}.kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body>
+<header><a href="./national.html"><strong>▲ 산박지도</strong></a><span>원본 GIS 연결망 검증 v102 · 바탕지도 미적용</span><a href="./nationwide-official.html">전국 등산로 선형 보기</a></header>
+<main><h1>전국 등산로 연결망 검사</h1>
+<p class="warn">산림청 원본 SHP의 끝점 또는 원본 정점이 0.1m 기준으로 일치하는 경우만 연결한 <strong>기하학적 검토 결과</strong>야. 현행 지정·개방 여부, 실제 교차로 및 등산 가능 여부는 미확인이라 <strong>코스 자동 길찾기는 비활성화</strong>했어. 바탕지도는 추후 별도로 얹을 수 있도록 분리했어.</p>
+<div class="grid"><aside class="panel"><div class="filter"><label for="query" class="hint">산 이름·산코드 검색</label><input id="query" placeholder="설악산 · 관악산 · 428302602" type="search"><p id="count" class="hint">전국 자료 준비 중…</p></div><div id="items"></div></aside>
+<section class="panel"><div class="detail"><h2 id="name">산을 선택해 줘</h2><div id="source" class="hint">기관 과거 등산로 원본</div>
+<div class="kpi">
+ <div class="metric"><small>원본 선형 부분</small><strong id="parts">—</strong></div>
+ <div class="metric"><small>연결망 노드</small><strong id="nodes">—</strong></div>
+ <div class="metric"><small>연결 구간</small><strong id="edges">—</strong></div>
+ <div class="metric"><small>별도 연결요소</small><strong id="components">—</strong></div>
+ <div class="metric"><small>검토할 근접 끝점</small><strong id="near">—</strong></div>
+ <div class="metric"><small>자동으로 붙인 간격</small><strong>0</strong></div>
+</div>
+<p id="notice">기관 수록 자료만으로 현재 통행 가능 여부를 결정하지 않아.</p>
+</div><div id="status" role="status">산별 연결망 색인 준비 중…</div></section></div></main>
+<script src="./national_data.js"></script>
+<script>
+(()=>{'use strict';
+ const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[]).map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
+ let index=null,selected='',generation=0;const cache=new Map(),count=x=>Number(x||0).toLocaleString('ko-KR');
+ function status(t){$('status').textContent=t}
+ async function getJSON(path){const r=await fetch(path);if(!r.ok)throw Error('HTTP '+r.status+' '+path);return r.json()}
+ async function loadBucket(id){
+  if(!cache.has(id))cache.set(id,(async()=>{
+   const path='./data/nationwide-topology/bucket-'+id+'.json.gz',r=await fetch(path);
+   if(!r.ok)throw Error('연결망 자료를 읽지 못했어: HTTP '+r.status);
+   const bytes=new Uint8Array(await r.arrayBuffer());
+   let txt;
+   if(bytes[0]===31&&bytes[1]===139){
+    if(typeof DecompressionStream!=='function')throw Error('이 브라우저는 gzip 연결망 압축을 지원하지 않아');
+    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    txt=await new Response(stream).text();
+   }else txt=new TextDecoder().decode(bytes);
+   const data=JSON.parse(txt);
+   if(data.schema!=='sanbak-geometric-topology-v1'||data.source_zip_sha256!==index.source_zip_sha256)
+    throw Error('연결망 출처 검증 오류');
+   return data;
+  })());
+  return cache.get(id);
+ }
+ function filter(){
+  const term=$('query').value.trim().toLowerCase(),found=catalog.filter(m=>(m.name+' '+m.code).toLowerCase().includes(term));
+  $('count').textContent=count(found.length)+'개 산 검색 결과';
+  const panel=$('items');panel.replaceChildren();
+  for(const m of found.slice(0,70)){
+   const b=document.createElement('button');b.className='item'+(selected===m.code?' active':'');b.type='button';
+   const title=document.createElement('strong');title.textContent=m.name;
+   const small=document.createElement('small');small.textContent=m.code+(index?.mountains?.[m.code]?' · 연결망 자료 있음':' · 자료 미확보');
+   b.append(title,small);b.onclick=()=>select(m.code);panel.append(b);
+  }
+  if(found.length>70){const t=document.createElement('p');t.className='hint';t.textContent='70개만 표시 중 · 산 이름을 입력해 줘';panel.append(t)}
+ }
+ function update(stat,source,note){
+  const values={parts:stat.parts,nodes:stat.nodes,edges:stat.edges,
+   components:stat.geometric_components??stat.geometricComponents,
+   near:stat.near_end_pairs_unconnected??stat.nearEndsReviewOnly};
+  for(const [k,v]of Object.entries(values))$(k).textContent=count(v);
+  $('source').textContent=source;
+  $('notice').textContent=note;
+ }
+ async function select(code){
+  const mountain=catalog.find(x=>x.code===code);if(!mountain)return;
+  selected=code;const my=++generation;filter();$('name').textContent=mountain.name;status('연결망 분석결과를 불러오는 중…');
+  try{
+   if(code==='428302602'){
+    const record=await getJSON('./data/knps-seorak-topology-v102.json');if(my!==generation)return;
+    if(record?.graph?.routable!==false)throw Error('공단 자료 연결망 상태 오류');
+    update(record.graph.summary,'국립공원공단 탐방로 · 2018년 시설자료',
+      '설악산은 공단 원본을 우선 사용해. 17개 연결요소가 발견됐고, 인접한 두 길을 자동으로 이어 붙이지 않았어. 실제 개방 및 통행 가능 여부는 별도 확인해야 해.');
+   }else if(index?.mountains?.[code]){
+    const b=index.mountains[code].bucket,data=await loadBucket(b);if(my!==generation)return;
+    const g=data.mountains?.[code];if(!g||g.summary?.navigable!==false)throw Error('산별 연결망 검증 오류');
+    update(g.summary,'산림청 수록 등산로 · 원본 GIS (대부분 2016년)',
+      '원본 GIS에서 좌표가 일치하는 접점만 연결했어. 선형이 끊긴 구간은 임의로 이어주지 않고 별도 검토 대상으로 남겨뒀어.');
+   }else{
+    if(my!==generation)return;update({parts:0,nodes:0,edges:0,geometricComponents:0,nearEndsReviewOnly:0},
+      '현재 확보한 원본 연결망 자료 없음','이 산에 길이 없다는 뜻이 아니라, 현재 공식기관 자료에서 연결망을 만들 수 없었다는 뜻이야.');
+   }
+   status('원본 좌표 기반 기하학적 연결망 표시 완료 · 자동 길찾기 비활성화');
+  }catch(e){if(my===generation)status('불러오기 실패: '+e.message)}
+ }
+ async function start(){
+  try{
+   index=await getJSON('./data/nationwide-topology/index.json');
+   if(index.schema!=='sanbak-topology-audit-index-v102'||index.counts?.mountains!==2902)throw Error('전국 연결망 색인 오류');
+   filter();await select('428302602');
+  }catch(e){status('연결망 색인을 불러오지 못했어: '+e.message)}
+ }
+ $('query').oninput=filter;start();
+})();
+</script></body></html>

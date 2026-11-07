@@ -53,7 +53,7 @@ jobs:
           test -f nationwide-full.html
           test "$(find data/nationwide-full -maxdepth 1 -name 'part-*.js' -type f | wc -l)" -eq 11
           test -f data/knps-seorak-2018.geojson
-          for f in nationwide-official.html core/nationwide-source-loader.js core/nationwide-app.js data/nationwide/index.json data/nationwide/bucket-00.json; do test -f "$f"; done
+          for f in nationwide-official.html nationwide-topology.html core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js data/nationwide/index.json data/nationwide/bucket-00.json data/nationwide-topology/manifest.json; do test -f "$f"; done
           grep -q '산박지도 v' index.html
           mkdir -p site
           cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
@@ -67,12 +67,15 @@ jobs:
           mkdir -p site/data/nationwide
           cp data/nationwide/*.json site/data/nationwide/
           node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
+          node tools/rebuild-topology-v102.mjs --output-dir site/data/nationwide-topology
+          test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
+          node tools/knps-topology-v102.mjs --output-dir site/data
           test "$(find site/data/nationwide -maxdepth 1 -name 'bucket-*.json' -type f | wc -l)" -eq 32
-          cp nationwide-official.html site/nationwide-official.html
+          cp nationwide-official.html nationwide-topology.html site/
           cp nationwide-full.html site/nationwide-full.html
           mkdir -p site/data/nationwide-full
           cp data/nationwide-full/part-*.js site/data/nationwide-full/
-          cp core/nationwide-source-loader.js core/nationwide-app.js site/core/
+          cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js site/core/
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
           cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json
 

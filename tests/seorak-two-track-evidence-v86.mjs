@@ -79,7 +79,7 @@ assert(a.candidates.find(x=>x.osm_way_id===658252273).nearest_archived_gpx_dista
 const nine=a.candidates.find(x=>x.osm_way_id===1496520172);
 assert(nine.reviewed_exterior_length_m<10&&nine.nearest_archived_gpx_distance_to_exterior_m>60);
 const html=read('national-parks-trails.html');
-assert(html.includes('국립공원 등산로 원본 · v86'));
+assert(html.includes('국립공원 등산로 원본 · v'),'map release label must remain present');
 assert(html.includes('outerSeorak.features.push(...added83)'));
 assert(html.includes("v77.a.filter(r=>!excludedFacilityPathIds.has(r.i))"));
 assert(html.includes("v78.paths.filter(r=>r.h==='track')"));
@@ -88,5 +88,5 @@ assert(!html.includes('window.SanbakNationalRoutes.shortest'));
 const inline=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(inline.length,2);
 for(const s of inline)new Function(s[1]);
-assert(read('README.md').includes('**현재 버전: v86**'));
+assert(read('README.md').includes('## v86 업데이트'),'v86 road evidence history remains intact');
 console.log('PASS v86: 2 OSM grade1 tracks held; 2022 GPX nearest ~1.09km/65m, no source promotion; 703 map lines unchanged');

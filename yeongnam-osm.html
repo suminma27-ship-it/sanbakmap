@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v69 | 영남알프스 OSM 등산지도</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v70 | 영남알프스 OSM 등산지도</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#1c3226;background:#f4f8f4}*{box-sizing:border-box}body{margin:0}header{padding:13px 16px;background:#123c2b;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}header a{color:#fff;text-decoration:none;font-weight:700}main{max-width:1440px;margin:0 auto;padding:12px}h1{font-size:22px;letter-spacing:-.04em;margin:6px 0}h2{font-size:16px;margin:0}p{line-height:1.55}.sub{color:#5b6e61;font-size:12px}.notice{padding:11px;border-radius:10px;background:#eaf3eb;border:1px solid #cfddce;font-size:12px;margin:10px 0 12px}.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:12px}.panel,.mapbox{background:#fff;border:1px solid #d7e5d9;border-radius:14px;overflow:hidden}.panel{padding:14px;align-self:start}.panel h2{margin:12px 0 8px}.statrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{padding:9px;background:#f5f8f5;border-radius:9px}.stat strong{font-size:18px;display:block}.stat span{display:block;font-size:11px;color:#526357}.control{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #edf1ed;font-size:13px}.control input{accent-color:#24724c}.control select{min-width:100px;padding:7px;border:1px solid #cbdad0;background:#fff;border-radius:7px}.control input[type=checkbox]{width:17px;height:17px}.small{font-size:11px;color:#526658}.traverse{margin:8px 0 0;padding:0;list-style:none}.traverse li{border-bottom:1px solid #ebf0eb}.traverse button{border:0;width:100%;background:transparent;text-align:left;font:inherit;font-size:12px;padding:10px 0;color:#234b32;cursor:pointer;display:flex;justify-content:space-between;gap:8px}.traverse button:hover{background:#f2f8f3}.traverse strong{font-variant-numeric:tabular-nums;white-space:nowrap}.action{background:#fff;border:1px solid #bfcfc4;border-radius:8px;display:inline-block;padding:9px 12px;text-decoration:none;font-size:12px;font-weight:700;color:#1c5639;cursor:pointer}#map{width:100%;height:min(79vh,770px);min-height:490px;background:#e5ebe5}.mapfoot{padding:9px 12px;font-size:11px;color:#59675f}.linkrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.maplibregl-popup-content{border-radius:9px;font-size:12px;line-height:1.5}.poi-pin{background:#fff;display:flex;align-items:center;justify-content:center;border:2px solid #1c754d;border-radius:50%;width:14px;height:14px;box-shadow:0 0 0 2px #ffffffa8}.poi-text{font-size:12px;font-weight:750;color:#143f2b;background:#ffffffd9;padding:2px 4px;border-radius:4px;white-space:nowrap;position:absolute;left:13px;top:-5px;text-shadow:0 1px white;pointer-events:none}.poi-wrap{width:16px;height:16px;position:relative;cursor:pointer}.poi-wrap .poi-pin{width:16px;height:16px}.info{padding:9px 12px;font-size:12px;color:#376046;border-bottom:1px solid #e1ece4}.credit{margin-top:12px;color:#647466;font-size:11px}.credit a{color:#326a4a}@media(max-width:820px){.layout{grid-template-columns:1fr}.panel{order:2}.mapbox{order:1}#map{height:65vh;min-height:410px}.statrow{grid-template-columns:repeat(4,1fr)}.stat strong{font-size:16px}.stat span{font-size:10px}}@media(max-width:430px){.statrow{grid-template-columns:repeat(2,1fr)}.poi-text{font-size:10px}}
 </style></head><body>
-<header><a href="./index.html">▲ 산박지도</a><span>영남알프스 등산로 검증 지도 · v69</span><a href="./national.html">전국 등산로</a></header>
+<header><a href="./index.html">▲ 산박지도</a><span>영남알프스 등산로 검증 지도 · v70</span><a href="./national.html">전국 등산로</a></header>
 <main>
 <h1>신불산 · 간월재 · 간월산 등산지도</h1>
 <p class="sub">업로드한 2026-11-05 대한민국 OSM PBF에서 추출한 등산로 및 임도. 주변 배내봉·영축산까지 포함했어.</p>
@@ -13,7 +13,7 @@
 <div class="layout"><aside class="panel">
 <div class="statrow"><div class="stat"><strong>1,030</strong><span>원본 OSM 선형</span></div><div class="stat"><strong>8.16km</strong><span>대표 능선 연결</span></div><div class="stat"><strong>6곳</strong><span>정상·재 POI</span></div><div class="stat"><strong>144개</strong><span>권역 연결요소</span></div></div>
 <h2>지도 레이어</h2>
-<label class="control">바탕지도 <select id="basemap"><option value="standard">일반 지도</option><option value="topo">지형도 (등고선)</option></select></label>
+<label class="control">바탕지도 <select id="basemap"><option value="standard">일반 지도 (OSM)</option><option value="topo">지형도 (등고선)</option><option value="lines">등산로만 (타일 없이)</option></select></label>
 <label class="control">등산로 · 계단 표시 <input id="showFoot" type="checkbox" checked></label>
 <label class="control">임도 · 작업로 표시 <input id="showTrack" type="checkbox" checked></label>
 <label class="control">연결된 능선 코스 <input id="showTraverse" type="checkbox" checked></label>
@@ -25,8 +25,8 @@
 <p class="small">산림청 2016 선형이나 코스별 GPX와 달리, OSM은 이름이 다른 산도 하나의 네트워크로 표현할 수 있어. 임도는 실보행 적합성 확인이 필요해.</p>
 </aside>
 <section class="mapbox" aria-label="영남알프스 원본 등산로 지도"><div id="status" class="info" role="status">등산로 원본을 불러오는 중…</div><div id="map" role="region" aria-label="배내봉, 간월산, 간월재, 신불산, 신불재, 영축산 등산로 지도"></div>
-<div class="mapfoot">실선: OSM 등산로·계단 · 점선: 임도 · 굵은 선: 공유 정점으로 연결된 능선. POI와 등산로의 최근접 거리는 0~11m이며 별도 직선 연결하지 않았어.</div></section></div>
-<p class="credit">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL) · 원본 <a href="https://download.geofabrik.de/asia/south-korea.html" target="_blank" rel="noopener">Geofabrik 대한민국 2026-11-05 추출물</a> · 일반 바탕지도 <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap / OpenMapTiles</a> · 지형 바탕지도 © <a href="https://opentopomap.org/" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA) / SRTM. 등산로 데이터와 지형도는 외부 인터넷 연결이 필요할 수 있어. 프로토타입 단계에서는 공개 타일을 대량 내려받지 않아.</p>
+<div class="mapfoot">실선: OSM 등산로·계단 · 점선: 임도 · 굵은 선: 공유 정점으로 연결된 능선. POI와 등산로의 최근접 거리는 0~11m이며 별도 직선 연결하지 않았어. 바탕지도 타일이 실패해도 등산로만 표시할 수 있어.</div></section></div>
+<p class="credit">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL) · 원본 <a href="https://download.geofabrik.de/asia/south-korea.html" target="_blank" rel="noopener">Geofabrik 대한민국 2026-11-05 추출물</a> · 일반 바탕지도 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · 지형 바탕지도 © <a href="https://opentopomap.org/" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA) / SRTM. 등산로 원본은 페이지에 내장되어 있어. 일반/지형 바탕지도 타일에만 별도 인터넷 연결이 필요하고, 공개 지도 타일은 대량 내려받지 않아.</p>
 </main>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>/* v69 regional OSM hiking lines, derived from Geofabrik 2026-11-05 data, ODbL attribution required */
@@ -36,10 +36,28 @@ window.SANBAK_OSM_ALPS_DATA_B64="H4sIAAAAAAAC/7S9S6uvSXbm91VEjrOLuF80tI09adsDDxs
 'use strict';
 const el=id=>document.getElementById(id),byId={};
 let payload=null,map=null,poiMarkers=[];
-const baseStyle={
- version:8,sources:{topography:{type:'raster',tiles:['https://a.tile.opentopomap.org/{z}/{x}/{y}.png','https://b.tile.opentopomap.org/{z}/{x}/{y}.png','https://c.tile.opentopomap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:17,attribution:'© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)'}},
- layers:[{id:'topography',type:'raster',source:'topography'}]
-};
+// Local style documents: external tile errors cannot prevent hiking lines from loading.
+const blankStyle={version:8,sources:{},layers:[{id:'local-background',type:'background',paint:{'background-color':'#eaf0eb'}}]};
+function rasterStyle(tiles,maxzoom,attribution){
+ return {version:8,sources:{basemap:{type:'raster',tiles,tileSize:256,maxzoom,attribution}},layers:[
+  {id:'local-background',type:'background',paint:{'background-color':'#eaf0eb'}},
+  {id:'basemap-raster',type:'raster',source:'basemap'}
+ ]};
+}
+const standardStyle=rasterStyle(['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],19,'© OpenStreetMap contributors');
+const topoStyle=rasterStyle([
+ 'https://a.tile.opentopomap.org/{z}/{x}/{y}.png',
+ 'https://b.tile.opentopomap.org/{z}/{x}/{y}.png',
+ 'https://c.tile.opentopomap.org/{z}/{x}/{y}.png'],17,
+ '© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)');
+const selectedStyle=()=>el('basemap').value==='lines'?blankStyle:el('basemap').value==='topo'?topoStyle:standardStyle;
+let initialFit=false,autoFallback=false,tileErrors=0;
+function fallbackToLines(){
+ if(autoFallback||el('basemap').value==='lines')return;
+ autoFallback=true;el('basemap').value='lines';
+ el('status').textContent='바탕지도 서버 오류로 등산로만 표시 중이야. 바탕지도 메뉴에서 다시 선택할 수 있어.';
+ map.setStyle(blankStyle);
+}
 function toBounds(points){let w=180,e=-180,s=90,n=-90;for(const p of points){w=Math.min(w,p[0]);e=Math.max(e,p[0]);s=Math.min(s,p[1]);n=Math.max(n,p[1]);}return [[w,s],[e,n]]}
 function layerSource(){
  if(!map||!payload)return;
@@ -92,18 +110,30 @@ async function init(){
    const name=document.createElement('span'),km=document.createElement('strong');name.textContent=l.name;km.textContent=l.km.toFixed(2)+' km';
    button.append(name,km);button.onclick=()=>focusLeg(i);li.append(button);el('segments').append(li);
   }
-  map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/liberty',center:[129.048,35.545],zoom:12,minZoom:8,maxZoom:18,attributionControl:true});
+  map=new maplibregl.Map({container:'map',style:selectedStyle(),center:[129.048,35.545],zoom:12,minZoom:8,maxZoom:18,attributionControl:true});
   map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
-  map.on('style.load',layerSource);
-  map.once('load',()=>{
-   makePoi();map.fitBounds(toBounds(payload.route.geometry.coordinates),{padding:75,duration:0,maxZoom:13.7});
-   el('status').textContent='OSM 1,030개 선형 · 정상·재 6곳 · 연결 능선 8.159km · 현장 통행 확인 전';
+  // Add locally embedded trails immediately after the style document loads, not after remote raster tiles.
+  map.on('style.load',()=>{
+   layerSource();makePoi();
+   if(!initialFit){
+    initialFit=true;
+    map.fitBounds(toBounds(payload.route.geometry.coordinates),{padding:75,duration:0,maxZoom:13.7});
+   }
+   if(!autoFallback)el('status').textContent=el('basemap').value==='lines'?
+    'OSM 1,030개 원본 등산로 · 바탕지도 없이 표시 중 · 현장 검증 전':
+    'OSM 1,030개 원본 등산로 · 외부 바탕지도 타일 불러오는 중 · 현장 검증 전';
   });
-  map.on('error',e=>{if(!map.getLayer('walking-paths'))el('status').textContent='바탕지도 로딩에 문제가 생겼어. 인터넷 연결을 확인해 줘.';});
+  map.on('error',e=>{
+   const source=e.sourceId||e.error?.sourceId||'';
+   const message=String(e.error?.message||'');
+   if(el('basemap').value!=='lines'&&(source==='basemap'||/tile\\.openstreetmap\\.org|tile\\.opentopomap\\.org/i.test(message))){
+    if(++tileErrors>=4)fallbackToLines();
+   }else if(source==='hiking-ways'||source==='ridge-route')el('status').textContent='등산로 표시 오류: '+message;
+  });
  }catch(err){el('status').textContent='자료를 표시하지 못했어: '+err.message;}
 }
 for(const id of ['showFoot','showTrack','showTraverse','showPoi'])el(id).onchange=setVisibility;
-el('basemap').onchange=()=>{if(!map)return;map.setStyle(el('basemap').value==='topo'?baseStyle:'https://tiles.openfreemap.org/styles/liberty');};
+el('basemap').onchange=()=>{if(!map)return;autoFallback=false;tileErrors=0;map.setStyle(selectedStyle());};
 el('fitRoute').onclick=()=>{if(map&&payload)map.fitBounds(toBounds(payload.route.geometry.coordinates),{padding:65,maxZoom:13.7});};
 el('exportTrails').onclick=()=>{if(!payload)return;const obj={...payload.trailNetwork,metadata:{source:payload.source,license:payload.license,status:'unverified_source_map',allow_in_routing:false}};const url=URL.createObjectURL(new Blob([JSON.stringify(obj)],{type:'application/geo+json'}));const a=document.createElement('a');a.href=url;a.download='yeongnam-alps-osm-trails-20261105.geojson';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000)};
 init();

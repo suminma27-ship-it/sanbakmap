@@ -21,7 +21,7 @@ const inline=html.split('<script>\n')[1]?.split('</script>')[0];
 assert(inline);new Function(inline);
 for(const key of ['ganwol-verify.js','id="referenceFile"','id="referenceStatus"','id="showReference"','id="downloadGap"','data.g.slice(4)','allow_in_routing:false','window.SanbakGanwolVerify.compare'])assert(html.includes(key),key);
 const worker=readFileSync(new URL('sw.js',base),'utf8');
-assert(worker.includes('sanbakmap-v69-fresh-1')&&worker.includes('./ganwol-verify.js'));
+assert(worker.includes('sanbakmap-v70-fresh-1')&&worker.includes('./ganwol-verify.js'));
 const flow=readFileSync(new URL('.github/workflows/deploy-pages.yml',base),'utf8');
 assert(flow.includes('ganwol-verify.js'));
 console.log('PASS: v67 GPX/GeoJSON reference matching, topology safety, WGS84 guard and deployment');

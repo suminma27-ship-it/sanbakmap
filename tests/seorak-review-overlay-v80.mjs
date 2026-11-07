@@ -1,32 +1,27 @@
-// v80 review overlay: the five held footways are visual-only, data-identical to reviewed OSM source.
+// v81: rollback the v80 facility-walk review overlay without deleting audited OSM source data.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const root=new URL('../',import.meta.url);
-const load=name=>readFileSync(new URL(name,root),'utf8');
-const page=load('national-parks-trails.html');
-const src=JSON.parse(load('audits/seorak-v80-five-footways.geojson'));
-const embedded=page.match(/<script id="seorak-v80-review" type="application\/json">([\s\S]*?)<\/script>/)?.[1];
-assert(embedded,'five held footway line geometries must be embedded for review');
-const review=JSON.parse(embedded);
-assert.deepEqual(review,src,'displayed review lines must exactly match audited source');
+const read=name=>readFileSync(new URL(name,root),'utf8');
+const page=read('national-parks-trails.html');
+const review=JSON.parse(read('audits/seorak-v80-five-footways.geojson'));
+const scope=JSON.parse(read('audits/seorak-v81-map-scope.json'));
 assert.equal(review.features.length,5);
+assert.equal(review.display_in_map,false);
 assert.equal(review.route_allowed,false);
-assert.equal(review.display_in_map,false,'these are held audit lines, not promoted route lines');
-assert(review.features.every(f=>f.properties.routing_allowed===false&&f.properties.field_verified===false));
-const ids=review.features.map(f=>f.properties.osm_id);
-assert.deepEqual(ids,['485958084','485958093','485958097','485958100','485958102']);
-for(const token of ['id="reviewToolbar"','id="reviewToggle"','id="reviewSpot"','id="reviewStatus"',
-  'reviewVisible=!!reviewData','new URLSearchParams(location.search)',"get('review')==='5'",
-  'function drawReviewPaths','function renderReviewMarkers','function focusReview','function reviewUi',
-  "data-review-id","'pointer-events':'none'","reviewVisible=!reviewVisible",
-  'if(reviewVisible&&', "stroke:'#b24791'"]) {
- assert(page.includes(token),'review overlay UI missing: '+token);
+assert.equal(scope.version,81);
+assert.deepEqual(scope.excluded_v80_audit_only_footway_ids,
+  review.features.map(f=>Number(f.properties.osm_id)));
+for(const forbidden of [
+ 'id="reviewToolbar"','id="reviewToggle"','id="reviewSpot"','id="reviewStatus"',
+ 'seorak-v80-review','reviewMarkerLayer','drawReviewPaths','renderReviewMarkers',
+ 'reviewVisible','reviewUi','focusReview','미검증 후보 5곳 보기'
+]){
+ assert(!page.includes(forbidden),'Facility review overlay should be absent: '+forbidden);
 }
-const blocks=[...page.matchAll(/<script>([\s\S]*?)<\/script>/g)];
-assert.equal(blocks.length,2);
-for(const block of blocks)new Function(block[1]);
-assert(!page.includes('seorak-v80-extra.js'),'review-only way should never join official map layer');
-assert(!page.includes('window.SanbakNationalRoutes.shortest'),'review-only way cannot affect routing');
-const existing=load('tests/seorak-footway-review-v80.mjs');
-assert(existing.includes("assert.equal(review.route_allowed,false)"));
-console.log('PASS five held OSM way overlays: exact source geom, toggle and focus, no routing');
+assert(!page.includes('seorak-v80-extra.js'));
+assert(!page.includes('window.SanbakNationalRoutes.shortest'));
+const js=[...page.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+assert.equal(js.length,2);
+for(const m of js)new Function(m[1]);
+console.log('PASS v81: former five facility walk overlays absent; source audits retained; no added routing');

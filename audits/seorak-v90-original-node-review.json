@@ -1,0 +1,815 @@
+{
+  "version": 90,
+  "source": "User-provided Geofabrik South Korea OSM PBF dated 2026-11-05",
+  "source_pbf_filename": "south-korea-261105.osm.pbf",
+  "source_pbf_sha256": "9debe407f31db923be2cb481d41c2e0100ed831555da011853eecacd44193ca8",
+  "method": "Cross-reference the v89 26 planar crossing coordinates against Geofabrik PBF-derived original 7-decimal WGS84 LineString source geometry within 1.5m of each display crossing; inspect original OSM PBF Way.refs delta-decoded node IDs. In every case, the two candidate original way IDs share the exact PBF node ID at a coordinate <0.75m from v89's displayed crossing.",
+  "source_way_node_pairs_checked": 26,
+  "source_way_node_pairs_sharing_exact_node": 26,
+  "unique_shared_pbf_node_ids": 26,
+  "source_way_reference_count": 44,
+  "original_pbf_way_ref_count_verified": true,
+  "source_node_coordinates_from_PBF_derived_GDAL_line_vertices": true,
+  "category_counts": {
+    "path_path": 18,
+    "track_track": 2,
+    "pedestrian_or_footway": 6
+  },
+  "display_lines_before": 703,
+  "display_lines_after": 703,
+  "display_graph_components_before": 67,
+  "display_graph_components_after": 67,
+  "geometry_and_routes_unchanged": true,
+  "automatic_route_promotion": false,
+  "confirmed_access_decisions": 0,
+  "not_for_navigation": true,
+  "limitations": [
+    "Inside-park v73 displayed line IDs lack original OSM way/node provenance; an OSM way near each crossing is a highly consistent source match but line-by-line identity is not independently proven by the stored v73 layer. Full mapping requires restoration of all v73 source way IDs.",
+    "OSM node sharing proves OSM map topology for the two source ways, not permission to hike, physical passability, or national park restrictions.",
+    "Six source-node-confirmed crossings include footway/pedestrian tags: they are withheld from hiking/forest-road promotion. The 20 path/path or track/track cases remain audit candidates pending full display-to-source mapping and access validation.",
+    "Near-endpoint gaps from v89 are separate; no gaps are auto-snapped based on these 26 source-node verifications."
+  ],
+  "reproduce": "tools/verify-seorak-v90-pbf-nodes.py --pbf [authorized south-korea-261105.osm.pbf] --audit audits/seorak-v90-original-node-review.json",
+  "cases": [
+    {
+      "number": 1,
+      "display_line_ids": [
+        "v73:trail:60",
+        "v73:trail:55"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.42268800717548,
+        38.054683540595995
+      ],
+      "pbf_osm_way_ids": [
+        177777836,
+        177777855
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 1881937608,
+      "shared_source_vertex_lonlat": [
+        128.4226951,
+        38.0546847
+      ],
+      "offset_from_v89_display_crossing_m": 0.63,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 2,
+      "display_line_ids": [
+        "v73:trail:150",
+        "v73:trail:17"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.48908938119388,
+        38.17374544725722
+      ],
+      "pbf_osm_way_ids": [
+        77867955,
+        711262954
+      ],
+      "pbf_highway_tags": [
+        "footway",
+        "pedestrian"
+      ],
+      "pbf_shared_node_id": 11668872957,
+      "shared_source_vertex_lonlat": [
+        128.4890894,
+        38.1737455
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 3,
+      "display_line_ids": [
+        "v73:trail:150",
+        "v73:trail:30"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.48870041472267,
+        38.17380185377859
+      ],
+      "pbf_osm_way_ids": [
+        77993122,
+        711262954
+      ],
+      "pbf_highway_tags": [
+        "footway",
+        "pedestrian"
+      ],
+      "pbf_shared_node_id": 916466349,
+      "shared_source_vertex_lonlat": [
+        128.4887007,
+        38.1738015
+      ],
+      "offset_from_v89_display_crossing_m": 0.05,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 4,
+      "display_line_ids": [
+        "v73:trail:175",
+        "v73:trail:74"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.45062241660722,
+        38.147652905684176
+      ],
+      "pbf_osm_way_ids": [
+        178142232,
+        1008821648
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 9308132526,
+      "shared_source_vertex_lonlat": [
+        128.4506224,
+        38.1476529
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 5,
+      "display_line_ids": [
+        "v73:trail:194",
+        "v73:trail:155"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.49152824798924,
+        38.13906307520928
+      ],
+      "pbf_osm_way_ids": [
+        839548659,
+        1120004240
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11502471260,
+      "shared_source_vertex_lonlat": [
+        128.4915245,
+        38.1390622
+      ],
+      "offset_from_v89_display_crossing_m": 0.34,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 6,
+      "display_line_ids": [
+        "v73:trail:240",
+        "v73:trail:160"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.34243923326332,
+        38.13045599391965
+      ],
+      "pbf_osm_way_ids": [
+        1147238022,
+        917061194
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 10675354133,
+      "shared_source_vertex_lonlat": [
+        128.3424428,
+        38.1304527
+      ],
+      "offset_from_v89_display_crossing_m": 0.48,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 7,
+      "display_line_ids": [
+        "v73:trail:240",
+        "v73:trail:189"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.3370968349956,
+        38.13879246790734
+      ],
+      "pbf_osm_way_ids": [
+        1095061371,
+        1147238022
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 10675354078,
+      "shared_source_vertex_lonlat": [
+        128.3370968,
+        38.1387925
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 8,
+      "display_line_ids": [
+        "v73:trail:264",
+        "v73:trail:130"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.56587660344096,
+        38.17600849066794
+      ],
+      "pbf_osm_way_ids": [
+        1198859164,
+        470892963
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11121229853,
+      "shared_source_vertex_lonlat": [
+        128.5658782,
+        38.1760118
+      ],
+      "offset_from_v89_display_crossing_m": 0.39,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 9,
+      "display_line_ids": [
+        "v73:trail:285",
+        "v73:trail:273"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.42367741603846,
+        38.149597154926305
+      ],
+      "pbf_osm_way_ids": [
+        1210282605,
+        1218427802
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11211431835,
+      "shared_source_vertex_lonlat": [
+        128.4236817,
+        38.1496
+      ],
+      "offset_from_v89_display_crossing_m": 0.49,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 10,
+      "display_line_ids": [
+        "v73:trail:314",
+        "v73:trail:123"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.42600340342986,
+        38.10996028717499
+      ],
+      "pbf_osm_way_ids": [
+        1238261592,
+        376609671
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11502638630,
+      "shared_source_vertex_lonlat": [
+        128.4260034,
+        38.1099602
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 11,
+      "display_line_ids": [
+        "v73:trail:315",
+        "v73:trail:314"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.42925366688232,
+        38.11686110573527
+      ],
+      "pbf_osm_way_ids": [
+        1238261592,
+        1238261593
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11502643918,
+      "shared_source_vertex_lonlat": [
+        128.4292551,
+        38.1168623
+      ],
+      "offset_from_v89_display_crossing_m": 0.18,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 12,
+      "display_line_ids": [
+        "v73:trail:320",
+        "v73:trail:150"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.49130080090313,
+        38.17330855946979
+      ],
+      "pbf_osm_way_ids": [
+        711262954,
+        1255224774
+      ],
+      "pbf_highway_tags": [
+        "pedestrian",
+        "footway"
+      ],
+      "pbf_shared_node_id": 11668872897,
+      "shared_source_vertex_lonlat": [
+        128.4913008,
+        38.1733086
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 13,
+      "display_line_ids": [
+        "v73:trail:330",
+        "v73:trail:126"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.45456268057634,
+        38.16563940815314
+      ],
+      "pbf_osm_way_ids": [
+        376610576,
+        1311503258
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 12139841643,
+      "shared_source_vertex_lonlat": [
+        128.4545627,
+        38.1656394
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 14,
+      "display_line_ids": [
+        "v73:trail:331",
+        "v73:trail:330"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.44809675963452,
+        38.163763569980304
+      ],
+      "pbf_osm_way_ids": [
+        1311503258,
+        1311503259
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 12139841695,
+      "shared_source_vertex_lonlat": [
+        128.4480967,
+        38.1637636
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 15,
+      "display_line_ids": [
+        "v73:trail:338",
+        "v73:trail:128"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.46008875686599,
+        38.12877882180532
+      ],
+      "pbf_osm_way_ids": [
+        1324092264,
+        427326790
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 12252742003,
+      "shared_source_vertex_lonlat": [
+        128.4600887,
+        38.1287788
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 16,
+      "display_line_ids": [
+        "v73:trail:414",
+        "v73:trail:180"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.43480782612338,
+        38.0272765076004
+      ],
+      "pbf_osm_way_ids": [
+        1054962322,
+        1533443354
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 13974064016,
+      "shared_source_vertex_lonlat": [
+        128.4348078,
+        38.0272765
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 17,
+      "display_line_ids": [
+        "v73:trail:415",
+        "v73:trail:414"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.43491708435982,
+        38.027308295449615
+      ],
+      "pbf_osm_way_ids": [
+        1533443354,
+        1533443355
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "pedestrian"
+      ],
+      "pbf_shared_node_id": 13974064015,
+      "shared_source_vertex_lonlat": [
+        128.4349171,
+        38.0273083
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 18,
+      "display_line_ids": [
+        "v73:trail:440",
+        "v73:trail:325"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.44885037766034,
+        38.08565750137233
+      ],
+      "pbf_osm_way_ids": [
+        1288894524,
+        1566443121
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 14263837914,
+      "shared_source_vertex_lonlat": [
+        128.4488504,
+        38.0856575
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 19,
+      "display_line_ids": [
+        "v73:trail:458",
+        "v73:trail:453"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.37429138666727,
+        38.16481179993053
+      ],
+      "pbf_osm_way_ids": [
+        1567515405,
+        1567516596
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 14275759732,
+      "shared_source_vertex_lonlat": [
+        128.3742914,
+        38.1648118
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 20,
+      "display_line_ids": [
+        "v75:94",
+        "v75:26"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.5730018100035,
+        38.17823198480439
+      ],
+      "pbf_osm_way_ids": [
+        470892963,
+        1198859171
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11121230011,
+      "shared_source_vertex_lonlat": [
+        128.5730018,
+        38.178232
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 21,
+      "display_line_ids": [
+        "v75:97",
+        "v75:26"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.57478499929775,
+        38.17957210014376
+      ],
+      "pbf_osm_way_ids": [
+        470892963,
+        1198859176
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 11121230363,
+      "shared_source_vertex_lonlat": [
+        128.574785,
+        38.1795721
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 22,
+      "display_line_ids": [
+        "v75:116",
+        "v75:23"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.3947011808236,
+        38.02677706924747
+      ],
+      "pbf_osm_way_ids": [
+        177777910,
+        1433930061
+      ],
+      "pbf_highway_tags": [
+        "track",
+        "track"
+      ],
+      "pbf_shared_node_id": 13179420123,
+      "shared_source_vertex_lonlat": [
+        128.3947011,
+        38.0267771
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "track_track",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 23,
+      "display_line_ids": [
+        "v75:121",
+        "v75:119"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.57949559732808,
+        38.15470173875672
+      ],
+      "pbf_osm_way_ids": [
+        1497020020,
+        1497020019
+      ],
+      "pbf_highway_tags": [
+        "track",
+        "track"
+      ],
+      "pbf_shared_node_id": 13711298240,
+      "shared_source_vertex_lonlat": [
+        128.5794956,
+        38.1547018
+      ],
+      "offset_from_v89_display_crossing_m": 0.01,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "track_track",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 24,
+      "display_line_ids": [
+        "v75:137",
+        "v75:52"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.52095722839715,
+        38.16649973069067
+      ],
+      "pbf_osm_way_ids": [
+        1121967104,
+        1527118860
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "footway"
+      ],
+      "pbf_shared_node_id": 13916800675,
+      "shared_source_vertex_lonlat": [
+        128.5209536,
+        38.1664978
+      ],
+      "offset_from_v89_display_crossing_m": 0.38,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 25,
+      "display_line_ids": [
+        "v75:141",
+        "v75:139"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.5117836274382,
+        38.1691302930682
+      ],
+      "pbf_osm_way_ids": [
+        1527118862,
+        1527118863
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "footway"
+      ],
+      "pbf_shared_node_id": 13916800688,
+      "shared_source_vertex_lonlat": [
+        128.5117833,
+        38.16913
+      ],
+      "offset_from_v89_display_crossing_m": 0.04,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "pedestrian_or_footway",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    },
+    {
+      "number": 26,
+      "display_line_ids": [
+        "v75:149",
+        "v75:148"
+      ],
+      "approx_display_crossing_lonlat": [
+        128.44649688731366,
+        38.07797996933375
+      ],
+      "pbf_osm_way_ids": [
+        1566443128,
+        1566443130
+      ],
+      "pbf_highway_tags": [
+        "path",
+        "path"
+      ],
+      "pbf_shared_node_id": 10296987876,
+      "shared_source_vertex_lonlat": [
+        128.4464969,
+        38.07798
+      ],
+      "offset_from_v89_display_crossing_m": 0,
+      "confidence": "exact_shared_OSM_node_for_nearby_way_pair",
+      "classification": "path_path",
+      "confirmed_public_hiking_route": false,
+      "allow_auto_link": false,
+      "allow_routing": false
+    }
+  ]
+}

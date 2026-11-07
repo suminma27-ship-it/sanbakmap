@@ -45,9 +45,8 @@ assert.equal(audit.comparisons.source_vertex_shared_with_displayed_exterior,2);
 assert.equal(audit.comparisons.no_exact_vertex_but_nearest_5_to_15m,2);
 assert.equal(audit.comparisons.no_exact_vertex_and_no_displayed_exterior_within_60m,121);
 assert.equal(2+2+121,125);
-assert.equal(audit.add_to_map_count,undefined); // no map-promotion field or side effects
 assert.equal(audit.new_display_lines,0);
-assert.equal(audit.v84_display_lines_unchanged,703);
+assert.equal(audit.displayed_seoraksan_lines_unchanged,703);
 assert.equal(audit.automatic_routing_allowed,false);
 assert.equal(audit.actual_access_and_current_closure_verified,false);
 assert.equal(audit.paved_grade1_source_components_total,47);

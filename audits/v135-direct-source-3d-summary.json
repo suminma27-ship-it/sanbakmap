@@ -1,0 +1,62 @@
+{
+  "schema": "sanbak-v135-direct-source-3d-grade-audit",
+  "referenceArchiveSHA256": "4f00ce6c5768611652b583b1a999a12ec0c3de33f1d66c0a992ad8fe3abc0d32",
+  "originalSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "priorV131ArchiveSHA256": "cd508e38d05eef75d5a641fe5dfd62f592d086602c113ffae81981f99d746e1d",
+  "priorV134ArchiveSHA256": "b443de80bb12ab9798b67a7c621b7811f7a41558eaef0fccbe790084eddf3046",
+  "mountainsPreserved": 2902,
+  "mountainsChecked": 190,
+  "priorityCandidatesChecked": 337,
+  "originalEdgesComparedTo3D": 609,
+  "exact3DMatches": 605,
+  "unmatched3DSourceEdges": 4,
+  "bothEndpointsWithDirect3DHeight": 335,
+  "stillMissing": 2,
+  "comparable90mVsDirect": 335,
+  "classificationChanges": 19,
+  "discrepancyOver5m": 8,
+  "discrepancyOver10m": 2,
+  "previousLargeFlagsDowngraded": 3,
+  "newLargeFlags": 0,
+  "heightClasses": {
+    "direct3DMax5m": 283,
+    "direct3DModerate": 52,
+    "direct3DMissing": 2
+  },
+  "largeFlagRevisions": [
+    {
+      "mountainCode": "413602201",
+      "linkId": 135,
+      "horizontalGapM": 19.05,
+      "coarseHeightDeltaM": 25.587,
+      "direct3DHeightDeltaM": 5.21
+    },
+    {
+      "mountainCode": "414600103",
+      "linkId": 603,
+      "horizontalGapM": 21.7101,
+      "coarseHeightDeltaM": 24.302,
+      "direct3DHeightDeltaM": 13.721
+    },
+    {
+      "mountainCode": "262900804",
+      "linkId": 140,
+      "horizontalGapM": 19.0123,
+      "coarseHeightDeltaM": 17.329,
+      "direct3DHeightDeltaM": 8.541
+    }
+  ],
+  "unresolvedSource": {
+    "mountainCode": "491106604",
+    "junctions": 2,
+    "requiresAdditionalTrustworthy3DOrRaster": true
+  },
+  "originalTopologyModified": false,
+  "sourceDEMModified": false,
+  "publishedMapModified": false,
+  "newFeaturesAdded": false,
+  "mountainsUnder200mRemoved": 0,
+  "verifiedPhysicalConnections": 0,
+  "methodologicalGuard": "Full EPSG:5179 source SHP geometry vs 3D GeoJSON source polyline alignment <=0.3m incl closed loops; source 3D heights are not verified raw DEM, nor evidence of passage across 35m gaps.",
+  "fullResultInConversationArchive": "sanbakmap_v135_all_priority_direct3d_check.zip"
+}

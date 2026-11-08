@@ -55,7 +55,7 @@ new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</scrip
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
-assert(sw.includes('sanbakmap-v108-seorak-90m-dem'));
+assert(sw.includes('sanbakmap-v108-dem-visible-default'));
 assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));
 assert(read('national.html').includes('전국 코스 선형 v108'));
 console.log('PASS v108: real source 38814.img 90m samples match 22 KNPS Seorak original edges, 1126 positions, no invented forest altitudes');

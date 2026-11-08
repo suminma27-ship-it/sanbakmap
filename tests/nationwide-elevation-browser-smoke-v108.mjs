@@ -36,6 +36,7 @@ for(const name of [
  'core/nationwide-topology-v102.js','core/nationwide-route-preview-v104.js',
  'core/nationwide-pois-v105.js','core/nationwide-source-loader.js',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
+ 'core/nationwide-knps-contacts-v117.js',
  'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
  'core/nationwide-elevation-pack-v108.js','core/nationwide-elevation-archive-v110.js'
 ])vm.runInContext(read(name),context,{filename:name});

@@ -37,7 +37,7 @@ for(const name of [
  'core/nationwide-pois-v105.js','core/nationwide-source-loader.js',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
  'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
- 'core/nationwide-elevation-pack-v108.js'
+ 'core/nationwide-elevation-pack-v108.js','core/nationwide-elevation-archive-v110.js'
 ])vm.runInContext(read(name),context,{filename:name});
 const knps=JSON.parse(read('data/knps-seorak-2018.geojson'));
 const graph=scope.SanbakTopologyV102.build(scope.SanbakTopologyV102.historicKnps(knps),{sourceGeometry:'original'});
@@ -60,7 +60,7 @@ assert.equal(elements.get('sourceMode').value,'knps');
 assert.equal(elements.get('elevationDemo').disabled,false,'DEM example must be enabled when verified samples loaded');
 assert(chart.children.some(x=>x.tag==='path'&&x.attrs.d?.startsWith('M')),
  'The first render must draw an actual DEM polyline without manual selection');
-assert(notice.textContent.includes('예시 코스 표시 중'));
+assert(notice.textContent.includes('원본 GIS 대응 고도 예시 표시 중'));
 assert(elements.get('waypoints').children.length>=2,'auto-demo must show its selected original nodes');
 elements.get('clear').onclick();
 assert(!chart.children.some(x=>x.tag==='path'&&x.attrs.d?.startsWith('M')),

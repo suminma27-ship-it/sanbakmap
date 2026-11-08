@@ -70,6 +70,15 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice,canSelectNode}={})
    if(routeD)tag('path',{d:routeD,fill:'none',stroke:'#186ac0','stroke-width':4,
     'stroke-linecap':'round','stroke-linejoin':'round','vector-effect':'non-scaling-stroke',
     'pointer-events':'none'},g);
+   // A provisional source-coordinate gap is NOT an original/verified trail.
+   // Dashed amber means a plan-only approximation, not legal passage.
+   let gapD='';
+   for(const pts of highlight.provisionalPaths||[])if(pts.length>=2)
+    gapD+=path(pts,projector)+' ';
+   if(gapD)tag('path',{d:gapD,fill:'none',stroke:'#e28a18',
+    'stroke-width':6,'stroke-dasharray':'8 5',
+    'stroke-linecap':'round','stroke-linejoin':'round',
+    'vector-effect':'non-scaling-stroke','pointer-events':'none'},g);
   }
   state.missingSegments=highlight.unmatchedEdges;
   // Green points are precisely matched ORIGINAL endpoints in the selected

@@ -11,9 +11,9 @@ const tag=(type,attrs={},parent)=>{
  if(parent)parent.append(x);
  return x;
 };
-function create(svg,{onPoiClick}={}){
+function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
  if(!svg||typeof svg.setAttribute!=='function')throw Error('SVG map target missing');
- let source=null,waypoints=[],pois=[],plan=null,scale=1,pan=[0,0],pointer=null;
+ let source=null,waypoints=[],pois=[],plan=null,scale=1,pan=[0,0],pointer=null,trailPickEnabled=false;
  let transform=()=>null;
  const state={mapDataLoaded:false,renderedSegments:0,missingSegments:0};
  function project(paths){
@@ -72,6 +72,21 @@ function create(svg,{onPoiClick}={}){
     'pointer-events':'none'},g);
   }
   state.missingSegments=highlight.unmatchedEdges;
+  // Small, noninteractive guide dots for genuine original endpoints.
+  // Do not draw fabricated points at arbitrary positions along a displayed line.
+  if(trailPickEnabled&&typeof source.pickableNode==='function'){
+   const nodeLayer=tag('g',{},stage);
+   let count=0;
+   for(let id=0;id<source.nodesXY.length&&count<280;id++){
+    if(!source.pickableNode(id))continue;
+    const p=projector(source.nodesXY[id]);
+    tag('circle',{cx:p[0].toFixed(1),cy:p[1].toFixed(1),
+     r:3.5,fill:'#2e8154',stroke:'#ffffff','stroke-width':1.3,
+     'vector-effect':'non-scaling-stroke','pointer-events':'none',
+     'data-trail-node':id},nodeLayer);
+    count++;
+   }
+  }
   const labeled=new Map();
   for(const poi of pois){
    if(!Number.isInteger(poi.nodeId)||poi.nodeId>=source.nodesXY.length)continue;
@@ -112,28 +127,75 @@ function create(svg,{onPoiClick}={}){
   render();
  }
  function setSource(data){
-  source=data||null;waypoints=[];pois=[];plan=null;scale=1;pan=[0,0];render();
+  source=data||null;waypoints=[];pois=[];plan=null;scale=1;pan=[0,0];
+  trailPickEnabled=false;pointer=null;render();
+ }
+ function setTrailPickEnabled(enabled){
+  trailPickEnabled=!!enabled&&!!source?.paths?.length&&
+   typeof source.pickableNode==='function';
+  render();return trailPickEnabled;
+ }
+ // A tap is accepted only when it is near a real original graph endpoint whose
+ // incident edge was precisely matched to the historical display geometry.
+ // The source XY coordinates are not inferred from a simplified SVG trail.
+ function pickTrailNode(event){
+  if(!trailPickEnabled||!source?.paths?.length||
+     typeof onTrailNodeClick!=='function')return false;
+  const rect=svg.getBoundingClientRect();
+  if(!rect.width||!rect.height)return false;
+  const projector=project(source.paths);
+  if(!projector)return false;
+  const radius=event.pointerType==='touch'?19:13;
+  let best=-1,bestDistance=radius;
+  for(let id=0;id<source.nodesXY.length;id++){
+   const p=projector(source.nodesXY[id]);
+   const x=W/2+(p[0]-W/2)*scale+pan[0];
+   const y=H/2+(p[1]-H/2)*scale+pan[1];
+   const dx=rect.left+x*rect.width/W-event.clientX;
+   const dy=rect.top+y*rect.height/H-event.clientY;
+   const d=Math.hypot(dx,dy);
+   if(d<=bestDistance&&source.pickableNode(id)){
+    if(d<bestDistance||best<0){best=id;bestDistance=d}
+   }
+  }
+  if(best>=0){
+   onTrailNodeClick(best);
+   return true;
+  }
+  if(typeof onPickNotice==='function')
+   onPickNotice('원본 등산로의 연결 노드 근처를 눌러 줘. 선 중간에 임의 노드를 만들지 않아.');
+  return false;
  }
  svg.addEventListener('wheel',e=>{
   if(!source?.paths?.length)return;
   e.preventDefault();zoom(e.deltaY<0?1.28:1/1.28);
  },{passive:false});
  svg.addEventListener('pointerdown',e=>{
-  if(!source?.paths?.length||e.target?.getAttribute('role')==='button')return;
-  pointer={id:e.pointerId,x:e.clientX,y:e.clientY,px:pan[0],py:pan[1]};
+  if(!source?.paths?.length||e.target?.getAttribute('role')==='button'||pointer)return;
+  pointer={id:e.pointerId,x:e.clientX,y:e.clientY,px:pan[0],py:pan[1],dragged:false};
   svg.setPointerCapture(e.pointerId);
  });
  svg.addEventListener('pointermove',e=>{
   if(!pointer||pointer.id!==e.pointerId)return;
+  const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;
+  if(!pointer.dragged&&Math.hypot(dx,dy)<=6)return;
+  pointer.dragged=true;
   const bounds=svg.getBoundingClientRect();
-  pan=[pointer.px+(e.clientX-pointer.x)*W/bounds.width,
-   pointer.py+(e.clientY-pointer.y)*H/bounds.height];
+  if(!bounds.width||!bounds.height)return;
+  pan=[pointer.px+dx*W/bounds.width,
+   pointer.py+dy*H/bounds.height];
   render();
  });
- svg.addEventListener('pointerup',()=>pointer=null);
+ svg.addEventListener('pointerup',e=>{
+  if(!pointer||pointer.id!==e.pointerId)return;
+  const held=pointer;pointer=null;
+  if(!held.dragged&&Math.hypot(e.clientX-held.x,e.clientY-held.y)<=6)
+   pickTrailNode(e);
+ });
  svg.addEventListener('pointercancel',()=>pointer=null);
  render();
- return Object.freeze({setSource,update,fit,zoom,getState:()=>({...state})});
+ return Object.freeze({setSource,update,fit,zoom,setTrailPickEnabled,
+  getState:()=>({...state,trailPickEnabled})});
 }
 root.SanbakTrailCanvasV106=Object.freeze({version:106,create});
 })(typeof window!=='undefined'?window:globalThis);

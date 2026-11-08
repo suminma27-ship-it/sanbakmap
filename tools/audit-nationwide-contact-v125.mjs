@@ -97,7 +97,7 @@ export function scanDisplayContacts(parts,{maxMeters=35,maxShown=15}={}){
  return {stats,topCandidates:all.slice(0,maxShown),segments:segments.length,skippedLong};
 }
 const name=(file,row,part)=>String(file).split(/[\\/]/).at(-1)+'|'+row+'|'+part;
-export function auditMountain(code,graph,display){
+export function auditMountain(code,graph,display,{sourceFiles=graph.source_files}={}){
  ensure(graph?.summary?.navigable===false&&graph.summary.access_verified===false&&
   graph.summary.physical_junction_verified===false,'Unverified original graph required');
  ensure(display?.schema==='sanbak-national-institutional-lines-v1'&&
@@ -111,8 +111,8 @@ export function auditMountain(code,graph,display){
  const lookup=new Map();
  for(let i=0;i<graph.source_parts.length;i++){
   const [file,row,part]=graph.source_parts[i];
-  ensure(typeof graph.source_files?.[file]==='string','Original source files missing');
-  lookup.set(name(graph.source_files[file],row,part),i);
+  ensure(typeof sourceFiles?.[file]==='string','Original source files missing');
+  lookup.set(name(sourceFiles[file],row,part),i);
  }
  let matched=0,unmatched=0;const parts=[];
  for(const record of display.mountains?.[code]||[]){
@@ -156,7 +156,7 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
   const results={};
   for(const [code,graph] of Object.entries(topo.mountains)){
    ensure(index.mountains?.[code]?.bucket===bucket,'Mountain bucket mismatch '+code);
-   const audit=auditMountain(code,graph,display);
+   const audit=auditMountain(code,graph,display,{sourceFiles:topo.source_files});
    results[code]=audit;total.mountains++;
    if(audit.contact.total)total.mountainsWithCandidates++;
    total.candidates+=audit.contact.total;

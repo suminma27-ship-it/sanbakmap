@@ -53,7 +53,7 @@ for(const phrase of ['산박지도 v110 | 전국 고도자료 검증·로컬 적
  '설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결'])assert(page.includes(phrase),phrase);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
-assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
+assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
 assert(sw.includes('sanbakmap-v110-national-elevation-local'));
 assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));

@@ -135,14 +135,31 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
    typeof source.pickableNode==='function';
   render();return trailPickEnabled;
  }
+ // Our SVG uses viewBox="0 0 1000 640" with the browser's default
+ // preserveAspectRatio="xMidYMid meet". The content can be letterboxed
+ // horizontally OR vertically. getBoundingClientRect() dimensions alone
+ // are not the SVG drawing-coordinate scale.
+ function viewport(){
+  const rect=svg.getBoundingClientRect();
+  if(!rect?.width||!rect.height)return null;
+  const pixelsPerUnit=Math.min(rect.width/W,rect.height/H);
+  if(!Number.isFinite(pixelsPerUnit)||pixelsPerUnit<=0)return null;
+  return {rect,pixelsPerUnit,
+   insetX:(rect.width-W*pixelsPerUnit)/2,
+   insetY:(rect.height-H*pixelsPerUnit)/2};
+ }
+ function clientPoint(stageX,stageY,view){
+  return [view.rect.left+view.insetX+stageX*view.pixelsPerUnit,
+   view.rect.top+view.insetY+stageY*view.pixelsPerUnit];
+ }
  // A tap is accepted only when it is near a real original graph endpoint whose
  // incident edge was precisely matched to the historical display geometry.
  // The source XY coordinates are not inferred from a simplified SVG trail.
  function pickTrailNode(event){
   if(!trailPickEnabled||!source?.paths?.length||
      typeof onTrailNodeClick!=='function')return false;
-  const rect=svg.getBoundingClientRect();
-  if(!rect.width||!rect.height)return false;
+  const view=viewport();
+  if(!view)return false;
   const projector=project(source.paths);
   if(!projector)return false;
   const radius=event.pointerType==='touch'?19:13;
@@ -151,9 +168,8 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
    const p=projector(source.nodesXY[id]);
    const x=W/2+(p[0]-W/2)*scale+pan[0];
    const y=H/2+(p[1]-H/2)*scale+pan[1];
-   const dx=rect.left+x*rect.width/W-event.clientX;
-   const dy=rect.top+y*rect.height/H-event.clientY;
-   const d=Math.hypot(dx,dy);
+   const [screenX,screenY]=clientPoint(x,y,view);
+   const d=Math.hypot(screenX-event.clientX,screenY-event.clientY);
    if(d<=bestDistance&&source.pickableNode(id)){
     if(d<bestDistance||best<0){best=id;bestDistance=d}
    }
@@ -180,10 +196,10 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
   const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;
   if(!pointer.dragged&&Math.hypot(dx,dy)<=6)return;
   pointer.dragged=true;
-  const bounds=svg.getBoundingClientRect();
-  if(!bounds.width||!bounds.height)return;
-  pan=[pointer.px+dx*W/bounds.width,
-   pointer.py+dy*H/bounds.height];
+  const view=viewport();
+  if(!view)return;
+  pan=[pointer.px+dx/view.pixelsPerUnit,
+   pointer.py+dy/view.pixelsPerUnit];
   render();
  });
  svg.addEventListener('pointerup',e=>{

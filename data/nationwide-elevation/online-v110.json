@@ -1,0 +1,12 @@
+{
+  "schema": "sanbak-national-dem-online-v110",
+  "archiveSHA256": "045cd0b4c41114f7a71b711b601445138a3ef9741a8ee4abaa6660f6e49c1e2e",
+  "sourceGeoJSONArchiveSHA256": "6e9e51a467d6be4ba35bec5127bbb4b896e36e1dbf884535d1aecaa8605224d2",
+  "rasterResolutionVerified": false,
+  "verticalDatumVerified": false,
+  "accessVerified": false,
+  "mountedMountains": 0,
+  "matchedEdges": 0,
+  "mountains": {},
+  "note": "v110 only the three existing forest pilot files and KNPS Seorak are hosted; nationwide archive must be committed to the data/nationwide-elevation-pack path for online expansion. Local audited ZIP mount works immediately."
+}

@@ -19,6 +19,7 @@ class Element {
 }
 for(const m of page.matchAll(/id="([^"]+)"/g))elements.set(m[1],new Element('div',m[1]));
 elements.get('sourceMode').value='knps';
+elements.get('nearMode').value='strict'; // source-only regression; new v119 default is route-first
 const document={getElementById:id=>elements.get(id)||null,
  createElement:t=>new Element(t),createElementNS:(ns,t)=>new Element(t),
  createTextNode:x=>{const e=new Element('text');e.textContent=x;return e}};
@@ -71,25 +72,26 @@ el('mapPickToggle').onclick();
 assert.equal(el('mapPickToggle').attrs['aria-pressed'],'true');
 const flatten=n=>[n,...n.children.flatMap(flatten)];
 const dots=flatten(el('trailMap'));
-assert(dots.some(x=>x.attrs['data-unconnected-node']==='33'),
- 'node 33 must become visibly grey when waypoint 23 is first');
+assert(dots.some(x=>x.attrs['data-trail-node']==='33'),
+ 'v119: an original node is selectable before a route attempt, even across components');
 const note=el('mapPickHint').textContent;
-assert(note.includes('초록색')&&note.includes('회색'));
+assert(note.includes('10km')&&note.includes('선택'));
 el('manualNode').value='33';el('add').onclick();
 assert.equal(el('waypoints').children.length,1,
  'manual entry must NOT add a disconnected waypoint after first selection');
-assert(el('result').children[0].textContent.includes('원본 GIS에서 연결되어 있지 않아'));
-const grey=dots.find(x=>x.attrs['data-unconnected-node']==='33');
-assert(grey);
+assert(el('result').children[0].textContent.includes('단절'),
+ 'strict graph attempt must reject an actually disconnected leg without mutating stops');
+const selectable=dots.find(x=>x.attrs['data-trail-node']==='33');
+assert(selectable);
 const svg=el('trailMap');
 function tap(x,y){
  const ev={pointerId:1,pointerType:'mouse',clientX:Number(x),clientY:Number(y),target:svg};
  svg.event_pointerdown(ev);svg.event_pointerup(ev);
 }
-tap(grey.attrs.cx,grey.attrs.cy);
-assert.equal(el('waypoints').children.length,1,'disconnected map tap must be rejected');
-assert(el('mapStatus').textContent.includes('다른 원본 연결망')||
- el('result').children[0].textContent.includes('원본 GIS에서 연결되어 있지 않아'));
+tap(selectable.attrs.cx,selectable.attrs.cy);
+assert.equal(el('waypoints').children.length,1,'strict-mode disconnected map tap must roll back');
+assert(el('mapStatus').textContent.includes('단절')||
+ el('result').children[0].textContent.includes('단절'));
 const any=graph.edges.filter(e=>e.from===23||e.to===23).find(e=>
  e.from!==e.to&&planner.degreeOf(e.from)>0&&planner.degreeOf(e.to)>0);
 assert(any,'source 23 should have a true source-connected neighboring node');
@@ -102,4 +104,4 @@ assert(el('result').children[0].textContent.includes('원본 기하학적 거리
  'same-component route must calculate without inventing links');
 const reverse=planner.plan([connected,23]);
 assert.equal(reverse.status,'geometry_preview_only');
-console.log('PASS v116 screenshot regression: KNPS nodes 23 and 33 separate, grey node map tap and manual entry rejected, reachable node calculated');
+console.log('PASS v119 source-only regression: disconnected nodes selectable then rejected after routing, connected route and map unaffected');

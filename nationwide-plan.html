@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123c2b"><title>산박지도 v104 | 전국 기하 코스 계획 실험</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#183628;background:#f5f8f5}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+button:disabled,select:disabled,input:disabled{opacity:.5;cursor:not-allowed}
+header{background:#123c2b;color:#fff;padding:15px max(15px,calc((100% - 1200px)/2));display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+header a{color:#fff;text-decoration:none}main{max-width:1200px;margin:auto;padding:18px 13px 46px}
+h1{font-size:22px;margin:0 0 7px}h2{font-size:18px;margin:0 0 7px}h3{font-size:15px;margin:12px 0 7px}
+p{font-size:13px;line-height:1.6}.warn{background:#ecf3ed;border:1px solid #d1e0d5;border-radius:10px;padding:13px}
+.layout{display:grid;grid-template-columns:minmax(230px,295px) minmax(0,1fr);gap:12px;margin-top:14px}
+.panel{background:#fff;border:1px solid #dae6dd;border-radius:12px;overflow:hidden}
+.pad{padding:13px 15px}.filter{padding:12px;border-bottom:1px solid #e6ede6}
+input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:8px 10px;width:100%;background:white;color:inherit}
+#mountains{max-height:570px;overflow-y:auto}.mountain{border:0;background:white;width:100%;text-align:left;padding:11px 13px;border-bottom:1px solid #eff2ef;color:inherit}
+.mountain.active,.mountain:hover{background:#eaf3eb}.mountain strong,.mountain small{display:block}.mountain small{color:#678071;font-size:11px}
+.small{color:#587360;font-size:12px}.stack{display:flex;flex-direction:column;gap:9px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions>*{flex:0 1 auto}
+.btn{border:1px solid #cadccd;background:white;color:#18583c;border-radius:8px;padding:9px 12px;font-weight:600}
+.btn.primary{background:#1b6543;color:white;border-color:#1b6543}
+.controls{display:grid;grid-template-columns:minmax(0,1fr) 95px 75px;gap:7px;align-items:end}
+.controls label{font-size:12px;color:#587360;display:grid;gap:4px}
+#waypoints{display:grid;gap:6px;margin-top:9px}
+.point{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #e3ece4;border-radius:8px;background:#fcfdfb}
+.point .value{flex:1;font-size:13px}.point button{padding:5px 7px;border:1px solid #d7e5d9;background:white;border-radius:6px}
+#result{padding:14px;border:1px solid #dbe8dd;border-radius:9px;min-height:66px;margin-top:14px;font-size:13px;line-height:1.6}
+#result strong{font-size:18px}.kpis{display:flex;gap:20px;flex-wrap:wrap}
+#status{padding:12px 15px;border-top:1px solid #e6ebe5;font-size:12px;color:#587360}
+#routeLegs{margin:9px 0 0;padding-left:20px}#routeLegs li{margin:5px 0}
+@media(max-width:760px){.layout{grid-template-columns:1fr}#mountains{max-height:195px}.controls{grid-template-columns:minmax(0,1fr) 80px 65px}.pad{padding:12px}}
+</style></head><body>
+<header><a href="./national.html"><strong>▲ 산박지도</strong></a>
+ <span>전국 코스 계획 엔진 v104 · 바탕지도 미적용</span>
+ <a href="./nationwide-topology.html">접점·단절 검토</a></header>
+<main><h1>경유지 순서별 기하 코스 계산 실험</h1>
+<p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 고도·소요시간·바탕지도는 아직 적용하지 않았어.</p>
+<div class="layout">
+ <aside class="panel"><div class="filter"><label class="small" for="search">산 이름 또는 9자리 산코드</label>
+  <input id="search" type="search" placeholder="설악산, 관악산, 수리산…" autocomplete="off">
+  <p id="mountainCount" class="small">전국 산 목록 준비 중…</p></div><div id="mountains"></div></aside>
+ <section class="panel"><div class="pad stack">
+  <div><h2 id="selected">설악산</h2><div id="source" class="small">기관 원본 연결망 불러오는 중…</div></div>
+  <div class="kpis"><span class="small" id="nodeCount">노드 —</span><span class="small" id="edgeCount">연결 구간 —</span><span class="small" id="componentCount">분리된 연결요소 —</span></div>
+  <div style="border-top:1px solid #e2eae3;padding-top:12px">
+   <h3>경유지 선택 <span class="small">(원본 연결망 노드 ID · 공식 지점명 아님)</span></h3>
+   <div class="controls">
+    <label for="candidates">주요 접점·끝점 후보
+     <select id="candidates" disabled><option>산을 선택해 줘</option></select></label>
+    <label for="manualNode">노드 ID 직접 입력
+     <input id="manualNode" type="number" min="0" step="1" placeholder="ID" disabled></label>
+    <button class="btn" id="add" disabled>추가</button>
+   </div>
+   <p class="small">목록에서 접점 노드를 고르거나 노드 ID를 직접 입력해. 서로 연결된 예시를 자동 선택해서 엔진을 테스트할 수도 있어.</p>
+   <div class="actions"><button class="btn" id="example" disabled>연결된 예시 선택</button><button class="btn" id="clear" disabled>경유지 초기화</button></div>
+   <div id="waypoints" aria-label="경유지 방문 순서"><p class="small">경유지를 추가해 줘.</p></div>
+   <div class="actions" style="margin-top:12px"><button class="btn primary" id="calculate" disabled>선택한 순서대로 계산</button></div>
+  </div>
+  <div id="result" role="status">두 개 이상의 원본 노드를 선택하면 기하학적인 경로가 계산돼. 결과는 실제 산행 가능성을 의미하지 않아.</div>
+ </div><div id="status">전국 연결망 색인 로딩 중…</div></section>
+</div></main>
+<script src="./national_data.js"></script>
+<script src="./core/nationwide-route-preview-v104.js"></script>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[])
+ .map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
+const engine=window.SanbakGeometryPlannerV104;
+const names=new Map(catalog.map(x=>[x.code,x.name]));
+let index=null,model=null,sourceCode='',generation=0,waypoints=[];
+const cache=new Map(),fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
+function status(t){$('status').textContent=t}
+function result(t){$('result').replaceChildren(document.createTextNode(t))}
+async function json(path){const r=await fetch(path,{cache:'force-cache'});if(!r.ok)throw Error('HTTP '+r.status+' · '+path);return r.json()}
+async function bucket(id){
+ if(!cache.has(id))cache.set(id,(async()=>{
+  const r=await fetch('./data/nationwide-topology/bucket-'+id+'.json.gz',{cache:'force-cache'});
+  if(!r.ok)throw Error('원본 연결망 다운로드 실패 (HTTP '+r.status+')');
+  const raw=new Uint8Array(await r.arrayBuffer());
+  if(raw[0]!==31||raw[1]!==139)throw Error('연결망 gzip 서명 불일치');
+  if(typeof DecompressionStream!=='function')throw Error('이 브라우저는 gzip 압축 해제를 지원하지 않아');
+  const decompressed=new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'));
+  const data=JSON.parse(await new Response(decompressed).text());
+  if(data.schema!=='sanbak-geometric-topology-v1'||data.source_zip_sha256!==index.source_zip_sha256)
+   throw Error('원본 GIS 출처/형식 검증 실패');
+  return data;
+ })());
+ return cache.get(id);
+}
+function search(){
+ const q=$('search').value.trim().toLowerCase(),list=catalog.filter(x=>(x.code+' '+x.name).toLowerCase().includes(q));
+ $('mountainCount').textContent=fmt(list.length)+'개 산 검색 결과';
+ const pane=$('mountains');pane.replaceChildren();
+ for(const item of list.slice(0,75)){
+  const b=document.createElement('button');b.className='mountain'+(sourceCode===item.code?' active':'');b.type='button';
+  const title=document.createElement('strong');title.textContent=item.name;
+  const sub=document.createElement('small');sub.textContent=item.code+(index?.mountains?.[item.code]?' · 연결망 수록':' · 기관 원본 미확보');
+  b.append(title,sub);b.onclick=()=>selectMountain(item.code);pane.append(b);
+ }
+ if(list.length>75){const p=document.createElement('p');p.className='small';p.textContent='75개만 표시 중이야. 산 이름으로 검색해 줘.';pane.append(p)}
+}
+function buttons(active){
+ for(const id of ['candidates','manualNode','add','example','clear','calculate'])$(id).disabled=!active;
+ $('calculate').disabled=!active||waypoints.length<2;
+}
+function renderWaypoints(){
+ const pane=$('waypoints');pane.replaceChildren();
+ if(!waypoints.length){const p=document.createElement('p');p.className='small';p.textContent='추가한 경유지가 없어.';pane.append(p)}
+ waypoints.forEach((id,i)=>{
+  const div=document.createElement('div');div.className='point';
+  const value=document.createElement('span');value.className='value';value.textContent=(i+1)+'번째 · 노드 '+id;
+  div.append(value);
+  for(const [label,delta] of [['↑',-1],['↓',1]]){
+   const b=document.createElement('button');b.textContent=label;b.type='button';b.title=label==='↑'?'위로 이동':'아래로 이동';
+   b.disabled=i+delta<0||i+delta>=waypoints.length;b.onclick=()=>{
+    const next=waypoints.slice();[next[i],next[i+delta]]=[next[i+delta],next[i]];
+    waypoints=next;renderWaypoints();result('방문 순서가 변경됐어. 다시 계산해 줘.');
+   };div.append(b);
+  }
+  const remove=document.createElement('button');remove.textContent='삭제';remove.type='button';
+  remove.onclick=()=>{waypoints=waypoints.filter((_,j)=>j!==i);renderWaypoints();result('경유지를 삭제했어. 다시 계산해 줘.')};
+  div.append(remove);pane.append(div);
+ });
+ $('calculate').disabled=!model||waypoints.length<2;
+}
+function prepare(graph,kind){
+ const next=engine.create(graph,kind);model=next;waypoints=[];
+ $('nodeCount').textContent='노드 '+fmt(next.nodeCount)+'개';
+ $('edgeCount').textContent='원본 연결 구간 '+fmt(next.edgeCount)+'개';
+ $('componentCount').textContent='별도 연결요소 '+fmt(next.componentCount)+'개';
+ const list=$('candidates');list.replaceChildren();
+ for(const x of next.candidates()){
+  const o=document.createElement('option');o.value=String(x.nodeId);
+  o.textContent='노드 '+x.nodeId+' · 연결 '+x.degree+'곳';list.append(o);
+ }
+ $('manualNode').value='';$('manualNode').max=String(next.nodeCount-1);
+ buttons(true);renderWaypoints();
+ result('원본 연결망을 불러왔어. 경유지를 선택하거나 연결된 예시를 눌러 줘. 이 자료는 산행 안내용으로 사용할 수 없어.');
+}
+function reset(){
+ model=null;waypoints=[];buttons(false);
+ $('candidates').replaceChildren();$('nodeCount').textContent='노드 —';
+ $('edgeCount').textContent='연결 구간 —';$('componentCount').textContent='분리된 연결요소 —';
+ renderWaypoints();result('해당 산의 원본 연결망을 확인 중이야.');
+}
+async function selectMountain(code){
+ const name=names.get(code);if(!name)return;
+ sourceCode=code;const turn=++generation;reset();search();
+ $('selected').textContent=name;$('source').textContent='기관 원본 GIS 확인 중…';status(name+' 연결망 불러오는 중…');
+ try{
+  if(code==='428302602'){
+   const data=await json('./data/knps-seorak-topology-v102.json');if(turn!==generation)return;
+   if(data.mountainCode!=='428302602'||data.graph?.routable!==false)
+    throw Error('설악산 공단 원본 상태 확인 실패');
+   prepare(data.graph,'knps');$('source').textContent='국립공원공단 2018 원본 탐방로 · 역사적 GIS 검토';
+  }else if(index?.mountains?.[code]){
+   const data=await bucket(index.mountains[code].bucket);if(turn!==generation)return;
+   const graph=data.mountains?.[code];if(!graph)throw Error('산코드 연결망 누락');
+   prepare(graph,'forest');$('source').textContent='산림청 등산로 원본 · 대부분 2016년 · 현재 개방 미확인';
+  }else{
+   $('source').textContent='원본 선형 미확보';
+   result('현재 확보한 기관 원본 GIS에 이 산의 연결망이 없어. 다른 산이나 OSM 길을 임의로 끌어오지 않아.');
+  }
+  status(name+' · 원본 기하 코스 계산 테스트 준비 완료');
+ }catch(e){if(turn===generation){reset();$('source').textContent='원본 불러오기 오류';status('불러오기 실패: '+e.message);result(e.message)}}
+}
+$('add').onclick=()=>{
+ if(!model)return;
+ const typed=$('manualNode').value.trim();
+ const id=typed!==''?Number(typed):Number($('candidates').value);
+ if(!Number.isInteger(id)||id<0||id>=model.nodeCount){result('올바른 노드 ID를 입력해 줘. 0~'+(model.nodeCount-1));return}
+ if(waypoints.length>=30){result('경유지는 최대 30개까지만 실험할 수 있어.');return}
+ if(waypoints.at(-1)===id){result('바로 이전과 같은 노드는 연속해서 추가할 수 없어.');return}
+ waypoints.push(id);$('manualNode').value='';renderWaypoints();
+ result('노드 '+id+'을(를) 추가했어. 두 지점 이상 선택한 후 계산해 줘.');
+};
+$('example').onclick=()=>{
+ if(!model)return;
+ waypoints=model.example();renderWaypoints();
+ if(waypoints.length<2){result('이 산의 원본 연결망에서 실험할 연결된 예시를 찾지 못했어.');return}
+ calculate();
+};
+$('clear').onclick=()=>{waypoints=[];renderWaypoints();result('경유지 목록을 초기화했어.')};
+function calculate(){
+ if(!model)return;
+ const p=model.plan(waypoints);
+ if(p.status==='disconnected'){result('경로 없음: 노드 '+p.failedLeg[0]+'과 '+p.failedLeg[1]+' 사이가 원본 GIS 연결망에서 이어져 있지 않아. 가까운 길을 자동 연결하지 않았어.');return}
+ if(p.status!=='geometry_preview_only'){result('경로 계산 중단: '+p.status+'. 경유지를 확인해 줘.');return}
+ const pane=$('result');pane.replaceChildren();
+ const title=document.createElement('strong');title.textContent='원본 기하학적 거리 '+km(p.distanceMeters)+' km';
+ const warn=document.createElement('p');warn.textContent='산행용 코스가 아니야. 현재 법정 개방·실제 접점·통제·안전을 확인하지 않았으며, 노드 ID는 공식 지점명이 아니야.';
+ const ol=document.createElement('ol');ol.id='routeLegs';
+ for(const leg of p.legs){
+  const li=document.createElement('li');li.textContent='노드 '+leg.from+' → '+leg.to+' : '+km(leg.meters)+' km · 원본 구간 '+fmt(leg.edgeIds.length)+'개';
+  ol.append(li);
+ }
+ pane.append(title,warn,ol);
+ status('기하학적 코스 계산만 완료 · 실제 탐방 안내 미허용');
+}
+$('calculate').onclick=calculate;
+$('search').oninput=search;
+(async()=>{try{
+ index=await json('./data/nationwide-topology/index.json');
+ if(index.schema!=='sanbak-topology-audit-index-v102'||index.counts?.mountains!==2902)
+  throw Error('전국 원본 연결망 색인 검증 실패');
+ if(catalog.length!==2932)throw Error('전국 산코드 검색 색인 오류');
+ search();await selectMountain('428302602');
+}catch(e){status('초기화 실패: '+e.message);result(e.message)}})();
+})();
+</script></body></html>

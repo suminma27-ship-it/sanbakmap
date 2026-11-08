@@ -81,6 +81,9 @@ jobs:
             console.log('PASS v126 all <=35m candidates preserved; v69 cross-check rule audited:',doc.totals);
           "
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'contacts-v125-bucket-*.json.gz' -type f | wc -l)" -eq 32
+          node tools/build-35m-preview-v127.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
+          test -f site/data/nationwide-topology/preview-35m-v127-index.json
+          test "$(find site/data/nationwide-topology -maxdepth 1 -name 'preview-35m-v127-bucket-*.json.gz' -type f | wc -l)" -eq 32
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
           node tools/knps-topology-v102.mjs --output-dir site/data
           test "$(find site/data/nationwide -maxdepth 1 -name 'bucket-*.json' -type f | wc -l)" -eq 32

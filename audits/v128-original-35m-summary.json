@@ -1,0 +1,50 @@
+{
+  "schema": "sanbak-original-shp-contact-audit-v128",
+  "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "originalFeatures": 59397,
+  "originalSourceParts": 66503,
+  "mountainsChecked": 2902,
+  "mountainsWithCandidates": 2345,
+  "candidates": 144990,
+  "bands": {
+    "0-0.15m": 109148,
+    "0.15-0.75m": 244,
+    "0.75-2m": 401,
+    "2-5m": 1764,
+    "5-10m": 3881,
+    "10-20m": 10772,
+    "20-35m": 18780
+  },
+  "relations": {
+    "touch_or_coincident": 108978,
+    "overlapping_geometry": 40,
+    "two_dimensional_crossing": 130,
+    "nearby_transverse": 24852,
+    "parallel_nearby": 10990
+  },
+  "v125SimplifiedCandidates": 144408,
+  "deltaFromV125": 582,
+  "status": "SOURCE_GEOMETRY_AUDIT_ONLY",
+  "createdConnectingEdges": 0,
+  "actualPassageVerified": false,
+  "knownCase": {
+    "name": "한계령",
+    "mountainCode": "428302602",
+    "originalSourceFeatures": [
+      [
+        "51.zip",
+        2075,
+        0
+      ],
+      [
+        "51.zip",
+        2086,
+        0
+      ]
+    ],
+    "originalSourceMinGapMeters": 48.7268,
+    "v69UserRequestedPlanningLinkMeters": 73.1886,
+    "userReportedConnected": true,
+    "coveredBy35m": false
+  }
+}

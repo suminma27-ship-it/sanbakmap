@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const s=JSON.parse(readFileSync(new URL('../audits/v128-original-35m-summary.json',import.meta.url),'utf8'));
+assert.equal(s.schema,'sanbak-original-shp-contact-audit-v128');
+assert.equal(s.sourceZipSHA256,'7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a');
+assert.equal(s.mountainsChecked,2902);
+assert.equal(s.originalFeatures,59397);
+assert.equal(s.originalSourceParts,66503);
+assert.equal(s.candidates,144990);
+assert.equal(Object.values(s.bands).reduce((a,b)=>a+b,0),144990);
+assert.equal(Object.values(s.relations).reduce((a,b)=>a+b,0),144990);
+assert.equal(s.candidates-s.v125SimplifiedCandidates,582);
+assert.equal(s.createdConnectingEdges,0);
+assert.equal(s.actualPassageVerified,false);
+assert(s.knownCase.originalSourceMinGapMeters>35);
+assert.equal(s.knownCase.coveredBy35m,false);
+assert(s.knownCase.v69UserRequestedPlanningLinkMeters>73);
+console.log('PASS v128: original signed SHP provenance, full 2902 mountain audit, Hangyeryeong exception');

@@ -44,7 +44,7 @@ assert.throws(()=>profile.profile(route,forest,'forest','428302602',
 assert.throws(()=>profile.profile(route,forest,'forest','428302602',
  {...testDEM,edgeSamples:{'0':[[0,100],[20,110]]}}),/손상|일치하지 않아/);
 const page=read('nationwide-plan.html');
-for(const token of ['산박지도 v110 | 전국 고도자료 검증·로컬 적용',
+for(const token of ['산박지도 v112 | 전국 고도그래프 온라인',
  'id="elevationPanel"','id="elevationChart"','id="elevationStatus"',
  'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
  'data/nationwide-elevation/index.json','altCore.profile(p,originalGraph',
@@ -53,8 +53,8 @@ new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</scrip
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
-assert(sw.includes('sanbakmap-v110-national-elevation-local'));
+assert(sw.includes('sanbakmap-v112-national-elevation-online'));
 for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js','data/nationwide-elevation/index.json'])
  assert(sw.includes('./'+file));
-assert(read('national.html').includes('전국 코스 선형 v110'));
+assert(read('national.html').includes('전국 코스 선형 v112'));
 console.log('PASS v107: source-locked altitude samples, correct segment reversals and climb/drop, missing DEM cannot generate fake profile, UI and Pages packaging');

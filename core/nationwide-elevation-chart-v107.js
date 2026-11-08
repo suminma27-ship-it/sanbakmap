@@ -25,7 +25,7 @@ function create(svg){
    if(pts.length<2||!Number.isFinite(meters)||meters<=0){
     label('확인된 원본 DEM 표본이 없어',W/2,H/2,{'text-anchor':'middle'});return 'missing_samples';
    }
-   const heights=pts.map(p=>p.elevationMeters),lo=Math.min(...heights),hi=Math.max(...heights),
+   const heights=[...pts,...(last.estimates||[]).flat()].map(p=>p.elevationMeters),lo=Math.min(...heights),hi=Math.max(...heights),
     margin=Math.max(10,(hi-lo)*.09),min=Math.floor((lo-margin)/10)*10,
     max=Math.ceil((hi+margin)/10)*10,left=68,right=970,top=17,bottom=200;
    const xp=m=>left+(m/meters)*(right-left);
@@ -46,12 +46,19 @@ function create(svg){
     add('path',{d,fill:'none',stroke:'#25704c','stroke-width':2.6,
      'stroke-linecap':'round','stroke-linejoin':'round'});
    }
+   // Connector gaps are still uncertain; only endpoint heights are measured.
+   for(const points of last.estimates||[]){
+    if(points.length!==2||points.some(p=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)))continue;
+    const d=points.map((p,i)=>(i?'L':'M')+xp(p.distanceMeters).toFixed(2)+' '+yp(p.elevationMeters).toFixed(2)).join(' ');
+    add('path',{d,fill:'none',stroke:'#cf8423','stroke-width':2.8,
+     'stroke-dasharray':'7 5','stroke-linecap':'round'});
+   }
    add('line',{x1:left,y1:bottom,x2:right,y2:bottom,stroke:'#8ca799'});
    for(let i=0;i<=4;i++){
     const m=meters*i/4;
     label((m/1000).toFixed(1)+'km',xp(m),H-19,{'text-anchor':'middle','font-size':12});
    }
-   label('검증 원본 DEM 구간만 표시 · 주황 영역 높이 미확인',right,19,
+   label('초록: 원본 DEM · 주황 점선: 양 끝 DEM 고도로 보간한 추정값',right,19,
     {'text-anchor':'end','font-size':12});
    return last.status;
   }

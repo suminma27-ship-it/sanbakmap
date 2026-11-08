@@ -15,13 +15,34 @@ function interpolate(samples,at){
  }
  return samples[samples.length-1][1];
 }
+// Measured DEM heights on both ends are known even if the connecting
+// historic GIS gap has no DEM samples. The connecting line is an estimate.
+function endpointHeight(node,original,planning,data){
+ const values=[];
+ for(let i=0;i<original.edges.length;i++){
+  const e=original.edges[i],pts=data.edgeSamples[String(i)];
+  if(!pts?.length)continue;
+  const from=Array.isArray(e)?e[0]:e.from,to=Array.isArray(e)?e[1]:e.to;
+  if(node===from)values.push(pts[0][1]);
+  if(node===to)values.push(pts.at(-1)[1]);
+ }
+ for(const e of planning.edges){
+  if(!e?.provisionalSplit||!Number.isInteger(e.sourceOriginalEdgeId))continue;
+  const at=node===e.from?e.sourceStartMeters:node===e.to?e.sourceEndMeters:null;
+  if(at===null||!Number.isFinite(at))continue;
+  const h=interpolate(data.edgeSamples[String(e.sourceOriginalEdgeId)],at);
+  if(Number.isFinite(h))values.push(h);
+ }
+ if(!values.length||Math.max(...values)-Math.min(...values)>2)return null;
+ return values.reduce((sum,v)=>sum+v,0)/values.length;
+}
 function profile(plan,original,planning,kind,code,data){
  if(plan?.status!=='geometry_preview_only'||!Array.isArray(plan.legs))
   return {status:'no_route',points:[],note:'계산된 경로가 없어'};
  if(!original?.edges||!planning?.edges||!data)
   return {status:'no_dem',points:[],note:'원본 DEM 자료가 없어'};
  root.SanbakElevationV107.checkDataset(data,original,kind,code);
- const segments=[],gaps=[];let total=0,coveredMeters=0,unknownMeters=0;
+ const segments=[],gaps=[],estimates=[];let total=0,coveredMeters=0,unknownMeters=0;
  for(const leg of plan.legs){
   if(!Array.isArray(leg.edgeIds)||!Array.isArray(leg.nodeIds)||
      leg.nodeIds.length!==leg.edgeIds.length+1)
@@ -70,6 +91,13 @@ function profile(plan,original,planning,kind,code,data){
    }else{
     gaps.push({fromMeters:total,toMeters:total+meters,provisional:!!e.provisionalGap});
     unknownMeters+=meters;
+    if(e.provisionalGap){
+     const before=endpointHeight(leg.nodeIds[i],original,planning,data);
+     const after=endpointHeight(leg.nodeIds[i+1],original,planning,data);
+     if(Number.isFinite(before)&&Number.isFinite(after))
+      estimates.push([{distanceMeters:total,elevationMeters:before},
+       {distanceMeters:total+meters,elevationMeters:after}]);
+    }
    }
    total+=meters;
   }
@@ -78,9 +106,9 @@ function profile(plan,original,planning,kind,code,data){
   throw Error('계산 경로 거리와 DEM 구간 길이가 일치하지 않아');
  if(!segments.length)return {status:'missing_samples',points:[],totalMeters:total,
   note:'원본 DEM 자료로 확인되는 경로 구간이 없어 고도그래프를 표시하지 않아'};
- return {status:gaps.length?'partial':'ready_partial',points:[],segments,gaps,totalMeters:total,
+ return {status:gaps.length?'partial':'ready_partial',points:[],segments,gaps,estimates,totalMeters:total,
   coveredMeters,unknownMeters,
-  note:'원본 DEM이 확인되는 구간만 표시 · 주황 추정접합과 자료 누락 구간은 고도 공백 · 현장 통행 미확인'};
+  note:'초록은 원본 DEM 고도 · 주황 점선은 두 끝점의 DEM 고도를 이용한 추정 보간(중간 고도 미측정) · 실제 통행 미확인'};
 }
-root.SanbakElevationPartialV119=Object.freeze({version:119,profile});
+root.SanbakElevationPartialV119=Object.freeze({version:121,profile});
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,103 @@
+{
+  "schema": "sanbak-closed-loop-original-dem-recovery-v134",
+  "mountainsPreserved": 2902,
+  "originalSourceEdgesTargeted": 129,
+  "previousV133Verified": 123,
+  "newlyVerifiedClosedSourceLoops": 3,
+  "verifiedSourceEdgesTotal": 126,
+  "unresolvedOriginalSourceEdges": 3,
+  "newDEM90mSamples": 29,
+  "previouslyHeightsMissingJunctions": 6,
+  "newlyPairedJunctions": 4,
+  "v132OriginalMissingHeightJunctions": 118,
+  "pairedTotal": 116,
+  "unresolvedJunctions": 2,
+  "newlyPairedDetails": [
+    {
+      "code": "467901201",
+      "linkId": 261,
+      "heightDeltaMeters": 1.87
+    },
+    {
+      "code": "467901201",
+      "linkId": 262,
+      "heightDeltaMeters": 3.8
+    },
+    {
+      "code": "262300501",
+      "linkId": 1764,
+      "heightDeltaMeters": 8.435
+    },
+    {
+      "code": "414603901",
+      "linkId": 81,
+      "heightDeltaMeters": 8.129
+    }
+  ],
+  "recoveredSourceEdges": [
+    {
+      "code": "467901201",
+      "edgeId": 84,
+      "vertexCount": 259,
+      "maxDeviationMeters": 0.06901,
+      "hausdorffMeters": 0.06716,
+      "sampleCount": 18
+    },
+    {
+      "code": "262300501",
+      "edgeId": 18,
+      "vertexCount": 95,
+      "maxDeviationMeters": 0.06569,
+      "hausdorffMeters": 0.06018,
+      "sampleCount": 8
+    },
+    {
+      "code": "414603901",
+      "edgeId": 5,
+      "vertexCount": 19,
+      "maxDeviationMeters": 0.06429,
+      "hausdorffMeters": 0.05841,
+      "sampleCount": 3
+    }
+  ],
+  "stillMissing": {
+    "code": "491106604",
+    "originalEdgeIds": [
+      0,
+      1,
+      2
+    ],
+    "missingJunctions": 2,
+    "reason": "three original source trails have no corresponding valid 3D altitude lines in output_elevation.zip; supplied trails are flattened to duplicated coordinates and lack Z"
+  },
+  "rechecked90mFalseAlarm": {
+    "code": "262900804",
+    "linkId": 140,
+    "horizontalGapMeters": 19.0123,
+    "coarse90mHeightDifferenceMeters": 17.329,
+    "source3DVertexHeightDifferenceMeters": 8.541,
+    "source3DSampleAnchorErrorsMeters": [
+      0.0031,
+      0.0466
+    ],
+    "physicalPassageVerified": false
+  },
+  "sourceHashes": {
+    "originalShpZip": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "originalTopologyZip": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "outputElevationZip": "6e9e51a467d6be4ba35bec5127bbb4b896e36e1dbf884535d1aecaa8605224d2",
+    "previousV133Zip": "5c984d7886d6e77465fb2b40ecf68f3a42bcdcd091225a31958ac61c873dba3e"
+  },
+  "packageSha256": "b443de80bb12ab9798b67a7c621b7811f7a41558eaef0fccbe790084eddf3046",
+  "newPermanentTrailConnections": 0,
+  "publicMapChanged": false,
+  "originalGraphChanged": false,
+  "originalDEMChanged": false,
+  "physicalPassageVerified": false,
+  "notes": [
+    "Closed loop source edges have same XY at start/end, invalidating the old point projection distance formula; compare each full original source vertex in forward/reverse source order.",
+    "No change to existing source heights, no mountain excluded, no new features.",
+    "Original 3D heights and 90m compressed samples do not establish raster accuracy, actual cliff/passability, current route legality."
+  ],
+  "artifact": "sanbakmap_v134_closed_loop_dem_recovery.zip"
+}

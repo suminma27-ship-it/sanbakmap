@@ -78,7 +78,7 @@ export function scanDisplayContacts(parts,{maxMeters=35,maxShown=15}={}){
     centerEPSG5179:p.p.map(x=>+x.toFixed(1)),
     originalFullVerticesRechecked:false,passageVerified:false});
   }
-  const at=segments.length;segments.push({A,B,box,part:part.part});
+  const at=segments.length;segments.push({A,B,box,part:part.part,component:part.component});
   const insert=keys(box);if(!insert){skippedLong++;continue}
   for(const k of insert){if(!cells.has(k))cells.set(k,[]);cells.get(k).push(at)}
  }

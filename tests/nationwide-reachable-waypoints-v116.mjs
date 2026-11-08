@@ -19,7 +19,7 @@ class Element {
 }
 for(const m of page.matchAll(/id="([^"]+)"/g))elements.set(m[1],new Element('div',m[1]));
 elements.get('sourceMode').value='knps';
-elements.get('nearMode').value='strict'; // source-only regression; new v119 default is route-first
+elements.get('nearMode').value='strict'; // source-only regression; new v120 default is route-first
 const document={getElementById:id=>elements.get(id)||null,
  createElement:t=>new Element(t),createElementNS:(ns,t)=>new Element(t),
  createTextNode:x=>{const e=new Element('text');e.textContent=x;return e}};
@@ -73,9 +73,9 @@ assert.equal(el('mapPickToggle').attrs['aria-pressed'],'true');
 const flatten=n=>[n,...n.children.flatMap(flatten)];
 const dots=flatten(el('trailMap'));
 assert(dots.some(x=>x.attrs['data-trail-node']==='33'),
- 'v119: an original node is selectable before a route attempt, even across components');
+ 'v120: an original node is selectable before a route attempt, even across components');
 const note=el('mapPickHint').textContent;
-assert(note.includes('10km')&&note.includes('선택'));
+assert(note.includes('거리 제한 없이')&&note.includes('선택'));
 el('manualNode').value='33';el('add').onclick();
 assert.equal(el('waypoints').children.length,1,
  'manual entry must NOT add a disconnected waypoint after first selection');
@@ -104,4 +104,4 @@ assert(el('result').children[0].textContent.includes('원본 기하학적 거리
  'same-component route must calculate without inventing links');
 const reverse=planner.plan([connected,23]);
 assert.equal(reverse.status,'geometry_preview_only');
-console.log('PASS v119 source-only regression: disconnected nodes selectable then rejected after routing, connected route and map unaffected');
+console.log('PASS v120 source-only regression: disconnected nodes selectable then rejected after routing, connected route and map unaffected');

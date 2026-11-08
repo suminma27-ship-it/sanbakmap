@@ -89,7 +89,7 @@ function create(graph,kind){
   return {from:start,to:end,nodeIds:chain.reverse(),edgeIds:used.reverse(),
    meters:Math.round(dist[end]*100)/100};
  }
- function plan(waypoints){
+ function plan(waypoints,options={}){
   const block={kind:'geometry_preview',usableForNavigation:false,
    currentAccessVerified:false,approvedConnections:0,source:kind,warning:GUARD};
   if(!Array.isArray(waypoints)||waypoints.length<2||waypoints.length>30)
@@ -103,6 +103,10 @@ function create(graph,kind){
    const a=waypoints[i-1],b=waypoints[i],leg=shortest(a,b);
    if(!leg)return {...block,status:'disconnected',failedLeg:[a,b],
       legs:[],distanceMeters:null};
+   // v119: computed along-network leg cutoff, never straight-line distance.
+   if(Number.isFinite(options?.maxLegMeters)&&leg.meters>=options.maxLegMeters)
+    return {...block,status:'leg_too_long',failedLeg:[a,b],failedLegMeters:leg.meters,
+     maxLegMeters:options.maxLegMeters,legs:[],distanceMeters:null};
    legs.push(leg);total+=leg.meters;
   }
   return {...block,status:'geometry_preview_only',waypoints:waypoints.slice(),

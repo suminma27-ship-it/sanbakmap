@@ -10,9 +10,9 @@ for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevatio
  new Function('window',read(file))(win);
 const index=win.SanbakElevationV107.checkIndex(JSON.parse(read('data/nationwide-elevation/index.json')));
 const pilots=[
- ['428302602','seorak-forest-v109.json',57,57],
- ['421504602','odae-forest-v109.json',23,23],
- ['483100401','gyeryong-forest-v109.json',19,19]
+ ['428302602','seorak-forest-v109.json',45,57],
+ ['421504602','odae-forest-v109.json',21,23],
+ ['483100401','gyeryong-forest-v109.json',21,19]
 ];
 assert.equal(index.mountains['428302602:knps'].matchedEdges,22);
 assert.equal(Object.keys(index.mountains).length,4);

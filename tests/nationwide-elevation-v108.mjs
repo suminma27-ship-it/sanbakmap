@@ -50,7 +50,7 @@ assert.equal(manifest.mountains['428302602:forest']?.matchedEdges,57,'forest gra
 const page=read('nationwide-plan.html');
 for(const phrase of ['산박지도 v109 | 원본 연결망 DEM 고도 확대','core/nationwide-elevation-pack-v108.js',
  "altPack.expand(data,originalGraph,kind,code)",
- '설악산의 국립공원공단 2018년 원본에 한해 90m 공개DEM 고도를 연결'])assert(page.includes(phrase),phrase);
+ '설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결'])assert(page.includes(phrase),phrase);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));

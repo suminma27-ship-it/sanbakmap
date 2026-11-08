@@ -1,0 +1,55 @@
+{
+  "schema": "sanbak-v141-cross-version-nationwide-audit-invariants",
+  "basedOnCommit": "efb648387bdb0643f1e457c6193f794667510c22",
+  "auditedSummaries": [
+    "audits/v128-original-35m-summary.json",
+    "audits/v129-exact-original-overlay-summary.json",
+    "audits/v130-geometry-quality-summary.json",
+    "audits/v131-dem-grade-crosscheck-summary.json",
+    "audits/v132-dem-gap-repair-summary.json",
+    "audits/v133-original-dem-source-recovery.json",
+    "audits/v134-loop-dem-recovery.json",
+    "audits/v135-direct-source-3d-summary.json",
+    "audits/v136-ambiguous-touch-grade-summary.json",
+    "audits/v137-missing-contact-root-causes.json",
+    "audits/v138-micro-original-summary.json",
+    "audits/v139-micro-chain-preservation-summary.json",
+    "audits/v140-original-coordinate-quantization-summary.json"
+  ],
+  "testsPassed": 26,
+  "testsFailed": 0,
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "originalNodes": 59301,
+    "sourceEndpoints": 134370,
+    "provisional35mCandidates": 144990,
+    "provisionalGraphEdges": 36084
+  },
+  "keyChecks": [
+    "v128 source candidate bands and relation classes total 144990",
+    "v129 144990 pairs = 108906 same-node + 36084 provisional edges",
+    "v130 geometry and QA decisions each partition all 36084 links",
+    "v131/135 grade classes and v132-v134 missing DEM recovery arithmetic",
+    "v136/137 unresolved 2D-touch causes and v138-v140 micro/quantization partitions",
+    "original SHP, v102 graph, v129 preview SHA-256 values agree across versions",
+    "Hangyeryeong user-confirmed exception remains outside 35m preview",
+    "v140 preserves all 2902 mountains, 67185 edges, 59301 nodes, no topology or UI changes"
+  ],
+  "knownUnresolved": {
+    "original3DForMountain": "491106604",
+    "missingJunctions": 2,
+    "ambiguous2DTouchUniqueSites": 7,
+    "v140CrossCellSeparateComponentPairsWithin2cm": 1,
+    "provisional35mEdgesWithoutPhysicalVerification": 36084,
+    "rawDEMResolutionAndVerticalDatumVerified": false,
+    "interMountainTopologyVerified": false,
+    "nationwideFieldPassabilityVerified": false
+  },
+  "approval": {
+    "originalTopologyChanges": 0,
+    "newPhysicalTrailConnections": 0,
+    "uiChanges": 0
+  },
+  "status": "cross-version metadata invariants checked; not nationwide field verification or complete data cleanup"
+}

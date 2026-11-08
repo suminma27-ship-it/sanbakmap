@@ -156,8 +156,12 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
  // incident edge was precisely matched to the historical display geometry.
  // The source XY coordinates are not inferred from a simplified SVG trail.
  function pickTrailNode(event){
-  if(!trailPickEnabled||!source?.paths?.length||
-     typeof onTrailNodeClick!=='function')return false;
+  if(!source?.paths?.length||typeof onTrailNodeClick!=='function')return false;
+  if(!trailPickEnabled){
+   if(typeof onPickNotice==='function')
+    onPickNotice('경유지를 지도에서 고르려면 위쪽의 ‘길 위 노드 선택: 끔’ 버튼을 눌러 켜 줘.');
+   return false;
+  }
   const view=viewport();
   if(!view)return false;
   const projector=project(source.paths);

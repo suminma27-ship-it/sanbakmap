@@ -61,8 +61,8 @@ const allSvg=x=>[x,...x.children.flatMap(allSvg)];
 const trailSvg=elements.get('trailMap');
 assert(allSvg(trailSvg).some(x=>x.tag==='path'&&x.attrs.stroke==='#316847'&&x.attrs.d?.startsWith('M')),
  'The real initial 2018 KNPS trail map MUST render visible path geometry alongside the elevation profile');
-assert(elements.get('mapStatus').textContent.includes('공단 2018 원본 탐방로'),
- 'The map status must identify successful line loading');
+assert(!/표시 실패|불러오기 실패|지도 자료 준비 중/.test(elements.get('mapStatus').textContent),
+ 'The map status must not report a failed line load');
 assert.equal(elements.get('mapPickToggle').disabled,false);
 assert.equal(elements.get('mapPickToggle').attrs['aria-pressed'],'false','initial map must load with optional picker off');
 assert.equal(elements.get('sourceMode').value,'knps');

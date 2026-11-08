@@ -28,5 +28,5 @@ assert(read('national.html').includes('전국 기관 등산로 v101'));
 const workflow=read('.github/workflows/deploy-pages.yml');
 assert(workflow.includes('node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide'));
 assert(workflow.includes('wc -l)" -eq 32'));
-assert(read('sw.js').includes('sanbakmap-v117-knps-exact-contacts'));
+assert(read('sw.js').includes('sanbakmap-v118-nearby-planning-gaps'));
 console.log('PASS v101: 32 agency shards verified; 2,902 mountains, 59,368 historic lines, strict no-route fallback');

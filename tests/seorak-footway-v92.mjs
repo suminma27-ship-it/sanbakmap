@@ -91,6 +91,6 @@ assert.equal(graph.stats.routing_allowed,false);
 assert.equal(graph.stats.source_stage_breakdown.inside_v73.lines,496);
 assert.equal(graph.stats.source_stage_breakdown.exterior_v83.lines,4);
 assert.equal(v89.map_display_lines,703,'v89 historical baseline must remain immutable');
-assert(read('README.md').includes('**전국 코스 계획 실험: v117**'));
+assert(read('README.md').includes('**전국 코스 계획 실험: v118**'));
 assert(read('.github/workflows/deploy-pages.yml').includes('tools/seorak-topology-v92.mjs --output-dir site'));
 console.log('PASS v92: 75 assessed; 2 OSM sidewalks + 1 access=no way excluded (293.1m); 700 displayed, 67 components, no inferred routes');

@@ -48,7 +48,7 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
  <span>전국 선형 코스 계획 v110 · 바탕지도 미적용</span>
  <a href="./nationwide-topology.html">접점·단절 검토</a></header>
 <main><h1>기관 등록 주요지점으로 코스 계산 실험</h1>
-<p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 등산로는 기관의 당시 원본/단순화 선형을 표시하며 코스 강조는 원본 구간과 대조한 위치 참고용이야. 고도그래프는 검증된 DEM 원본 표본이 대응된 코스에만 표시해. 설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결했어. 전국 2,723개 산의 고도 대조 ZIP은 별도 보유 중이며 GitHub Pages에는 아직 일괄 배포되지 않았어. 로컬 ZIP 적용 기능을 이용하면 같은 연결망 규칙으로 검증된 구간의 고도그래프를 볼 수 있어. 산림청 표본의 DEM 원본 해상도·수직기준은 미확인으로 표시해. 소요시간·바탕지도는 적용하지 않았어. 지점은 원본 연결망 좌표와 15cm 이내에서 일치하는 경우에만 경유지 후보로 연결해.</p>
+<p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 등산로는 기관의 당시 원본/단순화 선형을 표시하며 코스 강조는 원본 구간과 대조한 위치 참고용이야. 고도그래프는 검증된 DEM 원본 표본이 대응된 코스에만 표시해. 설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결했어. 전국 고도 적용 범위는 사이트의 실제 게시 색인에서 확인해. 게시되지 않은 검증 구간은 로컬 ZIP 적용으로 확인할 수 있어. 저장된 ZIP이 없거나 원본과 일치하지 않으면 고도를 임의로 생성하지 않아. 산림청 표본의 DEM 원본 해상도·수직기준은 미확인으로 표시해. 소요시간·바탕지도는 적용하지 않았어. 지점은 원본 연결망 좌표와 15cm 이내에서 일치하는 경우에만 경유지 후보로 연결해.</p>
 <div class="layout">
  <aside class="panel"><div class="filter"><label class="small" for="search">산 이름 또는 9자리 산코드</label>
   <input id="search" type="search" placeholder="설악산, 관악산, 수리산…" autocomplete="off">
@@ -122,7 +122,8 @@ const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoi
  mapCore=window.SanbakLineMapV106,altCore=window.SanbakElevationV107,altPack=window.SanbakElevationPackV108,
  archiveCore=window.SanbakElevationArchiveV110;
 const names=new Map(catalog.map(x=>[x.code,x.name]));
-let index=null,poiIndex=null,elevationIndex=null,elevationData=null,originalGraph=null,graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map(),localArchive=null;
+let index=null,poiIndex=null,elevationIndex=null,onlineElevationIndex=null,elevationData=null,originalGraph=null,graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map(),localArchive=null;
+const onlineElevationBuckets=new Map();
 let autoExampleDone=false,userEditedWaypoints=false;
 const cache=new Map(),poiCache=new Map(),displayCache=new Map(),
  fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
@@ -140,8 +141,22 @@ async function json(path){const r=await fetch(path,{cache:'force-cache'});if(!r.
 async function loadElevation(code,kind,turn){
  elevationData=null;
  const item=elevationIndex?.mountains?.[code+':'+kind];
+ const online=kind==='forest'?onlineElevationIndex?.mountains?.[code]:null;
  let data;
  if(item)data=await json(item.path);
+ else if(online){
+  const bucketId=online.bucket;
+  if(!onlineElevationBuckets.has(bucketId)){
+   const path='./data/nationwide-elevation/bucket-'+bucketId+'.json';
+   onlineElevationBuckets.set(bucketId,json(path).catch(e=>{onlineElevationBuckets.delete(bucketId);throw e}));
+  }
+  const group=await onlineElevationBuckets.get(bucketId);
+  if(group?.schema!=='sanbak-dem-bucket-v109'||group.bucket!==bucketId)
+   throw Error('온라인 고도자료의 버킷 원본이 달라');
+  data=group.mountains?.[code];
+  if(!data||Object.keys(data.samples||{}).length!==online.matchedEdges)
+   throw Error('온라인 고도 원본 구간의 표본 수가 달라');
+ }
  else if(kind==='forest'&&localArchive?.has(code))
   data=await localArchive.get(code,index?.mountains?.[code]?.bucket);
  else{
@@ -227,8 +242,11 @@ function search(){
   const b=document.createElement('button');b.className='mountain'+(sourceCode===item.code?' active':'');b.type='button';
   const title=document.createElement('strong');title.textContent=item.name;
   const sub=document.createElement('small');sub.textContent=item.code+(index?.mountains?.[item.code]?' · 연결망 수록':' · 기관 원본 미확보');
+  const online=onlineElevationIndex?.mountains?.[item.code];
   const coverage=localArchive?.match(item.code);
-  if(coverage&&!elevationIndex?.mountains?.[item.code+':forest']){
+  if(online&&!elevationIndex?.mountains?.[item.code+':forest']){
+   sub.textContent+=' · 온라인 고도 '+online.matchedEdges+'/'+online.totalEdges+' 구간';
+  }else if(coverage&&!elevationIndex?.mountains?.[item.code+':forest']){
    sub.textContent+=' · 로컬 고도 '+coverage.matchedEdges+'/'+coverage.graphEdges+' 구간';
   }
   b.append(title,sub);b.onclick=()=>selectMountain(item.code);pane.append(b);
@@ -466,6 +484,18 @@ $('search').oninput=search;$('poiType').onchange=filterPOI;$('poiQuery').oninput
   throw Error('전국 원본 연결망 색인 검증 실패');
  poiIndex=poiCore.checkIndex(await json('./data/nationwide-pois/index.json'));
  elevationIndex=altCore.checkIndex(await json('./data/nationwide-elevation/index.json'));
+ onlineElevationIndex=await json('./data/nationwide-elevation/online-v110.json');
+ if(onlineElevationIndex?.schema!=='sanbak-national-dem-online-v110'||
+  onlineElevationIndex.accessVerified!==false||
+  onlineElevationIndex.rasterResolutionVerified!==false||
+  !onlineElevationIndex.mountains||typeof onlineElevationIndex.mountains!=='object'||
+  Object.keys(onlineElevationIndex.mountains).length!==onlineElevationIndex.mountedMountains||
+  ![0,2723].includes(onlineElevationIndex.mountedMountains)||
+  ![0,53034].includes(onlineElevationIndex.matchedEdges))
+  throw Error('전국 온라인 DEM 배포 색인 검증 실패');
+ $('nationalElevationStatus').textContent=onlineElevationIndex.mountedMountains?
+  '온라인 고도 '+fmt(onlineElevationIndex.mountedMountains)+'개 산 배포 완료 · 로컬 ZIP 선택도 가능':
+  '온라인 추가 배포 전: 제공한 전국 ZIP 파일을 선택하면 2,723개 산의 검증 구간에 고도 적용 가능';
  try{
   localArchive=await archiveCore.restore();
   if(localArchive)$('nationalElevationStatus').textContent=

@@ -56,7 +56,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  const source=sourceParts(graph,sourceFiles,displayRows);
  const nodes=graph.nodes.map(x=>x.slice()),edges=graph.edges.map(x=>x.slice()),added=[],cuts=new Map(),
   ref=new Map(),links=[];
- let attempted=0,discarded=0,alreadySame=0;
+ let attempted=0,discarded=0,alreadySame=0;const rejected=[];
  function locate(sourcePart,segment,at){
   const p=source.get(sourcePart);
   if(!p||!Array.isArray(at)||segment<0||segment>=p.points.length-1)return null;
@@ -84,10 +84,10 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
   attempted++;
   if(!c?.proposedOnly||c.passageVerified!==false||c.gapMeters>35||
    c.gapMeters<0||c.sourceParts?.length!==2||c.sourceSegments?.length!==2||
-   c.anchorsEPSG5179?.length!==2){discarded++;continue}
+   c.anchorsEPSG5179?.length!==2){discarded++;rejected.push({reason:'bad_candidate',parts:c?.sourceParts,meters:c?.gapMeters});continue}
   const a=locate(c.sourceParts[0],c.sourceSegments[0],c.anchorsEPSG5179[0]);
   const b=locate(c.sourceParts[1],c.sourceSegments[1],c.anchorsEPSG5179[1]);
-  if(!a||!b){discarded++;continue}
+  if(!a||!b){discarded++;rejected.push({reason:'unmapped_source_anchor',parts:c.sourceParts,segments:c.sourceSegments,meters:c.gapMeters,a:!!a,b:!!b});continue}
   if(a.node===b.node){alreadySame++;continue}
   const dist=Math.max(.01,+c.gapMeters.toFixed(2));
   links.push({from:a.node,to:b.node,dist,c});
@@ -113,7 +113,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  for(const l of links){
   const id=edges.length;
   const sourcePart=l.c.sourceParts[0],sourceEdge=source.get(sourcePart)?.edges[0];
-  if(!sourceEdge){discarded++;continue}
+  if(!sourceEdge){discarded++;rejected.push({reason:'source_edge_absent',parts:l.c.sourceParts,meters:l.c.gapMeters});continue}
   const raw=graph.edges[sourceEdge.id];
   edges.push([l.from,l.to,l.dist,sourcePart,raw[4],raw[5]]);
   added.push({id,type:'provisional_gap_35m',sourceParts:l.c.sourceParts,
@@ -133,7 +133,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
     access_verified:false,navigable:false,physical_junction_verified:false}},
   originalNodeCount:graph.nodes.length,originalEdgeCount:graph.edges.length,
   added,stats:{attempted,discarded,alreadySame,gapEdges,
-   splits:added.length-gapEdges,componentsBefore:graph.summary.geometric_components,
+   splits:added.length-gapEdges,rejectedSamples:rejected.slice(0,15),componentsBefore:graph.summary.geometric_components,
    componentsAfter:componentCount}};
  return overlay;
 }
@@ -141,7 +141,7 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
  displayDir=join(ROOT,'site/data/nationwide'),outputDir=sourceDir}={}){
  const manifest=JSON.parse(await readFile(join(ROOT,'data/nationwide-topology/manifest.json'),'utf8'));
  const total={mountains:0,candidates:0,bridges:0,discarded:0,sameNode:0,
-  splitEdges:0,originalGraphEdgesChanged:0,originalDEMChanged:0};
+  splitEdges:0,originalGraphEdgesChanged:0,originalDEMChanged:0,unmappedSamples:[]};
  await mkdir(outputDir,{recursive:true});
  for(let i=0;i<32;i++){
   const bucket=String(i).padStart(2,'0');
@@ -158,6 +158,8 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
    rows[code]=m;total.mountains++;total.candidates+=m.stats.attempted;
    total.bridges+=m.stats.gapEdges;total.discarded+=m.stats.discarded;
    total.sameNode+=m.stats.alreadySame;total.splitEdges+=m.stats.splits;
+   for(const sample of m.stats.rejectedSamples)if(total.unmappedSamples.length<30)
+    total.unmappedSamples.push({code,bucket,...sample});
    check(m.originalEdgeCount===graph.edges.length&&
     m.graph.edges.slice(0,graph.edges.length).every((e,j)=>e.every((v,k)=>v===graph.edges[j][k])),
     'Original edge unexpectedly modified');

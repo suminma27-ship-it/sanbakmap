@@ -63,6 +63,6 @@ const wf=read('.github/workflows/deploy-pages.yml');
 assert(wf.includes('cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/'));
 assert(wf.includes('core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/'));
 assert(read('national.html').includes('전국 코스 선형 v108'));
-assert(read('sw.js').includes('sanbakmap-v108-seorak-90m-dem'));
+assert(read('sw.js').includes('sanbakmap-v108-dem-visible-default'));
 assert(!read('core/nationwide-graph-review-v103.js').includes('geometry_preview_only'));
 console.log('PASS v104: 2+ waypoint original-GIS geometric previews, 2018 KNPS sample, national forest source, roundtrip and disconnected safeguards');

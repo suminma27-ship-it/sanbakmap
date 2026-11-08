@@ -1,0 +1,30 @@
+{
+  "schema": "sanbak-v132-dem-gap-repair-plan",
+  "mountainCountPreserved": 2902,
+  "removedMountainsUnder200m": 0,
+  "excludedParksUnder200m": 0,
+  "provisionalGapEdgesAdded": 0,
+  "originalDEMModified": false,
+  "officialRoutesModified": false,
+  "missingPriorityLinks": 118,
+  "mountainsAffected": 69,
+  "missingCauses": {
+    "mountainEntirelyLacksDEM": 10,
+    "mountainHasDEMButOriginalEdgeNotSampled": 108
+  },
+  "missingEndpointOccurrences": 171,
+  "distinctMissingSourceNodes": 150,
+  "greedyTargetOriginalEdges": 129,
+  "affectedJoinsSeparateComponents": 86,
+  "affectedShortcutsOver2km": 32,
+  "sourceHashes": {
+    "v129": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v131": "cd508e38d05eef75d5a641fe5dfd62f592d086602c113ffae81981f99d746e1d",
+    "v109": "045cd0b4c41114f7a71b711b601445138a3ef9741a8ee4abaa6660f6e49c1e2e"
+  },
+  "notes": [
+    "All 2902 mountains remain published in their original datasets.",
+    "129 edge IDs are original-edge DEM acquisition targets, not existing or invented heights.",
+    "The source validation links are unverified and remain in audit mode; no public routing change."
+  ]
+}

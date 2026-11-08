@@ -58,7 +58,7 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
    if(pts.length<2)continue;
    d+=path(pts,projector)+' ';segments++;
   }
-  tag('path',{d,fill:'none',stroke:'#598467','stroke-width':1.65,
+  tag('path',{d,fill:'none',stroke:'#316847','stroke-width':2.3,
     'stroke-linejoin':'round','stroke-linecap':'round','vector-effect':'non-scaling-stroke',
     'pointer-events':'none'},base);
   state.renderedSegments=segments;

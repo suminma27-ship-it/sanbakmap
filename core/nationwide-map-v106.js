@@ -145,6 +145,29 @@ function create(graph,kind,source){
    progress+=e.meters;
   }
  }
+ // Only a genuine original graph endpoint with a proven corresponding display
+ // segment can be selected. "Nearby" lines and unverified source pieces
+ // are never treated as connected walkable routes.
+ const incident=Array.from({length:nodesXY.length},()=>[]);
+ for(let i=0;i<edgeRefs.length;i++){
+  const e=edgeRefs[i];
+  if(e.from===e.to||!Number.isFinite(e.meters)||e.meters<=0)continue;
+  if(e.from<0||e.from>=incident.length||e.to<0||e.to>=incident.length)
+   throw Error('원본 선형 끝점의 노드 번호가 일치하지 않아');
+  incident[e.from].push(i);incident[e.to].push(i);
+ }
+ const matchMemo=new Map();
+ function edgeDisplayMatched(id){
+  if(matchMemo.has(id))return matchMemo.get(id);
+  const e=edgeRefs[id],part=sourceLines.get(e.key),fraction=fractions.get(id);
+  const matched=!!(part&&fraction&&
+   clip(part,nodesXY[e.from],nodesXY[e.to],fraction[0],fraction[1],e.meters));
+  matchMemo.set(id,matched);return matched;
+ }
+ function pickableNode(id){
+  return Number.isInteger(id)&&id>=0&&id<incident.length&&
+   incident[id].some(edgeDisplayMatched);
+ }
  function overlay(plan){
   const empty={paths:[],totalEdges:0,drawnEdges:0,unmatchedEdges:0,
    displayAccuracy:'historic-display-simplification',navigable:false};
@@ -170,7 +193,7 @@ function create(graph,kind,source){
   return {paths,totalEdges,drawnEdges,unmatchedEdges,
    displayAccuracy:'historic-display-simplification',navigable:false};
  }
- return Object.freeze({kind,paths,nodesXY,overlay,
+ return Object.freeze({kind,paths,nodesXY,overlay,pickableNode,
   historical:true,navigable:false,baseLineCount:paths.length});
 }
 root.SanbakLineMapV106=Object.freeze({version:106,to5179,create});

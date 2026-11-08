@@ -75,7 +75,7 @@ const invalidCrypto={...scope,crypto:{subtle:{digest:async()=>Uint8Array.from(Ar
 invalidCrypto.window=invalidCrypto;vm.runInNewContext(source,invalidCrypto);
 await assert.rejects(invalidCrypto.SanbakElevationArchiveV110.openBuffer(array),/해시/);
 const page=readFileSync(new URL('../nationwide-plan.html',import.meta.url),'utf8');
-assert(page.includes('산박지도 v123 | 고도곡선 연속 표시'));
+assert(page.includes('산박지도 v124 | 원본 선형 전체 접점 탐색'));
 for(const term of ['nationalElevationZip','nationalElevationStatus','core/nationwide-elevation-archive-v110.js',
  'localArchive.get(code,index?.mountains?.[code]?.bucket)','archiveCore.loadFile(file)','archiveCore.restore()'])
  assert(page.includes(term),term);
@@ -84,5 +84,5 @@ const wf=readFileSync(new URL('../.github/workflows/deploy-pages.yml',import.met
 assert(wf.includes('core/nationwide-elevation-archive-v110.js'));
 assert(wf.includes('python tools/publish-nationwide-elevation-v110.py --output-dir site/data/nationwide-elevation'));
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
-assert(sw.includes('sanbakmap-v123-continuous-elevation'));
+assert(sw.includes('sanbakmap-v124-topology-normalized'));
 console.log('PASS v110: strict nationwide ZIP SHA256 + directory + deflate/CRC, 2723-code lazy lookup, unknown intervals remain unverified, hosted and local status separated');

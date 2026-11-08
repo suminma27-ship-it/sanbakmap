@@ -1,0 +1,154 @@
+{
+  "schema": "sanbak-poi-index-v105",
+  "source": "산림청 DATA002 주요지점 원본 SHP",
+  "sourceDate": "mostly 2016",
+  "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "topologySourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "matchedPoints": 45627,
+  "mountainsWithCandidatePoints": 2878,
+  "totalSourcePoints": 101075,
+  "bucketCount": 32,
+  "kindNames": [
+    "분기점",
+    "시종점",
+    "정상",
+    "대피소"
+  ],
+  "maxNodeDistanceMeters": 0.15,
+  "minimumJunctionDegree": 3,
+  "topologyNodesSource": "original EPSG:5179 0.1m",
+  "sourceAccessVerified": false,
+  "physicalLocationVerified": false,
+  "routingAuthorized": false,
+  "knpsCombined": false,
+  "buckets": [
+    {
+      "id": "00",
+      "githubBlobSHA": "7cf358330f9eb3fc4236b9370c3ef2449109fa7d"
+    },
+    {
+      "id": "01",
+      "githubBlobSHA": "18df7611ed3aa417d8b8c3eacd1be0b4190a31ed"
+    },
+    {
+      "id": "02",
+      "githubBlobSHA": "1f2164c4792624b9386ec91d1bae62e206ad9d93"
+    },
+    {
+      "id": "03",
+      "githubBlobSHA": "a217ab61adea2294836171b450522bdee36dd22a"
+    },
+    {
+      "id": "04",
+      "githubBlobSHA": "f3d30eb166ff6946e4fbbdab2655c3021d398b31"
+    },
+    {
+      "id": "05",
+      "githubBlobSHA": "3c401f47431a53124edc66947636df3a83164378"
+    },
+    {
+      "id": "06",
+      "githubBlobSHA": "fd283021e4fdbf92c2bdd3b48431522e342f8798"
+    },
+    {
+      "id": "07",
+      "githubBlobSHA": "cfabb32c45890d3f93ea2e83831890a3b4c78d9a"
+    },
+    {
+      "id": "08",
+      "githubBlobSHA": "c4910bc79f70e92b5796153d213816c642aa0144"
+    },
+    {
+      "id": "09",
+      "githubBlobSHA": "501b49347e4d76d87d683b3ccff690a6f6390a99"
+    },
+    {
+      "id": "10",
+      "githubBlobSHA": "b51dfbbd46fb88b42083e6fd92ab5c36f4f26114"
+    },
+    {
+      "id": "11",
+      "githubBlobSHA": "66823f18eca21d801288c2b34f0893a988e9393b"
+    },
+    {
+      "id": "12",
+      "githubBlobSHA": "19eeb0d47e5937eb5f2669ed20d3ecab925931d8"
+    },
+    {
+      "id": "13",
+      "githubBlobSHA": "0db87c168a1557399161627e1ad008b218345657"
+    },
+    {
+      "id": "14",
+      "githubBlobSHA": "e0c5c3e275045ee7cb0939b9fa08d773e1b98d51"
+    },
+    {
+      "id": "15",
+      "githubBlobSHA": "c4d3b05dda045d06cbe032077fc5e64c423fa81e"
+    },
+    {
+      "id": "16",
+      "githubBlobSHA": "7471e87edb5dcd739d224d26ec9809ef6b87ba1c"
+    },
+    {
+      "id": "17",
+      "githubBlobSHA": "73ef9b0911e81d16986d438700567f211963b24c"
+    },
+    {
+      "id": "18",
+      "githubBlobSHA": "5a0e6b7cbd365206d1602c6e13c15a0131f08071"
+    },
+    {
+      "id": "19",
+      "githubBlobSHA": "9f8872af2a60056516435f2e1c0449be288befad"
+    },
+    {
+      "id": "20",
+      "githubBlobSHA": "40698b857b63c49814f66e37295f1b4deef9fe98"
+    },
+    {
+      "id": "21",
+      "githubBlobSHA": "bab5e5d19fe9698cbf731511ada4a88edef9d5e4"
+    },
+    {
+      "id": "22",
+      "githubBlobSHA": "60a1e26541e2a9300470b7bde1eb55f82e84424b"
+    },
+    {
+      "id": "23",
+      "githubBlobSHA": "648c21824988d3e5ee36f653a560259e55b917e0"
+    },
+    {
+      "id": "24",
+      "githubBlobSHA": "dc0120dedb0077242d3a64adcdb0c97f7045e5d2"
+    },
+    {
+      "id": "25",
+      "githubBlobSHA": "53a24a3ecd6fa8e7b03f8f7320062df43aded4a8"
+    },
+    {
+      "id": "26",
+      "githubBlobSHA": "94cfc9c1e2c3f7c24a55aa86758f1f521c0be891"
+    },
+    {
+      "id": "27",
+      "githubBlobSHA": "9c7355941814d7dfe1ef373db246686e265f370a"
+    },
+    {
+      "id": "28",
+      "githubBlobSHA": "3f78d19e1749775bb466e3d3d78435ee6caa43fd"
+    },
+    {
+      "id": "29",
+      "githubBlobSHA": "bbd79d4a79a24d19737f4a435aa9841211e37fd9"
+    },
+    {
+      "id": "30",
+      "githubBlobSHA": "835ff805b1a6ca73a23b5a56b818c7d55ef2cc2a"
+    },
+    {
+      "id": "31",
+      "githubBlobSHA": "1b83196aeee1c53c5c643a51960cfba3878a8cf2"
+    }
+  ]
+}

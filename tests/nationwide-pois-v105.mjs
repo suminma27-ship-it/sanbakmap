@@ -62,7 +62,7 @@ try{
  assert.throws(()=>poi.selectMountain(shards[Number(bucket)],index,code,knpsModel),/original forest-source graph/);
 }finally{await rm(tmp,{recursive:true,force:true})}
 const html=read('nationwide-plan.html'),workflow=read('.github/workflows/deploy-pages.yml');
-for(const token of ['산박지도 v105 | 기관 주요지점 경유지 선택','id="poiSelect"','id="poiType"',
+for(const token of ['산박지도 v106 | 전국 등산로·코스 선형 표시','id="poiSelect"','id="poiType"',
  'id="sourceMode"','core/nationwide-pois-v105.js','data/nationwide-pois/index.json',
  'poiCore.selectMountain','setPOIs([])'])assert(html.includes(token),token);
 const inline=html.slice(html.lastIndexOf('<script>')+8,html.lastIndexOf('</script>'));
@@ -70,6 +70,6 @@ new Function(inline);
 assert(workflow.includes('cp data/nationwide-pois/index.json data/nationwide-pois/bucket-*.json.gz site/data/nationwide-pois/'));
 assert(workflow.includes("wc -l)\" -eq 32"));
 assert(workflow.includes('core/nationwide-pois-v105.js site/core/'));
-assert(read('sw.js').includes('sanbakmap-v105-source-matched-poi'));
-assert(read('national.html').includes('전국 주요지점 선택 v105'));
+assert(read('sw.js').includes('sanbakmap-v106-trail-route-svg'));
+assert(read('national.html').includes('전국 코스 선형 v106'));
 console.log('PASS v105: 32 agency POI buckets, 45,627 exact POIs in 2,878 mountains, no cross-source KNPS links');

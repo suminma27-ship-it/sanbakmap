@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v105 | 기관 주요지점 경유지 선택</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v106 | 전국 등산로·코스 선형 표시</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#183628;background:#f5f8f5}
 *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
@@ -28,13 +28,23 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 #result strong{font-size:18px}.kpis{display:flex;gap:20px;flex-wrap:wrap}
 #status{padding:12px 15px;border-top:1px solid #e6ebe5;font-size:12px;color:#587360}
 #routeLegs{margin:9px 0 0;padding-left:20px}#routeLegs li{margin:5px 0}
+.mapboard{border:1px solid #d8e5dc;border-radius:10px;overflow:hidden;background:#f0f4ef}
+.maptop{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:#f8faf7;padding:9px 11px}
+.maptop strong{font-size:14px}.maptools{display:flex;gap:5px}
+.maptop button{padding:5px 9px;border:1px solid #cbddcf;border-radius:7px;background:#fff;color:#285c42}
+#trailMap{display:block;width:100%;height:390px;touch-action:none;background:#f0f4ef;cursor:grab}
+#mapStatus{padding:8px 11px;font-size:12px;color:#587360;background:#fbfcfa;border-top:1px solid #e2eee4}
+.key{display:flex;align-items:center;gap:15px;font-size:12px;color:#587360;flex-wrap:wrap;padding:7px 11px;background:#fbfcfa}
+.key i{display:inline-block;width:26px;height:0;border-top:3px solid #598467;vertical-align:middle;margin-right:4px}
+.key i.route{border-color:#186ac0;border-width:4px}
+@media(max-width:760px){#trailMap{height:300px}}
 @media(max-width:760px){.layout{grid-template-columns:1fr}#mountains{max-height:195px}.controls{grid-template-columns:minmax(0,1fr) 80px 65px}.pad{padding:12px}}
 </style></head><body>
 <header><a href="./national.html"><strong>▲ 산박지도</strong></a>
- <span>전국 주요지점 연결 v105 · 바탕지도 미적용</span>
+ <span>전국 선형 코스 계획 v106 · 바탕지도 미적용</span>
  <a href="./nationwide-topology.html">접점·단절 검토</a></header>
 <main><h1>기관 등록 주요지점으로 코스 계산 실험</h1>
-<p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 고도·소요시간·바탕지도는 아직 적용하지 않았어. 지점은 원본 연결망 좌표와 15cm 이내에서 일치하는 경우에만 경유지 후보로 연결해.</p>
+<p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 등산로는 기관의 당시 원본/단순화 선형을 표시하며 코스 강조는 원본 구간과 대조한 위치 참고용이야. 고도·소요시간·바탕지도는 아직 적용하지 않았어. 지점은 원본 연결망 좌표와 15cm 이내에서 일치하는 경우에만 경유지 후보로 연결해.</p>
 <div class="layout">
  <aside class="panel"><div class="filter"><label class="small" for="search">산 이름 또는 9자리 산코드</label>
   <input id="search" type="search" placeholder="설악산, 관악산, 수리산…" autocomplete="off">
@@ -45,6 +55,14 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
    <select id="sourceMode"><option value="knps">국립공원공단 2018 원본</option><option value="forest">산림청 등산로+주요지점 2016 중심</option></select>
   </label>
   <div class="kpis"><span class="small" id="nodeCount">노드 —</span><span class="small" id="edgeCount">연결 구간 —</span><span class="small" id="componentCount">분리된 연결요소 —</span></div>
+  <section class="mapboard" aria-label="등산로와 선택한 기하 코스">
+   <div class="maptop"><strong>등산로·계획 경로 <span class="small">원본 자료 참고용</span></strong>
+    <div class="maptools"><button id="mapZoomIn" type="button" aria-label="확대">＋</button><button id="mapZoomOut" type="button" aria-label="축소">－</button><button id="mapFit" type="button">전체</button></div>
+   </div>
+   <svg id="trailMap" viewBox="0 0 1000 640" aria-label="기관 원본 등산로 선형과 계산된 코스" role="img"></svg>
+   <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span>● 경유지 · 바탕지도 없음</span></div>
+   <div id="mapStatus" role="status">기관 등산로 표시 자료 준비 중…</div>
+  </section>
   <div style="border-top:1px solid #e2eae3;padding-top:12px">
    <h3>경유지 선택 <span class="small">(기관 등록 당시 지점 종류·이름 · 현재 개방 미확인)</span></h3>
    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -74,14 +92,24 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 </div></main>
 <script src="./national_data.js"></script>
 <script src="./core/nationwide-route-preview-v104.js"></script><script src="./core/nationwide-pois-v105.js"></script>
+<script src="./core/nationwide-source-loader.js"></script>
+<script src="./core/nationwide-map-v106.js"></script><script src="./core/nationwide-map-view-v106.js"></script>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[])
  .map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
-const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoiV105;
+const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoiV105,
+ mapCore=window.SanbakLineMapV106;
 const names=new Map(catalog.map(x=>[x.code,x.name]));
 let index=null,poiIndex=null,model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map();
-const cache=new Map(),poiCache=new Map(),fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
+const cache=new Map(),poiCache=new Map(),displayCache=new Map(),
+ fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
+const mapCanvas=window.SanbakTrailCanvasV106.create($('trailMap'),{onPoiClick:id=>{
+ if(!model||waypoints.length>=30||waypoints.at(-1)===id)return;
+ waypoints.push(id);renderWaypoints();
+ result('지도에서 '+(poiLabels.get(id)?.label||'노드 '+id)+'을(를) 경유지로 추가했어.');
+}});
+function mapNotice(t){$('mapStatus').textContent=t}
 function status(t){$('status').textContent=t}
 function result(t){$('result').replaceChildren(document.createTextNode(t))}
 async function json(path){const r=await fetch(path,{cache:'force-cache'});if(!r.ok)throw Error('HTTP '+r.status+' · '+path);return r.json()}
@@ -99,6 +127,15 @@ async function bucket(id){
   return data;
  })());
  return cache.get(id);
+}
+async function displayBucket(bucketId){
+ if(!displayCache.has(bucketId))displayCache.set(bucketId,
+  json('./data/nationwide/bucket-'+bucketId+'.json').then(raw=>{
+   if(raw?.schema!=='sanbak-national-institutional-lines-v1'||raw.agency!=='산림청')
+    throw Error('산림청 표시용 선형 출처 검증 오류');
+   return raw;
+  }).catch(e=>{displayCache.delete(bucketId);throw e}));
+ return displayCache.get(bucketId);
 }
 async function poiBucket(bucketId){
  if(!poiCache.has(bucketId)){
@@ -135,6 +172,7 @@ function setPOIs(records){
  }
  $('poiType').disabled=!model||!pois.length;$('poiQuery').disabled=!model||!pois.length;
  $('poiType').value='';$('poiQuery').value='';filterPOI();
+ mapCanvas.update({points:pois});
 }
 function search(){
  const q=$('search').value.trim().toLowerCase(),list=catalog.filter(x=>(x.code+' '+x.name).toLowerCase().includes(q));
@@ -171,6 +209,7 @@ function renderWaypoints(){
   div.append(remove);pane.append(div);
  });
  $('calculate').disabled=!model||waypoints.length<2;
+ mapCanvas.update({selected:waypoints,route:null});
 }
 function prepare(graph,kind){
  const next=engine.create(graph,kind);model=next;waypoints=[];pois=[];poiLabels=new Map();
@@ -187,6 +226,7 @@ function prepare(graph,kind){
  result('원본 연결망을 불러왔어. 경유지를 선택하거나 연결된 예시를 눌러 줘. 이 자료는 산행 안내용으로 사용할 수 없어.');
 }
 function reset(){
+ mapCanvas.setSource(null);mapNotice('기관 등산로 표시 자료 확인 중…');
  model=null;waypoints=[];pois=[];poiLabels=new Map();buttons(false);$('poiType').disabled=true;$('poiQuery').disabled=true;$('poiSelect').disabled=true;$('poiSelect').replaceChildren();$('poiInfo').textContent='원본 주요지점 확인 중…';
  $('candidates').replaceChildren();$('nodeCount').textContent='노드 —';
  $('edgeCount').textContent='연결 구간 —';$('componentCount').textContent='분리된 연결요소 —';
@@ -205,10 +245,23 @@ async function selectMountain(code){
     throw Error('설악산 공단 원본 상태 확인 실패');
    prepare(data.graph,'knps');$('source').textContent='국립공원공단 2018 원본 탐방로 · 역사적 GIS 검토';
    $('poiInfo').textContent='공단 원본과 산림청 등록 지점은 별개 자료라 자동 연결하지 않았어. 산림청 모드에서 기관 지점을 시험할 수 있어.';
+   try{
+    const geojson=await json('./data/knps-seorak-2018.geojson');if(turn!==generation)return;
+    const view=mapCore.create(data.graph,'knps',{geojson});
+    mapCanvas.setSource(view);
+    mapNotice('공단 2018 원본 탐방로 '+fmt(view.baseLineCount)+'개 부분 표시 · 현행 개방 미확인');
+   }catch(e){if(turn!==generation)return;mapNotice('공단 등산로 표시 실패: '+e.message+' · 코스 계산은 별도로 가능')}
   }else if(index?.mountains?.[code]){
    const bucketId=index.mountains[code].bucket,data=await bucket(bucketId);if(turn!==generation)return;
    const graph=data.mountains?.[code];if(!graph)throw Error('산코드 연결망 누락');
    prepare(graph,'forest');$('source').textContent='산림청 등산로·주요지점 원본 · 주로 2016년 · 개방 미확인';
+   try{
+    const shown=await displayBucket(bucketId);if(turn!==generation)return;
+    const view=mapCore.create(graph,'forest',{agencyData:shown,code,
+      sourceFiles:data.source_files,decodeLine:window.SanbakNationwideAgency.decodeLine});
+    mapCanvas.setSource(view);
+    mapNotice('산림청 등산로 '+fmt(view.baseLineCount)+'개 표시용 선형 · 3m 단순화 자료 · 위치 참고용');
+   }catch(e){if(turn!==generation)return;mapNotice('산림청 선형 표시 실패: '+e.message+' · 원본 거리 계산은 별도로 가능')}
    try{
     const raw=await poiBucket(bucketId);if(turn!==generation)return;
     setPOIs(poiCore.selectMountain(raw,poiIndex,code,model));
@@ -216,6 +269,7 @@ async function selectMountain(code){
   }else{
    $('source').textContent='원본 선형 미확보';
    result('현재 확보한 기관 원본 GIS에 이 산의 연결망이 없어. 다른 산이나 OSM 길을 임의로 끌어오지 않아.');
+   mapNotice('등산로 선형이 없는 산코드 · 임의 경로 없음');
   }
   status(name+' · 원본 기하 코스 계산 테스트 준비 완료');
  }catch(e){if(turn===generation){reset();$('source').textContent='원본 불러오기 오류';status('불러오기 실패: '+e.message);result(e.message)}}
@@ -240,6 +294,7 @@ $('clear').onclick=()=>{waypoints=[];renderWaypoints();result('경유지 목록�
 function calculate(){
  if(!model)return;
  const p=model.plan(waypoints);
+ mapCanvas.update({selected:waypoints,route:p.status==='geometry_preview_only'?p:null});
  if(p.status==='disconnected'){result('경로 없음: 노드 '+p.failedLeg[0]+'과 '+p.failedLeg[1]+' 사이가 원본 GIS 연결망에서 이어져 있지 않아. 가까운 길을 자동 연결하지 않았어.');return}
  if(p.status!=='geometry_preview_only'){result('경로 계산 중단: '+p.status+'. 경유지를 확인해 줘.');return}
  const pane=$('result');pane.replaceChildren();
@@ -251,9 +306,19 @@ function calculate(){
   ol.append(li);
  }
  pane.append(title,warn,ol);
+ const display=mapCanvas.getState();
+ if(display.mapDataLoaded){
+  const missing=display.missingSegments;
+  mapNotice(missing?
+   '기하 코스 계산됨 · '+fmt(missing)+'개 구간은 단순화 선형과 정확히 대응하지 않아 표시 생략 (직선 대체 없음)':
+   '기관 등산로 위에 기하 코스 강조 완료 · 표시 참고용 (실제 통행 검증 없음)');
+ }else mapNotice('기하 경로 거리는 계산됐지만 선형 자료가 없어 지도에는 표시하지 않았어');
  status('기하학적 코스 계산만 완료 · 실제 탐방 안내 미허용');
 }
 $('calculate').onclick=calculate;
+$('mapFit').onclick=()=>mapCanvas.fit();
+$('mapZoomIn').onclick=()=>mapCanvas.zoom(1.4);
+$('mapZoomOut').onclick=()=>mapCanvas.zoom(1/1.4);
 $('search').oninput=search;$('poiType').onchange=filterPOI;$('poiQuery').oninput=filterPOI;$('sourceMode').onchange=()=>{if(sourceCode==='428302602')selectMountain(sourceCode)};
 (async()=>{try{
  index=await json('./data/nationwide-topology/index.json');

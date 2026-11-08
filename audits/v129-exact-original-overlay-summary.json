@@ -1,0 +1,24 @@
+{
+  "schema": "sanbak-original-35m-preview-v129",
+  "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "topologyZipSha256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+  "mountainsProcessed": 2902,
+  "candidatePairs": 144990,
+  "verifiedPassage": false,
+  "originalGraphUnmodified": true,
+  "noPublicRouteChanges": true,
+  "mountainsWithComponentReductions": 166,
+  "componentsBefore": 3571,
+  "componentsAfter": 3282,
+  "totals": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "splitEdgesAdded": 20838,
+    "provisionalEdgesAdded": 36084,
+    "orphanPartsAdded": 1
+  },
+  "output": "32 gzipped per-bucket plan-only source graphs, original nodes and edges retained as immutable prefix",
+  "atlasPackageSha256": "8c9fef7fbcdca39b5c039c8f5dd2712d6b5d0a7c079e29c6dc077c9c2c7d1970",
+  "overlayPackageSha256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+  "note": "Only original SHP geometry was used for <=35m proximity; user-confirmed Hangyeryeong 48.73m original gap is outside this threshold."
+}

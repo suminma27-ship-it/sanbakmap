@@ -11,7 +11,7 @@ const tag=(type,attrs={},parent)=>{
  if(parent)parent.append(x);
  return x;
 };
-function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
+function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice,canSelectNode}={}){
  if(!svg||typeof svg.setAttribute!=='function')throw Error('SVG map target missing');
  let source=null,waypoints=[],pois=[],plan=null,scale=1,pan=[0,0],pointer=null,trailPickEnabled=false;
  let transform=()=>null;
@@ -72,19 +72,25 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
     'pointer-events':'none'},g);
   }
   state.missingSegments=highlight.unmatchedEdges;
-  // Small, noninteractive guide dots for genuine original endpoints.
-  // Do not draw fabricated points at arbitrary positions along a displayed line.
+  // Green points are precisely matched ORIGINAL endpoints in the selected
+  // component. Muted points belong to another disconnected component.
+  // Neither color implies current legal access or physical passage.
   if(trailPickEnabled&&typeof source.pickableNode==='function'){
    const nodeLayer=tag('g',{},stage);
-   let count=0;
-   for(let id=0;id<source.nodesXY.length&&count<280;id++){
+   let eligible=0,other=0;
+   for(let id=0;id<source.nodesXY.length;id++){
     if(!source.pickableNode(id))continue;
+    const allowed=typeof canSelectNode!=='function'||canSelectNode(id);
+    if(allowed?eligible>=280:other>=140)continue;
+    if(allowed)eligible++;else other++;
     const p=projector(source.nodesXY[id]);
-    tag('circle',{cx:p[0].toFixed(1),cy:p[1].toFixed(1),
-     r:3.5,fill:'#2e8154',stroke:'#ffffff','stroke-width':1.3,
-     'vector-effect':'non-scaling-stroke','pointer-events':'none',
-     'data-trail-node':id},nodeLayer);
-    count++;
+    const attrs={cx:p[0].toFixed(1),cy:p[1].toFixed(1),
+     r:allowed?3.5:2.8,fill:allowed?'#2e8154':'#98a59b',
+     stroke:'#ffffff','stroke-width':allowed?1.3:0.8,
+     'vector-effect':'non-scaling-stroke','pointer-events':'none'};
+    if(allowed)attrs['data-trail-node']=id;
+    else attrs['data-unconnected-node']=id;
+    tag('circle',attrs,nodeLayer);
    }
   }
   const labeled=new Map();
@@ -179,6 +185,11 @@ function create(svg,{onPoiClick,onTrailNodeClick,onPickNotice}={}){
    }
   }
   if(best>=0){
+   if(typeof canSelectNode==='function'&&!canSelectNode(best)){
+    if(typeof onPickNotice==='function')
+     onPickNotice('회색 노드는 현재 경유지와 다른 원본 연결망이야. 초록색 연결 노드를 선택하거나 경유지를 초기화해 줘.');
+    return false;
+   }
    onTrailNodeClick(best);
    return true;
   }

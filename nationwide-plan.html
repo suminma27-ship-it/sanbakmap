@@ -346,8 +346,8 @@ function renderWaypoints(){
   if(graphKind!=='knps'||pois.length)filterPOI();
  }
  $('mapPickHint').textContent=waypoints.length
-  ?'첫 경유지 노드 '+waypoints[0]+'와 이어진 초록색 연결 노드만 다음 경유지로 선택할 수 있어. 회색 노드는 별도 연결망이야. 다른 구간에서 시작하려면 경유지를 초기화해 줘.'
-  :'길 위 노드 선택을 켠 뒤 초록색 원본 연결 노드를 눌러 줘. 첫 경유지 선택 후에는 같은 연결망의 노드만 초록색으로 남아.';
+  ?'모든 원본 등산로 노드를 선택할 수 있어. 연결망에서 경로를 먼저 계산하고 각 구간이 10km 이상이면 새 경유지를 취소해.'
+  :'길 위 노드 선택을 켠 뒤 원본 등산로의 초록색 노드를 눌러 줘. 두 번째 지점부터 경로·거리·고도그래프를 계산해.';
  mapCanvas.update({selected:waypoints,route:null});
  altitude.show({status:'no_route',points:[],note:'두 개 이상의 지점을 선택하고 코스를 계산해 줘'});
  altitudeNotice('원본 대조 DEM 표본이 있는 연결 코스만 그래프로 표시해');

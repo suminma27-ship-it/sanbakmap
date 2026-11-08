@@ -38,5 +38,5 @@ assert(!(await read('core/nationwide-graph-review-v103.js')).includes('planning_
 const wf=await read('.github/workflows/deploy-pages.yml');
 assert(wf.includes('node tools/review-topology-v103.mjs --source-dir site/data/nationwide-topology'));
 assert(wf.includes('cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js core/nationwide-graph-review-v103.js'));
-assert((await read('sw.js')).includes('sanbakmap-v113-trail-node-map-pick'));
+assert((await read('sw.js')).includes('sanbakmap-v114-map-cache-compat'));
 console.log('PASS v103: cross-code repeated points, disconnected leaf candidates, no unapproved routes, full build integration');

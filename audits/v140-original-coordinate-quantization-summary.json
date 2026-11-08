@@ -1,0 +1,52 @@
+{
+  "schema": "sanbak-v140-original-shp-endpoint-vs-decimeter-graph-audit",
+  "inputSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v139": "5b115f537926b4ffe6eff3ba42cc95cf25aae9c340c97d571414c88b700cda64"
+  },
+  "auditArchive": "sanbakmap_v140_nationwide_coordinate_precision_audit.zip",
+  "auditArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "crs": "EPSG:5179",
+  "graphNodeQuantizationMeters": 0.1,
+  "nearbyDifferentNodeThresholdMeters": 0.02,
+  "originalMountainsPreserved": 2902,
+  "originalNodesPreserved": 59301,
+  "originalEdgesPreserved": 67185,
+  "sourceEndpointOccurrences": 134370,
+  "sourceCoveredGraphNodes": 59301,
+  "originalConnectedComponents": 3571,
+  "maximumOriginalEndpointNodeDriftMeters": 0.070569,
+  "multipleEndpointGraphNodes": 40552,
+  "quantizedNodesWithDistinctExactSourceEndpoints": 1722,
+  "quantizedNodesSpreadAbove1mm": 470,
+  "quantizedNodesSpreadAbove1cm": 368,
+  "quantizedNodesSpreadAbove5cm": 114,
+  "quantizedNodesSpreadAbove10cm": 2,
+  "nearbyDifferentGraphNodePairsAtMost2cm": 4,
+  "nearbyDifferentGraphNodePairsAtMost2cmAcrossComponents": 1,
+  "nearbyDifferentGraphNodePairsAtMost1cm": 1,
+  "nearbyDifferentGraphNodePairsAtMost1mm": 0,
+  "mountainsWithPotentialSameNodeConflation": 332,
+  "mountainsWithNearbyDifferentNodePairs": 4,
+  "mountainsWithNearbySeparateComponentPairs": 1,
+  "notableDistinctComponentExample": {
+    "code": "301101201",
+    "nodeA": 81,
+    "nodeB": 80,
+    "rawSourceEndpointGapMeters": 0.0116,
+    "status": "requires_source_grounded_review_not_permanent_connection"
+  },
+  "originalTopologyChanged": false,
+  "sourceElevationChanged": false,
+  "publishedMapChanged": false,
+  "newUiFeatures": 0,
+  "mountainsBelow200mRemoved": 0,
+  "newVerifiedPhysicalConnections": 0,
+  "limitations": [
+    "Coordinate jitter and floating-point differences make some source endpoints differ despite effectively coinciding; cell conflation does not prove a false hiking connection.",
+    "Two endpoints within 2cm in different quantization cells do not prove traversable passage.",
+    "Connected components counted per mountain without inter-mountain trail synthesis."
+  ]
+}

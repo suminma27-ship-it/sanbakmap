@@ -45,6 +45,7 @@ const responses={
  './data/nationwide-topology/index.json':{schema:'sanbak-topology-audit-index-v102',counts:{mountains:2902},source_zip_sha256:'7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a',mountains:{}},
  './data/nationwide-pois/index.json':JSON.parse(read('data/nationwide-pois/index.json')),
  './data/nationwide-elevation/index.json':JSON.parse(read('data/nationwide-elevation/index.json')),
+ './data/nationwide-elevation/online-v110.json':JSON.parse(read('data/nationwide-elevation/online-v110.json')),
  './data/knps-seorak-topology-v102.json':{mountainCode:'428302602',graph},
  './data/knps-seorak-2018.geojson':knps,
  './data/nationwide-elevation/seorak-knps-v108.json':JSON.parse(read('data/nationwide-elevation/seorak-knps-v108.json'))

@@ -44,18 +44,18 @@ const mismatched={...pack,edgeIdentities:{...pack.edgeIdentities,'0':[999,1,205.
 assert.throws(()=>scope.SanbakElevationPackV108.expand(mismatched,graph,'knps','428302602'),/원본 경로 구간/);
 assert.throws(()=>scope.SanbakElevationPackV108.expand(pack,{...graph,edges:graph.edges.slice(0,-1)},'knps','428302602'),/맞지 않아/);
 const manifest=scope.SanbakElevationV107.checkIndex(JSON.parse(read('data/nationwide-elevation/index.json')));
-assert.deepEqual(Object.keys(manifest.mountains),['428302602:knps']);
+assert.equal(manifest.mountains['428302602:knps']?.path,'./data/nationwide-elevation/seorak-knps-v108.json');
 assert.equal(manifest.mountains['428302602:knps'].path,'./data/nationwide-elevation/seorak-knps-v108.json');
-assert.equal(manifest.mountains['428302602:forest'],undefined,'No false forest graph coverage');
+assert.equal(manifest.mountains['428302602:forest']?.matchedEdges,57,'forest graph has its own 57 original-edge DEM samples');
 const page=read('nationwide-plan.html');
-for(const phrase of ['산박지도 v108 | 설악산 실제 DEM 고도그래프','core/nationwide-elevation-pack-v108.js',
+for(const phrase of ['산박지도 v109 | 원본 연결망 DEM 고도 확대','core/nationwide-elevation-pack-v108.js',
  "altPack.expand(data,originalGraph,kind,code)",
  '설악산의 국립공원공단 2018년 원본에 한해 90m 공개DEM 고도를 연결'])assert(page.includes(phrase),phrase);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
-assert(sw.includes('sanbakmap-v108-dem-visible-default'));
+assert(sw.includes('sanbakmap-v109-national-dem-pilot'));
 assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));
-assert(read('national.html').includes('전국 코스 선형 v108'));
+assert(read('national.html').includes('전국 코스 선형 v109'));
 console.log('PASS v108: real source 38814.img 90m samples match 22 KNPS Seorak original edges, 1126 positions, no invented forest altitudes');

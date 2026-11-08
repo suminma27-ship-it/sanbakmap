@@ -30,7 +30,7 @@ const sample=topo.build(sourceParts,{sourceGeometry:'original'});
 assert.deepEqual([sourceParts.length,sample.summary.geometricComponents,sample.summary.nodes,sample.summary.edges,sample.summary.nearEndsReviewOnly],[21,17,39,22,1]);
 assert(sample.edges.every(e=>e.routable===false&&e.accessVerified===false));
 const html=read('nationwide-topology.html');
-assert(html.includes('산박지도 v102 | 전국 등산로 연결망'));
+assert(html.includes('산박지도 v103 | 전국 등산로 연결 후보 검토'));
 assert(html.includes('data/nationwide-topology/index.json'));
 assert(html.includes('data/knps-seorak-topology-v102.json'));
 assert(!html.includes('OpenStreetMap'));

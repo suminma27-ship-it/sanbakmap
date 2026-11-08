@@ -56,12 +56,12 @@ for(const token of ['산박지도 v118 | 계획용 근접 접합',
  'id="trailMap"','id="mapFit"','id="mapZoomIn"','id="mapZoomOut"',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
  'mapCore.create(graph,\'forest\'','mapCanvas.update({selected:waypoints',
- '산림청 선형 표시 실패','원본 선분 위 정확한 끝점'])assert(page.includes(token),token);
+ '산림청 선형 표시 실패','계획용 근접접합'])assert(page.includes(token),token);
 const inline=page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>'));
 new Function(inline);
 new Function('window',read('core/nationwide-map-view-v106.js'))({});
 assert(!page.includes('OpenStreetMap'));
 assert(!page.includes('openstreetmap.org'));
-assert(workflow.includes('core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js site/core/'));
+assert(workflow.includes('core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js site/core/'));
 assert(read('sw.js').includes('sanbakmap-v118-nearby-planning-gaps'));
 console.log('PASS v106: EPSG5179 accuracy, 2018 KNPS true trail shapes, forest-source map match, no fake gap, nationwide SVG UI');

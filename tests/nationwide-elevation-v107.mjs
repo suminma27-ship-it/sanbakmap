@@ -8,7 +8,7 @@ const profile=win.SanbakElevationV107;
 assert.equal(profile.version,107);
 assert.equal(win.SanbakElevationChartV107.version,107);
 const manifest=profile.checkIndex(JSON.parse(read('data/nationwide-elevation/index.json')));
-assert.deepEqual(manifest.mountains,{},'do not claim existing verified DEM coverage without files');
+assert.deepEqual(Object.keys(manifest.mountains),['428302602:knps'],'only the documented historical Seorak KNPS DEM is source-matched');
 const forest={nodes:[[0,0],[100,0],[150,0]],edges:[
  [0,1,10,0,0,1],[1,2,5,0,1,2]]};
 const testDEM={schema:'sanbak-original-edge-dem-v107',mountainCode:'428302602',
@@ -44,7 +44,7 @@ assert.throws(()=>profile.profile(route,forest,'forest','428302602',
 assert.throws(()=>profile.profile(route,forest,'forest','428302602',
  {...testDEM,edgeSamples:{'0':[[0,100],[20,110]]}}),/손상|일치하지 않아/);
 const page=read('nationwide-plan.html');
-for(const token of ['산박지도 v107 | 전국 등산로·코스·고도자료 검증',
+for(const token of ['산박지도 v108 | 설악산 실제 DEM 고도그래프',
  'id="elevationPanel"','id="elevationChart"','id="elevationStatus"',
  'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
  'data/nationwide-elevation/index.json','altCore.profile(p,originalGraph',
@@ -53,8 +53,8 @@ new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</scrip
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/index.json site/data/nationwide-elevation/'));
-assert(sw.includes('sanbakmap-v107-dem-edge-profile'));
+assert(sw.includes('sanbakmap-v108-seorak-90m-dem'));
 for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js','data/nationwide-elevation/index.json'])
  assert(sw.includes('./'+file));
-assert(read('national.html').includes('전국 코스 선형 v107'));
+assert(read('national.html').includes('전국 코스 선형 v108'));
 console.log('PASS v107: source-locked altitude samples, correct segment reversals and climb/drop, missing DEM cannot generate fake profile, UI and Pages packaging');

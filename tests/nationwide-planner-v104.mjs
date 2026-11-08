@@ -55,14 +55,14 @@ try{
  if(live.example().length>1)assert.equal(live.plan(live.example()).status,'geometry_preview_only');
 }finally{await rm(dir,{recursive:true,force:true})}
 const html=read('nationwide-plan.html');
-assert(html.includes('산박지도 v110 | 전국 고도자료 검증·로컬 적용'));
+assert(html.includes('산박지도 v112 | 전국 고도그래프 온라인'));
 for(const s of ['core/nationwide-route-preview-v104.js','data/nationwide-topology/index.json',
  'data/knps-seorak-topology-v102.json','bucket-'+"'",'경유지 순서','실제 탐방로 지정'])assert(html.includes(s),s);
 assert(!html.includes('OpenStreetMap'));
 const wf=read('.github/workflows/deploy-pages.yml');
 assert(wf.includes('cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/'));
 assert(wf.includes('core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/'));
-assert(read('national.html').includes('전국 코스 선형 v110'));
-assert(read('sw.js').includes('sanbakmap-v110-national-elevation-local'));
+assert(read('national.html').includes('전국 코스 선형 v112'));
+assert(read('sw.js').includes('sanbakmap-v112-national-elevation-online'));
 assert(!read('core/nationwide-graph-review-v103.js').includes('geometry_preview_only'));
 console.log('PASS v104: 2+ waypoint original-GIS geometric previews, 2018 KNPS sample, national forest source, roundtrip and disconnected safeguards');

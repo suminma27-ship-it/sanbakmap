@@ -7,7 +7,7 @@
  */
 (function(root){
 'use strict';
-const RAD=Math.PI/180,R=6371008.8,MAX_GAP_M=5;
+const RAD=Math.PI/180,R=6371008.8,MAX_GAP_M=250; // v119: experimental plan-only maximum gap (not verified hiking access)
 const metric=p=>[p[0]*RAD*R*Math.cos(38*RAD),p[1]*RAD*R];
 const meters=(a,b)=>{const p=metric(a),q=metric(b);return Math.hypot(p[0]-q[0],p[1]-q[1])};
 function projection(P,A,B){
@@ -76,6 +76,16 @@ function enhance(graph,geojson,{maxGapMeters=MAX_GAP_M}={}){
     at:hit.at,dist:hit.dist,sourceMeters:len};
    if(!best||c.dist<best.dist)best=c;
   }
+  // v119: endpoint-to-endpoint gaps are not interior projections.
+  // Keep 5m legacy mode unchanged; only broaden the opt-in exploratory mode.
+  if(maxGapMeters>5)for(const targetNode of [e.from,e.to]){
+   if(targetNode===origin.node||find(targetNode)===find(origin.node))continue;
+   const at=nodes[targetNode],dist=meters(origin.coord,at);
+   if(dist>.01&&dist<=maxGapMeters&&(!best||dist<best.dist))
+    best={originNode:origin.node,sourceOrigin:origin.sourceId,
+     targetEdge:eid,sourceId:e.sourceId,targetExistingNode:targetNode,
+     at:at.slice(),dist,sourceMeters:targetNode===e.from?0:e.length_m};
+  }
   if(best&&!seen.has(origin.node+':'+eid)){
    candidates.push(best);seen.add(origin.node+':'+eid);
   }
@@ -89,14 +99,16 @@ function enhance(graph,geojson,{maxGapMeters=MAX_GAP_M}={}){
   // per original component pair, preferring the least geometric discrepancy.
   const previous=accepted.find(x=>x.originNode===item.originNode);
   if(previous)continue;
-  const p=parts.get(item.sourceId),newNode=nodes.length;
-  nodes.push(item.at.slice());parent.push(newNode);
+  const existing=Number.isInteger(item.targetExistingNode);
+  const newNode=existing?item.targetExistingNode:nodes.length;
+  if(!existing){nodes.push(item.at.slice());parent.push(newNode)}
   events.push({...item,projectedNode:newNode});
   accepted.push(item);
   unite(item.originNode,newNode);unite(newNode,target.from);
  }
  const edges=graph.edges.slice(),byEdge=new Map();
  for(const ev of events){
+  if(Number.isInteger(ev.targetExistingNode))continue; // existing source endpoint, no split
   if(!byEdge.has(ev.targetEdge))byEdge.set(ev.targetEdge,[]);
   byEdge.get(ev.targetEdge).push(ev);
  }

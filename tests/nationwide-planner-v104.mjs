@@ -55,14 +55,14 @@ try{
  if(live.example().length>1)assert.equal(live.plan(live.example()).status,'geometry_preview_only');
 }finally{await rm(dir,{recursive:true,force:true})}
 const html=read('nationwide-plan.html');
-assert(html.includes('산박지도 v115 | 지도 노드 탭 좌표 수정'));
+assert(html.includes('산박지도 v116 | 연결 가능한 경유지만 선택'));
 for(const s of ['core/nationwide-route-preview-v104.js','data/nationwide-topology/index.json',
  'data/knps-seorak-topology-v102.json','bucket-'+"'",'경유지 순서','실제 탐방로 지정'])assert(html.includes(s),s);
 assert(!html.includes('OpenStreetMap'));
 const wf=read('.github/workflows/deploy-pages.yml');
 assert(wf.includes('cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/'));
 assert(wf.includes('core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/'));
-assert(read('national.html').includes('전국 코스 선형 v115'));
-assert(read('sw.js').includes('sanbakmap-v115-node-tap-mobile-fix'));
+assert(read('national.html').includes('전국 코스 선형 v116'));
+assert(read('sw.js').includes('sanbakmap-v116-source-connected-waypoints'));
 assert(!read('core/nationwide-graph-review-v103.js').includes('geometry_preview_only'));
 console.log('PASS v104: 2+ waypoint original-GIS geometric previews, 2018 KNPS sample, national forest source, roundtrip and disconnected safeguards');

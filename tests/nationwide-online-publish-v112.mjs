@@ -53,10 +53,10 @@ try{
  for(const code of ['428302602','488605302','113050202','421504602','483100401'])
   assert(online.mountains[code]?.matchedEdges>0,'representative mountain not online: '+code);
  const sw=read('sw.js').toString(),page=read('nationwide-plan.html').toString();
- assert(sw.includes('sanbakmap-v115-node-tap-mobile-fix'));
+ assert(sw.includes('sanbakmap-v116-source-connected-waypoints'));
  assert(sw.includes("url.pathname.endsWith('/data/nationwide-elevation/online-v110.json')"));
  assert(sw.includes("fetch(req, {cache:'no-store'})"));
- assert(page.includes('산박지도 v115 | 지도 노드 탭 좌표 수정'));
+ assert(page.includes('산박지도 v116 | 연결 가능한 경유지만 선택'));
  assert(page.includes('id="localElevationUpload"'));
  assert(page.includes('onlineElevationBuckets.set(bucketId'));
  assert(page.includes("onlineElevationIndex=await json('./data/nationwide-elevation/online-v110.json')"));

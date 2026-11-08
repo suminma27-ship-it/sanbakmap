@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123c2b"><title>산박지도 v115 | 지도 노드 탭 좌표 수정</title>
+<meta name="theme-color" content="#123c2b"><title>산박지도 v116 | 연결 가능한 경유지만 선택</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#183628;background:#f5f8f5}
 *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
@@ -45,7 +45,7 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 @media(max-width:760px){.layout{grid-template-columns:1fr}#mountains{max-height:195px}.controls{grid-template-columns:minmax(0,1fr) 80px 65px}.pad{padding:12px}}
 </style></head><body>
 <header><a href="./national.html"><strong>▲ 산박지도</strong></a>
- <span>전국 선형 코스 계획 v115 · 바탕지도 미적용</span>
+ <span>전국 선형 코스 계획 v116 · 바탕지도 미적용</span>
  <a href="./nationwide-topology.html">접점·단절 검토</a></header>
 <main><h1>기관 등록 주요지점으로 코스 계산 실험</h1>
 <p class="warn"><strong>현장 산행 안내 아님.</strong> 2016~2018년 공공기관 원본 GIS에서 좌표가 맞닿은 구간만 연결한 <strong>테스트 연결망</strong>을 사용해. 계산 거리는 원본 선형의 누적 길이 기준이며, 실제 탐방로 지정·통제·교량·실제 통행 가능 여부는 검증되지 않았어. 단절구간을 이어 붙이거나 다른 산의 연결망으로 넘어가지 않아. 등산로는 기관의 당시 원본/단순화 선형을 표시하며 코스 강조는 원본 구간과 대조한 위치 참고용이야. 고도그래프는 원본 구간과 대응이 확인된 표본에만 표시해. 전국 산림청 연결망 중 2,723개 산·53,034개 원본 구간의 고도자료를 온라인으로 배포하며, 설악산 공단 원본도 별도로 유지해. 자료가 없는 산과 누락된 구간에는 높이를 임의로 생성하지 않아. 로컬 ZIP 적용은 선택 사항이야. 산림청 표본의 DEM 원본 해상도·수직기준은 미확인으로 표시해. 소요시간·바탕지도는 적용하지 않았어. 지점은 원본 연결망 좌표와 15cm 이내에서 일치하는 경우에만 경유지 후보로 연결해.</p>
@@ -114,7 +114,7 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 <script src="./national_data.js"></script>
 <script src="./core/nationwide-route-preview-v104.js"></script><script src="./core/nationwide-pois-v105.js"></script>
 <script src="./core/nationwide-source-loader.js"></script>
-<script src="./core/nationwide-map-v106.js?v=115"></script><script src="./core/nationwide-map-view-v106.js?v=115"></script>
+<script src="./core/nationwide-map-v106.js?v=116"></script><script src="./core/nationwide-map-view-v106.js?v=116"></script>
 <script src="./core/nationwide-elevation-v107.js"></script><script src="./core/nationwide-elevation-chart-v107.js"></script>
 <script src="./core/nationwide-elevation-pack-v108.js"></script>
 <script src="./core/nationwide-elevation-archive-v110.js"></script>

@@ -53,7 +53,7 @@ for(const phrase of ['산박지도 v119 | 연결 우선·10km 구간 필터','co
  '2,723개 산·53,034개 원본 구간의 고도자료를 온라인으로 배포'])assert(page.includes(phrase),phrase);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
-assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
+assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-partial-v119.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
 assert(sw.includes('sanbakmap-v119-partial-source-dem'));
 assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));

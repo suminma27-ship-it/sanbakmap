@@ -4,8 +4,25 @@
   "policy": "original-source-edge-samples-only",
   "mountains": {
     "428302602:knps": {
-      "path": "./data/nationwide-elevation/seorak-knps-v108.json"
+      "path": "./data/nationwide-elevation/seorak-knps-v108.json",
+      "matchedEdges": 22,
+      "totalEdges": 22
+    },
+    "428302602:forest": {
+      "path": "./data/nationwide-elevation/seorak-forest-v109.json",
+      "matchedEdges": 57,
+      "totalEdges": 57
+    },
+    "421504602:forest": {
+      "path": "./data/nationwide-elevation/odae-forest-v109.json",
+      "matchedEdges": 23,
+      "totalEdges": 23
+    },
+    "483100401:forest": {
+      "path": "./data/nationwide-elevation/gyeryong-forest-v109.json",
+      "matchedEdges": 19,
+      "totalEdges": 19
     }
   },
-  "note": "Seoraksan historical KNPS geometry now has 90m DEM 38814 edge samples; other source graphs and mountains remain unverified for edge-matched DEM profiles. No live trail access assertions."
+  "note": "v109: 2016 mountain GeoJSON DEM vertices source-matched to historic original forest graph edges (3 published forests plus KNPS Seorak). Nationwide offline audit matched 53034/67185 edges in 2723/2902 source-mountain codes; datasets beyond the 3 published forests remain offline only until committed. Source DEM raster resolution, vertical datum, and current access unverified."
 }

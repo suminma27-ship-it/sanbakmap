@@ -68,6 +68,8 @@ jobs:
           cp data/nationwide/*.json site/data/nationwide/
           node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
           node tools/rebuild-topology-v102.mjs --output-dir site/data/nationwide-topology
+          node tools/review-topology-v103.mjs --source-dir site/data/nationwide-topology --output-dir site/data/nationwide-topology
+          test -f site/data/nationwide-topology/review-v103.json
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
           node tools/knps-topology-v102.mjs --output-dir site/data
           test "$(find site/data/nationwide -maxdepth 1 -name 'bucket-*.json' -type f | wc -l)" -eq 32
@@ -75,7 +77,7 @@ jobs:
           cp nationwide-full.html site/nationwide-full.html
           mkdir -p site/data/nationwide-full
           cp data/nationwide-full/part-*.js site/data/nationwide-full/
-          cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js site/core/
+          cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js core/nationwide-graph-review-v103.js site/core/
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
           cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json
 

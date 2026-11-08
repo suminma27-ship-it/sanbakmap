@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#133b29"><title>산박지도 v102 | 전국 등산로 연결망</title>
+<meta name="theme-color" content="#133b29"><title>산박지도 v103 | 전국 등산로 연결 후보 검토</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;color:#173327;background:#f5f8f5}
 *{box-sizing:border-box}body{margin:0}header{background:#123d2b;padding:15px max(16px,calc((100% - 1120px)/2));color:#fff;display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap}
@@ -17,8 +17,8 @@ h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;font-size:13px}.warn{padding:
 #notice{font-size:13px;line-height:1.7}#status{padding:10px 16px;border-top:1px solid #e0eae0;font-size:12px;color:#5c7661}
 @media(max-width:760px){.grid{grid-template-columns:1fr}#items{max-height:185px}.kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head><body>
-<header><a href="./national.html"><strong>▲ 산박지도</strong></a><span>원본 GIS 연결망 검증 v102 · 바탕지도 미적용</span><a href="./nationwide-official.html">전국 등산로 선형 보기</a></header>
-<main><h1>전국 등산로 연결망 검사</h1>
+<header><a href="./national.html"><strong>▲ 산박지도</strong></a><span>전국 접점·단절 검토 v103 · 바탕지도 미적용</span><a href="./nationwide-official.html">전국 등산로 선형 보기</a></header>
+<main><h1>전국 등산로 연결망 및 접점 후보 검토</h1>
 <p class="warn">산림청 원본 SHP의 끝점 또는 원본 정점이 0.1m 기준으로 일치하는 경우만 연결한 <strong>기하학적 검토 결과</strong>야. 현행 지정·개방 여부, 실제 교차로 및 등산 가능 여부는 미확인이라 <strong>코스 자동 길찾기는 비활성화</strong>했어. 바탕지도는 추후 별도로 얹을 수 있도록 분리했어.</p>
 <div class="grid"><aside class="panel"><div class="filter"><label for="query" class="hint">산 이름·산코드 검색</label><input id="query" placeholder="설악산 · 관악산 · 428302602" type="search"><p id="count" class="hint">전국 자료 준비 중…</p></div><div id="items"></div></aside>
 <section class="panel"><div class="detail"><h2 id="name">산을 선택해 줘</h2><div id="source" class="hint">기관 과거 등산로 원본</div>
@@ -31,12 +31,43 @@ h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;font-size:13px}.warn{padding:
  <div class="metric"><small>자동으로 붙인 간격</small><strong>0</strong></div>
 </div>
 <p id="notice">기관 수록 자료만으로 현재 통행 가능 여부를 결정하지 않아.</p>
+<div id="review" style="border-top:1px solid #e1ebe3;padding-top:12px;margin-top:13px">
+ <h3 style="font-size:15px;margin:0 0 7px">연결 후보 검토 <small style="font-weight:normal;color:#587360">(자동 연결 0)</small></h3>
+ <p class="hint" id="reviewSummary">후보 목록을 불러오는 중…</p>
+ <div id="internalReview" class="hint"></div>
+ <div id="crossReview" class="hint"></div>
+</div>
 </div><div id="status" role="status">산별 연결망 색인 준비 중…</div></section></div></main>
 <script src="./national_data.js"></script>
 <script>
 (()=>{'use strict';
  const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[]).map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
- let index=null,selected='',generation=0;const cache=new Map(),count=x=>Number(x||0).toLocaleString('ko-KR');
+ let index=null,review=null,selected='',generation=0;const cache=new Map(),count=x=>Number(x||0).toLocaleString('ko-KR');
+ function reviewFor(code){
+  const r=review?.mountains?.[code],a=$('internalReview'),b=$('crossReview');
+  a.replaceChildren();b.replaceChildren();
+  if(!review){$('reviewSummary').textContent='연결 후보 색인 미확보 · 자동 연결 0';return}
+  if(!r){$('reviewSummary').textContent='기관 원본 연결망 미확보 · 자동 연결 0';return}
+  $('reviewSummary').textContent='연결요소 '+count(r.components)+'개 · 끝점 근접 검토 '+count(r.near.length)+'쌍 · 다른 산코드 좌표 중복 '+count(r.neighbors.length)+'종류 · 승인된 연결 0';
+  const p=document.createElement('p');
+  p.textContent=code==='428302602'?'주의: 아래 후보는 산림청 원본 기준이며, 위에 표시된 설악산 공단 2018 연결망과 결합하지 않아.':'산림청 원본의 지점 후보야. 2m 이내라도 자동으로 이어 붙이지 않아.';
+  a.append(p);
+  if(r.near.length){
+   const h=document.createElement('strong');h.textContent='같은 산 내부 단절 후보';a.append(h);
+   const ul=document.createElement('ul');
+   for(const [from,to,dist]of r.near.slice(0,12)){
+    const li=document.createElement('li');li.textContent='노드 '+from+' ↔ '+to+' · '+dist+'m 떨어짐 · 미연결';ul.append(li);
+   }a.append(ul);
+  }else {const p=document.createElement('p');p.textContent='0.15~2m 사이의 끝점 단절 후보 없음';a.append(p)}
+  if(r.neighbors.length){
+   const h=document.createElement('strong');h.textContent='다른 산코드에 같은 좌표가 있는 후보';b.append(h);
+   const ul=document.createElement('ul');
+   for(const [other,n]of r.neighbors.slice(0,12)){
+    const m=catalog.find(x=>x.code===other),li=document.createElement('li');
+    li.textContent=(m?.name||'산코드')+' ('+other+') · 동일 좌표 '+n+'곳 · 실제 경계 접점 미확인';ul.append(li);
+   }b.append(ul);
+  }else{const p=document.createElement('p');p.textContent='산코드 간 동일 좌표 후보 없음';b.append(p)}
+ }
  function status(t){$('status').textContent=t}
  async function getJSON(path){const r=await fetch(path);if(!r.ok)throw Error('HTTP '+r.status+' '+path);return r.json()}
  async function loadBucket(id){
@@ -79,7 +110,7 @@ h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;font-size:13px}.warn{padding:
  }
  async function select(code){
   const mountain=catalog.find(x=>x.code===code);if(!mountain)return;
-  selected=code;const my=++generation;filter();$('name').textContent=mountain.name;status('연결망 분석결과를 불러오는 중…');
+  selected=code;const my=++generation;filter();$('name').textContent=mountain.name;reviewFor(code);status('연결망 분석결과를 불러오는 중…');
   try{
    if(code==='428302602'){
     const record=await getJSON('./data/knps-seorak-topology-v102.json');if(my!==generation)return;
@@ -102,6 +133,10 @@ h1{font-size:22px;margin:0 0 7px}p{line-height:1.6;font-size:13px}.warn{padding:
   try{
    index=await getJSON('./data/nationwide-topology/index.json');
    if(index.schema!=='sanbak-topology-audit-index-v102'||index.counts?.mountains!==2902)throw Error('전국 연결망 색인 오류');
+   review=await getJSON('./data/nationwide-topology/review-v103.json');
+   if(review.schema!=='sanbak-topology-review-v103'||review.source_zip_sha256!==index.source_zip_sha256||
+      review.routeAllowed!==false||review.createdConnectingEdges!==0||
+      review.totals?.crossCodePairCount!==308)throw Error('연결 후보 색인 원본 검증 오류');
    filter();await select('428302602');
   }catch(e){status('연결망 색인을 불러오지 못했어: '+e.message)}
  }

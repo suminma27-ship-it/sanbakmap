@@ -27,6 +27,16 @@ const svg={children:[],setAttribute(){},append(x){this.children.push(x)},replace
 globalThis.document={createElementNS:(_ns,tag)=>({tag,attrs:{},children:[],setAttribute(k,v){this.attrs[k]=v},append(x){this.children.push(x)}})};
 new Function('window',read('core/nationwide-elevation-chart-v107.js'))(w);
 assert.equal(w.SanbakElevationChartV107.create(svg).show(p),'partial');
-assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs['stroke-dasharray']==='7 5').length,2);
-assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#25704c').length,p.segments.length);
-console.log('PASS v121: all 22 original DEM edges preserved, 186m gap clearly estimated from measured endpoints');
+assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs['stroke-dasharray']==='7 5').length,0);
+assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#cf8423').length,0);
+assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#25704c').length,1,
+ 'measured DEM and interpolated ends must render as one continuous line');
+assert.equal(svg.children.filter(x=>x.tag==='rect').length,1,'no amber bands');
+const missing={...p,segments:[
+ [{distanceMeters:0,elevationMeters:100},{distanceMeters:30,elevationMeters:110}],
+ [{distanceMeters:60,elevationMeters:130},{distanceMeters:100,elevationMeters:135}]
+ ],estimates:[],gaps:[{fromMeters:30,toMeters:60,provisional:false}],totalMeters:100};
+chart.show(missing);
+assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#25704c').length,2,
+ 'never bridge unmeasured intervals without endpoint estimates');
+console.log('PASS v123: 22 source DEM edges retained; endpoint interpolation blends green, other missing elevations stay disconnected');

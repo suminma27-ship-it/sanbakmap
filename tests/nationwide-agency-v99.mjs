@@ -34,7 +34,7 @@ for(const key of ['core.catalog(window.SANBAK_NATIONAL_INDEX)','state.source=cor
 assert(!app.includes('SanbakNationalRoutes.shortest'),'Do not allow routing on source-only visual lines');
 const workflow=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(workflow.includes('cp data/nationwide/*.json site/data/nationwide/'));
-assert(workflow.includes('cp nationwide-official.html nationwide-topology.html site/'));
+assert(workflow.includes('cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/'));
 assert(sw.includes("'./nationwide-official.html'"));
 assert(read('national.html').includes('./nationwide-official.html'));
 console.log('PASS v99 nationwide common agency trail loader, 2,902 indexed codes, 59,368 historical rows, KNPS sample and fail-closed fallback');

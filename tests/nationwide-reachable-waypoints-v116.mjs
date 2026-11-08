@@ -24,7 +24,9 @@ const document={getElementById:id=>elements.get(id)||null,
  createTextNode:x=>{const e=new Element('text');e.textContent=x;return e}};
 const scope={document,console,Option:class {constructor(text,value){this.textContent=text;this.value=value}},
  atob,Uint8Array,DecompressionStream,Blob,Response,Map,Set,Date,Math,Number,Promise,
- SANBAK_NATIONAL_INDEX:[{c:'428302602',n:'설악산_대청봉'}]};
+ SANBAK_NATIONAL_INDEX:Array.from({length:2932},(_,i)=>({
+ c:i?'999'+String(i).padStart(6,'0'):'428302602',
+ n:i?'실험산 '+i:'설악산_대청봉'}))};
 scope.window=scope;const context=vm.createContext(scope);
 for(const f of ['core/nationwide-topology-v102.js','core/nationwide-route-preview-v104.js',
  'core/nationwide-pois-v105.js','core/nationwide-source-loader.js',
@@ -61,7 +63,6 @@ el('clear').onclick();
 assert.equal(el('waypoints').children.length,1,'after clearing: placeholder only');
 el('manualNode').value='23';el('add').onclick();
 assert.equal(el('waypoints').children.length,1);
-console.log('V116_DIAG',JSON.stringify({waypoints:el('waypoints').children.map(x=>({tag:x.tag,text:x.textContent,children:x.children.length})),result:el('result').children.map(x=>x.textContent),status:el('status').textContent,selected:el('source').textContent,degree:planner.degreeOf(23),component23:planner.componentOf(23),component33:planner.componentOf(33)}));
 assert(el('waypoints').children[0].children[0].textContent.includes('노드 23'));
 el('mapPickToggle').onclick();
 assert.equal(el('mapPickToggle').attrs['aria-pressed'],'true');

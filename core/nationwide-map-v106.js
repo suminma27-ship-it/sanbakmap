@@ -102,7 +102,7 @@ function create(graph,kind,source){
    if(!Array.isArray(rec)||rec.length<3||!Number.isInteger(rec[0])||
     !Number.isInteger(rec[1])||!Number.isInteger(rec[2])||
     typeof source.sourceFiles[rec[0]]!=='string')throw Error('Invalid original source part');
-   sourceNames.set(i,source.sourceFiles[rec[0]]+'|'+rec[1]+'|'+rec[2]);
+   sourceNames.set(i,source.sourceFiles[rec[0]].split('/').at(-1)+'|'+rec[1]+'|'+rec[2]);
   }
  }else{
   for(let i=0;i<source.geojson.features.length;i++){

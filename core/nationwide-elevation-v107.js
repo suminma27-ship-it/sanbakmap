@@ -29,6 +29,14 @@ function edgeData(e,kind){
  {from:e.from,to:e.to,meters:e.length_m}:null;
 }
 function checkDataset(data,graph,kind,code){
+ const dem=data?.dem;
+ const verifiedRaster=dem?.sampleMethod==='georeferenced-dem-to-original-edge'&&
+  Number.isFinite(dem.resolutionMeters)&&dem.resolutionMeters>0&&dem.resolutionMeters<=100;
+ const vertexElevation=dem?.sampleMethod==='source-geojson-dem-vertices-to-original-edge'&&
+  dem.hashKind==='annotated-geojson-archive'&&dem.sourceRasterResolutionVerified===false&&
+  dem.resolutionMeters===null&&
+  dem.verticalDatum==='원본 DEM 수직기준 미기재';
+
  if(!safeCode(code)||(kind!=='forest'&&kind!=='knps')||
     data?.schema!=='sanbak-original-edge-dem-v107'||data.mountainCode!==String(code)||
     data.sourceKind!==kind||data.graphArchiveSHA256!==ORIGIN[kind]||
@@ -36,9 +44,7 @@ function checkDataset(data,graph,kind,code){
     !Array.isArray(graph?.edges)||!Array.isArray(graph?.nodes)||
     !data.dem||!hash(data.dem.sha256)||typeof data.dem.name!=='string'||
     !data.dem.name.trim()||!data.dem.verticalDatum||
-    data.dem.units!=='m'||!Number.isFinite(data.dem.resolutionMeters)||
-    data.dem.resolutionMeters<=0||data.dem.resolutionMeters>100||
-    data.dem.sampleMethod!=='georeferenced-dem-to-original-edge'||
+    data.dem.units!=='m'||!(verifiedRaster||vertexElevation)||
     data.accessVerified!==false||
     !data.edgeSamples||typeof data.edgeSamples!=='object'||Array.isArray(data.edgeSamples))
     throw Error('고도자료 원본·수직기준·원본 구간 대응 정보 검증 실패');
@@ -104,6 +110,9 @@ function profile(plan,graph,kind,code,data){
   ascentMeters:up,descentMeters:down,
   sourceName:data.dem.name,verticalDatum:data.dem.verticalDatum,
   resolutionMeters:data.dem.resolutionMeters,
+  sampleMethod:data.dem.sampleMethod,
+  sampleSpacingMeters:data.dem.sampleSpacingMeters||90,
+  rasterSourceVerified:data.dem.sampleMethod==='georeferenced-dem-to-original-edge',
   previewOnly:true,accessVerified:false};
 }
 root.SanbakElevationV107=Object.freeze({version:107,checkIndex,checkDataset,profile});

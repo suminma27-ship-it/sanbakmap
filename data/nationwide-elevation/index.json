@@ -2,6 +2,10 @@
   "schema": "sanbak-elevation-index-v107",
   "version": 107,
   "policy": "original-source-edge-samples-only",
-  "mountains": {},
-  "note": "No original-edge DEM profiles have been source matched and deployed yet. Do not infer height from coordinates or historical map line display."
+  "mountains": {
+    "428302602:knps": {
+      "path": "./data/nationwide-elevation/seorak-knps-v108.json"
+    }
+  },
+  "note": "Seoraksan historical KNPS geometry now has 90m DEM 38814 edge samples; other source graphs and mountains remain unverified for edge-matched DEM profiles. No live trail access assertions."
 }

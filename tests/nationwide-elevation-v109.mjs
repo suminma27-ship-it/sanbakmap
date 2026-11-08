@@ -56,10 +56,10 @@ try{
   assert.throws(()=>win.SanbakElevationPackV108.expand(altered,graph,'forest',code),/원본 경로/);
  }
  const page=read('nationwide-plan.html');
- assert(page.includes('산박지도 v120 | 경로 거리 제한 해제'));
+ assert(page.includes('산박지도 v121 | 고도 보간 구분'));
  assert(page.includes('원본 DEM 해상도 미확인'));
  const sw=read('sw.js');
- assert(sw.includes('sanbakmap-v120-no-distance-limit'));
+ assert(sw.includes('sanbakmap-v121-gap-elevation-preview'));
  for(const [,f] of pilots)assert(sw.includes('./data/nationwide-elevation/'+f));
  new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
  console.log('PASS v109: three original forest archives, 99/99 edge elevations, source SHA locked, no invented DEM raster metadata, real route SVG compatible');

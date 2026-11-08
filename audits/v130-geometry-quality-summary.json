@@ -1,0 +1,49 @@
+{
+  "schema": "sanbak-national-35m-geometry-quality-v130",
+  "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "input": "v129 full original-precision 35m provisional network (all 2902 mountains)",
+  "mountainsAudited": 2902,
+  "linksAudited": 36084,
+  "highRiskMountains": 923,
+  "types": {
+    "nearbyTransverse": 24852,
+    "parallelNearby": 10990,
+    "twoDimensionalCrossing": 82,
+    "overlappingGeometry": 8,
+    "ambiguous2dTouch": 152
+  },
+  "decisions": {
+    "holdGeometricAmbiguity": 11080,
+    "hold2DLevelUnknown": 152,
+    "omitNegligibleGain": 7532,
+    "priorityRecheck": 337,
+    "retainUnverifiedPlanOnly": 16983
+  },
+  "impacts": {
+    "alreadyConnectedPairs": 35655,
+    "newSourceComponentBridges": 429,
+    "reducesOriginalDetourAtLeast500m": 754,
+    "reducesOriginalDetourAtLeast2km": 246,
+    "bigDetourHighGeometry": 97
+  },
+  "components": {
+    "sourceOriginal": 3571,
+    "all35mPreview": 3282,
+    "qcReducedPreview": 3410,
+    "mountainsWhoseComponentCountsChangeUnderQC": 92
+  },
+  "anchorMetersMaxDisagreement": 0.141,
+  "sourceMaximumRouteDistanceEvaluatedMeters": 50000,
+  "physicalPassageVerified": false,
+  "publicRouteApproved": false,
+  "originalGraphChanged": false,
+  "originalDEMChanged": false,
+  "publicUIChanged": false,
+  "archivedFullNetworkUnchanged": true,
+  "statements": [
+    "Identical 2D crossings and parallel close trails must not automatically be promoted to confirmed walkable routes.",
+    "All 36084 original v129 candidates are preserved and annotated. QA omissions apply only to an experimental filtered subset.",
+    "Source-only 35m auto-join never restores the user-confirmed Hangyeryeong 48.73m original-SHP gap and must not erase that user-backed exception.",
+    "Data scripts and all 32 bucket-level QA reports are supplied with the conversation artifact sanbakmap_v130_nationwide_connection_quality.zip."
+  ]
+}

@@ -114,7 +114,8 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 <script src="./national_data.js"></script>
 <script src="./core/nationwide-route-preview-v104.js"></script><script src="./core/nationwide-pois-v105.js"></script>
 <script src="./core/nationwide-source-loader.js"></script>
-<script src="./core/nationwide-map-v106.js?v=116"></script><script src="./core/nationwide-map-view-v106.js?v=116"></script>
+<script src="./core/nationwide-map-v106.js?v=117"></script><script src="./core/nationwide-map-view-v106.js?v=117"></script>
+<script src="./core/nationwide-knps-contacts-v117.js?v=117"></script>
 <script src="./core/nationwide-elevation-v107.js"></script><script src="./core/nationwide-elevation-chart-v107.js"></script>
 <script src="./core/nationwide-elevation-pack-v108.js"></script>
 <script src="./core/nationwide-elevation-archive-v110.js"></script>
@@ -123,7 +124,8 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[])
  .map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
 const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoiV105,
- mapCore=window.SanbakLineMapV106,altCore=window.SanbakElevationV107,altPack=window.SanbakElevationPackV108,
+ mapCore=window.SanbakLineMapV106,knpsContactCore=window.SanbakKnpsContactsV117,
+ altCore=window.SanbakElevationV107,altPack=window.SanbakElevationPackV108,
  archiveCore=window.SanbakElevationArchiveV110;
 const names=new Map(catalog.map(x=>[x.code,x.name]));
 let index=null,poiIndex=null,elevationIndex=null,onlineElevationIndex=null,elevationData=null,originalGraph=null,graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map(),localArchive=null;
@@ -367,14 +369,30 @@ async function selectMountain(code){
    const data=await json('./data/knps-seorak-topology-v102.json');if(turn!==generation)return;
    if(data.mountainCode!=='428302602'||data.graph?.routable!==false)
     throw Error('설악산 공단 원본 상태 확인 실패');
-   prepare(data.graph,'knps');$('source').textContent='국립공원공단 2018 원본 탐방로 · 역사적 GIS 검토';
-   $('poiInfo').textContent='공단 원본과 산림청 등록 지점은 별개 자료라 자동 연결하지 않았어. 산림청 모드에서 기관 지점을 시험할 수 있어.';
+   let geojson=null,contactUpgrade=null;
    try{
-    const geojson=await json('./data/knps-seorak-2018.geojson');if(turn!==generation)return;
-    const view=mapCore.create(data.graph,'knps',{geojson});
+    geojson=await json('./data/knps-seorak-2018.geojson');if(turn!==generation)return;
+    contactUpgrade=knpsContactCore.enhance(data.graph,geojson);
+   }catch(e){
+    if(turn!==generation)return;
+    mapNotice('공단 선형 접점 검증 실패: '+e.message+' · 기본 원본 연결망만 이용');
+   }
+   // The historic 22 original edges and their registered 90m DEM samples
+   // MUST keep their original identifiers. Enhanced route edges are appended
+   // separately; their new elevations are never invented or silently copied.
+   prepare(contactUpgrade?.graph||data.graph,'knps');
+   originalGraph=data.graph;
+   const extra=contactUpgrade?.contacts.length||0;
+   $('source').textContent='국립공원공단 2018 역사적 GIS · 원본 선분 위 정확한 끝점 '+extra+'곳 추가 대조 · 실제 통행 미검증';
+   $('poiInfo').textContent='공단 원본과 산림청 등록 지점은 별개 자료라 자동 연결하지 않았어. 산림청 모드에서 기관 지점을 시험할 수 있어.';
+   if(geojson)try{
+    const view=mapCore.create(contactUpgrade?.graph||data.graph,'knps',{geojson});
     mapCanvas.setSource(view);setMapPick(false);
-    mapNotice('공단 2018 원본 탐방로 '+fmt(view.baseLineCount)+'개 부분 표시 · 현행 개방 미확인 · 지도에서 노드를 선택하려면 위 버튼을 켜 줘');
-   }catch(e){if(turn!==generation)return;mapNotice('공단 등산로 표시 실패: '+e.message+' · 코스 계산은 별도로 가능')}
+    mapNotice('공단 2018 원본 탐방로 '+fmt(view.baseLineCount)+'개 표시 · 정확한 원본 선 위 끝점 '+extra+'곳 연결망 보정 · 근접한 미검증 지점은 연결하지 않음');
+   }catch(e){
+    if(turn!==generation)return;
+    mapNotice('공단 등산로 표시 실패: '+e.message+' · 거리 계산은 별도로 가능');
+   }
   }else if(index?.mountains?.[code]){
    const bucketId=index.mountains[code].bucket,data=await bucket(bucketId);if(turn!==generation)return;
    const graph=data.mountains?.[code];if(!graph)throw Error('산코드 연결망 누락');

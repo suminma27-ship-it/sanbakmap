@@ -571,7 +571,7 @@ function calculate(){
  title.textContent=(gaps.length?'추정 접합 포함 계획 거리 ':'원본 기하학적 거리 ')+km(p.distanceMeters)+' km';
  const warn=document.createElement('p');
  warn.textContent=gaps.length
-  ?'주황 점선 '+gaps.length+'곳 · 틈 '+gapMeters.toFixed(2)+'m · 5m 이내 좌표상 근접을 계획용으로 이어 본 경로야. 현장 통행·개방·고도는 확인하지 않았어.'
+  ?'주황 점선 '+gaps.length+'곳 · 틈 '+gapMeters.toFixed(2)+'m · '+($('nearMode').value==='attempt'?'최대 250m까지 GIS 틈을 추정 접합한':'5m 이내 근접 접합을 적용한')+' 계획용 경로야. 현장 통행·개방·고도는 확인하지 않았어.'
   :'산행용 코스가 아니야. 현재 법정 개방·실제 접점·통제·안전을 확인하지 않았으며, 노드 ID는 공식 지점명이 아니야.';
  const ol=document.createElement('ol');ol.id='routeLegs';
  for(const leg of p.legs){

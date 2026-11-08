@@ -1,0 +1,7 @@
+{
+  "schema": "sanbak-elevation-index-v107",
+  "version": 107,
+  "policy": "original-source-edge-samples-only",
+  "mountains": {},
+  "note": "No original-edge DEM profiles have been source matched and deployed yet. Do not infer height from coordinates or historical map line display."
+}

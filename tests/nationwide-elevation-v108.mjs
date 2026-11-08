@@ -1,61 +1,60 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
-const scope={};
-for(const file of ['core/nationwide-topology-v102.js','core/nationwide-route-preview-v104.js',
- 'core/nationwide-elevation-v107.js','core/nationwide-elevation-pack-v108.js',
- 'core/nationwide-elevation-chart-v107.js'])
- new Function('window',read(file))(scope);
-const geo=JSON.parse(read('data/knps-seorak-2018.geojson'));
-const graph=scope.SanbakTopologyV102.build(
- scope.SanbakTopologyV102.historicKnps(geo),{sourceGeometry:'original'});
-const pack=JSON.parse(read('data/nationwide-elevation/seorak-knps-v108.json'));
-const decoded=scope.SanbakElevationPackV108.expand(pack,graph,'knps','428302602');
-scope.SanbakElevationV107.checkDataset(decoded,graph,'knps','428302602');
-const keys=Object.keys(decoded.edgeSamples);
-assert.equal(pack.dem.sha256,'3fde3a99661629ce32643cb8134b8aadc94ef824a4829daae5aa84e6376695c1');
-assert.equal(pack.dem.resolutionMeters,90);
-assert.equal(pack.dem.crs,'EPSG:5179');
-assert.equal(pack.dem.verticalDatum,'원본 파일에 수직기준 명시 없음');
-assert.equal(keys.length,22);
-assert.equal(keys.reduce((n,k)=>n+decoded.edgeSamples[k].length,0),1126);
-assert.equal(graph.nodes.length,39);
-assert.equal(graph.edges.length,22);
-assert.equal(graph.summary.geometricComponents,17);
-for(const id of keys){
- const e=graph.edges[Number(id)],samples=decoded.edgeSamples[id];
- assert.equal(samples.at(-1)[0],e.length_m);
- assert.equal(samples[0][0],0);
- assert(samples.every(x=>Number.isFinite(x[1])&&x[1]>=0&&x[1]<=2000));
-}
-const engine=scope.SanbakGeometryPlannerV104.create(graph,'knps');
-const sample=engine.plan(engine.example());
-assert.equal(sample.status,'geometry_preview_only');
-const result=scope.SanbakElevationV107.profile(sample,graph,'knps','428302602',decoded);
-assert.equal(result.status,'ready');
-assert(result.points.length>2);
-assert(result.totalMeters>0);
-assert(result.ascentMeters>=0&&result.descentMeters>=0);
-assert.equal(result.accessVerified,false);
-assert.equal(scope.SanbakElevationV107.profile(sample,graph,'knps','428302602',null).status,'no_dem');
-const truncated={...pack,samples:{...pack.samples,'0':pack.samples['0'].slice(0,-2)}};
-assert.throws(()=>scope.SanbakElevationPackV108.expand(truncated,graph,'knps','428302602'));
-const mismatched={...pack,edgeIdentities:{...pack.edgeIdentities,'0':[999,1,205.44,'knps2018:0:0',0,1]}};
-assert.throws(()=>scope.SanbakElevationPackV108.expand(mismatched,graph,'knps','428302602'),/원본 경로 구간/);
-assert.throws(()=>scope.SanbakElevationPackV108.expand(pack,{...graph,edges:graph.edges.slice(0,-1)},'knps','428302602'),/맞지 않아/);
-const manifest=scope.SanbakElevationV107.checkIndex(JSON.parse(read('data/nationwide-elevation/index.json')));
-assert.equal(manifest.mountains['428302602:knps']?.path,'./data/nationwide-elevation/seorak-knps-v108.json');
-assert.equal(manifest.mountains['428302602:knps'].path,'./data/nationwide-elevation/seorak-knps-v108.json');
-assert.equal(manifest.mountains['428302602:forest']?.matchedEdges,57,'forest graph has its own 57 original-edge DEM samples');
+const win={};
+new Function('window',read('core/nationwide-elevation-v107.js'))(win);
+new Function('window',read('core/nationwide-elevation-chart-v107.js'))(win);
+const profile=win.SanbakElevationV107;
+assert.equal(profile.version,107);
+assert.equal(win.SanbakElevationChartV107.version,107);
+const manifest=profile.checkIndex(JSON.parse(read('data/nationwide-elevation/index.json')));
+assert.equal(manifest.mountains['428302602:knps']?.path,'./data/nationwide-elevation/seorak-knps-v108.json','historical KNPS DEM dataset remains source matched');
+const forest={nodes:[[0,0],[100,0],[150,0]],edges:[
+ [0,1,10,0,0,1],[1,2,5,0,1,2]]};
+const testDEM={schema:'sanbak-original-edge-dem-v107',mountainCode:'428302602',
+ sourceKind:'forest',graphArchiveSHA256:'7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a',
+ nodeCount:3,edgeCount:2,
+ dem:{sha256:'1'.repeat(64),name:'FIXTURE: synthetic unit-test input only',
+ verticalDatum:'EGM96',units:'m',resolutionMeters:30,
+ sampleMethod:'georeferenced-dem-to-original-edge'},
+ accessVerified:false,
+ edgeSamples:{'0':[[0,100],[4,106],[10,110]],'1':[[0,110],[5,105]]}};
+const route={status:'geometry_preview_only',legs:[
+ {nodeIds:[0,1,2],edgeIds:[0,1]}],distanceMeters:15};
+const first=profile.profile(route,forest,'forest','428302602',testDEM);
+assert.equal(first.status,'ready');assert.equal(first.points.length,4);
+assert.equal(first.totalMeters,15);
+assert.equal(first.ascentMeters,10);
+assert.equal(first.descentMeters,5);
+assert.deepEqual(first.points.map(x=>x.distanceMeters),[0,4,10,15]);
+assert.equal(first.accessVerified,false);
+const reverse=profile.profile({status:'geometry_preview_only',legs:[
+ {nodeIds:[2,1,0],edgeIds:[1,0]}],distanceMeters:15},
+ forest,'forest','428302602',testDEM);
+assert.equal(reverse.status,'ready');
+assert.equal(reverse.ascentMeters,5);
+assert.equal(reverse.descentMeters,10);
+assert.deepEqual(reverse.points.map(x=>x.distanceMeters),[0,5,11,15]);
+assert.equal(profile.profile(route,forest,'forest','428302602',null).status,'no_dem');
+assert.equal(profile.profile({status:'disconnected'},forest,'forest','428302602',testDEM).status,'no_route');
+const gap={...testDEM,edgeSamples:{'0':testDEM.edgeSamples['0']}};
+assert.equal(profile.profile(route,forest,'forest','428302602',gap).status,'incomplete');
+assert.throws(()=>profile.profile(route,forest,'forest','428302602',
+ {...testDEM,graphArchiveSHA256:'0'.repeat(64)}),/검증 실패/);
+assert.throws(()=>profile.profile(route,forest,'forest','428302602',
+ {...testDEM,edgeSamples:{'0':[[0,100],[20,110]]}}),/손상|일치하지 않아/);
 const page=read('nationwide-plan.html');
-for(const phrase of ['산박지도 v112 | 전국 고도그래프 온라인','core/nationwide-elevation-pack-v108.js',
- "altPack.expand(data,originalGraph,kind,code)",
- '설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결'])assert(page.includes(phrase),phrase);
+for(const token of ['산박지도 v112 | 전국 고도그래프 온라인',
+ 'id="elevationPanel"','id="elevationChart"','id="elevationStatus"',
+ 'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
+ 'data/nationwide-elevation/index.json','altCore.profile(p,originalGraph',
+ '원본 구간','고도그래프'])assert(page.includes(token),token);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
 assert(sw.includes('sanbakmap-v112-national-elevation-online'));
-assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));
+for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js','data/nationwide-elevation/index.json'])
+ assert(sw.includes('./'+file));
 assert(read('national.html').includes('전국 코스 선형 v112'));
-console.log('PASS v108: real source 38814.img 90m samples match 22 KNPS Seorak original edges, 1126 positions, no invented forest altitudes');
+console.log('PASS v107: source-locked altitude samples, correct segment reversals and climb/drop, missing DEM cannot generate fake profile, UI and Pages packaging');

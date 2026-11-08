@@ -520,8 +520,19 @@ $('nationalElevationZip').onchange=async()=>{
 function calculate(){
  if(!model)return;
  const p=model.plan(waypoints);
+ const routeEdgeIds=p.status==='geometry_preview_only'?
+  p.legs.flatMap(l=>l.edgeIds):[];
+ const gaps=routeEdgeIds.filter(id=>planningGraph?.edges[id]?.provisionalGap);
+ const gapMeters=gaps.reduce((n,id)=>n+planningGraph.edges[id].length_m,0);
+ const hasDerived=routeEdgeIds.some(id=>id>=originalGraph?.edges?.length);
  mapCanvas.update({selected:waypoints,route:p.status==='geometry_preview_only'?p:null});
- try{
+ if(p.status==='geometry_preview_only'&&hasDerived){
+  const note=gaps.length
+   ?'계획용 근접접합 '+gaps.length+'곳 ('+gapMeters.toFixed(2)+'m 틈)이 포함되어 있어 이 구간의 DEM은 임의 추정하지 않아. 경로는 실제 통행 여부 미확인.'
+   :'새로 분할한 원본 선분의 고도표본은 검증되지 않아 그래프를 생성하지 않아.';
+  altitude.show({status:'missing_samples',points:[],note});
+  altitudeNotice(note);
+ }else try{
   const measured=altCore.profile(p,originalGraph,graphKind,sourceCode,elevationData);
   altitude.show(measured);
   altitudeNotice(measured.status==='ready'
@@ -534,14 +545,27 @@ function calculate(){
   altitude.show({status:'invalid',points:[],note:'원본 고도 대조가 실패해 그래프를 생략해'});
   altitudeNotice('DEM 프로파일 오류: '+e.message);
  }
- if(p.status==='disconnected'){result('경로 없음: 노드 '+p.failedLeg[0]+'과 '+p.failedLeg[1]+' 사이가 원본 GIS 연결망에서 이어져 있지 않아. 가까운 길을 자동 연결하지 않았어.');return}
+ if(p.status==='disconnected'){
+  result('경로 없음: 노드 '+p.failedLeg[0]+'과 '+p.failedLeg[1]+
+   ' 사이가 선택한 원본·근접 연결 모드에서도 이어지지 않아. 원본만/근접 5m 모드를 변경하거나 지도를 확대해 접점 자료를 확인해 줘.');
+  return;
+ }
  if(p.status!=='geometry_preview_only'){result('경로 계산 중단: '+p.status+'. 경유지를 확인해 줘.');return}
  const pane=$('result');pane.replaceChildren();
- const title=document.createElement('strong');title.textContent='원본 기하학적 거리 '+km(p.distanceMeters)+' km';
- const warn=document.createElement('p');warn.textContent='산행용 코스가 아니야. 현재 법정 개방·실제 접점·통제·안전을 확인하지 않았으며, 노드 ID는 공식 지점명이 아니야.';
+ const title=document.createElement('strong');
+ title.textContent=(gaps.length?'추정 접합 포함 계획 거리 ':'원본 기하학적 거리 ')+km(p.distanceMeters)+' km';
+ const warn=document.createElement('p');
+ warn.textContent=gaps.length
+  ?'주황 점선 '+gaps.length+'곳 · 틈 '+gapMeters.toFixed(2)+'m · 5m 이내 좌표상 근접을 계획용으로 이어 본 경로야. 현장 통행·개방·고도는 확인하지 않았어.'
+  :'산행용 코스가 아니야. 현재 법정 개방·실제 접점·통제·안전을 확인하지 않았으며, 노드 ID는 공식 지점명이 아니야.';
  const ol=document.createElement('ol');ol.id='routeLegs';
  for(const leg of p.legs){
-  const li=document.createElement('li');li.textContent=(poiLabels.get(leg.from)?.label||'노드 '+leg.from)+' → '+(poiLabels.get(leg.to)?.label||'노드 '+leg.to)+' : '+km(leg.meters)+' km · 원본 구간 '+fmt(leg.edgeIds.length)+'개';
+  const provisional=leg.edgeIds.filter(id=>planningGraph?.edges[id]?.provisionalGap);
+  const li=document.createElement('li');
+  li.textContent=(poiLabels.get(leg.from)?.label||'노드 '+leg.from)+' → '+
+   (poiLabels.get(leg.to)?.label||'노드 '+leg.to)+' : '+km(leg.meters)+
+   ' km · 구간 '+fmt(leg.edgeIds.length)+'개'+
+   (provisional.length?' · 주황 점선 추정접합 '+provisional.length+'곳':'');
   ol.append(li);
  }
  pane.append(title,warn,ol);
@@ -549,10 +573,11 @@ function calculate(){
  if(display.mapDataLoaded){
   const missing=display.missingSegments;
   mapNotice(missing?
-   '기하 코스 계산됨 · '+fmt(missing)+'개 구간은 단순화 선형과 정확히 대응하지 않아 표시 생략 (직선 대체 없음)':
+   '기하 코스 계산됨 · '+fmt(missing)+'개 원본 구간의 대응 표시가 누락됨 · 실제 연결 확인 안 됨':
+   gaps.length?'계획용 근접 접합 '+gaps.length+'곳 주황 점선 표시 · 실제 통행/개방 미검증':
    '기관 등산로 위에 기하 코스 강조 완료 · 표시 참고용 (실제 통행 검증 없음)');
  }else mapNotice('기하 경로 거리는 계산됐지만 선형 자료가 없어 지도에는 표시하지 않았어');
- status('기하학적 코스 계산만 완료 · 실제 탐방 안내 미허용');
+ status(gaps.length?'추정접합 계획 코스 계산 · 현장 연결 미확인':'기하학적 코스 계산만 완료 · 실제 탐방 안내 미허용');
 }
 $('calculate').onclick=calculate;
 $('mapPickToggle').onclick=()=>{

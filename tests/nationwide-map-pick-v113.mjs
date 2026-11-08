@@ -22,7 +22,7 @@ class Element{
  append(node){this.children.push(node)}
  replaceChildren(...nodes){this.children=[...nodes]}
  addEventListener(name,fn){this.listeners[name]=fn}
- getBoundingClientRect(){return {left:0,top:0,width:1000,height:640}}
+ getBoundingClientRect(){return this.rect||{left:0,top:0,width:1000,height:640}}
  setPointerCapture(){}
  fire(name,obj={}){this.listeners[name]?.({target:this,pointerId:1,
   pointerType:'mouse',clientX:0,clientY:0,...obj})}
@@ -52,6 +52,37 @@ const initial=marker();
 assert.equal(mapped.pickableNode(initial.id),true);
 tap(initial.x,initial.y);
 assert.deepEqual(picked,[initial.id],'map tap must select exactly one original graph node');
+// Real SVG viewBox is letterboxed by the default xMidYMid/meet rule.
+// On wide desktop the graphic is horizontally centered, not stretched to
+// the bounding box. On mobile it is vertically centered instead.
+const original=picked.length;
+svg.rect={left:81,top:42,width:950,height:390};
+let markerWide=marker();
+let q=Math.min(svg.rect.width/1000,svg.rect.height/640);
+let x=svg.rect.left+(svg.rect.width-1000*q)/2+markerWide.x*q;
+let y=svg.rect.top+(svg.rect.height-640*q)/2+markerWide.y*q;
+tap(x,y,{pointerType:'mouse'});
+assert.equal(picked.length,original+1,'desktop landscape letterbox click must select');
+assert.equal(picked.at(-1),markerWide.id);
+svg.rect={left:11,top:79,width:368,height:300};
+let markerMobile=marker();
+q=Math.min(svg.rect.width/1000,svg.rect.height/640);
+x=svg.rect.left+(svg.rect.width-1000*q)/2+markerMobile.x*q;
+y=svg.rect.top+(svg.rect.height-640*q)/2+markerMobile.y*q;
+tap(x,y,{pointerType:'touch'});
+assert.equal(picked.length,original+2,'portrait mobile letterbox tap must select');
+assert.equal(picked.at(-1),markerMobile.id);
+canvas.zoom(1.5);
+let markerZoom=marker();
+const z=1.5;
+x=svg.rect.left+(svg.rect.width-1000*q)/2+
+  (500+(markerZoom.x-500)*z)*q;
+y=svg.rect.top+(svg.rect.height-640*q)/2+
+  (320+(markerZoom.y-320)*z)*q;
+tap(x,y,{pointerType:'touch'});
+assert.equal(picked.length,original+3,'zoomed mobile node tap must select');
+assert.equal(picked.at(-1),markerZoom.id);
+canvas.fit();svg.rect=null;
 const count=picked.length;
 svg.fire('pointerdown',{clientX:initial.x,clientY:initial.y});
 svg.fire('pointermove',{clientX:initial.x+35,clientY:initial.y+10});
@@ -95,4 +126,4 @@ assert(html.includes('onTrailNodeClick:addMapWaypoint'));
 assert(html.includes('mapCanvas.setSource(view);setMapPick(false)'));
 assert(html.includes('mapCanvas.setSource(null);setMapPick(false)'));
 new Function(html.slice(html.lastIndexOf('<script>')+8,html.lastIndexOf('</script>')));
-console.log('PASS v113: original KNPS edge endpoints selectable, no invented nodes, drag/cancel/disabled guarded, source reset, UI wiring');
+console.log('PASS v115: SVG letterboxing on desktop/mobile, 1.5x zoom hit test, original KNPS endpoints, no invented nodes, pan/cancel/reset');

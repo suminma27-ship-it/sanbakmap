@@ -1,0 +1,89 @@
+{
+  "schema": "sanbak-priority-grade-audit-v131",
+  "sourceOriginalZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "inputs": {
+    "v129FullOverlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v130QAArchiveSHA256": "ed41ae59dcb40124a7d40b26643f43e0c70aea69dc701032da1751a8fd23b5e6",
+    "v109DEMZipSHA256": "045cd0b4c41114f7a71b711b601445138a3ef9741a8ee4abaa6660f6e49c1e2e",
+    "v131DetailArchiveSHA256": "cd508e38d05eef75d5a641fe5dfd62f592d086602c113ffae81981f99d746e1d"
+  },
+  "DEM": {
+    "spacingMeters": 90,
+    "originalRasterResolutionVerified": false,
+    "verticalDatumSpecified": false,
+    "sourceLinkedToOriginalEdges": true,
+    "sourceNodeToleranceMeters": 5
+  },
+  "auditedMountains": 190,
+  "mountainsWithDEM": 185,
+  "priorityCandidates": 337,
+  "underlyingSourceNetworkBridges": 215,
+  "longDetourShortcuts": 122,
+  "heightPairedCandidates": 219,
+  "heightClasses": {
+    "smallDifferenceMax5m": 179,
+    "moderateDifference": 38,
+    "largeDiscontinuityFlag": 2,
+    "missingOneHeight": 65,
+    "missingBothHeights": 53
+  },
+  "flaggedCandidates": [
+    {
+      "code": "413602201",
+      "provisionalEdgeId": 135,
+      "distanceMeters": 19.05,
+      "estimatedDEMHeightDeltaMeters": 25.587,
+      "gradeRatio": 1.343,
+      "originalSourceIdentifiers": [
+        [
+          "41.zip",
+          3602,
+          0
+        ],
+        [
+          "41.zip",
+          3624,
+          0
+        ]
+      ]
+    },
+    {
+      "code": "414600103",
+      "provisionalEdgeId": 603,
+      "distanceMeters": 21.7101,
+      "estimatedDEMHeightDeltaMeters": 24.302,
+      "gradeRatio": 1.119,
+      "originalSourceIdentifiers": [
+        [
+          "41.zip",
+          2428,
+          0
+        ],
+        [
+          "41.zip",
+          2432,
+          0
+        ]
+      ]
+    }
+  ],
+  "experiment": {
+    "beforeGradeReviewCandidateLinks": 17320,
+    "gradeFlagsTemporarilyWithheld": 2,
+    "afterGradeReviewCandidateLinks": 17318,
+    "componentsBefore": 3410,
+    "componentsAfter": 3411,
+    "sourceNetworkComponents": 3571
+  },
+  "userConfirmedHangyeryeong": {
+    "sourceMinimalGapMeters": 48.7268,
+    "outside35mRange": true,
+    "preservedAsSeparateKnownCase": true
+  },
+  "physicalPassageVerified": false,
+  "officialRouteModified": false,
+  "originalGraphModified": false,
+  "DEMModified": false,
+  "dataQualityNote": "90m-interpolated source DEM cannot establish actual terrain grade or passability inside 35m gaps. Flags only identify priority recheck cases.",
+  "fileDelivery": "sanbakmap_v131_nationwide_dem_connection_audit.zip includes 32 detailed priority grade data buckets, 32 QC delta buckets, source scripts and independent validator."
+}

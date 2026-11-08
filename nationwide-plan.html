@@ -67,9 +67,12 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
    <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span>● 경유지 · 바탕지도 없음</span></div>
    <div id="mapStatus" role="status">기관 등산로 표시 자료 준비 중…</div>
   </section>
-  <details id="elevationPanel" open><summary>고도그래프 <span class="small">(원본 DEM 표본이 있을 때만 표시)</span></summary>
+  <details id="elevationPanel" open><summary>고도그래프 <span class="small">(설악산 공단 원본: 예시 코스 자동 표시)</span></summary>
    <svg id="elevationChart" viewBox="0 0 1000 245" role="img" aria-label="선택 코스의 DEM 검증 고도그래프"></svg>
-   <div id="elevationStatus" role="status">DEM 표본과 원본 탐방로 구간 대응 확인 중…</div>
+   <div id="elevationStatus" role="status">설악산 DEM과 경로 원본 대조 중…</div>
+   <div class="actions" style="padding:9px 11px 11px">
+    <button class="btn" type="button" id="elevationDemo" disabled>설악산 고도 예시 다시 보기</button>
+   </div>
   </details>
   <div style="border-top:1px solid #e2eae3;padding-top:12px">
    <h3>경유지 선택 <span class="small">(기관 등록 당시 지점 종류·이름 · 현재 개방 미확인)</span></h3>
@@ -112,11 +115,12 @@ const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoi
  mapCore=window.SanbakLineMapV106,altCore=window.SanbakElevationV107,altPack=window.SanbakElevationPackV108;
 const names=new Map(catalog.map(x=>[x.code,x.name]));
 let index=null,poiIndex=null,elevationIndex=null,elevationData=null,originalGraph=null,graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map();
+let autoExampleDone=false,userEditedWaypoints=false;
 const cache=new Map(),poiCache=new Map(),displayCache=new Map(),
  fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
 const mapCanvas=window.SanbakTrailCanvasV106.create($('trailMap'),{onPoiClick:id=>{
  if(!model||waypoints.length>=30||waypoints.at(-1)===id)return;
- waypoints.push(id);renderWaypoints();
+ userEditedWaypoints=true;waypoints.push(id);renderWaypoints();
  result('지도에서 '+(poiLabels.get(id)?.label||'노드 '+id)+'을(를) 경유지로 추가했어.');
 }});
 const altitude=window.SanbakElevationChartV107.create($('elevationChart'));
@@ -224,11 +228,11 @@ function renderWaypoints(){
    const b=document.createElement('button');b.textContent=label;b.type='button';b.title=label==='↑'?'위로 이동':'아래로 이동';
    b.disabled=i+delta<0||i+delta>=waypoints.length;b.onclick=()=>{
     const next=waypoints.slice();[next[i],next[i+delta]]=[next[i+delta],next[i]];
-    waypoints=next;renderWaypoints();result('방문 순서가 변경됐어. 다시 계산해 줘.');
+    userEditedWaypoints=true;waypoints=next;renderWaypoints();result('방문 순서가 변경됐어. 다시 계산해 줘.');
    };div.append(b);
   }
   const remove=document.createElement('button');remove.textContent='삭제';remove.type='button';
-  remove.onclick=()=>{waypoints=waypoints.filter((_,j)=>j!==i);renderWaypoints();result('경유지를 삭제했어. 다시 계산해 줘.')};
+  remove.onclick=()=>{userEditedWaypoints=true;waypoints=waypoints.filter((_,j)=>j!==i);renderWaypoints();result('경유지를 삭제했어. 다시 계산해 줘.')};
   div.append(remove);pane.append(div);
  });
  $('calculate').disabled=!model||waypoints.length<2;
@@ -251,6 +255,7 @@ function prepare(graph,kind){
  result('원본 연결망을 불러왔어. 경유지를 선택하거나 연결된 예시를 눌러 줘. 이 자료는 산행 안내용으로 사용할 수 없어.');
 }
 function reset(){
+ $('elevationDemo').disabled=true;
  altitude.show({status:'no_route',points:[],note:'두 개 이상의 지점을 선택하고 코스를 계산해 줘'});
  altitudeNotice('원본 GIS와 DEM 일치 여부 확인 중…');
  elevationData=null;originalGraph=null;graphKind='';
@@ -304,6 +309,17 @@ async function selectMountain(code){
    elevationData=null;altitudeNotice('DEM 자료 검증 실패: '+e.message+' · 고도 추정값은 표시하지 않아');
   }
   if(turn!==generation)return;
+  $('elevationDemo').disabled=!(code==='428302602'&&graphKind==='knps'&&elevationData);
+  // The first page visit presents a genuine source-connected DEM example.
+  // Do not silently replace user-selected or cleared waypoints on subsequent visits.
+  if(!autoExampleDone&&!userEditedWaypoints&&elevationData&&
+     code==='428302602'&&graphKind==='knps'){
+    autoExampleDone=true;
+    showElevationDemo();
+  }else if(elevationData&&waypoints.length>=2){
+    // An early calculation may have happened before the DEM JSON finished loading.
+    calculate();
+  }
   status(name+' · 원본 기하 코스 계산 테스트 준비 완료');
  }catch(e){if(turn===generation){reset();$('source').textContent='원본 불러오기 오류';status('불러오기 실패: '+e.message);result(e.message)}}
 }
@@ -314,16 +330,28 @@ $('add').onclick=()=>{
  if(!Number.isInteger(id)||id<0||id>=model.nodeCount){result('올바른 노드 ID를 입력해 줘. 0~'+(model.nodeCount-1));return}
  if(waypoints.length>=30){result('경유지는 최대 30개까지만 실험할 수 있어.');return}
  if(waypoints.at(-1)===id){result('바로 이전과 같은 노드는 연속해서 추가할 수 없어.');return}
- waypoints.push(id);$('manualNode').value='';renderWaypoints();
+ userEditedWaypoints=true;waypoints.push(id);$('manualNode').value='';renderWaypoints();
  result((poiLabels.get(id)?.label||'노드 '+id)+' 추가 · 두 지점 이상 선택한 후 계산해 줘.');
 };
 $('example').onclick=()=>{
  if(!model)return;
- waypoints=model.example();renderWaypoints();
+ userEditedWaypoints=true;waypoints=model.example();renderWaypoints();
  if(waypoints.length<2){result('이 산의 원본 연결망에서 실험할 연결된 예시를 찾지 못했어.');return}
  calculate();
 };
-$('clear').onclick=()=>{waypoints=[];renderWaypoints();result('경유지 목록을 초기화했어.')};
+$('clear').onclick=()=>{userEditedWaypoints=true;waypoints=[];renderWaypoints();result('경유지 목록을 초기화했어.')};
+function showElevationDemo(){
+ if(!model||!elevationData||graphKind!=='knps'||sourceCode!=='428302602')return;
+ const sample=model.example();
+ if(sample.length<2){altitudeNotice('원본 연결망에서 예시 코스를 찾지 못했어');return}
+ waypoints=sample;renderWaypoints();calculate();
+ const shown=altitude.getState();
+ if(shown.status==='ready'){
+  $('elevationPanel').open=true;
+  altitudeNotice('예시 코스 표시 중 · DEM 38814.img (90m) · 직접 경유지를 선택하면 해당 코스로 다시 계산해');
+ }
+}
+$('elevationDemo').onclick=()=>{userEditedWaypoints=true;showElevationDemo()};
 function calculate(){
  if(!model)return;
  const p=model.plan(waypoints);

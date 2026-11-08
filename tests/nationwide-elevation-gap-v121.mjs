@@ -26,7 +26,8 @@ assert(p.estimates.every(pts=>pts.length===2&&pts.every(x=>Number.isFinite(x.ele
 const svg={children:[],setAttribute(){},append(x){this.children.push(x)},replaceChildren(){this.children=[]}};
 globalThis.document={createElementNS:(_ns,tag)=>({tag,attrs:{},children:[],setAttribute(k,v){this.attrs[k]=v},append(x){this.children.push(x)}})};
 new Function('window',read('core/nationwide-elevation-chart-v107.js'))(w);
-assert.equal(w.SanbakElevationChartV107.create(svg).show(p),'partial');
+const chart=w.SanbakElevationChartV107.create(svg);
+assert.equal(chart.show(p),'partial');
 assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs['stroke-dasharray']==='7 5').length,0);
 assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#cf8423').length,0);
 assert.equal(svg.children.filter(x=>x.tag==='path'&&x.attrs.stroke==='#25704c').length,1,

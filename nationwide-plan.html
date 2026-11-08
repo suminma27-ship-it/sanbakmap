@@ -348,6 +348,8 @@ function prepare(graph,kind){
  $('componentCount').textContent='별도 연결요소 '+fmt(next.componentCount)+'개';
  const list=$('candidates');list.replaceChildren();
  for(const x of next.candidates()){
+  if(kind==='knps'&&Number.isInteger(graph.originalNodeCount)&&x.nodeId>=graph.originalNodeCount)
+   continue;
   const o=document.createElement('option');o.value=String(x.nodeId);
   o.textContent='노드 '+x.nodeId+' · 연결 '+x.degree+'곳';list.append(o);
  }

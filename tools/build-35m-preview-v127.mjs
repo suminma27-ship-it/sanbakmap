@@ -40,11 +40,12 @@ function sourceParts(graph,sourceFiles,displayRows){
   for(let i=1;i<points.length;i++)lengthAt[i]=lengthAt[i-1]+len(points[i-1],points[i]);
   const edges=(edgeByPart.get(id)||[]).sort((a,b)=>a.start-b.start),cum=[0];
   for(let i=0;i<edges.length;i++)cum[i+1]=cum[i]+edges[i].meters;
-  if(!edges.length||cum.at(-1)<=0||lengthAt.at(-1)<=0)continue;
-  const rawStart=graph.nodes[edges[0].from].map(x=>x/10),
-   reversed=len(rawStart,points.at(-1))<len(rawStart,points[0]);
+  if(lengthAt.at(-1)<=0)continue;
+  const orphan=!edges.length||cum.at(-1)<=0;
+  const rawStart=orphan?points[0]:graph.nodes[edges[0].from].map(x=>x/10),
+   reversed=!orphan&&len(rawStart,points.at(-1))<len(rawStart,points[0]);
   out.set(id,{id,points,lengthAt,edges,cum,displayLength:lengthAt.at(-1),
-   originalLength:cum.at(-1),reversed});
+   originalLength:orphan?lengthAt.at(-1):cum.at(-1),reversed,orphan});
  }
  return out;
 }
@@ -60,6 +61,19 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  function locate(sourcePart,segment,at){
   const p=source.get(sourcePart);
   if(!p||!Array.isArray(at)||segment<0||segment>=p.points.length-1)return null;
+  if(p.orphan){
+   // The original graph contains no usable edge for this historic part.
+   // Only a separate, visibly UNVERIFIED display fragment can be restored.
+   const from=nodes.length;nodes.push(p.points[0].map(v=>Math.round(v*10)));
+   const to=nodes.length;nodes.push(p.points.at(-1).map(v=>Math.round(v*10)));
+   const meters=+p.displayLength.toFixed(2);
+   if(meters<=0)return null;
+   const id=edges.length;edges.push([from,to,meters,sourcePart,0,1]);
+   added.push({id,type:'display_only_orphan',sourcePart,
+    originalEdgeId:null,sourceSimplified:true,verifiedPassage:false});
+   p.edges=[{id,from,to,meters}];p.cum=[0,meters];
+   p.originalLength=meters;p.orphan=false;
+  }
   const A=p.points[segment],B=p.points[segment+1],
    vx=B[0]-A[0],vy=B[1]-A[1],d=vx*vx+vy*vy;
   const t=d<1e-9?0:Math.max(0,Math.min(1,
@@ -93,7 +107,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
   links.push({from:a.node,to:b.node,dist,c});
  }
  for(const [edgeId,points]of cuts){
-  const e=graph.edges[edgeId],pts=[{node:e[0],at:0},...points,
+  const e=edges[edgeId],pts=[{node:e[0],at:0},...points,
    {node:e[1],at:e[2]}].sort((a,b)=>a.at-b.at||a.node-b.node);
   const unique=[];
   for(const x of pts){
@@ -114,7 +128,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
   const id=edges.length;
   const sourcePart=l.c.sourceParts[0],sourceEdge=source.get(sourcePart)?.edges[0];
   if(!sourceEdge){discarded++;rejected.push({reason:'source_edge_absent',parts:l.c.sourceParts,meters:l.c.gapMeters});continue}
-  const raw=graph.edges[sourceEdge.id];
+  const raw=edges[sourceEdge.id];
   edges.push([l.from,l.to,l.dist,sourcePart,raw[4],raw[5]]);
   added.push({id,type:'provisional_gap_35m',sourceParts:l.c.sourceParts,
    gapMeters:l.c.gapMeters,kind:l.c.kind,
@@ -126,14 +140,15 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  for(const e of edges)if(e[0]!==e[1]&&e[2]>0)ds[find(e[0])]=find(e[1]);
  const componentCount=new Set(ds.map((_,i)=>find(i))).size;
  const gapEdges=added.filter(x=>x.type==='provisional_gap_35m').length;
+ const orphanSourceEdges=added.filter(x=>x.type==='display_only_orphan').length;
  const overlay={schema:'sanbak-plan-only-35m-v127',status:'UNVERIFIED_DISPLAY_GEOMETRY',
   sourceGraphUnchanged:true,usableForNavigation:false,graph:{
    ...graph,nodes,edges,summary:{...graph.summary,nodes:nodes.length,
     edges:edges.length,geometric_components:componentCount,
     access_verified:false,navigable:false,physical_junction_verified:false}},
   originalNodeCount:graph.nodes.length,originalEdgeCount:graph.edges.length,
-  added,stats:{attempted,discarded,alreadySame,gapEdges,
-   splits:added.length-gapEdges,rejectedSamples:rejected.slice(0,15),componentsBefore:graph.summary.geometric_components,
+  added,stats:{attempted,discarded,alreadySame,gapEdges,orphanSourceEdges,
+   splits:added.length-gapEdges-orphanSourceEdges,rejectedSamples:rejected.slice(0,15),componentsBefore:graph.summary.geometric_components,
    componentsAfter:componentCount}};
  return overlay;
 }
@@ -141,7 +156,7 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
  displayDir=join(ROOT,'site/data/nationwide'),outputDir=sourceDir}={}){
  const manifest=JSON.parse(await readFile(join(ROOT,'data/nationwide-topology/manifest.json'),'utf8'));
  const total={mountains:0,candidates:0,bridges:0,discarded:0,sameNode:0,
-  splitEdges:0,originalGraphEdgesChanged:0,originalDEMChanged:0,unmappedSamples:[]};
+  splitEdges:0,orphanSourceEdges:0,originalGraphEdgesChanged:0,originalDEMChanged:0,unmappedSamples:[]};
  await mkdir(outputDir,{recursive:true});
  for(let i=0;i<32;i++){
   const bucket=String(i).padStart(2,'0');
@@ -158,6 +173,7 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
    rows[code]=m;total.mountains++;total.candidates+=m.stats.attempted;
    total.bridges+=m.stats.gapEdges;total.discarded+=m.stats.discarded;
    total.sameNode+=m.stats.alreadySame;total.splitEdges+=m.stats.splits;
+   total.orphanSourceEdges+=m.stats.orphanSourceEdges;
    for(const sample of m.stats.rejectedSamples)if(total.unmappedSamples.length<30)
     total.unmappedSamples.push({code,bucket,...sample});
    check(m.originalEdgeCount===graph.edges.length&&
@@ -169,7 +185,9 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
     bucket,sourceZipSHA256:manifest.source_zip_sha256,
     navigationApproved:false,physicalPassageVerified:false,mountains:rows})),{level:9,mtime:0}));
  }
- check(total.mountains===2902&&total.originalGraphEdgesChanged===0,'Incomplete graph creation');
+ check(total.mountains===2902&&total.originalGraphEdgesChanged===0&&
+  total.candidates===total.bridges+total.sameNode+total.discarded,
+  'Incomplete nationwide candidate graph construction');
  await writeFile(join(outputDir,'preview-35m-v127-index.json'),JSON.stringify({
   schema:'sanbak-35m-plan-only-index-v127',sourceZipSHA256:manifest.source_zip_sha256,
   note:'All candidate 35m plan-only connections, never authorize real hiking routes',

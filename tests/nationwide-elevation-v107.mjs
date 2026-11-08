@@ -51,8 +51,8 @@ for(const token of ['산박지도 v108 | 설악산 실제 DEM 고도그래프',
  'DEM 원본 표본','고도그래프'])assert(page.includes(token),token);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
-assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js site/core/'));
-assert(wf.includes('cp data/nationwide-elevation/index.json site/data/nationwide-elevation/'));
+assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
+assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
 assert(sw.includes('sanbakmap-v108-seorak-90m-dem'));
 for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js','data/nationwide-elevation/index.json'])
  assert(sw.includes('./'+file));

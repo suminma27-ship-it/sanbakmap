@@ -18,7 +18,7 @@ function projection(P,A,B){
  return {t,dist:Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy),
   at:[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t]};
 }
-function enhance(graph,geojson,{maxGapMeters=MAX_GAP_M}={}){
+function enhance(graph,geojson,{maxGapMeters=5}={}){
  if(graph?.schema!=='sanbak-topology-geometric-v102'||
     graph?.routable!==false||graph?.accessVerified!==false||
     graph?.summary?.physicalJunctionVerified!==false||

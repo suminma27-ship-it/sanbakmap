@@ -53,7 +53,7 @@ jobs:
           test -f nationwide-full.html
           test "$(find data/nationwide-full -maxdepth 1 -name 'part-*.js' -type f | wc -l)" -eq 11
           test -f data/knps-seorak-2018.geojson
-          for f in nationwide-official.html nationwide-topology.html nationwide-plan.html core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js data/nationwide-elevation/index.json core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-pois-v105.js data/nationwide-pois/index.json core/nationwide-route-preview-v104.js core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js data/nationwide/index.json data/nationwide/bucket-00.json data/nationwide-topology/manifest.json; do test -f "$f"; done
+          for f in nationwide-official.html nationwide-topology.html nationwide-plan.html core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js data/nationwide-elevation/index.json core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-pois-v105.js data/nationwide-pois/index.json core/nationwide-route-preview-v104.js core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js data/nationwide/index.json data/nationwide/bucket-00.json data/nationwide-topology/manifest.json; do test -f "$f"; done
           grep -q '산박지도 v' index.html
           mkdir -p site
           cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
@@ -81,7 +81,7 @@ jobs:
           mkdir -p site/data/nationwide-full
           cp data/nationwide-full/part-*.js site/data/nationwide-full/
           cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js core/nationwide-graph-review-v103.js core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/
-          cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/
+          cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/
           mkdir -p site/data/nationwide-elevation
           cp data/nationwide-elevation/*.json site/data/nationwide-elevation/
           cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json

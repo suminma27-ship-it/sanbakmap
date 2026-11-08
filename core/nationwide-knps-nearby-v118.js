@@ -139,7 +139,8 @@ function enhance(graph,geojson,{maxGapMeters=MAX_GAP_M}={}){
    edges.push({from:a.node,to:b.node,length_m:m,
     sourceId:original.sourceId,startVertex:original.startVertex,endVertex:original.endVertex,
     accessVerified:false,routable:false,provisionalSplit:true,
-    sourceOriginalEdgeId:eid,previewPolyline:along(part,offset+a.s,offset+b.s)});
+    sourceOriginalEdgeId:eid,sourceStartMeters:a.s,sourceEndMeters:b.s,
+     previewPolyline:along(part,offset+a.s,offset+b.s)});
   }
  }
  const connectors=[];

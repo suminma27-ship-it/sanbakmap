@@ -1,0 +1,128 @@
+{
+  "schema": "sanbak-v137-missing-2d-touch-root-cause-audit",
+  "sourceArchiveSHA256": {
+    "v136": "7e115927071191e38faf1554c82abae05e54a2c9a10fc0efc4d378d5d5d2f185",
+    "originalSHP": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v102Topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129Graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "original3D": "6e9e51a467d6be4ba35bec5127bbb4b896e36e1dbf884535d1aecaa8605224d2"
+  },
+  "deliverableSHA256": "7e8154b8176a7bff3d29e5abf4ec07ed3fda8f1249e738da6f1d16d93e19e479",
+  "preservedMountains": 2902,
+  "v136Candidates": 152,
+  "v136ExistingPairedRecords": 137,
+  "unresolvedRecords": 15,
+  "unresolvedUniqueNodePairSites": 7,
+  "affectedMountains": 5,
+  "causeCounts": {
+    "under15cmUnmatchedOriginalSegments": 6,
+    "originalShapeOrphan": 1
+  },
+  "uniqueUnder15cmUnmatchedOriginalEdges": 9,
+  "fullSourceMatchToleranceMeters": 0.3,
+  "diagnosticTinyOriginalSegmentMaxMeters": 0.15,
+  "sites": [
+    {
+      "mountainCode": "418202101",
+      "sourceNodes": [
+        100,
+        101
+      ],
+      "linkIds": [
+        268
+      ],
+      "cause": "micro_source_fragments"
+    },
+    {
+      "mountainCode": "418202101",
+      "sourceNodes": [
+        101,
+        102
+      ],
+      "linkIds": [
+        270,
+        271,
+        274,
+        295
+      ],
+      "cause": "micro_source_fragments"
+    },
+    {
+      "mountainCode": "437201201",
+      "sourceNodes": [
+        100,
+        104
+      ],
+      "linkIds": [
+        147
+      ],
+      "cause": "original_shape_orphan"
+    },
+    {
+      "mountainCode": "482201101",
+      "sourceNodes": [
+        186,
+        189
+      ],
+      "linkIds": [
+        769
+      ],
+      "cause": "micro_source_fragments"
+    },
+    {
+      "mountainCode": "488604601",
+      "sourceNodes": [
+        3,
+        4
+      ],
+      "linkIds": [
+        41,
+        42
+      ],
+      "cause": "micro_source_fragments"
+    },
+    {
+      "mountainCode": "488606304",
+      "sourceNodes": [
+        7,
+        8
+      ],
+      "linkIds": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "cause": "micro_source_fragments"
+    },
+    {
+      "mountainCode": "488606304",
+      "sourceNodes": [
+        7,
+        16
+      ],
+      "linkIds": [
+        36
+      ],
+      "cause": "micro_source_fragments"
+    }
+  ],
+  "orphanGeomEvidence": {
+    "mountainCode": "437201201",
+    "sourceOriginalLengthMeters": 4394.27,
+    "originalVertexCount": 410,
+    "nearby3DLineHausdorffMeters": 28.137,
+    "nearby3DLineLengthDiscrepancyMeters": 64.827,
+    "sourceVerticesMaxOffsetMeters": 0.0594,
+    "originalSourceLineCertifiedEquivalent3D": false
+  },
+  "originalTopologyModified": false,
+  "originalDEMModified": false,
+  "publicMapModified": false,
+  "newUIFeatures": 0,
+  "under200mMountainsRemoved": 0,
+  "uncertainContactsPromoted": 0,
+  "physicalPassageVerified": 0,
+  "sourceMissingHeightsRecovered": 0
+}

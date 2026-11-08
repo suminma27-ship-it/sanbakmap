@@ -29,4 +29,13 @@ assert.equal(o.graph.summary.navigable,false);
 assert.equal(o.graph.summary.physical_junction_verified,false);
 assert(o.stats.componentsAfter<o.stats.componentsBefore,'35m candidate should join graph COMPONENTS provisionally');
 assert(o.added.some(x=>x.type==='provisional_gap_35m'&&!x.verifiedPassage));
+// The derived network must work in the CURRENT route engine, while the
+// original network stays disconnected and unmodified.
+await import('../core/nationwide-route-preview-v104.js');
+const engine=globalThis.SanbakGeometryPlannerV104;
+assert.equal(engine.create(g,'forest').plan([0,2]).status,'disconnected');
+const provisional=engine.create(o.graph,'forest').plan([0,2]);
+assert.equal(provisional.status,'geometry_preview_only');
+assert.equal(provisional.distanceMeters,24);
+assert.equal(provisional.usableForNavigation,false);
 console.log('PASS v127: provisional-only 35m link, original graph unchanged, connectivity rebuild and provenance retained');

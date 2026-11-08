@@ -47,6 +47,10 @@ function tap(x,y,extra={}){
 }
 canvas.setSource(mapped);
 assert.equal(canvas.getState().trailPickEnabled,false);
+tap(180,180);
+assert.equal(picked.length,0,'map remains unselected until mode enabled');
+assert(notices.some(x=>x.includes('길 위 노드 선택: 끔')),
+ 'disabled map tap must explain how to enable node selection');
 assert.equal(canvas.setTrailPickEnabled(true),true);
 const initial=marker();
 assert.equal(mapped.pickableNode(initial.id),true);

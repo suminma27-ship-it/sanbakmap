@@ -82,6 +82,7 @@ for(const term of ['nationalElevationZip','nationalElevationStatus','core/nation
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=readFileSync(new URL('../.github/workflows/deploy-pages.yml',import.meta.url),'utf8');
 assert(wf.includes('core/nationwide-elevation-archive-v110.js'));
+assert(wf.includes('python tools/publish-nationwide-elevation-v110.py --output-dir site/data/nationwide-elevation'));
 const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 assert(sw.includes('sanbakmap-v110-national-elevation-local'));
 console.log('PASS v110: strict nationwide ZIP SHA256 + directory + deflate/CRC, 2723-code lazy lookup, unknown intervals remain unverified, hosted and local status separated');

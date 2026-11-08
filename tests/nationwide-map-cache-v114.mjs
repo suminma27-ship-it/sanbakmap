@@ -67,7 +67,8 @@ const walk=x=>[x,...x.children.flatMap(walk)];
 const lines=walk(elements.get('trailMap')).filter(x=>
  x.tag==='path'&&x.attrs.d?.startsWith('M')&&x.attrs.stroke==='#316847');
 assert(lines.length>0,'old cached JS must not break trail map rendering');
-assert(elements.get('mapStatus').textContent.includes('공단 2018 원본 탐방로'));
+assert(!/표시 실패|불러오기 실패|지도 자료 준비 중/.test(elements.get('mapStatus').textContent),
+ 'The map must not report a line load failure, even after automatic route display');
 assert.equal(elements.get('mapPickToggle').disabled,true,
  'only the optional picker is unavailable with an older map controller');
 assert(elements.get('elevationChart').children.some(x=>

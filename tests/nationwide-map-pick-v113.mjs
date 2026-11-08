@@ -136,7 +136,7 @@ assert.equal(picked.length,count,'unproven source lines must fail closed');
 canvas.setSource(null);
 assert.equal(canvas.getState().trailPickEnabled,false);
 const html=read('nationwide-plan.html');
-assert(html.includes('산박지도 v116 | 연결 가능한 경유지만 선택'));
+assert(html.includes('산박지도 v117 | 공단 원본 접점 정밀 보정'));
 assert(html.includes('id="mapPickToggle"'));
 assert(html.includes('onTrailNodeClick:addMapWaypoint'));
 assert(html.includes('mapCanvas.setSource(view);setMapPick(false)'));

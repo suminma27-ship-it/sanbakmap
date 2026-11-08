@@ -69,7 +69,7 @@ const inline=html.slice(html.lastIndexOf('<script>')+8,html.lastIndexOf('</scrip
 new Function(inline);
 assert(workflow.includes('cp data/nationwide-pois/index.json data/nationwide-pois/bucket-*.json.gz site/data/nationwide-pois/'));
 assert(workflow.includes("wc -l)\" -eq 32"));
-assert(workflow.includes('core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js site/core/'));
+assert(workflow.includes('core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js site/core/'));
 assert(read('sw.js').includes('sanbakmap-v118-nearby-planning-gaps'));
 assert(read('national.html').includes('전국 코스 선형 v118'));
 console.log('PASS v105: 32 agency POI buckets, 45,627 exact POIs in 2,878 mountains, no cross-source KNPS links');

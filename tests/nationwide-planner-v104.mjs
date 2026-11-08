@@ -61,7 +61,7 @@ for(const s of ['core/nationwide-route-preview-v104.js','data/nationwide-topolog
 assert(!html.includes('OpenStreetMap'));
 const wf=read('.github/workflows/deploy-pages.yml');
 assert(wf.includes('cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/'));
-assert(wf.includes('core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js site/core/'));
+assert(wf.includes('core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js site/core/'));
 assert(read('national.html').includes('전국 코스 선형 v118'));
 assert(read('sw.js').includes('sanbakmap-v118-nearby-planning-gaps'));
 assert(!read('core/nationwide-graph-review-v103.js').includes('geometry_preview_only'));

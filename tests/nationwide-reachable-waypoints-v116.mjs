@@ -61,6 +61,7 @@ el('clear').onclick();
 assert.equal(el('waypoints').children.length,1,'after clearing: placeholder only');
 el('manualNode').value='23';el('add').onclick();
 assert.equal(el('waypoints').children.length,1);
+console.log('V116_DIAG',JSON.stringify({waypoints:el('waypoints').children.map(x=>({tag:x.tag,text:x.textContent,children:x.children.length})),result:el('result').children.map(x=>x.textContent),status:el('status').textContent,selected:el('source').textContent,degree:planner.degreeOf(23),component23:planner.componentOf(23),component33:planner.componentOf(33)}));
 assert(el('waypoints').children[0].children[0].textContent.includes('노드 23'));
 el('mapPickToggle').onclick();
 assert.equal(el('mapPickToggle').attrs['aria-pressed'],'true');

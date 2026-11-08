@@ -73,6 +73,6 @@ assert.equal(elements.get('mapPickToggle').disabled,true,
  'only the optional picker is unavailable with an older map controller');
 assert(elements.get('elevationChart').children.some(x=>
  x.tag==='path'&&x.attrs.d?.startsWith('M')),'DEM must still render');
-assert(page.includes('core/nationwide-map-v106.js?v=114'));
-assert(page.includes('core/nationwide-map-view-v106.js?v=114'));
+assert(page.includes('core/nationwide-map-v106.js?v=115'));
+assert(page.includes('core/nationwide-map-view-v106.js?v=115'));
 console.log('PASS v114 stale service-worker map module: old map still displays KNPS paths and DEM, picker safely disables');

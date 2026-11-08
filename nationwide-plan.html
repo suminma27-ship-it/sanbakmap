@@ -64,7 +64,7 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
     <div class="maptools"><button id="mapPickToggle" type="button" aria-pressed="false" disabled>길 위 노드 선택: 끔</button><button id="mapZoomIn" type="button" aria-label="확대">＋</button><button id="mapZoomOut" type="button" aria-label="축소">－</button><button id="mapFit" type="button">전체</button></div>
    </div>
    <svg id="trailMap" viewBox="0 0 1000 640" aria-label="기관 원본 등산로 선형과 계산된 코스" role="img"></svg>
-   <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span>● 경유지 · 바탕지도 없음</span></div>
+   <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span><span style="color:#2e8154">●</span> 선택 가능 · <span style="color:#98a59b">●</span> 원본 연결망 분리</span><span>바탕지도 없음</span></div>
    <div id="mapStatus" role="status">기관 등산로 표시 자료 준비 중…</div>
    <p class="small" id="mapPickHint" style="padding:0 11px 8px;margin:4px 0">경유지를 추가하려면 위의 ‘길 위 노드 선택: 끔’ 버튼을 눌러 켠 뒤 초록 점을 탭해 줘. 파란 번호는 이미 선택한 경유지야. 빈 공간이나 선 중간에는 새 노드를 만들지 않아.</p>
   </section>
@@ -131,16 +131,36 @@ const onlineElevationBuckets=new Map();
 let autoExampleDone=false,userEditedWaypoints=false;
 const cache=new Map(),poiCache=new Map(),displayCache=new Map(),
  fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
-function addMapWaypoint(id){
- if(!model||!Number.isInteger(id)||id<0||id>=model.nodeCount)return;
- if(waypoints.length>=30){result('경유지는 최대 30개까지 선택할 수 있어.');return}
- if(waypoints.at(-1)===id){result('바로 이전에 선택한 경유지야. 다른 노드를 골라 줘.');return}
- userEditedWaypoints=true;waypoints.push(id);renderWaypoints();
- result('지도에서 '+(poiLabels.get(id)?.label||'원본 노드 '+id)+'을(를) '+waypoints.length+'번째 경유지로 추가했어. 두 지점 이상이면 계산할 수 있어.');
+function sameComponent(id){
+ return !!model&&Number.isInteger(id)&&id>=0&&id<model.nodeCount&&
+  model.degreeOf(id)>0&&waypoints.every(prev=>model.componentOf(prev)===model.componentOf(id));
 }
+function addWaypoint(id,origin){
+ if(!model||!Number.isInteger(id)||id<0||id>=model.nodeCount){
+  result('원본 연결망에 없는 노드야.');return false;
+ }
+ if(waypoints.length>=30){
+  result('경유지는 최대 30개까지 선택할 수 있어.');return false;
+ }
+ if(waypoints.at(-1)===id){
+  result('바로 이전에 선택한 경유지야. 다른 노드를 골라 줘.');return false;
+ }
+ if(!sameComponent(id)){
+  const first=waypoints[0];
+  const msg=first===undefined
+   ?'원본 등산로 간선에 연결되지 않은 노드라 선택할 수 없어.'
+   :'노드 '+id+'는 첫 경유지 '+first+'과 원본 GIS에서 연결되어 있지 않아. 초록색 노드를 선택하거나 경유지를 초기화해 줘.';
+  result(msg);mapNotice(msg);return false;
+ }
+ userEditedWaypoints=true;waypoints.push(id);renderWaypoints();
+ result(origin+'에서 '+(poiLabels.get(id)?.label||'원본 노드 '+id)+'을(를) '+
+  waypoints.length+'번째 경유지로 추가했어. 초록색 연결 노드 중 다음 지점을 골라 줘.');
+ return true;
+}
+function addMapWaypoint(id){return addWaypoint(id,'지도')}
 const mapCanvas=window.SanbakTrailCanvasV106.create($('trailMap'),{
  onPoiClick:addMapWaypoint,onTrailNodeClick:addMapWaypoint,
- onPickNotice:mapNotice
+ onPickNotice:mapNotice,canSelectNode:sameComponent
 });
 function setMapPick(active){
  // Old service workers can briefly serve cached map modules with newer HTML.
@@ -234,14 +254,14 @@ async function poiBucket(bucketId){
 }
 function filterPOI(){
  const select=$('poiSelect'),type=$('poiType').value,term=$('poiQuery').value.trim().toLowerCase();
- const valid=pois.filter(p=>(!type||p.kind===type)&&(!term||(p.label+' '+p.nodeId).toLowerCase().includes(term)));
+ const valid=pois.filter(p=>(!type||p.kind===type)&&(!term||(p.label+' '+p.nodeId).toLowerCase().includes(term))&&sameComponent(p.nodeId));
  select.replaceChildren();
  for(const p of valid.slice(0,250)){
   const o=document.createElement('option');o.value=String(p.nodeId);
   o.textContent=p.label+' · 노드 '+p.nodeId;select.add(o);
  }
  select.disabled=!valid.length;
- $('poiInfo').textContent=pois.length?('등록 지점 '+fmt(pois.length)+'개 · 필터 '+fmt(valid.length)+'개'+(valid.length>250?' (앞 250개 표시 · 검색 권장)':'')+' · 현행 지정·개방 미확인'):
+ $('poiInfo').textContent=pois.length?('등록 지점 '+fmt(pois.length)+'개 · 현재 경유지에서 선택 가능한 지점 '+fmt(valid.length)+'개'+(valid.length>250?' (앞 250개 표시 · 검색 권장)':'')+' · 현행 지정·개방 미확인'):
   '이 연결망에 정확히 대응된 기관 지점이 없어. 보조 노드로만 시험 가능.';
 }
 function setPOIs(records){
@@ -297,6 +317,16 @@ function renderWaypoints(){
   div.append(remove);pane.append(div);
  });
  $('calculate').disabled=!model||waypoints.length<2;
+ // All following map taps and controls must remain within the SAME original
+ // geometric component; visual line proximity is not source connectivity.
+ if(model){
+  for(const option of $('candidates').children)
+   option.disabled=!sameComponent(Number(option.value));
+  if(graphKind!=='knps'||pois.length)filterPOI();
+ }
+ $('mapPickHint').textContent=waypoints.length
+  ?'첫 경유지 노드 '+waypoints[0]+'와 이어진 초록색 연결 노드만 다음 경유지로 선택할 수 있어. 회색 노드는 별도 연결망이야. 다른 구간에서 시작하려면 경유지를 초기화해 줘.'
+  :'길 위 노드 선택을 켠 뒤 초록색 원본 연결 노드를 눌러 줘. 첫 경유지 선택 후에는 같은 연결망의 노드만 초록색으로 남아.';
  mapCanvas.update({selected:waypoints,route:null});
  altitude.show({status:'no_route',points:[],note:'두 개 이상의 지점을 선택하고 코스를 계산해 줘'});
  altitudeNotice('원본 대조 DEM 표본이 있는 연결 코스만 그래프로 표시해');
@@ -389,10 +419,7 @@ $('add').onclick=()=>{
  const typed=$('manualNode').value.trim();
  const id=typed!==''?Number(typed):(!$('poiSelect').disabled&&$('poiSelect').value!==''?Number($('poiSelect').value):Number($('candidates').value));
  if(!Number.isInteger(id)||id<0||id>=model.nodeCount){result('올바른 노드 ID를 입력해 줘. 0~'+(model.nodeCount-1));return}
- if(waypoints.length>=30){result('경유지는 최대 30개까지만 실험할 수 있어.');return}
- if(waypoints.at(-1)===id){result('바로 이전과 같은 노드는 연속해서 추가할 수 없어.');return}
- userEditedWaypoints=true;waypoints.push(id);$('manualNode').value='';renderWaypoints();
- result((poiLabels.get(id)?.label||'노드 '+id)+' 추가 · 두 지점 이상 선택한 후 계산해 줘.');
+ if(addWaypoint(id,'목록'))$('manualNode').value='';
 };
 $('example').onclick=()=>{
  if(!model)return;

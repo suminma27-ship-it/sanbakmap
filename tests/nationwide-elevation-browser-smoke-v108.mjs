@@ -57,6 +57,14 @@ scope.fetch=async path=>{
 vm.runInContext(rootCode,context,{filename:'nationwide-plan.html'});
 await new Promise(r=>setTimeout(r,50));
 const chart=elements.get('elevationChart'),notice=elements.get('elevationStatus');
+const allSvg=x=>[x,...x.children.flatMap(allSvg)];
+const trailSvg=elements.get('trailMap');
+assert(allSvg(trailSvg).some(x=>x.tag==='path'&&x.attrs.stroke==='#316847'&&x.attrs.d?.startsWith('M')),
+ 'The real initial 2018 KNPS trail map MUST render visible path geometry alongside the elevation profile');
+assert(elements.get('mapStatus').textContent.includes('공단 2018 원본 탐방로'),
+ 'The map status must identify successful line loading');
+assert.equal(elements.get('mapPickToggle').disabled,false);
+assert.equal(elements.get('mapPickToggle').attrs['aria-pressed'],'false','initial map must load with optional picker off');
 assert.equal(elements.get('sourceMode').value,'knps');
 assert.equal(elements.get('elevationDemo').disabled,false,'DEM example must be enabled when verified samples loaded');
 assert(chart.children.some(x=>x.tag==='path'&&x.attrs.d?.startsWith('M')),
@@ -69,4 +77,4 @@ assert(!chart.children.some(x=>x.tag==='path'&&x.attrs.d?.startsWith('M')),
 elements.get('elevationDemo').onclick();
 assert(chart.children.some(x=>x.tag==='path'&&x.attrs.d?.startsWith('M')),
  'explicit replay button must restore the DEM graph');
-console.log('PASS v108 live DOM smoke: initial Seorak loads actual DEM profile SVG, clear/replay works, no blank graph');
+console.log('PASS v114 initial KNPS real trail SVG and DEM; optional map picker off; clear/replay work');

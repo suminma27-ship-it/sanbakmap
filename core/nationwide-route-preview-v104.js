@@ -96,8 +96,8 @@ function create(graph,kind){
    return {...block,status:'need_two_to_thirty_nodes',legs:[],distanceMeters:null};
   if(waypoints.some(x=>!Number.isInteger(x)||x<0||x>=n))
    return {...block,status:'invalid_node',legs:[],distanceMeters:null};
-  if(new Set(waypoints).size!==waypoints.length)
-   return {...block,status:'duplicate_waypoint',legs:[],distanceMeters:null};
+  if(waypoints.some((x,i)=>i>0&&waypoints[i-1]===x))
+   return {...block,status:'consecutive_duplicate',legs:[],distanceMeters:null};
   let total=0;const legs=[];
   for(let i=1;i<waypoints.length;i++){
    const a=waypoints[i-1],b=waypoints[i],leg=shortest(a,b);

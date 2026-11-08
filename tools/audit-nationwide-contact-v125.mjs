@@ -20,10 +20,13 @@ function closest(A,B,C,D){
  if(Math.abs(z)>1e-12){
   const t=(w[0]*v[1]-w[1]*v[0])/z,r=(w[0]*u[1]-w[1]*u[0])/z;
   if(t>=0&&t<=1&&r>=0&&r<=1)
-   return {d:0,p:[A[0]+u[0]*t,A[1]+u[1]*t]};
+   return {d:0,p:[A[0]+u[0]*t,A[1]+u[1]*t],
+    a:[A[0]+u[0]*t,A[1]+u[1]*t],
+    b:[C[0]+v[0]*r,C[1]+v[1]*r]};
  }
  let best=null;
- const offer=(P,Q)=>{const d=length(P,Q);if(!best||d<best.d)best={d,p:[(P[0]+Q[0])/2,(P[1]+Q[1])/2]}};
+ const offer=(P,Q)=>{const d=length(P,Q);if(!best||d<best.d)
+  best={d,p:[(P[0]+Q[0])/2,(P[1]+Q[1])/2],a:P,b:Q}};
  const clamp=t=>Math.max(0,Math.min(1,t));
  for(const P of [A,B]){
   const den=v[0]*v[0]+v[1]*v[1];if(den<1e-12)continue;
@@ -70,22 +73,39 @@ export function scanDisplayContacts(parts,{maxMeters=35,maxShown=15}={}){
    const p=closest(A,B,s.A,s.B);
    if(!p||p.d>maxMeters)continue;
    const id=pair(part.part,s.part),old=candidates.get(id);
-   if(!old||p.d<old.gapMeters-.001)candidates.set(id,{
-    sourceParts:[part.part,s.part].sort((a,b)=>a-b),
-    gapMeters:+p.d.toFixed(2),
-    relation:part.component===s.component?'already_connected':'different_components',
-    kind:kind(A,B,s.A,s.B,p.d),
-    centerEPSG5179:p.p.map(x=>+x.toFixed(1)),
-    originalFullVerticesRechecked:false,passageVerified:false});
+   if(!old||p.d<old.gapMeters-.001){
+    const forward=part.part<s.part;
+    candidates.set(id,{
+     sourceParts:[part.part,s.part].sort((a,b)=>a-b),
+     sourceSegments:forward?[i-1,s.index]:[s.index,i-1],
+     anchorsEPSG5179:(forward?[p.a,p.b]:[p.b,p.a])
+      .map(pos=>pos.map(x=>+x.toFixed(1))),
+     gapMeters:+p.d.toFixed(2),
+     relation:part.component===s.component?'already_connected':'different_components',
+     kind:kind(A,B,s.A,s.B,p.d),
+     centerEPSG5179:p.p.map(x=>+x.toFixed(1)),
+     originalFullVerticesRechecked:false,passageVerified:false,
+     proposedOnly:true
+    });
+   }
   }
-  const at=segments.length;segments.push({A,B,box,part:part.part,component:part.component});
+  const at=segments.length;segments.push({A,B,box,part:part.part,component:part.component,index:i-1});
   const insert=keys(box);if(!insert){skippedLong++;continue}
   for(const k of insert){if(!cells.has(k))cells.set(k,[]);cells.get(k).push(at)}
  }
  const all=[...candidates.values()];
  const stats={total:all.length,alreadyConnected:0,differentComponents:0,
-  transverse:0,crossingOrOverlap:0,parallelOrDuplicate:0};
+  transverse:0,crossingOrOverlap:0,parallelOrDuplicate:0,
+  gapBandsMeters:{'0-0.15':0,'0.15-0.75':0,'0.75-2':0,'2-5':0,
+   '5-10':0,'10-20':0,'20-35':0},
+  v69HorizontalOnlyMax075m:0};
  for(const p of all){
+  const d=p.gapMeters;
+  const band=d<.15?'0-0.15':d<=.75?'0.15-0.75':
+   d<=2?'0.75-2':d<=5?'2-5':d<=10?'5-10':
+   d<=20?'10-20':'20-35';
+  stats.gapBandsMeters[band]++;
+  if(d<=.75)stats.v69HorizontalOnlyMax075m++;
   stats[p.relation==='already_connected'?'alreadyConnected':'differentComponents']++;
   stats[p.kind==='transverse_gap_candidate'?'transverse':
    p.kind==='crossing_or_overlap'?'crossingOrOverlap':'parallelOrDuplicate']++;
@@ -127,7 +147,7 @@ export function auditMountain(code,graph,display,{sourceFiles=graph.source_files
    parts.push({part:p,component:comp.get(p),points:coordinates});matched++;
   }
  }
- const diagnostic=scanDisplayContacts(parts);
+ const diagnostic=scanDisplayContacts(parts,{maxShown:Number.MAX_SAFE_INTEGER});
  return {graphComponents:graph.summary.geometric_components,
   sourceParts:graph.source_parts.length,displayMatchedParts:matched,
   displayUnmatchedParts:unmatched,displaySegments:diagnostic.segments,
@@ -144,6 +164,9 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
  const total={mountains:0,mountainsWithCandidates:0,candidates:0,
   alreadyConnected:0,differentComponents:0,transverse:0,
   crossingOrOverlap:0,parallelOrDuplicate:0,matchedParts:0,
+  gapBandsMeters:{'0-0.15':0,'0.15-0.75':0,'0.75-2':0,
+   '2-5':0,'5-10':0,'10-20':0,'20-35':0},
+  v69HorizontalOnlyMax075m:0,
   unmatchedDisplayParts:0,createdConnectingEdges:0};
  await mkdir(outputDir,{recursive:true});
  const summary={};
@@ -165,6 +188,9 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
    total.transverse+=audit.contact.transverse;
    total.crossingOrOverlap+=audit.contact.crossingOrOverlap;
    total.parallelOrDuplicate+=audit.contact.parallelOrDuplicate;
+   total.v69HorizontalOnlyMax075m+=audit.contact.v69HorizontalOnlyMax075m;
+   for(const [band,n]of Object.entries(audit.contact.gapBandsMeters))
+    total.gapBandsMeters[band]+=n;
    total.matchedParts+=audit.displayMatchedParts;
    total.unmatchedDisplayParts+=audit.displayUnmatchedParts;
    summary[code]={bucket,components:audit.graphComponents,
@@ -183,7 +209,11 @@ export async function build({sourceDir=join(ROOT,'site/data/nationwide-topology'
   source:'0.1m original graph + 3m simplified display candidate discovery',
   scope:'per mountain; no cross-mountain links',
   fullSourceVerticesAvailable:false,
-  warning:'Display lines are 3m simplified. These are unverified candidates, not connections.',
+  warning:'All <=35m pairs are recorded as PLAN-ONLY candidate contacts. Display lines are 3m simplified; none are physical or safe connections.',
+  crossValidation:{legacyVersion:69,source:'index.html @ 13920840c1e3566505f2521bf4f33822a1b8a069',
+   algorithm:'only unique degree-one endpoints across disconnected components, distance <=0.75m, height <=4m',
+   note:'V69 3D park graph and V125 forest graph are different source networks; horizontal-only candidates cannot prove v69 acceptance',
+   horizontalOnlyPotential:total.v69HorizontalOnlyMax075m},
   sourceAccessVerified:false,physicalJunctionVerified:false,createdConnectingEdges:0,
   reportOnly:true,radiusMeters:35,totals:total,mountains:summary};
  await writeFile(join(outputDir,'contacts-v125-index.json'),JSON.stringify(report)+'\n');

@@ -63,5 +63,5 @@ new Function('window',read('core/nationwide-map-view-v106.js'))({});
 assert(!page.includes('OpenStreetMap'));
 assert(!page.includes('openstreetmap.org'));
 assert(workflow.includes('core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/'));
-assert(read('sw.js').includes('sanbakmap-v108-seorak-90m-dem'));
+assert(read('sw.js').includes('sanbakmap-v108-dem-visible-default'));
 console.log('PASS v106: EPSG5179 accuracy, 2018 KNPS true trail shapes, forest-source map match, no fake gap, nationwide SVG UI');

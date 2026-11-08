@@ -142,7 +142,7 @@ function enhance(graph,geojson,{maxGapMeters=MAX_GAP_M}={}){
    sourceEdge:ev.targetEdge,gapMeters:m,mode:'PLAN_ONLY_NEARBY_NO_ACCESS_VERIFICATION'});
  }
  const components=new Set(parent.map((_,i)=>find(i))).size;
- const result={...graph,nodes,edges,summary:{...graph.summary,nodes:nodes.length,
+ const result={...graph,nodes,edges,originalNodeCount:graph.nodes.length,summary:{...graph.summary,nodes:nodes.length,
   edges:edges.length,geometricComponents:components,proximityEdgesCreated:connectors.length,
   physicalJunctionVerified:false,currentAccessVerified:false,planningGapMaxMeters:maxGapMeters}};
  return Object.freeze({graph:result,connectors,maxGapMeters,

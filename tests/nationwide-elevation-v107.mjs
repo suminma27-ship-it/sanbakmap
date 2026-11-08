@@ -51,7 +51,7 @@ for(const token of ['산박지도 v110 | 전국 고도자료 검증·로컬 적�
  'DEM 원본 표본','고도그래프'])assert(page.includes(token),token);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
-assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
+assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
 assert(sw.includes('sanbakmap-v110-national-elevation-local'));
 for(const file of ['core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js','data/nationwide-elevation/index.json'])

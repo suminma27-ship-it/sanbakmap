@@ -63,7 +63,7 @@ const el=id=>elements.get(id);
 assert.equal(el('mapPickToggle').disabled,false);
 assert(el('componentCount').textContent.includes('9'),
  '5m plan preview should use 9 rather than 16 separate historical components');
-assert(el('source').textContent.includes('계획용 근접접합 7곳'));
+assert(el('source').textContent.includes('기존 끝점 접합 7곳'));
 const exact=scope.SanbakKnpsContactsV117.enhance(graph,geo).graph;
 const nearby=scope.SanbakKnpsNearbyV118.enhance(exact,geo,{maxGapMeters:5});
 assert.equal(nearby.connectors.length,7);
@@ -95,5 +95,5 @@ assert(flatten(el('trailMap')).some(x=>x.tag==='path'&&x.attrs.stroke==='#e28a18
 el('nearMode').value='strict';el('nearMode').onchange();
 await new Promise(resolve=>setTimeout(resolve,75));
 assert(el('componentCount').textContent.includes('16'),'switch back to strict mode must restore source graph');
-assert(el('source').textContent.includes('계획용 근접접합 0곳'));
+assert(el('source').textContent.includes('기존 끝점 접합 0곳'));
 console.log('PASS v118 browser: 5m plan mode creates 7 visibly dashed gaps, route labels provisional, DEM withheld, strict source mode restores 16 components');

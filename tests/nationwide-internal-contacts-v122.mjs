@@ -38,6 +38,6 @@ const render=view.overlay(after);
 assert.equal(render.unmatchedEdges,0,'new source subedges must remain mapped to original source geometry');
 assert(render.paths.length>0&&render.provisionalPaths.length>0);
 assert(read('nationwide-plan.html').includes('SanbakKnpsInteriorV122'));
-assert(read('.github/workflows/deploy-pages.yml').includes('cp core/nationwide-knps-interior-v122.js site/core/'));
+assert(read('.github/workflows/deploy-pages.yml').includes('cp core/nationwide-knps-interior-v122.js core/nationwide-graph-normalize-v124.js site/core/'));
 assert(read('sw.js').includes('./core/nationwide-knps-interior-v122.js'));
 console.log('PASS v122: KNPS exact shared interior coordinates give 2.68km instead of 19.53km, source DEM/visual map preserved');

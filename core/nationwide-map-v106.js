@@ -128,7 +128,10 @@ function create(graph,kind,source){
   if(!edge||typeof edge.sourceId!=='string'||edge.routable!==false||
    edge.accessVerified!==false)throw Error('Unverified KNPS edge');
   return {key:edge.sourceId,start:edge.startVertex,end:edge.endVertex,
-   from:edge.from,to:edge.to,meters:edge.length_m};
+   from:edge.from,to:edge.to,meters:edge.length_m,
+   provisionalGap:edge.provisionalGap===true,
+   provisionalSplit:edge.provisionalSplit===true,
+   previewPolyline:edge.previewPolyline||null};
  });
  const sourceOrder=new Map();
  for(let i=0;i<edgeRefs.length;i++){
@@ -160,19 +163,23 @@ function create(graph,kind,source){
  function edgeDisplayMatched(id){
   if(matchMemo.has(id))return matchMemo.get(id);
   const e=edgeRefs[id],part=sourceLines.get(e.key),fraction=fractions.get(id);
-  const matched=!!(part&&fraction&&
-   clip(part,nodesXY[e.from],nodesXY[e.to],fraction[0],fraction[1],e.meters));
+  const matched=!!(e.previewPolyline?.length>=2||(part&&fraction&&
+   clip(part,nodesXY[e.from],nodesXY[e.to],fraction[0],fraction[1],e.meters)));
   matchMemo.set(id,matched);return matched;
  }
  function pickableNode(id){
+  // Projected split points are internal graph nodes, NOT original source
+  // waypoints. Only original institutional endpoints are user-selectable.
   return Number.isInteger(id)&&id>=0&&id<incident.length&&
-   incident[id].some(edgeDisplayMatched);
+   (kind!=='knps'||!Number.isInteger(graph.originalNodeCount)||
+    id<graph.originalNodeCount)&&incident[id].some(edgeDisplayMatched);
  }
  function overlay(plan){
-  const empty={paths:[],totalEdges:0,drawnEdges:0,unmatchedEdges:0,
+  const empty={paths:[],provisionalPaths:[],totalEdges:0,drawnEdges:0,unmatchedEdges:0,
    displayAccuracy:'historic-display-simplification',navigable:false};
   if(plan?.status!=='geometry_preview_only'||!Array.isArray(plan.legs))return empty;
-  const paths=[],seen=new Set();let totalEdges=0,drawnEdges=0,unmatchedEdges=0;
+  const paths=[],provisionalPaths=[],seen=new Set();
+  let totalEdges=0,drawnEdges=0,unmatchedEdges=0;
   for(const leg of plan.legs){
    if(!Array.isArray(leg.nodeIds)||!Array.isArray(leg.edgeIds)||
      leg.nodeIds.length!==leg.edgeIds.length+1)throw Error('Unverifiable route path');
@@ -183,6 +190,14 @@ function create(graph,kind,source){
     totalEdges++;
     // Repeated edge in return trips is valid but only needs one visual layer.
     const reused=seen.has(eid);seen.add(eid);
+    if(e.previewPolyline){
+     if(!Array.isArray(e.previewPolyline)||e.previewPolyline.length<2)
+      throw Error('Provisional source-line geometry missing');
+     const coords=e.previewPolyline.map(to5179);
+     drawnEdges++;
+     if(!reused)(e.provisionalGap?provisionalPaths:paths).push(coords);
+     continue;
+    }
     const part=sourceLines.get(e.key),frac=fractions.get(eid);
     if(!part||!frac){unmatchedEdges++;continue}
     const coords=clip(part,nodesXY[e.from],nodesXY[e.to],frac[0],frac[1],e.meters);
@@ -190,7 +205,7 @@ function create(graph,kind,source){
     drawnEdges++;if(!reused)paths.push(coords);
    }
   }
-  return {paths,totalEdges,drawnEdges,unmatchedEdges,
+  return {paths,provisionalPaths,totalEdges,drawnEdges,unmatchedEdges,
    displayAccuracy:'historic-display-simplification',navigable:false};
  }
  return Object.freeze({kind,paths,nodesXY,overlay,pickableNode,

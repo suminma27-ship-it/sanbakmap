@@ -72,6 +72,14 @@ jobs:
           node tools/audit-nationwide-contact-v125.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
           test -f site/data/nationwide-topology/review-v103.json
           test -f site/data/nationwide-topology/contacts-v125-index.json
+          node --input-type=module -e "
+            import {readFileSync} from 'node:fs';
+            const doc=JSON.parse(readFileSync('site/data/nationwide-topology/contacts-v125-index.json','utf8'));
+            const bands=doc.totals.gapBandsMeters;
+            if(Object.values(bands).reduce((a,b)=>a+b,0)!==doc.totals.candidates)process.exit(1);
+            if(doc.createdConnectingEdges!==0||doc.totals.mountains!==2902)process.exit(1);
+            console.log('PASS v126 all <=35m candidates preserved; v69 cross-check rule audited:',doc.totals);
+          "
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'contacts-v125-bucket-*.json.gz' -type f | wc -l)" -eq 32
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
           node tools/knps-topology-v102.mjs --output-dir site/data

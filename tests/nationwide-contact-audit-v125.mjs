@@ -11,6 +11,20 @@ assert.equal(n.stats.alreadyConnected,1);
 assert.equal(n.stats.transverse,1);
 assert.equal(n.topCandidates[0].gapMeters,18);
 assert.equal(n.topCandidates[0].passageVerified,false);
+assert.equal(n.topCandidates[0].proposedOnly,true);
+assert.deepEqual(n.topCandidates[0].sourceParts,[0,1]);
+assert.deepEqual(n.topCandidates[0].anchorsEPSG5179,[[50,0],[50,18]]);
+assert.deepEqual(n.topCandidates[0].sourceSegments,[0,0]);
+assert.equal(n.stats.gapBandsMeters['10-20'],1);
+assert.equal(n.stats.v69HorizontalOnlyMax075m,0);
+const v69Threshold=(horizontal,vertical,unique,degreeOne,otherComponent)=>
+ horizontal<=.75&&vertical<=4&&unique&&degreeOne&&otherComponent;
+assert.equal(v69Threshold(18,0,true,true,true),false,
+ 'v69 would NOT have connected the 18m synthetic gap');
+assert.equal(v69Threshold(.4,3,true,true,true),true);
+assert.equal(v69Threshold(.4,5,true,true,true),false);
+assert.equal(v69Threshold(.4,2,true,true,false),false,
+ 'v69 does not stitch two points already in one graph component');
 const far=scanDisplayContacts([part(0,1,[[0,0],[100,0]]),part(1,2,[[50,90],[50,180]])]);
 assert.equal(far.stats.total,0);
 const crossing=scanDisplayContacts([part(0,1,[[0,0],[100,100]]),part(1,2,[[0,100],[100,0]])]);

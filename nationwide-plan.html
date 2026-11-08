@@ -58,13 +58,17 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
   <label id="sourceChoice" class="small" hidden>설악산 자료 선택 (공단·산림청 원본은 별도)
    <select id="sourceMode"><option value="knps">국립공원공단 2018 원본</option><option value="forest">산림청 등산로+주요지점 2016 중심</option></select>
   </label>
+  <label id="nearChoice" class="small" hidden>설악산 접점 계산 (계획용 · 실제 통행 여부 미검증)
+   <select id="nearMode"><option value="near" selected>근접 접합 포함 · 5m 이내 (계획용)</option>
+    <option value="strict">원본 정밀 접점만</option></select>
+  </label>
   <div class="kpis"><span class="small" id="nodeCount">노드 —</span><span class="small" id="edgeCount">연결 구간 —</span><span class="small" id="componentCount">분리된 연결요소 —</span></div>
   <section class="mapboard" aria-label="등산로와 선택한 기하 코스">
    <div class="maptop"><strong>등산로·계획 경로 <span class="small">원본 자료 참고용</span></strong>
     <div class="maptools"><button id="mapPickToggle" type="button" aria-pressed="false" disabled>길 위 노드 선택: 끔</button><button id="mapZoomIn" type="button" aria-label="확대">＋</button><button id="mapZoomOut" type="button" aria-label="축소">－</button><button id="mapFit" type="button">전체</button></div>
    </div>
    <svg id="trailMap" viewBox="0 0 1000 640" aria-label="기관 원본 등산로 선형과 계산된 코스" role="img"></svg>
-   <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span><span style="color:#2e8154">●</span> 선택 가능 · <span style="color:#98a59b">●</span> 원본 연결망 분리</span><span>바탕지도 없음</span></div>
+   <div class="key"><span><i></i>기관 수록 등산로</span><span><i class="route"></i>선택한 기하 코스</span><span><i style="border-color:#e28a18;border-top-style:dashed;border-width:4px"></i>주황 점선 = 추정 연결(통행 미확인)</span><span><span style="color:#2e8154">●</span> 선택 가능 · <span style="color:#98a59b">●</span> 원본 연결망 분리</span><span>바탕지도 없음</span></div>
    <div id="mapStatus" role="status">기관 등산로 표시 자료 준비 중…</div>
    <p class="small" id="mapPickHint" style="padding:0 11px 8px;margin:4px 0">경유지를 추가하려면 위의 ‘길 위 노드 선택: 끔’ 버튼을 눌러 켠 뒤 초록 점을 탭해 줘. 파란 번호는 이미 선택한 경유지야. 빈 공간이나 선 중간에는 새 노드를 만들지 않아.</p>
   </section>
@@ -115,7 +119,8 @@ input,select{min-height:42px;border:1px solid #cadacd;border-radius:8px;padding:
 <script src="./core/nationwide-route-preview-v104.js"></script><script src="./core/nationwide-pois-v105.js"></script>
 <script src="./core/nationwide-source-loader.js"></script>
 <script src="./core/nationwide-map-v106.js?v=117"></script><script src="./core/nationwide-map-view-v106.js?v=117"></script>
-<script src="./core/nationwide-knps-contacts-v117.js?v=117"></script>
+<script src="./core/nationwide-knps-contacts-v117.js?v=118"></script>
+<script src="./core/nationwide-knps-nearby-v118.js?v=118"></script>
 <script src="./core/nationwide-elevation-v107.js"></script><script src="./core/nationwide-elevation-chart-v107.js"></script>
 <script src="./core/nationwide-elevation-pack-v108.js"></script>
 <script src="./core/nationwide-elevation-archive-v110.js"></script>
@@ -125,16 +130,19 @@ const $=id=>document.getElementById(id),catalog=(window.SANBAK_NATIONAL_INDEX||[
  .map(x=>({code:String(x.c),name:String(x.n||'')})).filter(x=>/^\d{9}$/.test(x.code));
 const engine=window.SanbakGeometryPlannerV104,poiCore=window.SanbakNationwidePoiV105,
  mapCore=window.SanbakLineMapV106,knpsContactCore=window.SanbakKnpsContactsV117,
+ nearbyCore=window.SanbakKnpsNearbyV118,
  altCore=window.SanbakElevationV107,altPack=window.SanbakElevationPackV108,
  archiveCore=window.SanbakElevationArchiveV110;
 const names=new Map(catalog.map(x=>[x.code,x.name]));
-let index=null,poiIndex=null,elevationIndex=null,onlineElevationIndex=null,elevationData=null,originalGraph=null,graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map(),localArchive=null;
+let index=null,poiIndex=null,elevationIndex=null,onlineElevationIndex=null,elevationData=null,originalGraph=null,planningGraph=null,nearConnections=[],graphKind='',model=null,sourceCode='',generation=0,waypoints=[],pois=[],poiLabels=new Map(),localArchive=null;
 const onlineElevationBuckets=new Map();
 let autoExampleDone=false,userEditedWaypoints=false;
 const cache=new Map(),poiCache=new Map(),displayCache=new Map(),
  fmt=n=>Number(n).toLocaleString('ko-KR'),km=m=>(m/1000).toFixed(2);
 function sameComponent(id){
  return !!model&&Number.isInteger(id)&&id>=0&&id<model.nodeCount&&
+  // Projected geometry-only split nodes are internal, never selectable POIs.
+  (graphKind!=='knps'||!originalGraph||id<originalGraph.nodes.length)&&
   model.degreeOf(id)>0&&waypoints.every(prev=>model.componentOf(prev)===model.componentOf(id));
 }
 function addWaypoint(id,origin){
@@ -334,7 +342,7 @@ function renderWaypoints(){
  altitudeNotice('원본 대조 DEM 표본이 있는 연결 코스만 그래프로 표시해');
 }
 function prepare(graph,kind){
- const next=engine.create(graph,kind);model=next;originalGraph=graph;graphKind=kind;elevationData=null;waypoints=[];pois=[];poiLabels=new Map();
+ const next=engine.create(graph,kind);model=next;originalGraph=graph;planningGraph=graph;graphKind=kind;elevationData=null;waypoints=[];pois=[];poiLabels=new Map();
  $('nodeCount').textContent='노드 '+fmt(next.nodeCount)+'개';
  $('edgeCount').textContent='원본 연결 구간 '+fmt(next.edgeCount)+'개';
  $('componentCount').textContent='별도 연결요소 '+fmt(next.componentCount)+'개';
@@ -351,7 +359,7 @@ function reset(){
  $('elevationDemo').disabled=true;
  altitude.show({status:'no_route',points:[],note:'두 개 이상의 지점을 선택하고 코스를 계산해 줘'});
  altitudeNotice('원본 GIS와 DEM 일치 여부 확인 중…');
- elevationData=null;originalGraph=null;graphKind='';
+ elevationData=null;originalGraph=null;planningGraph=null;nearConnections=[];graphKind='';
  mapCanvas.setSource(null);setMapPick(false);mapNotice('기관 등산로 표시 자료 확인 중…');
  model=null;waypoints=[];pois=[];poiLabels=new Map();buttons(false);$('poiType').disabled=true;$('poiQuery').disabled=true;$('poiSelect').disabled=true;$('poiSelect').replaceChildren();$('poiInfo').textContent='원본 주요지점 확인 중…';
  $('candidates').replaceChildren();$('nodeCount').textContent='노드 —';
@@ -362,6 +370,7 @@ async function selectMountain(code){
  const name=names.get(code);if(!name)return;
  if(code==='428302602'&&sourceCode!==code)$('sourceMode').value='knps';
  $('sourceChoice').hidden=code!=='428302602';
+ $('nearChoice').hidden=code!=='428302602'||$('sourceMode').value!=='knps';
  sourceCode=code;const turn=++generation;reset();search();
  $('selected').textContent=name;$('source').textContent='기관 원본 GIS 확인 중…';status(name+' 연결망 불러오는 중…');
  try{
@@ -369,26 +378,32 @@ async function selectMountain(code){
    const data=await json('./data/knps-seorak-topology-v102.json');if(turn!==generation)return;
    if(data.mountainCode!=='428302602'||data.graph?.routable!==false)
     throw Error('설악산 공단 원본 상태 확인 실패');
-   let geojson=null,contactUpgrade=null;
+   let geojson=null,contactUpgrade=null,approx=null;
    try{
     geojson=await json('./data/knps-seorak-2018.geojson');if(turn!==generation)return;
     contactUpgrade=knpsContactCore.enhance(data.graph,geojson);
+    if($('nearMode').value==='near')
+     approx=nearbyCore.enhance(contactUpgrade.graph,geojson,{maxGapMeters:5});
    }catch(e){
     if(turn!==generation)return;
-    mapNotice('공단 선형 접점 검증 실패: '+e.message+' · 기본 원본 연결망만 이용');
+    mapNotice('공단 원본 접점 검토 실패: '+e.message+' · 정확한 원본 연결만 사용');
+    approx=null;
    }
-   // The historic 22 original edges and their registered 90m DEM samples
-   // MUST keep their original identifiers. Enhanced route edges are appended
-   // separately; their new elevations are never invented or silently copied.
-   prepare(contactUpgrade?.graph||data.graph,'knps');
+   // KNPS v108 DEM remains bound to the first 22 original edges. The
+   // planning-only 5m gap/split edges never acquire invented DEM samples.
+   const displayGraph=approx?.graph||contactUpgrade?.graph||data.graph;
+   prepare(displayGraph,'knps');
    originalGraph=data.graph;
-   const extra=contactUpgrade?.contacts.length||0;
-   $('source').textContent='국립공원공단 2018 역사적 GIS · 원본 선분 위 정확한 끝점 '+extra+'곳 추가 대조 · 실제 통행 미검증';
+   nearConnections=approx?.connectors||[];
+   const exact=contactUpgrade?.contacts.length||0;
+   $('source').textContent='국립공원공단 2018 역사적 GIS · 정확한 접점 '+exact+
+    '곳 · 계획용 근접접합 '+nearConnections.length+'곳 · 현장 통행 미검증';
    $('poiInfo').textContent='공단 원본과 산림청 등록 지점은 별개 자료라 자동 연결하지 않았어. 산림청 모드에서 기관 지점을 시험할 수 있어.';
    if(geojson)try{
-    const view=mapCore.create(contactUpgrade?.graph||data.graph,'knps',{geojson});
+    const view=mapCore.create(displayGraph,'knps',{geojson});
     mapCanvas.setSource(view);setMapPick(false);
-    mapNotice('공단 2018 원본 탐방로 '+fmt(view.baseLineCount)+'개 표시 · 정확한 원본 선 위 끝점 '+extra+'곳 연결망 보정 · 근접한 미검증 지점은 연결하지 않음');
+    mapNotice('공단 선형 '+fmt(view.baseLineCount)+'개 · 근접접합 '+nearConnections.length+
+     '곳은 경로에 포함될 때 주황 점선으로 표시하며 실제 통행 가능 여부는 확인하지 않았어');
    }catch(e){
     if(turn!==generation)return;
     mapNotice('공단 등산로 표시 실패: '+e.message+' · 거리 계산은 별도로 가능');
@@ -550,6 +565,7 @@ $('mapFit').onclick=()=>mapCanvas.fit();
 $('mapZoomIn').onclick=()=>mapCanvas.zoom(1.4);
 $('mapZoomOut').onclick=()=>mapCanvas.zoom(1/1.4);
 $('search').oninput=search;$('poiType').onchange=filterPOI;$('poiQuery').oninput=filterPOI;$('sourceMode').onchange=()=>{if(sourceCode==='428302602')selectMountain(sourceCode)};
+$('nearMode').onchange=()=>{if(sourceCode==='428302602'&&$('sourceMode').value==='knps')selectMountain(sourceCode)};
 (async()=>{try{
  index=await json('./data/nationwide-topology/index.json');
  if(index.schema!=='sanbak-topology-audit-index-v102'||index.counts?.mountains!==2902)

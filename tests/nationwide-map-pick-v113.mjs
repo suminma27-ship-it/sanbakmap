@@ -82,6 +82,18 @@ y=svg.rect.top+(svg.rect.height-640*q)/2+
 tap(x,y,{pointerType:'touch'});
 assert.equal(picked.length,original+3,'zoomed mobile node tap must select');
 assert.equal(picked.at(-1),markerZoom.id);
+// A drag should pan by CSS pixels / actual SVG meet-scale, and a subsequent
+// tap at the moved marker must still resolve to the same source node.
+canvas.fit();
+const beforeDrag=marker();
+const cx=svg.rect.left+(svg.rect.width-1000*q)/2+beforeDrag.x*q;
+const cy=svg.rect.top+(svg.rect.height-640*q)/2+beforeDrag.y*q;
+svg.fire('pointerdown',{clientX:180,clientY:180,pointerType:'touch'});
+svg.fire('pointermove',{clientX:218,clientY:204,pointerType:'touch'});
+svg.fire('pointerup',{clientX:218,clientY:204,pointerType:'touch'});
+tap(cx+38,cy+24,{pointerType:'touch'});
+assert.equal(picked.length,original+4,'panned mobile node must follow true SVG meet-scale');
+assert.equal(picked.at(-1),beforeDrag.id);
 canvas.fit();svg.rect=null;
 const count=picked.length;
 svg.fire('pointerdown',{clientX:initial.x,clientY:initial.y});

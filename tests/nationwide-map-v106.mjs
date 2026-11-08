@@ -52,7 +52,7 @@ assert.equal(missing.paths.length,0,'never draw a guessed straight-line connecto
 assert.throws(()=>forest.overlay({status:'geometry_preview_only',
  legs:[{nodeIds:[1,1],edgeIds:[0]}]}),/unrelated segment/);
 const page=read('nationwide-plan.html'),workflow=read('.github/workflows/deploy-pages.yml');
-for(const token of ['산박지도 v106 | 전국 등산로·코스 선형 표시',
+for(const token of ['산박지도 v107 | 전국 등산로·코스·고도자료 검증',
  'id="trailMap"','id="mapFit"','id="mapZoomIn"','id="mapZoomOut"',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
  'mapCore.create(graph,\'forest\'','mapCanvas.update({selected:waypoints',
@@ -63,5 +63,5 @@ new Function('window',read('core/nationwide-map-view-v106.js'))({});
 assert(!page.includes('OpenStreetMap'));
 assert(!page.includes('openstreetmap.org'));
 assert(workflow.includes('core/nationwide-map-v106.js core/nationwide-map-view-v106.js site/core/'));
-assert(read('sw.js').includes('sanbakmap-v106-trail-route-svg'));
+assert(read('sw.js').includes('sanbakmap-v107-dem-edge-profile'));
 console.log('PASS v106: EPSG5179 accuracy, 2018 KNPS true trail shapes, forest-source map match, no fake gap, nationwide SVG UI');

@@ -48,14 +48,14 @@ assert.equal(manifest.mountains['428302602:knps']?.path,'./data/nationwide-eleva
 assert.equal(manifest.mountains['428302602:knps'].path,'./data/nationwide-elevation/seorak-knps-v108.json');
 assert.equal(manifest.mountains['428302602:forest']?.matchedEdges,57,'forest graph has its own 57 original-edge DEM samples');
 const page=read('nationwide-plan.html');
-for(const phrase of ['산박지도 v109 | 원본 연결망 DEM 고도 확대','core/nationwide-elevation-pack-v108.js',
+for(const phrase of ['산박지도 v110 | 전국 고도자료 검증·로컬 적용','core/nationwide-elevation-pack-v108.js',
  "altPack.expand(data,originalGraph,kind,code)",
  '설악산 공단 원본과 산림청 원본, 오대산 노인봉·계룡산 산림청 원본에 DEM 표본을 연결'])assert(page.includes(phrase),phrase);
 new Function(page.slice(page.lastIndexOf('<script>')+8,page.lastIndexOf('</script>')));
 const wf=read('.github/workflows/deploy-pages.yml'),sw=read('sw.js');
 assert(wf.includes('cp core/nationwide-elevation-v107.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js site/core/'));
 assert(wf.includes('cp data/nationwide-elevation/*.json site/data/nationwide-elevation/'));
-assert(sw.includes('sanbakmap-v109-national-dem-pilot'));
+assert(sw.includes('sanbakmap-v110-national-elevation-local'));
 assert(sw.includes('./data/nationwide-elevation/seorak-knps-v108.json'));
-assert(read('national.html').includes('전국 코스 선형 v109'));
+assert(read('national.html').includes('전국 코스 선형 v110'));
 console.log('PASS v108: real source 38814.img 90m samples match 22 KNPS Seorak original edges, 1126 positions, no invented forest altitudes');

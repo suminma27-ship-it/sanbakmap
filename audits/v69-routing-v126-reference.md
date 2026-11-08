@@ -48,3 +48,55 @@ v69 and v125/v126 are **not identical datasets**: v69 uses 3D park route graph, 
 Key details: v69 stitches only disconnected **degree-one endpoint** candidates within **0.75 m horizontal** and **4 m elevation**, with unique reverse pairing. Already-connected paths are not stitched. v69 also supports same-edge partial-line routing between arbitrary waypoint positions, unlike current source-node-only planning.
 
 v126 uses **35m** as a maximum for *candidate recording*, not as physical or legal evidence. 0m crossings, duplicate overlapping lines, and near-parallel tracks have no automatic right-of-way established. No original graph edges are changed here.
+
+## Important: v69 also contained an explicit one-off Seorak planning bridge
+
+This route is **not explained by the generic 0.75m stitch alone**. Version 69 calls `installSeorakPlanningBridge()` before creating route graphs, adding a provisional hardcoded connector between Seorak source edges 9 and 22 near Hangyeryeong, measuring approximately 73.19m. Its input provenance was a 2026-11-06 user screenshot and the code explicitly calls it a hypothesis, not an access-verified path. This is a historical special case, **not** a reproducible nationwide connection rule.
+
+Original v69 lines 334–376:
+
+```javascript
+// v64: screenshot-based, user-requested provisional connection near Hangyeryeong.
+// Add alternative subedges without deleting source edges 9 and 22: previously saved edge IDs remain valid.
+// This is not a field-verified trail. The connector is a straight-line planning hypothesis.
+function installSeorakPlanningBridge(){
+ const p=parks.find(x=>x.id==='seorak'),net=p?.net;
+ if(!net||!Array.isArray(net.edges)||net.edges.length<23)return false;
+ const specs=[{edge:9,lon:128.410167,lat:38.112018},
+              {edge:22,lon:128.409740,lat:38.112584}];
+ const anchors=specs.map(spec=>{
+  const edge=net.edges[spec.edge];
+  if(!Array.isArray(edge?.[3]))return null;
+  const i=edge[3].findIndex(pt=>Math.abs(pt[0]-spec.lon)<.0000001&&Math.abs(pt[1]-spec.lat)<.0000001);
+  return i>0&&i<edge[3].length-1?{spec,edge,i}:null;
+ });
+ if(anchors.some(x=>!x))return false;
+ const d=hav(anchors[0].edge[3][anchors[0].i],anchors[1].edge[3][anchors[1].i]);
+ if(!Number.isFinite(d)||d<.01||d>.1)return false;
+ const joins=[];
+ for(const a of anchors){
+  const xyz=a.edge[3][a.i].slice(0,3),node=net.nodes.push(xyz)-1;
+  const first=a.edge[3].slice(0,a.i+1),last=a.edge[3].slice(a.i);
+  net.edges.push([a.edge[0],node,lineDistance(first),first]);
+  net.edges.push([node,a.edge[1],lineDistance(last),last]);
+  joins.push({node,xyz});
+ }
+ const connectorIndex=net.edges.length;
+ net.edges.push([joins[0].node,joins[1].node,d,[joins[0].xyz,joins[1].xyz],
+  {feature_kind:'planning_connector',verified:false,source:'user_screenshot_2026_11_06'}]);
+ net._planningBaseEdges=specs.map(x=>x.edge);
+ net._planningConnectorIndex=connectorIndex;
+ net._planningBridge={a:joins[0].xyz,b:joins[1].xyz,km:d};
+ return true;
+}
+function routeUsesPlanningBridge(net,line){
+ const link=net?._planningBridge;
+ if(!link||!Array.isArray(line))return false;
+ for(let i=1;i<line.length;i++){
+  const a=line[i-1],b=line[i];
+  if(hav(a,link.a)<.001&&hav(b,link.b)<.001||hav(a,link.b)<.001&&hav(b,link.a)<.001)return true;
+ }
+ return false;
+}
+installSeorakPlanningBridge();
+```

@@ -17,6 +17,13 @@ assert.deepEqual(n.topCandidates[0].anchorsEPSG5179,[[50,0],[50,18]]);
 assert.deepEqual(n.topCandidates[0].sourceSegments,[0,0]);
 assert.equal(n.stats.gapBandsMeters['10-20'],1);
 assert.equal(n.stats.v69HorizontalOnlyMax075m,0);
+// v69 had a separate one-off 73.19m Seorak planning bridge; never
+// confuse it with the generic degree-one <=0.75m snapping rule.
+const v69A=[128.410167,38.112018],v69B=[128.409740,38.112584];
+const lat=(v69A[1]+v69B[1])*Math.PI/360;
+const v69BridgeMeters=111195*Math.hypot((v69A[0]-v69B[0])*Math.cos(lat),
+ v69A[1]-v69B[1]);
+assert(v69BridgeMeters>73&&v69BridgeMeters<74);
 const v69Threshold=(horizontal,vertical,unique,degreeOne,otherComponent)=>
  horizontal<=.75&&vertical<=4&&unique&&degreeOne&&otherComponent;
 assert.equal(v69Threshold(18,0,true,true,true),false,

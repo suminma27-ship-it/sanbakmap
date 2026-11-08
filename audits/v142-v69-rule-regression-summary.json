@@ -1,0 +1,37 @@
+{
+  "schema": "sanbak-v142-v69-stitch-rule-regression-guard",
+  "baseCommit": "11aa2ea880480e1cdc70cfe64152e4a567648a60",
+  "historicV69Commit": "13920840c1e3566505f2521bf4f33822a1b8a069",
+  "historicV69IndexBlob": "9b1851098d1135d4b856cd658db911a95f0abea8",
+  "v69Rule": {
+    "requiresDegreeOneSource": true,
+    "requiresDifferentComponents": true,
+    "maxHorizontalMeters": 0.75,
+    "maxVerticalMeters": 4,
+    "requiresUniqueCandidate": true,
+    "requiresUniqueReverse": true,
+    "requiresMutualUniqueIfTargetDegreeOne": true
+  },
+  "nationwideV128": {
+    "candidateCount": 144990,
+    "atMost075mByBands": 109392,
+    "over075mByBands": 35598
+  },
+  "v129Provisional35mEdges": 36084,
+  "hangyeryeong": {
+    "mountainCode": "428302602",
+    "originalSourceMinGapMeters": 48.7268,
+    "userConfirmedExceptionPreserved": true,
+    "automaticStitchAllowed": false
+  },
+  "findings": [
+    "v69's 0.75m horizontal/4m vertical stitch is a historical algorithmic baseline, not a field verification rule.",
+    "35,598 source candidate pairs are beyond 0.75m and thus cannot satisfy the generic v69 horizontal threshold; these are NOT necessarily v129 provisional edges.",
+    "35m proximity and 0.75m legacy candidate logic must not be conflated; v69 includes a separate user-requested Hangyeryeong bridge."
+  ],
+  "status": "rule-level regression fixture only; no graph-level nationwide route equivalence established",
+  "originalGraphChanged": false,
+  "demChanged": false,
+  "uiChanged": false,
+  "physicalLinksApproved": 0
+}

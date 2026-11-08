@@ -31,6 +31,7 @@ scope.window=scope;const context=vm.createContext(scope);
 for(const f of ['core/nationwide-topology-v102.js','core/nationwide-route-preview-v104.js',
  'core/nationwide-pois-v105.js','core/nationwide-source-loader.js',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
+ 'core/nationwide-knps-contacts-v117.js',
  'core/nationwide-elevation-v107.js','core/nationwide-elevation-chart-v107.js',
  'core/nationwide-elevation-pack-v108.js','core/nationwide-elevation-archive-v110.js'])
  vm.runInContext(read(f),context,{filename:f});
@@ -59,6 +60,8 @@ vm.runInContext(rootCode,context,{filename:'nationwide-plan.html'});
 await new Promise(resolve=>setTimeout(resolve,75));
 const el=id=>elements.get(id);
 assert.equal(el('mapPickToggle').disabled,false,'real map source must be loaded');
+assert(el('edgeCount').textContent.includes('24'),'verified on-segment junctions must be applied in UI');
+assert(el('componentCount').textContent.includes('16'),'one precise contact must merge source components');
 el('clear').onclick();
 assert.equal(el('waypoints').children.length,1,'after clearing: placeholder only');
 el('manualNode').value='23';el('add').onclick();

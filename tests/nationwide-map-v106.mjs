@@ -52,7 +52,7 @@ assert.equal(missing.paths.length,0,'never draw a guessed straight-line connecto
 assert.throws(()=>forest.overlay({status:'geometry_preview_only',
  legs:[{nodeIds:[1,1],edgeIds:[0]}]}),/unrelated segment/);
 const page=read('nationwide-plan.html'),workflow=read('.github/workflows/deploy-pages.yml');
-for(const token of ['산박지도 v120 | 경로 거리 제한 해제',
+for(const token of ['산박지도 v121 | 고도 보간 구분',
  'id="trailMap"','id="mapFit"','id="mapZoomIn"','id="mapZoomOut"',
  'core/nationwide-map-v106.js','core/nationwide-map-view-v106.js',
  'mapCore.create(graph,\'forest\'','mapCanvas.update({selected:waypoints',
@@ -63,5 +63,5 @@ new Function('window',read('core/nationwide-map-view-v106.js'))({});
 assert(!page.includes('OpenStreetMap'));
 assert(!page.includes('openstreetmap.org'));
 assert(workflow.includes('core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js site/core/'));
-assert(read('sw.js').includes('sanbakmap-v120-no-distance-limit'));
+assert(read('sw.js').includes('sanbakmap-v121-gap-elevation-preview'));
 console.log('PASS v106: EPSG5179 accuracy, 2018 KNPS true trail shapes, forest-source map match, no fake gap, nationwide SVG UI');

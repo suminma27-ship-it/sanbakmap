@@ -19,7 +19,7 @@ function create(svg){
  function show(profile){
   last=profile||{status:'no_dem',points:[],note:'고도자료 없음'};
   svg.replaceChildren();add('rect',{x:0,y:0,width:W,height:H,fill:'#f8faf7'});
-  // v119: partial profile uses only source-backed DEM segments. Never bridge a missing gap.
+  // v123: estimated joins use endpoint DEM heights, visually continuous; gaps without endpoint heights remain open.
   if((last.status==='partial'||last.status==='ready_partial')&&Array.isArray(last.segments)){
    const pts=last.segments.flat(),meters=last.totalMeters;
    if(pts.length<2||!Number.isFinite(meters)||meters<=0){
@@ -35,30 +35,41 @@ function create(svg){
     add('line',{x1:left,y1:y,x2:right,y2:y,stroke:'#dee8df','stroke-width':1});
     label(Math.round(h)+'m',left-9,y+4,{'text-anchor':'end','font-size':12});
    }
-   for(const gap of last.gaps||[]){
-    const x=xp(gap.fromMeters),width=Math.max(0,xp(gap.toMeters)-x);
-    add('rect',{x,y:top,width,height:bottom-top,fill:'#f5d48a','fill-opacity':.32});
-    add('line',{x1:x,y1:top,x2:x,y2:bottom,stroke:'#d48923','stroke-dasharray':'4 4','stroke-width':1});
+   // Display-only joins: never modify original DEM, and never span
+   // unknown portions lacking DEM heights at both endpoints.
+   const valid=points=>Array.isArray(points)&&points.length>=2&&points.every(p=>
+    Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters));
+   const pieces=[
+    ...last.segments.filter(valid).map(points=>points.map(p=>({...p}))),
+    ...(last.estimates||[]).filter(valid).map(points=>points.map(p=>({...p})))
+   ].sort((a,b)=>a[0].distanceMeters-b[0].distanceMeters);
+   const curves=[];let current=[];
+   for(const points of pieces){
+    if(!current.length){current=points;continue;}
+    const end=current.at(-1),start=points[0],delta=start.distanceMeters-end.distanceMeters;
+    if(Math.abs(delta)<=.15){
+     // Adjacent edges from the 90m DEM may disagree at the same source
+     // junction. Smooth a small visual seam without altering source data.
+     if(Math.abs(end.elevationMeters-start.elevationMeters)<=15)
+      end.elevationMeters=(end.elevationMeters+start.elevationMeters)/2;
+     current.push(...points.slice(1));
+    }else{
+     if(current.length>=2)curves.push(current);
+     current=points;
+    }
    }
-   for(const points of last.segments){
-    if(points.length<2)continue;
+   if(current.length>=2)curves.push(current);
+   for(const points of curves){
     const d=points.map((p,i)=>(i?'L':'M')+xp(p.distanceMeters).toFixed(2)+' '+yp(p.elevationMeters).toFixed(2)).join(' ');
     add('path',{d,fill:'none',stroke:'#25704c','stroke-width':2.6,
      'stroke-linecap':'round','stroke-linejoin':'round'});
-   }
-   // Connector gaps are still uncertain; only endpoint heights are measured.
-   for(const points of last.estimates||[]){
-    if(points.length!==2||points.some(p=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)))continue;
-    const d=points.map((p,i)=>(i?'L':'M')+xp(p.distanceMeters).toFixed(2)+' '+yp(p.elevationMeters).toFixed(2)).join(' ');
-    add('path',{d,fill:'none',stroke:'#cf8423','stroke-width':2.8,
-     'stroke-dasharray':'7 5','stroke-linecap':'round'});
    }
    add('line',{x1:left,y1:bottom,x2:right,y2:bottom,stroke:'#8ca799'});
    for(let i=0;i<=4;i++){
     const m=meters*i/4;
     label((m/1000).toFixed(1)+'km',xp(m),H-19,{'text-anchor':'middle','font-size':12});
    }
-   label('초록: 원본 DEM · 주황 점선: 양 끝 DEM 고도로 보간한 추정값',right,19,
+   label('원본 DEM + 연결부 고도 보간 · 보간 구간 실제 지형 미검증',right,19,
     {'text-anchor':'end','font-size':12});
    return last.status;
   }

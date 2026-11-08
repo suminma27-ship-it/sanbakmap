@@ -108,7 +108,7 @@ function profile(plan,original,planning,kind,code,data){
   note:'원본 DEM 자료로 확인되는 경로 구간이 없어 고도그래프를 표시하지 않아'};
  return {status:gaps.length?'partial':'ready_partial',points:[],segments,gaps,estimates,totalMeters:total,
   coveredMeters,unknownMeters,
-  note:'초록은 원본 DEM 고도 · 주황 점선은 두 끝점의 DEM 고도를 이용한 추정 보간(중간 고도 미측정) · 실제 통행 미확인'};
+  note:'원본 DEM 표본과 연결부 양 끝 높이 보간값을 초록 곡선으로 연속 표시 · 보간 구간 중간 고도 및 현장 통행 미검증'};
 }
 root.SanbakElevationPartialV119=Object.freeze({version:121,profile});
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,36 @@
+{
+  "schema": "sanbak-v149-provisional-conservation-and-approval-gate",
+  "basedOnCommit": "e877786c05df540b9f4948640629fcf8406a3a5f",
+  "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "overlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+  "v140ArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "originalNodes": 59301,
+    "sourceEndpointOccurrences": 134370
+  },
+  "candidatePartition": {
+    "allPairs": 144990,
+    "sameNode": 108906,
+    "provisional": 36084
+  },
+  "riskHeld": 11232,
+  "unverifiedPlanOnly": 16983,
+  "priorityGradeChecked": 337,
+  "priorityGradeMissing": 2,
+  "priorityConflationNodes": 57,
+  "priorityConflationIncidences": 150,
+  "originalComponents": 3571,
+  "allPreviewComponents": 3282,
+  "qcPreviewComponents": 3410,
+  "hangyeryeongExceptionPreserved": true,
+  "below200mExcluded": false,
+  "permanentLinksApproved": 0,
+  "graphChanged": false,
+  "demChanged": false,
+  "uiChanged": false,
+  "safeToDeclareComplete": false,
+  "interpretation": "Conservation of candidate partitions and geometry decisions is not evidence of traversable connections. Component counts are experimental preview metrics, not authorized graph edits.",
+  "nextAction": "Obtain raw source graph/SHP and DEM to validate 57 source endpoint conflations and all 36084 provisional candidates with per-edge grade, degree, components, v69 regression and official access."
+}

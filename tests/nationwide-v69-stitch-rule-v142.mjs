@@ -42,10 +42,11 @@ const node=(component,degree,z=0,horizontal={})=>({component,degree,z,horizontal
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.5}),node(1,1,1,{0:.5})]),['0:1'],'unique endpoint pair');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.751}),node(1,1,0,{0:.751})]),[],'horizontal threshold');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.5}),node(1,1,4.01,{0:.5})]),[],'vertical threshold');
-assert.deepEqual(legacyStitches([node(0,2,0,{1:.5}),node(1,1,0,{0:.5})]),[],'source degree one required');
+assert.deepEqual(legacyStitches([node(0,2,0,{1:.5}),node(1,1,0,{0:.5})]),['0:1'],'degree-two target is allowed when degree-one source initiates');
+assert.deepEqual(legacyStitches([node(0,2,0,{1:.5}),node(1,2,0,{0:.5})]),[],'neither endpoint degree one: no initiating source');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.5}),node(0,1,0,{0:.5})]),[],'already connected rejected');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.5,2:.5}),node(1,1,0,{0:.5}),node(2,1,0,{0:.5})]),[],'ambiguous forward candidates rejected');
 assert.deepEqual(legacyStitches([node(0,1,0,{2:.5}),node(1,1,0,{2:.5}),node(2,2,0,{0:.5,1:.5})]),[],'reverse ambiguity rejected');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.5}),node(1,1,0,{0:.5,2:.5}),node(2,1,0,{1:.5})]),[],'degree one target requires mutual unique');
 assert.deepEqual(legacyStitches([node(0,1,0,{1:.75}),node(1,1,4,{0:.75})]),['0:1'],'inclusive boundaries');
-console.log('PASS v142: v69 rule fixture, 9 decision cases, 35598 source pairs above 0.75m; no topology changes');
+console.log('PASS v143: corrected v69 fixture, 10 decision cases, 35598 source pairs above 0.75m; no topology changes');

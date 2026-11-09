@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v147-nationwide-provisional-evidence-coverage-gate",
+  "basedOnCommit": "1c6766212722020a0a1e4f31213a38f45aa1cb66",
+  "inputPaths": [
+    "audits/v128-original-35m-summary.json",
+    "audits/v129-exact-original-overlay-summary.json",
+    "audits/v130-geometry-quality-summary.json",
+    "audits/v131-dem-grade-crosscheck-summary.json",
+    "audits/v135-direct-source-3d-summary.json",
+    "audits/v140-original-coordinate-quantization-summary.json",
+    "audits/v142-v69-rule-regression-summary.json",
+    "audits/v145-source-endpoint-priority.json",
+    "audits/v146-nationwide-completion-gate.json"
+  ],
+  "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "graphSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "originalNodes": 59301,
+    "provisional35mEdges": 36084,
+    "source35mPairs": 144990
+  },
+  "evidence": {
+    "geometryClassified": 36084,
+    "geometryDecisionClassified": 36084,
+    "geometryHighRiskHeld": 11232,
+    "geometryNoGainOmittedInExperimentalPreview": 7532,
+    "geometryPriorityRecheck": 337,
+    "geometryUnverifiedPlanOnly": 16983,
+    "direct3dGradeCheckedPriority": 337,
+    "direct3dPairedHeights": 335,
+    "direct3dMissing": 2,
+    "priorityConflationNodes": 57,
+    "priorityConflationMountains": 50,
+    "nearCellSeparatedComponentPairs": 1,
+    "originalComponents": 3571,
+    "allPreviewComponents": 3282,
+    "qcPreviewComponents": 3410
+  },
+  "coverage": {
+    "gradePriorityNumerator": 337,
+    "gradeAllProvisionalDenominator": 36084,
+    "gradePriorityFraction": 0.009339319365923955,
+    "gradePriorityPercent": 0.93,
+    "nonPriorityProvisionalWithoutDirect3dPriorityAudit": 35747,
+    "missingPriority3dHeight": 2
+  },
+  "importantCaveat": "The 337 grade-audited candidates are v130 priorityRecheck entries, not an independent sample of all 36084 candidates. 35747 outside the priority audit does not mean all lack elevations or that they are unsafe. Geometry classifications are not physical trail approvals. 57 priority conflation nodes are a distinct node set and cannot be subtracted from 36084 candidate edges.",
+  "remainingRequired": [
+    "Source-grounded per-edge elevation and grade classification for all 36084 provisional edges, with explicit missing-evidence cases.",
+    "Full graph-level v69 comparison including degree, component, bidirectional uniqueness and Hangyeryeong exception.",
+    "Individually review 57 high-priority source endpoint conflations and one near-cell cross-component pair.",
+    "Verify official-trail access and distinguish planning-only from legally traversable routes.",
+    "Reproduce source archives and DEM vertical datum/resolution and rerun full CI."
+  ],
+  "noPermanentConnectionApproved": true,
+  "originalGraphModified": false,
+  "originalDEMModified": false,
+  "publishedMapModified": false,
+  "below200mExcluded": false,
+  "safeToDeclareComplete": false
+}

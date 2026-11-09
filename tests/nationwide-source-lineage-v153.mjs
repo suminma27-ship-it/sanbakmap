@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const paths=['v140-original-coordinate-quantization-summary.json','v149-provisional-conservation-gate.json','v150-evidence-denominator-and-quantization-gate.json'];
+const raw=paths.map(p=>readFileSync(new URL('../audits/'+p,import.meta.url)));
+const [q,g,e]=raw.map(b=>JSON.parse(b));
+const sha256=b=>createHash('sha256').update(b).digest('hex');
+const hash=raw.map(sha256);
+assert.equal(q.inputSHA256.source,g.sourceSHA256);
+assert.equal(q.inputSHA256.source,e.sourceSHA256);
+assert.equal(q.inputSHA256.graph,g.overlaySHA256);
+assert.equal(q.auditArchiveSHA256,g.v140ArchiveSHA256);
+assert.equal(q.auditArchiveSHA256,e.v140ArchiveSHA256);
+assert.equal(q.sourceEndpointOccurrences,2*q.originalEdgesPreserved);
+assert.equal(q.sourceCoveredGraphNodes,q.originalNodesPreserved);
+assert.equal(q.originalMountainsPreserved,g.scope.mountains);
+assert.equal(q.originalEdgesPreserved,g.scope.originalEdges);
+assert.equal(q.originalNodesPreserved,g.scope.originalNodes);
+assert.equal(q.quantizedNodesWithDistinctExactSourceEndpoints,e.quantization.distinctSourceEndpointNodes);
+assert.equal(q.quantizedNodesSpreadAbove5cm,e.quantization.spreadAbove5cm);
+assert.equal(q.nearbyDifferentGraphNodePairsAtMost2cm,e.quantization.nearDifferentNodePairs2cm);
+assert.equal(q.nearbyDifferentGraphNodePairsAtMost2cmAcrossComponents,e.quantization.nearCrossComponentPairs2cm);
+assert.equal(g.priorityConflationNodes,e.quantization.priorityAttachedNodes);
+assert.equal(g.priorityConflationIncidences,e.quantization.priorityIncidencesNotUniqueEdges);
+assert.equal(g.candidatePartition.provisional,e.scope.provisional35m);
+assert.equal(g.priorityGradeChecked,e.gradeEvidence.priority3dChecked);
+assert.equal(g.priorityGradeMissing,e.gradeEvidence.priority3dMissing);
+assert.equal(g.priorityGradeChecked+e.gradeEvidence.provisionalWithoutPriority3dEvidence,g.candidatePartition.provisional);
+// Geometry cannot establish a safe connection; these are necessary numerical checks only.
+const cell=q.graphNodeQuantizationMeters;
+assert.equal(q.crs,'EPSG:5179');
+assert(q.maximumOriginalEndpointNodeDriftMeters<=Math.SQRT2*cell/2+1e-9);
+assert(q.quantizedNodesSpreadAbove10cm<=q.quantizedNodesSpreadAbove5cm);
+assert(q.quantizedNodesSpreadAbove5cm<=q.quantizedNodesSpreadAbove1cm);
+assert(q.quantizedNodesSpreadAbove1cm<=q.quantizedNodesSpreadAbove1mm);
+assert(q.quantizedNodesSpreadAbove1mm<=q.quantizedNodesWithDistinctExactSourceEndpoints);
+assert(q.nearbyDifferentGraphNodePairsAtMost2cmAcrossComponents<=q.nearbyDifferentGraphNodePairsAtMost2cm);
+assert(q.notableDistinctComponentExample.rawSourceEndpointGapMeters<=q.nearbyDifferentNodeThresholdMeters);
+assert.match(q.notableDistinctComponentExample.status,/requires_source_grounded_review/);
+// This bound is conservative: no more than one component can be eliminated per candidate edge.
+for(const count of [g.allPreviewComponents,g.qcPreviewComponents]){
+  assert(count>0 && count<=g.originalComponents);
+  assert(g.originalComponents-count<=g.candidatePartition.provisional);
+}
+assert.equal(g.permanentLinksApproved,0);
+assert.equal(e.completion.physicalLinksApproved,0);
+assert.equal(g.safeToDeclareComplete,false);
+assert.equal(e.completion.safeToDeclareComplete,false);
+assert.equal(g.hangyeryeongExceptionPreserved,true);
+assert.equal(g.below200mExcluded,false);
+console.log(JSON.stringify({result:'PASS',audit:'v153-source-hash-lineage-and-precision-invariants',inputSha256:Object.fromEntries(paths.map((p,i)=>[p,hash[i]])),quantizedNodes:q.quantizedNodesWithDistinctExactSourceEndpoints,priorityNodes:g.priorityConflationNodes,provisionalCandidates:g.candidatePartition.provisional,physicalConnectionsApproved:0,completion:false}));

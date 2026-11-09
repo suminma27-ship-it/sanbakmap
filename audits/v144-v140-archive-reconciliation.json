@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v144-v140-archive-independent-coverage-reconciliation",
+  "basedOnCommit": "287cf2c134a5c4017f0ef1a42f892641a473bdbe",
+  "sourceArchive": "sanbakmap_v140_nationwide_coordinate_precision_audit.zip",
+  "sourceArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "memberSHA256": {
+    "output/by-mountain.csv": "af7d137da4af79e9785cd79a948b21d8e783cf0303d8d3ed9a5b2e77bf13d75e",
+    "output/potential-conflated-original-nodes.json": "8744831ddc7a53833f09fe63a84dd0c016646036197098379d0ceed8dae96039",
+    "output/nearby-cross-grid-source-endpoint-pairs.json": "8428f62ac9c995715c83ca40c51c396f41d3cb2d10d4eb2fbd3410ea531af2b9",
+    "output/summary.json": "0601ebff3363145652e762225f57d2e1adde79df54a5a367b87e275e6f0cdd5d"
+  },
+  "independentlyChecked": {
+    "mountainCsvRows": 2902,
+    "uniqueMountainCodes": 2902,
+    "duplicateMountainCodes": 0,
+    "sumOriginalEdges": 67185,
+    "sumOriginalNodes": 59301,
+    "sumOriginalComponents": 3571,
+    "sumQuantizedNodesWithDistinctSourceEndpoints": 1722,
+    "sumQuantizedNodesSpreadOver5cm": 114,
+    "individualConflatedNodeRecords": 1722,
+    "individualRecordsSpreadOver5cm": 114,
+    "sumNearbyDifferentNodePairs": 4,
+    "sumNearbyDifferentComponentPairs": 1,
+    "individualNearbyDifferentNodePairs": 4,
+    "individualNearbyDifferentComponentPairs": 1,
+    "maximumOriginalEndpointSpreadMeters": 0.108005
+  },
+  "nearbyCrossCellCases": [
+    {
+      "mountainCode": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "sourceGapMeters": 0.0116,
+      "differentOriginalComponents": true
+    },
+    {
+      "mountainCode": "482201101",
+      "nodeA": 186,
+      "nodeB": 189,
+      "sourceGapMeters": 0.007272,
+      "differentOriginalComponents": false
+    },
+    {
+      "mountainCode": "488604401",
+      "nodeA": 39,
+      "nodeB": 11,
+      "sourceGapMeters": 0.011915,
+      "differentOriginalComponents": false
+    },
+    {
+      "mountainCode": "482705801",
+      "nodeA": 96,
+      "nodeB": 67,
+      "sourceGapMeters": 0.018221,
+      "differentOriginalComponents": false
+    }
+  ],
+  "status": "read-only independent reconciliation of previously generated v140 ZIP; NOT a new raw-SHP rerun",
+  "originalTopologyChanged": false,
+  "demChanged": false,
+  "uiChanged": false,
+  "physicalLinksApproved": 0,
+  "nextAction": "Retrieve original v102/v129 graph and DEM sources for candidate-level v69 degree/component/elevation verification. Prioritize the single 1.16cm cross-component gap without auto-linking."
+}

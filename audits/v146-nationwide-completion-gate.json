@@ -1,0 +1,58 @@
+{
+  "schema": "sanbak-v146-nationwide-completion-gate",
+  "basedOnCommit": "1adedce2fb83a00467241dfaef7247d9c4937030",
+  "scope": {
+    "mountains": 2902,
+    "edges": 67185,
+    "nodes": 59301,
+    "includeBelow200m": true
+  },
+  "inputs": {
+    "v140ArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "topologySHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "graphSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "verified": {
+    "v145PriorityNodes": 57,
+    "v145PriorityMountains": 50,
+    "v145ProvisionalEdgeIncidences": 150,
+    "v140NearCellPairs": 4,
+    "v140CrossComponentPairs": 1,
+    "latestCIHead": "1adedce2fb83a00467241dfaef7247d9c4937030",
+    "latestCIResult": "success"
+  },
+  "incomplete": [
+    {
+      "id": "source_geometry",
+      "reason": "57 priority nodes not yet individually cross-checked against original SHP geometry and degree/component"
+    },
+    {
+      "id": "dem_grade",
+      "reason": "57 priority nodes and 35m candidate pairs not yet independently graded against source DEM"
+    },
+    {
+      "id": "candidate_verdicts",
+      "reason": "35m candidate set lacks source-grounded nationwide approve/reject/unknown disposition"
+    },
+    {
+      "id": "v69_nationwide_regression",
+      "reason": "v69 rule fixtures exist but not all candidate graph cases have been replayed"
+    },
+    {
+      "id": "official_trail_access",
+      "reason": "official-trail and on-site legal access evidence incomplete"
+    },
+    {
+      "id": "full_reproducibility",
+      "reason": "raw source archives not independently rerun in this execution environment"
+    }
+  ],
+  "safeToDeclareComplete": false,
+  "authorizedPermanentLinks": 0,
+  "graphModified": false,
+  "demModified": false,
+  "uiModified": false,
+  "below200mRemoved": 0,
+  "nextAction": "Acquire raw v102/v129 source graphs, SHP and DEM in execution environment; generate per-node source-grounded evidence for 57 priority nodes and 1 separate-component near-cell pair. Keep all uncertain links provisional."
+}

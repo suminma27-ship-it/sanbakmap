@@ -5,7 +5,7 @@ const x=j('audits/v147-provisional-evidence-coverage.json');
 const a=j('audits/v128-original-35m-summary.json'),b=j('audits/v129-exact-original-overlay-summary.json'),c=j('audits/v130-geometry-quality-summary.json'),d=j('audits/v131-dem-grade-crosscheck-summary.json'),e=j('audits/v135-direct-source-3d-summary.json'),f=j('audits/v145-source-endpoint-priority.json'),g=j('audits/v146-nationwide-completion-gate.json');
 assert.equal(x.schema,'sanbak-v147-nationwide-provisional-evidence-coverage-gate');
 assert.equal(x.sourceSHA256,a.sourceZipSHA256);
-assert.equal(x.graphSHA256,b.output.overlayPackageSha256);
+assert.equal(x.graphSHA256,b.overlayPackageSha256);
 assert.equal(x.scope.mountains,a.mountainsChecked);
 assert.equal(x.scope.mountains,b.mountainsProcessed);
 assert.equal(x.scope.originalEdges,g.scope.edges);

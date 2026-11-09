@@ -1,0 +1,36 @@
+{
+  "schema": "sanbak-v150-evidence-denominator-and-quantization-gate",
+  "basedOnCommit": "d1b64e6671eb663a0a5fa89e63c4846f5be8a14f",
+  "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "v140ArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "scope": {
+    "mountains": 2902,
+    "edges": 67185,
+    "nodes": 59301,
+    "provisional35m": 36084
+  },
+  "quantization": {
+    "distinctSourceEndpointNodes": 1722,
+    "spreadAbove5cm": 114,
+    "priorityAttachedNodes": 57,
+    "priorityMountainCount": 50,
+    "priorityIncidencesNotUniqueEdges": 150,
+    "nearDifferentNodePairs2cm": 4,
+    "nearCrossComponentPairs2cm": 1
+  },
+  "gradeEvidence": {
+    "priority3dChecked": 337,
+    "priority3dMissing": 2,
+    "provisionalWithoutPriority3dEvidence": 35747,
+    "checkedFractionNumerator": 337,
+    "checkedFractionDenominator": 36084
+  },
+  "completion": {
+    "sourceReprocessedThisRun": false,
+    "demReprocessedThisRun": false,
+    "perEdgeApprovalEvidenceComplete": false,
+    "physicalLinksApproved": 0,
+    "safeToDeclareComplete": false
+  },
+  "nextAction": "Acquire original SHP/DEM and replay degree, component, slope, official access checks per provisional edge; inspect 57 nodes; do not auto-merge."
+}

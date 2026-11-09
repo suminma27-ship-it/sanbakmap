@@ -1,0 +1,126 @@
+{
+  "schema": "sanbak-v145-source-endpoint-conflation-priority-triage",
+  "sourceArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "sourceMemberSHA256": "8744831ddc7a53833f09fe63a84dd0c016646036197098379d0ceed8dae96039",
+  "sourceCommit": "5963318f70333824424eaed59279368afdbdb0a6",
+  "recordsReviewed": 1722,
+  "thresholds": [
+    {
+      "spreadAboveMeters": 0.001,
+      "nodes": 470,
+      "mountains": 269,
+      "nodesWithProvisionalEdges": 252,
+      "provisionalEdgeIncidences": 688
+    },
+    {
+      "spreadAboveMeters": 0.01,
+      "nodes": 368,
+      "mountains": 218,
+      "nodesWithProvisionalEdges": 200,
+      "provisionalEdgeIncidences": 538
+    },
+    {
+      "spreadAboveMeters": 0.05,
+      "nodes": 114,
+      "mountains": 95,
+      "nodesWithProvisionalEdges": 57,
+      "provisionalEdgeIncidences": 150
+    },
+    {
+      "spreadAboveMeters": 0.075,
+      "nodes": 37,
+      "mountains": 32,
+      "nodesWithProvisionalEdges": 19,
+      "provisionalEdgeIncidences": 32
+    },
+    {
+      "spreadAboveMeters": 0.1,
+      "nodes": 2,
+      "mountains": 2,
+      "nodesWithProvisionalEdges": 0,
+      "provisionalEdgeIncidences": 0
+    }
+  ],
+  "priorityRule": "source endpoint spread >0.05m and >=1 provisional v129 35m edge attached",
+  "priorityNodeCount": 57,
+  "priorityMountains": 50,
+  "priorityProvisionalEdgeIncidences": 150,
+  "topPriorityNodes": [
+    {
+      "mountainCode": "281700201",
+      "graphNodeId": 8,
+      "maxSourceEndpointSpreadM": 0.099127,
+      "provisionalEdgeIncidences": 4,
+      "originalEdgeIds": [
+        4,
+        34,
+        71,
+        72
+      ]
+    },
+    {
+      "mountainCode": "451102904",
+      "graphNodeId": 67,
+      "maxSourceEndpointSpreadM": 0.097507,
+      "provisionalEdgeIncidences": 3,
+      "originalEdgeIds": [
+        42,
+        55,
+        158,
+        159
+      ]
+    },
+    {
+      "mountainCode": "457401201",
+      "graphNodeId": 33,
+      "maxSourceEndpointSpreadM": 0.094074,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        17,
+        122,
+        123
+      ]
+    },
+    {
+      "mountainCode": "467100701",
+      "graphNodeId": 4,
+      "maxSourceEndpointSpreadM": 0.092035,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        2,
+        8,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "mountainCode": "113500101",
+      "graphNodeId": 62,
+      "maxSourceEndpointSpreadM": 0.088999,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        56,
+        96,
+        180,
+        181
+      ]
+    }
+  ],
+  "separateComponentGap": {
+    "mountainCode": "301101201",
+    "nodeA": 81,
+    "nodeB": 80,
+    "sourceGapM": 0.0116,
+    "action": "review only; no physical connection approved"
+  },
+  "originalGraphChanged": false,
+  "demChanged": false,
+  "uiChanged": false,
+  "physicalLinksApproved": 0,
+  "limitations": [
+    "v140 audit archive reanalysis, not new raw SHP/DEM processing",
+    "Provisional edge incidences are not unique nationwide edges",
+    "Source endpoint spread does not prove false trail connectivity"
+  ]
+}

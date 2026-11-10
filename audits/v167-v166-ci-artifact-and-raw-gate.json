@@ -1,0 +1,60 @@
+{
+  "schema": "sanbak-v167-v166-ci-and-raw-source-gate",
+  "verifiedAtUTC": "2026-11-10T20:53:30Z",
+  "inputCommit": "a66b61a41801195658a68eab9c027add62a763bd",
+  "testCommit": "e775cd208facfbd7a6a0fbc477947509acd1da43",
+  "testBlobGitSHA1": "3ca3a8a4bf2667c379d155e252b2c599d4e3bad9",
+  "auditBlobGitSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v149": "e070002d58024eafab90c9f760df67120cbcd6a4"
+  },
+  "workflow": {
+    "runId": 42890197503,
+    "headSha": "a66b61a41801195658a68eab9c027add62a763bd",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "deploy",
+        "conclusion": "success",
+        "steps": [
+          "Validate route topology and UI regressions",
+          "Package website",
+          "Upload site",
+          "Deploy site"
+        ]
+      }
+    ]
+  },
+  "artifact": {
+    "name": "github-pages",
+    "bytes": 18297746,
+    "sha256": "c8aa09e4ab73e7266295c9a0f887cf79291978a5423d47d29cb6dd1dd348a463",
+    "expired": false
+  },
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "originalNodes": 59301,
+    "provisionalCandidates": 36084
+  },
+  "invariants": {
+    "sourceEndpointOccurrences": 134370,
+    "quantizedNodesWithDistinctExactEndpoints": 1722,
+    "above5cm": 114,
+    "priorityNodes": 57,
+    "priorityIncidences": 150,
+    "hangyeryeongExceptionPreserved": true,
+    "below200mExcluded": false,
+    "newPhysicalConnectionsApproved": 0
+  },
+  "interpretation": "CI success proves repository tests and deployment for the referenced commit, not independent raw SHP/DEM coordinate correctness or legal passage.",
+  "blocked": [
+    "Independent original SHP/DEM archive SHA-256 replay: raw archives unavailable in accessible library and repository",
+    "57 priority node source-coordinate comparison: raw endpoints unavailable",
+    "36,084 provisional edges per-edge authorization/geometry review: v129 source overlay unavailable",
+    "v69 independent route regression on raw graph: source artifacts unavailable"
+  ],
+  "next": "Recover exact source SHP, DEM, v102/v129/3D audit archives; compute SHA256 and per-edge stable IDs; compare exact endpoints against 0.1m quantized nodes, then v69 route replay. Do not merge unverified candidates.",
+  "complete": false
+}

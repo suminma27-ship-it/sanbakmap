@@ -1,0 +1,30 @@
+{
+  "schema": "sanbak-v169-quantization-geometric-bound-audit",
+  "baseCommit": "57034cb68676aefbe732937c237e7732916bb0a8",
+  "testCommit": "592d0cb9b162f89d8372a4b30d5255956c62f744",
+  "inputGitBlobSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v145": "7d326a794710cc8f120dbe402a45180faf4e3a66"
+  },
+  "inputSHA256References": {
+    "v140Source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v140Archive": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "test": "node tests/nationwide-quantization-geometry-bounds-v169.mjs",
+  "quantizationMeters": 0.1,
+  "theoreticalMaxSingleEndpointDriftMeters": 0.07071067811865477,
+  "observedMaxDriftMeters": 0.070569,
+  "theoreticalMaxSameCellSpreadMeters": 0.14142135623730953,
+  "crossComponentCloseGapMeters": 0.0116,
+  "closePairMountainCode": "301101201",
+  "interpretation": "Rounding-bound consistency only. Cross-component 1.16cm gap remains unapproved; numerical proximity is not a legal or traversable connection.",
+  "rawSourceReplayed": false,
+  "physicalConnectionsApproved": 0,
+  "blocked": [
+    "Original SHP/DEM archive bytes absent for independent hash and exact-coordinate replay",
+    "v129 individual edge overlay unavailable",
+    "v69 independent fixtures unavailable"
+  ],
+  "nextGate": "Verify CI test run; obtain raw SHP and edge-level overlay to compare exact endpoints for 57 priority nodes; retain all 2902 mountains and 67185 original edges.",
+  "complete": false
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "sanbak-v168-cross-audit-quantization-priority-consistency",
+  "baseCommit": "6e9ecbb61dc30896ca652ad978a02e6a747f2fe1",
+  "inputGitBlobSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v145": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "v149": "e070002d58024eafab90c9f760df67120cbcd6a4"
+  },
+  "sourceArchiveSHA256Reference": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+  "checks": {
+    "endpointOccurrencesEqualTwiceEdges": true,
+    "sourceArchiveDigestReferenceAgreesAcrossThreeAudits": true,
+    "quantizationThresholdsMonotone": true,
+    "priorityNodesSubsetOfAbove5cm": true,
+    "priorityIncidencesMatchAcrossV145AndV149": true,
+    "priorityGradeCounts": {
+      "checked": 337,
+      "missing": 2,
+      "total": 339
+    },
+    "candidatePartitionExact": true,
+    "componentPreviewCountsNonIncreasing": true,
+    "hangyeryeongPreserved": true,
+    "below200mRetained": true,
+    "physicalLinksApproved": 0
+  },
+  "derived": {
+    "quantizedConflationNodes": 1722,
+    "above5cmNodes": 114,
+    "priorityNodes": 57,
+    "priorityMountains": 50,
+    "priorityEndpointIncidences": 150,
+    "priorityNodeFractionOfAbove5cm": 0.5,
+    "provisionalEdges": 36084,
+    "provisionalFractionOfCandidatePairs": 0.24887233602317402,
+    "originalEdges": 67185,
+    "mountains": 2902,
+    "originalComponents": 3571,
+    "allPreviewComponents": 3282,
+    "qcPreviewComponents": 3410
+  },
+  "unresolved": [
+    "Raw SHP/DEM archive bytes not available for independent SHA256 and exact endpoint replay",
+    "v129 per-edge overlay unavailable; 150 incidences must not be mistaken for 150 unique edges",
+    "v69 original route fixtures unavailable for independent regression",
+    "GitHub CI success does not authorize provisional trail passage"
+  ],
+  "nextGate": "Recover original archive bytes and stable per-edge IDs; compare 57 prioritized nodes to exact endpoints and independently hash source; verify 36084 candidate connections individually before authorization. No UI, graph, DEM, or exception mutation.",
+  "complete": false
+}

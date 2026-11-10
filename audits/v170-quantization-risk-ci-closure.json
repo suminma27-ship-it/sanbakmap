@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v170-quantization-risk-and-ci-closure",
+  "dateUTC": "2026-11-10",
+  "baseCommit": "a1576fbd291d51aa05e9f56c0394cae7320a6c8a",
+  "inputGitBlobSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v145": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "v169": "b42ba634ff2a60f1ba3b8b30050c7fd373ffe8c1"
+  },
+  "inputSHA256References": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "archive": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "ciRuns": [
+    {
+      "id": 42917885984,
+      "commit": "592d0cb9b162f89d8372a4b30d5255956c62f744",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 42917902904,
+      "commit": "a1576fbd291d51aa05e9f56c0394cae7320a6c8a",
+      "status": "completed",
+      "conclusion": "success",
+      "deployJob": "success",
+      "uploadStep": "success",
+      "deployStep": "success"
+    }
+  ],
+  "independentConsistencyChecks": {
+    "endpointOccurrences": 134370,
+    "expectedEndpointOccurrences": 134370,
+    "thresholdNodesMonotone": true,
+    "thresholdIncidencesMonotone": true,
+    "priorityNodesAt5cm": 57,
+    "priorityMountains": 50,
+    "priorityIncidences": 150,
+    "priorityNodeShareOfAbove5cm": 0.5,
+    "maxSameCellSpreadMeters": 0.14142135623730953,
+    "spreadAbove10cmCount": 2,
+    "above10cmCompatibleWithSameCell": true,
+    "crossComponentGapMeters": 0.0116,
+    "automaticApprovalAllowed": false
+  },
+  "interpretation": "Two >0.1m source endpoint spreads do not alone disprove 0.1m nearest-grid rounding: same-cell diagonal bound is sqrt(2)*0.1m. 57 prioritized nodes and 150 incidences are review candidates, not 150 distinct approved edges. v169 CI and deployment verified.",
+  "unchanged": {
+    "originalMountains": 2902,
+    "originalEdges": 67185,
+    "physicalConnectionsApproved": 0,
+    "originalGraphEdited": false,
+    "demEdited": false,
+    "uiEdited": false,
+    "hangyeryeongExceptionPreserved": true
+  },
+  "blocked": [
+    "Raw SHP/DEM bytes unavailable to independently recompute SHA-256 and exact-coordinate matches",
+    "v129 individual edge overlay unavailable for 57-node incident-edge deduplication",
+    "v69 independent regression fixtures unavailable"
+  ],
+  "nextGate": "Retrieve raw archive and overlay, hash bytes independently, join (mountainCode, graphNodeId, originalEdgeId), deduplicate incident edge IDs, and compare source coordinates before any topology decision.",
+  "complete": false
+}

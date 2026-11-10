@@ -1,0 +1,23 @@
+// v169: geometric bounds for EPSG:5179 0.1m rounding; audit-only, never authorize passage.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const paths=['audits/v140-original-coordinate-quantization-summary.json','audits/v145-source-endpoint-priority.json'];
+const [a,b]=paths.map(p=>{const raw=readFileSync(new URL('../'+p,import.meta.url));console.log(p,'SHA256',createHash('sha256').update(raw).digest('hex'));return JSON.parse(raw)});
+const q=a.graphNodeQuantizationMeters;
+assert.equal(a.crs,'EPSG:5179');
+assert.equal(q,0.1);
+const theoreticalMaxDrift=Math.SQRT2*q/2;
+const theoreticalMaxSpread=Math.SQRT2*q;
+assert.ok(a.maximumOriginalEndpointNodeDriftMeters<=theoreticalMaxDrift+1e-9);
+assert.ok(a.maximumOriginalEndpointNodeDriftMeters>=0);
+for(const t of b.thresholds) assert.ok(t.spreadAboveMeters<=theoreticalMaxSpread);
+assert.equal(a.nearbyDifferentGraphNodePairsAtMost2cmAcrossComponents,1);
+assert.ok(a.notableDistinctComponentExample.rawSourceEndpointGapMeters<0.02);
+assert.equal(a.notableDistinctComponentExample.code,b.separateComponentGap.mountainCode);
+assert.equal(a.notableDistinctComponentExample.nodeA,b.separateComponentGap.nodeA);
+assert.equal(a.notableDistinctComponentExample.nodeB,b.separateComponentGap.nodeB);
+assert.equal(a.notableDistinctComponentExample.rawSourceEndpointGapMeters,b.separateComponentGap.sourceGapM);
+assert.equal(a.newVerifiedPhysicalConnections,0);
+assert.equal(b.physicalLinksApproved,0);
+console.log(JSON.stringify({theoreticalMaxDriftMeters:theoreticalMaxDrift,observedMaxDriftMeters:a.maximumOriginalEndpointNodeDriftMeters,theoreticalMaxSameCellSpreadMeters:theoreticalMaxSpread,crossComponentClosePair:a.notableDistinctComponentExample,rawSourceReplayed:false,physicalLinksApproved:0},null,2));

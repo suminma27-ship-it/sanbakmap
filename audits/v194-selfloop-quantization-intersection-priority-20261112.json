@@ -1,0 +1,59 @@
+{
+  "schema": "sanbak-v194-self-loop-quantization-intersection-priority",
+  "baseCommit": "4463918a7ce84420651ae2ac3558ca2cf4b1f564",
+  "sourceGitBlobSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v189": "ebf0f53d3c3e4317a0a5ef6f46e10135394df516",
+    "v190": "6938ef1d35c751708a3d8bb4577a6893dd3134c8",
+    "v191": "04ebea00a84faba1343094fc80e868c8c69d5677",
+    "v193": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+  },
+  "method": "Read GitHub main audit JSON v140/v189/v190/v191/v193; reconcile exact original topology identity v193 with v191 self-loop intersection and v189 full-graph counts. Derive disjoint complement counts by subtraction; assert partition invariants. This is secondary audit arithmetic, not a fresh SHP geometry examination.",
+  "results": {
+    "allSelfLoops": 705,
+    "conflationIncidentSelfLoops": 490,
+    "nonConflationSelfLoops": 215,
+    "longSelfLoops": 204,
+    "longConflationIncident": 3,
+    "longOutsideConflation": 201,
+    "zeroLengthSelfLoops": 61,
+    "zeroLengthConflationIncident": 61,
+    "zeroLengthOutsideConflation": 0,
+    "above5cmNodes": 114,
+    "above5cmNodesWithSelfLoop": 111,
+    "above5cmNodesWithoutSelfLoop": 3
+  },
+  "checks": {
+    "selfLoopPartition": true,
+    "longLoopPartition": true,
+    "zeroLoopPartition": true,
+    "highSpreadNodePartition": true,
+    "conflationLoopSubset": true,
+    "longLoopSubset": true,
+    "zeroLoopSubset": true,
+    "originalGraphIdentityVerifiedByV193": true
+  },
+  "passed": 8,
+  "totalChecks": 8,
+  "priority": [
+    "Inspect 61 zero-length self-loop source polylines (all intersect quantization-conflated nodes), without deleting any.",
+    "Inspect 3 >10m self-loops intersecting conflated nodes, plus 201 >10m outside conflation cohort separately.",
+    "Inspect 114 >5cm spread nodes against original SHP exact endpoint and topology, and 35m candidates only with official/field passage evidence.",
+    "Independently test v69 regression, DEM completeness, 2902 mountain coverage and deployment."
+  ],
+  "limits": {
+    "derivedFromExistingAudits": true,
+    "sourceSHPGeometryDirectlyRead": false,
+    "DEMDirectlyRead": false,
+    "originalSHPHashRecomputed": false,
+    "v69RegressionExecuted": false,
+    "walkableLinksApproved": 0
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "edgesDeletedOrMerged": 0
+  }
+}

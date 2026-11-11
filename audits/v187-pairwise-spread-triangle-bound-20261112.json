@@ -1,0 +1,75 @@
+{
+  "schema": "sanbak-v187-quantization-pairwise-spread-consistency",
+  "baseCommit": "04cd053c45f970ab1df9c211f7c3cf6676462a3b",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v186-five-node-evidence-ready-triage-20261112.json": "bb13d0e886d87c201e4971efc2c30afbc222ab54"
+  },
+  "method": "Cross-check v140 maximum individual source-endpoint drift against v145/v186 pairwise spreads using triangle inequality, then test provenance and nonapproval invariants; summary-only audit, not raw-coordinate verification.",
+  "geometry": {
+    "crs": "EPSG:5179",
+    "quantizationMeters": 0.1,
+    "maxObservedEndpointDriftMeters": 0.070569,
+    "maxObservedPairwiseSpreadUpperBoundMeters": 0.141138,
+    "theoreticalSingleEndpointMaxDriftMeters": 0.070711,
+    "theoreticalPairwiseMaxSpreadMeters": 0.141421,
+    "observedTopFiveSpreadsMeters": [
+      0.099127,
+      0.097507,
+      0.094074,
+      0.092035,
+      0.088999
+    ],
+    "above10cmSpreadNodes": 2,
+    "above10cmNodesWithProvisionalEdges": 0,
+    "interpretation": "A pairwise source endpoint spread above 0.1m is compatible with both endpoints being at most 0.070569m from the same quantized node; does not establish an incorrect topology connection."
+  },
+  "topFive": {
+    "mountainCodes": [
+      "281700201",
+      "451102904",
+      "457401201",
+      "467100701",
+      "113500101"
+    ],
+    "provisionalIncidences": 10,
+    "originalEdgeIdOccurrences": 20,
+    "sourceXYVerified": false
+  },
+  "validation": {
+    "checks": {
+      "coverage": true,
+      "endpointOccurrences": true,
+      "quantizationGrid": true,
+      "driftUnderTheoretical": true,
+      "sourceSpreadCanExceedGrid": true,
+      "allTopSpreadsWithinObservedPairBound": true,
+      "priorityIncidences": true,
+      "uniqueTopNodes": true,
+      "topSourceEdges": true,
+      "topMatchesSource": true,
+      "unapproved": true,
+      "over10cmWithoutProvisional": true,
+      "topFiveWithinPriority": true,
+      "distinctComponentsUnapproved": true
+    },
+    "passed": 14,
+    "total": 14
+  },
+  "completionGates": {
+    "rawSHPDEMIndependentHash": false,
+    "all114NodesTopologyReviewed": false,
+    "all36084ProvisionalEdgesEvidenceReviewed": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependent": false
+  },
+  "next": "Acquire raw source-endpoint XY and component IDs; verify top-five and all 114 before topology changes. Keep 35m candidates provisional without official evidence.",
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  }
+}

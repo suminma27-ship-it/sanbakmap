@@ -1,0 +1,84 @@
+{
+  "schema": "sanbak-v179-disjoint-quantization-risk-bins",
+  "checkedAtUTC": "2026-11-11T08:51:00Z",
+  "baseCommit": "e6d2bce68ad8ab46ce6b5c058a8c97535c155348",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+  },
+  "method": "Subtract successive strictly-greater-than threshold cumulative counts. Bins are mutually exclusive; incidence counts are not unique edges.",
+  "disjointBins": [
+    {
+      "range": "(0.001,0.01]",
+      "nodes": 102,
+      "attachedNodes": 52,
+      "incidences": 150
+    },
+    {
+      "range": "(0.01,0.05]",
+      "nodes": 254,
+      "attachedNodes": 143,
+      "incidences": 388
+    },
+    {
+      "range": "(0.05,0.075]",
+      "nodes": 77,
+      "attachedNodes": 38,
+      "incidences": 118
+    },
+    {
+      "range": "(0.075,0.1]",
+      "nodes": 35,
+      "attachedNodes": 19,
+      "incidences": 32
+    },
+    {
+      "range": "(0.1,+inf)",
+      "nodes": 2,
+      "attachedNodes": 0,
+      "incidences": 0
+    }
+  ],
+  "checks": {
+    "binsNonnegative": true,
+    "nodesReconcile": true,
+    "attachedReconcile": true,
+    "incidencesReconcile": true,
+    "above5cmReconcile": true,
+    "above5cmAttachedReconcile": true,
+    "above5cmIncidenceReconcile": true,
+    "sourceEdges": true,
+    "sourceSites": true,
+    "previewReduction": true
+  },
+  "passed": 10,
+  "expectedChecks": 10,
+  "observations": {
+    "above5cmNodesNotAttached": 57,
+    "above5cmNodesAttached": 57,
+    "above10cmNodesNotAttached": 2,
+    "below200mExcluded": 0
+  },
+  "limitations": [
+    "Only existing v140/v145/v129 audit JSON cross-checked; raw source SHP/DEM, exact node records and overlay archives not accessible in this run.",
+    "Different topology SHA-256 references in v129 and v140 may refer to different artifacts; do not assume identity without manifests.",
+    "No proximity-only link is approved as traversable."
+  ],
+  "completionGates": {
+    "rawSourceHashesIndependentlyVerified": false,
+    "all114NodesSourceCompared": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false,
+    "latestCommitCIAndDeploymentVerified": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionPreserved": true,
+    "newLinksApproved": 0
+  },
+  "nextAction": "Obtain raw endpoint/member manifests and compare the 114 >5cm nodes, starting with 57 provisional-attached nodes; investigate 2 >10cm unattached nodes separately; enumerate 36084 unique candidate IDs; independently verify topology archive identity, v69 regression and CI."
+}

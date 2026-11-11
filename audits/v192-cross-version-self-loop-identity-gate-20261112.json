@@ -1,0 +1,59 @@
+{
+  "schema": "sanbak-v192-cross-version-self-loop-identity-gate",
+  "baseCommit": "f5c87fe03bf04d396b13d540a33c588aaecbf503",
+  "inputGitBlobSHA1": {
+    "v189": "ebf0f53d3c3e4317a0a5ef6f46e10135394df516",
+    "v190": "6938ef1d35c751708a3d8bb4577a6893dd3134c8",
+    "v191": "04ebea00a84faba1343094fc80e868c8c69d5677"
+  },
+  "sourceArchiveSHA256ReferencesOnly": {
+    "v102": "e08554e0f2de097f5582d5ab3eb3c329ffc6107c73027cac4a63ea1f74628443",
+    "v140": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+    "v129": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "method": "Re-read GitHub audit JSONs v189/v190/v191 and recompute consistency assertions. Distinguish v102 national self-loop statistics from v129/v140 candidate incidence: identical numeric totals across versions do not establish edge identity.",
+  "counts": {
+    "v102SelfLoops": 705,
+    "v102NonpositiveLengthSelfLoops": 61,
+    "v102LongerThan10mSelfLoops": 204,
+    "v129v140CandidateSelfLoops": 490,
+    "v129v140CandidateNonpositiveLengthSelfLoops": 61,
+    "v129v140CandidateLongerThan10mSelfLoops": 3,
+    "v129v140Above5cmCandidateSelfLoopOccurrences": 119
+  },
+  "checks": {
+    "v102NationalCoverage": true,
+    "v102Edges": true,
+    "v102ZeroAllLoops": true,
+    "v129Coverage": true,
+    "v140IncidentIntegrity": true,
+    "v191CandidateConsistency": true,
+    "v191RiskConsistency": true,
+    "v191RiskLoopsConsistency": true,
+    "v191LoopBound": true,
+    "v191LongLoopBound": true
+  },
+  "identityGate": {
+    "status": "BLOCKED_UNTIL_EDGE_IDENTITY_CROSSWALK",
+    "reason": "v102 and v129/v140 are distinct dataset versions. Equality of 61 zero-length self-loop counts does not prove they refer to the same 61 edges; neither 490/705 nor 3/204 establishes a verified cross-version subset.",
+    "requiredEvidence": [
+      "For each v102 and v129 self-loop, extract mountain code, stable source feature ID (if present), full source polyline coordinates, length and endpoint IDs.",
+      "Compare original SHP feature identifiers and geometry hashes under explicit CRS and coordinate precision; record one-to-one matches, additions, removals and changed topology.",
+      "Only then classify 61 zero-length records and 3 >10m candidate loops as same-edge matches or distinct observations."
+    ]
+  },
+  "limits": {
+    "rawSHPIndependentlyRead": false,
+    "rawDEMIndependentlyRead": false,
+    "v69Regression": false,
+    "passageEvidenceReviewed": false
+  },
+  "safety": {
+    "graphModified": false,
+    "DEMModified": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0,
+    "deletedOrMerged": 0
+  }
+}

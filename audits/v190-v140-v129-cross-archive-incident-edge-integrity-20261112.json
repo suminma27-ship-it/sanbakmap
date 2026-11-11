@@ -1,0 +1,45 @@
+{
+  "schema": "sanbak-v190-cross-archive-v140-v129-incident-edge-integrity",
+  "baseCommit": "d6a696080d31b232b9645e8f02659b5bde39b398",
+  "inputs": {
+    "v140ZipSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+    "v129ZipSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v140Entry": "output/potential-conflated-original-nodes.json",
+    "v129Entry": "original-topology-raw.json"
+  },
+  "method": "Independently open both Library ZIP archives. For each v140 conflated-node record, look up the matching mountain in the v129 raw topology, scan every edge for start/end node equality with graphNodeId, and compare the resulting set of edge indices to v140 originalEdgeIds. This verifies incident edge references, not original SHP exact coordinate fidelity.",
+  "results": {
+    "v129Mountains": 2902,
+    "v140CandidateNodes": 1722,
+    "matchedIncidentEdgeSets": 1722,
+    "mismatchedIncidentEdgeSets": 0,
+    "missingMountains": 0,
+    "above5cmNodes": 114,
+    "above5cmMountains": 95,
+    "above5cmWithProvisional": 57,
+    "above5cmWithoutProvisional": 57,
+    "incidentSelfLoopEdgesCountedAcrossAbove5cmNodes": 119
+  },
+  "checks": {
+    "allCandidateMountainsPresent": true,
+    "allIncidentEdgeSetsEqual": true,
+    "above5cmPartitionSumsTo114": true,
+    "all2902MountainsPresentInV129": true
+  },
+  "interpretation": "v140 node-to-edge indexing matches v129 topology for all 1722 flagged nodes. This is an independently computed cross-archive structural result, not a physical passage validation, exact source SHP endpoint validation, or proof against rounding conflation.",
+  "limits": {
+    "originalSHPBytesRechecked": false,
+    "exactSourceEndpointCoordinatesIndependentlyRecomputed": false,
+    "DEMRechecked": false,
+    "v69Regression": false,
+    "provisional35mPassageApproved": 0
+  },
+  "safety": {
+    "originalGraphModified": false,
+    "DEMModified": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "edgesDeletedOrMerged": 0
+  },
+  "nextStep": "Use available v140 per-node records and v129 raw topology to isolate the 114 >5cm nodes by mountain and test source endpoint geometry against SHP; keep 35m candidate edges provisional pending official/legal/field evidence. Audit self-loop geometry against original SHP."
+}

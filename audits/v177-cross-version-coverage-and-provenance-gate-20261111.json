@@ -1,0 +1,80 @@
+{
+  "schema": "sanbak-v177-cross-version-coverage-and-provenance-gate",
+  "checkedAtUTC": "2026-11-11T06:50:24Z",
+  "baseCommit": "9b7491913586b08e209af22e18f9707ca0d19093",
+  "inputs": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v135-direct-source-3d-summary.json": "5a553f53fd4bb0a164bcf1c9e5db9ade45443f20",
+    "audits/v149-provisional-conservation-gate.json": "e070002d58024eafab90c9f760df67120cbcd6a4",
+    "audits/v176-v175-ci-gate-20261111.json": "29ce6a17c196a5a7408babda16c1e7ba2225d93f"
+  },
+  "verifiedCI": {
+    "runId": 42968964990,
+    "headSHA": "9b7491913586b08e209af22e18f9707ca0d19093",
+    "status": "completed",
+    "conclusion": "success",
+    "steps": [
+      "Validate route topology and UI regressions",
+      "Package website",
+      "Upload site",
+      "Deploy site"
+    ],
+    "stepConclusions": "success"
+  },
+  "checks": {
+    "sourceSHAConsistent": true,
+    "v140ArchiveSHAConsistent": true,
+    "v129OverlaySHAConsistent": true,
+    "siteCountConserved": true,
+    "edgeCountConserved": true,
+    "endpointIncidenceConserved": true,
+    "candidatePartitionConserved": true,
+    "priorityRiskReconciled": true,
+    "priorityIncidencesReconciled": true,
+    "direct3DGradeConserved": true,
+    "noPhysicalApproval": true,
+    "noLowAltitudeExclusion": true
+  },
+  "passed": 12,
+  "crossVersionCoverage": {
+    "nationalSites": 2902,
+    "sourceEdges": 67185,
+    "sourceEndpointOccurrences": 134370,
+    "sourceNodes": 59301,
+    "v140DistinctEndpointConflationNodes": 1722,
+    "v140SpreadAbove5cmNodes": 114,
+    "v145PriorityNodes": 57,
+    "v145PriorityMountains": 50,
+    "v145ProvisionalIncidences": 150,
+    "v129CandidatePairs": 144990,
+    "v129ProvisionalCandidates": 36084,
+    "v135Direct3DSitesChecked": 190,
+    "v135Direct3DSitesNotChecked": 2712,
+    "v135Direct3DSourceEdgesCompared": 609,
+    "v135Direct3DUnmatchedEdges": 4,
+    "v135PriorityCandidatesChecked": 337,
+    "v135Direct3DMissingEndpointsPairCandidates": 2,
+    "v135ClassificationChanges": 19
+  },
+  "hashCaveat": "Input hashes are Git blob SHA-1 identifiers of repository summaries, not independently recomputed raw archive SHA-256; original archive SHA-256 values are only cross-referenced.",
+  "completionGates": {
+    "rawSHPDEMIndependentHashes": false,
+    "all57PriorityNodesSourceVerified": false,
+    "all36084ProvisionalCandidatesIndividuallyApproved": false,
+    "v69IndependentRegression": false,
+    "nationwideOfficialAccessVerified": false,
+    "ciAndPagesForBaseCommit": true
+  },
+  "safety": {
+    "physicalConnectionsApproved": 0,
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongException": "preserve existing user-confirmed exception; not modified",
+    "below200mExcluded": false
+  },
+  "nextAction": "Recover original SHP/DEM/v129 member files and independent v69 fixtures; verify EPSG:5179 exact endpoints for 57 priority nodes, and candidate-level evidence for 36084 provisional links. 3D comparison covered only 190 of 2902 sites and 609 edges, including 4 unmatched source edges; do not extrapolate to nationwide passability.",
+  "complete": false
+}

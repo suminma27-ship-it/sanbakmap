@@ -1,0 +1,55 @@
+{
+  "schema": "sanbak-v193-v102-v129-exact-graph-identity",
+  "baseCommit": "8c3dde6c5519a51abe05ed98240ec13524fe904c",
+  "inputs": {
+    "v102LibraryFile": "산박지도_v102_전국연결망_배포원본.txt",
+    "v102SHA256": "e08554e0f2de097f5582d5ab3eb3c329ffc6107c73027cac4a63ea1f74628443",
+    "v129LibraryFile": "sanbakmap_v129_original_35m_planning_graph.zip",
+    "v129SHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v129Entry": "original-topology-raw.json",
+    "v102UncompressedJSONSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+    "sourceSHPReferenceOnly": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "method": "Read v102 first-line JSON header and concatenate 190 base64 chunks; decode gzip JSON. Read v129 original-topology-raw.json directly from ZIP. Compare all 32 bucket dictionaries and all 2,902 mountain objects for exact deep equality, including ordered node coordinate arrays, ordered edge arrays, source metadata. Independently count self-loops and calculate SHA-256 over deterministic UTF-8 JSON serialization (sorted keys, no whitespace, ensure_ascii=False).",
+  "results": {
+    "bucketsCompared": 32,
+    "mountainsCompared": 2902,
+    "identicalMountainObjects": 2902,
+    "changedMountainObjects": 0,
+    "identicalNodeArrays": 2902,
+    "identicalEdgeArrays": 2902,
+    "changedNodeArrays": 0,
+    "changedEdgeArrays": 0,
+    "changedBucketMetadata": 0,
+    "canonicalGraphSHA256_v102": "0f23264a415430d927faaa3b35f6807860f7904c902a84d95d2edc34d80a6767",
+    "canonicalGraphSHA256_v129": "0f23264a415430d927faaa3b35f6807860f7904c902a84d95d2edc34d80a6767",
+    "graphSelfLoopEdges": 705,
+    "graphSelfLoopZeroOrNegativeLength": 61,
+    "graphSelfLoopLongerThan10m": 204
+  },
+  "checks": {
+    "all32BucketsIdentical": true,
+    "all2902MountainObjectsIdentical": true,
+    "allNodesAndEdgesIdentical": true,
+    "canonicalSHA256Identical": true,
+    "selfLoopCountsMatchV189": true
+  },
+  "correctionToV192": "The v192 identity gate stated that v102 and v129 were distinct dataset versions and that the identical counts of 61 zero-length loops did not establish edge identity. This run directly demonstrates that their embedded original topology graph objects are byte-semantically identical across all 2,902 mountains (same ordered nodes and edges). Thus all 61 zero-length self-loop records in v102 and v129 original-topology-raw.json are the same graph edges by mountain code and zero-based edge index. This does not imply v129 overlay/provisional connectors equal v102 or establish that any loop is a true walkable trail.",
+  "v191Interpretation": "The 490 self-loops touching v140 flagged conflated nodes are a subset of the same 705 baseline original-topology self-loops, but membership of all 490 was not independently re-enumerated against v140 in this run. The 61 zero-length count equality is now grounded in full baseline graph identity, not merely coincidental counts.",
+  "limits": {
+    "rawSHPBytesIndependentlyChecked": false,
+    "rawDEMBytesIndependentlyChecked": false,
+    "v140PrecisionEndpointRecomputed": false,
+    "v69Regression": false,
+    "provisional35mPassageEvidenceChecked": false
+  },
+  "safety": {
+    "graphModified": false,
+    "DEMModified": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "nextStep": "Inspect original SHP polylines for 61 zero-length and 204 >10m baseline self-loop edges and v140 114 high-spread nodes; compare exact feature IDs/CRS/geometry before approving changes. Independently validate v129 overlay connections, v69 regression and DEM coverage."
+}

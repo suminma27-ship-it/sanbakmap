@@ -1,0 +1,31 @@
+{
+  "schema": "sanbak-v176-ci-gate",
+  "checkedAtUTC": "2026-11-11T05:55:11Z",
+  "mainBeforeWrite": "7cb0723c7e8faa840a453739569a9ac79e549115",
+  "inputs": {
+    "v175AuditGitBlobSHA1": "2b636faa1ad7c879f3b141810e7e3d31b2fdc453",
+    "v173AuditGitBlobSHA1": "8e08d558a0523469cb7229414be0d177ac8e0a15",
+    "v173TestGitBlobSHA1": "6676ba67ca462868d566060527a8b70e99d459f5",
+    "workflowRunId": 42961780592,
+    "workflowHeadSHA": "7cb0723c7e8faa840a453739569a9ac79e549115"
+  },
+  "verified": {
+    "workflowStatus": "completed",
+    "workflowConclusion": "success",
+    "validationStep": "success",
+    "packagingStep": "success",
+    "uploadStep": "success",
+    "pagesDeployStep": "success",
+    "workflowTestSelection": "for file in tests/*.mjs; do node \"$file\"; done",
+    "v173TestCoveredByGlob": true,
+    "sourceArchiveSHA256IndependentlyRecomputed": false,
+    "physicalConnectionsApproved": 0
+  },
+  "limitations": [
+    "CI validates repository tests and packaging, not raw SHP/DEM provenance or physical passability",
+    "Original precise SHP/DEM, v129 overlay, and independent v69 fixtures not recovered",
+    "57 priority nodes and 36084 provisional candidates not individually resolved"
+  ],
+  "nextGate": "Obtain raw source archives and exact endpoint/CRS records; calculate source SHA-256, quantify precision topology splits/merges, and verify candidates with official evidence; preserve 2902 sites and 67185 source edges.",
+  "complete": false
+}

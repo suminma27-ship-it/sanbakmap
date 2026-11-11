@@ -1,0 +1,68 @@
+{
+  "schema": "sanbak-v180-v179-ci-and-bin-replay",
+  "checkedAtUTC": "2026-11-11T09:52:37Z",
+  "baseCommit": "5fd8df84f897a7d34f9b0c1d7904bbf8bce5b313",
+  "inputGitBlobSHA1": {
+    "audits/v179-disjoint-quantization-risk-bins-20261111.json": "f5d69c5feea13dae2e5cc7f0612de91c43c5d326",
+    "audits/v177-cross-version-coverage-and-provenance-gate-20261111.json": "74fcacc614d4cefc01e8a43f5225edf6dcb7c95e"
+  },
+  "method": "Independent replay of published disjoint-bin arithmetic and GitHub Actions run result; summary-only audit, not raw coordinate comparison.",
+  "derived": {
+    "riskNodesAbove1mm": 470,
+    "attachedRiskNodesAbove1mm": 252,
+    "provisionalIncidencesAbove1mm": 688,
+    "above5cmNodes": 114,
+    "above5cmAttached": 57,
+    "above5cmIncidences": 150,
+    "unattachedAbove5cm": 57
+  },
+  "checks": {
+    "totalRiskNodes": true,
+    "above5cmNodes": true,
+    "above5cmAttached": true,
+    "above5cmIncidences": true,
+    "attachedNotExceedNodes": true,
+    "unattachedAbove5cm": true,
+    "originalEndpoints": true,
+    "candidatePartition": true,
+    "coverageGap": true,
+    "CIHeadMatch": true
+  },
+  "passed": 10,
+  "verifiedCI": {
+    "runId": 42990382893,
+    "headSHA": "5fd8df84f897a7d34f9b0c1d7904bbf8bce5b313",
+    "status": "completed",
+    "conclusion": "success",
+    "steps": [
+      "Validate route topology and UI regressions",
+      "Package website",
+      "Upload site",
+      "Deploy site"
+    ],
+    "stepConclusions": "success",
+    "url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/42990382893"
+  },
+  "limitations": [
+    "Raw SHP/DEM/v102/v129/v69/3D archive members not available for independent replay in this run.",
+    "Git blob SHA-1 of summaries does not establish raw archive SHA-256 identity.",
+    "No original precision coordinate comparison, individual 35m candidate evidence or independent v69 regression performed.",
+    "CI success validates existing automated checks, not physical traversability."
+  ],
+  "completionGates": {
+    "v179CIAndDeploymentVerified": true,
+    "rawSourceHashesIndependentlyVerified": false,
+    "all114NodesSourceCompared": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionPreserved": true,
+    "newLinksApproved": 0
+  },
+  "nextAction": "Recover exact source endpoint manifests, SHP/DEM and v129 overlay archive; independently recompute hashes and verify 114 >5cm nodes (57 provisional-attached first), 35m candidates, v69 baseline; preserve all data and fail closed."
+}

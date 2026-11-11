@@ -1,0 +1,41 @@
+{
+  "schema": "sanbak-v173-35m-fail-closed-regression",
+  "checkedAtUTC": "2026-11-11T02:50:51Z",
+  "baseCommit": "8a433f715c6a4ec519c3526abdfeff4bbdbbf798",
+  "testCommit": "b7f9dd2b78eb74555a2806ddf7e76764f49e38f9",
+  "inputGitBlobSHA1": "5d5ae764d4b0d90bb45bd16e322839263982a176",
+  "testGitBlobSHA1": "6676ba67ca462868d566060527a8b70e99d459f5",
+  "sourceSHA256Reference": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "sourceBytesRehashed": false,
+  "checks": {
+    "single": true,
+    "pair": true,
+    "lower": true,
+    "upper": true,
+    "notApproved": true,
+    "notComplete": true
+  },
+  "checksPassed": true,
+  "testCommand": "node tests/nationwide-35m-quantization-fail-closed-v173.mjs",
+  "testExecution": "connector-side arithmetic checks passed; Node test execution/CI pending independent verification",
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "provisionalCandidateEdges": 36084,
+    "priorityNodes": 57,
+    "priorityIncidences": 150
+  },
+  "syntheticCases": 4,
+  "physicalConnectionsApproved": 0,
+  "originalGraphEdited": false,
+  "demEdited": false,
+  "uiEdited": false,
+  "hangyeryeongExceptionPreserved": true,
+  "blocked": [
+    "Raw SHP/DEM and exact candidate endpoints absent",
+    "v129 overlay and v69 independent fixtures absent",
+    "CI result for new test not yet independently confirmed"
+  ],
+  "nextGate": "Run v173 Node test and verify GitHub CI; recover source endpoints to enumerate 35m threshold-uncertain candidates and 57 priority nodes, with no physical approval absent official/field evidence.",
+  "complete": false
+}

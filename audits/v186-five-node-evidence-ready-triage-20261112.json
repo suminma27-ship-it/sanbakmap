@@ -1,0 +1,151 @@
+{
+  "schema": "sanbak-v186-five-node-evidence-ready-triage",
+  "baseCommit": "4cc8d3b4418c4ff304b617336557fce528a261f4",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v185-topology-conflation-vs-distance-gate-20261111.json": "33e7adf1afb2f4b9d94863b3129f0de4bcbda30a"
+  },
+  "method": "Independently re-read three GitHub main audit JSON blobs and check identity, source-edge provenance, and prioritization invariants. This is evidence-readiness triage, not raw SHP coordinate verification.",
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "quantizedNodesWithDistinctSourceEndpoints": 1722,
+    "over5cmNodes": 114,
+    "priorityOver5cmNodes": 57,
+    "priorityProvisionalEdgeIncidences": 150
+  },
+  "triage": [
+    {
+      "mountainCode": "281700201",
+      "graphNodeId": 8,
+      "maxSourceEndpointSpreadM": 0.099127,
+      "provisionalEdgeIncidences": 4,
+      "originalEdgeIds": [
+        4,
+        34,
+        71,
+        72
+      ],
+      "sourceXYAvailable": false,
+      "prePostComponentIDsAvailable": false,
+      "officialAccessEvidenceAvailable": false,
+      "reviewStatus": "blocked_raw_endpoint_evidence",
+      "approved": false
+    },
+    {
+      "mountainCode": "451102904",
+      "graphNodeId": 67,
+      "maxSourceEndpointSpreadM": 0.097507,
+      "provisionalEdgeIncidences": 3,
+      "originalEdgeIds": [
+        42,
+        55,
+        158,
+        159
+      ],
+      "sourceXYAvailable": false,
+      "prePostComponentIDsAvailable": false,
+      "officialAccessEvidenceAvailable": false,
+      "reviewStatus": "blocked_raw_endpoint_evidence",
+      "approved": false
+    },
+    {
+      "mountainCode": "457401201",
+      "graphNodeId": 33,
+      "maxSourceEndpointSpreadM": 0.094074,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        17,
+        122,
+        123
+      ],
+      "sourceXYAvailable": false,
+      "prePostComponentIDsAvailable": false,
+      "officialAccessEvidenceAvailable": false,
+      "reviewStatus": "blocked_raw_endpoint_evidence",
+      "approved": false
+    },
+    {
+      "mountainCode": "467100701",
+      "graphNodeId": 4,
+      "maxSourceEndpointSpreadM": 0.092035,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        2,
+        8,
+        12,
+        13,
+        14
+      ],
+      "sourceXYAvailable": false,
+      "prePostComponentIDsAvailable": false,
+      "officialAccessEvidenceAvailable": false,
+      "reviewStatus": "blocked_raw_endpoint_evidence",
+      "approved": false
+    },
+    {
+      "mountainCode": "113500101",
+      "graphNodeId": 62,
+      "maxSourceEndpointSpreadM": 0.088999,
+      "provisionalEdgeIncidences": 1,
+      "originalEdgeIds": [
+        56,
+        96,
+        180,
+        181
+      ],
+      "sourceXYAvailable": false,
+      "prePostComponentIDsAvailable": false,
+      "officialAccessEvidenceAvailable": false,
+      "reviewStatus": "blocked_raw_endpoint_evidence",
+      "approved": false
+    }
+  ],
+  "separateComponentExample": {
+    "mountainCode": "301101201",
+    "nodeA": 81,
+    "nodeB": 80,
+    "sourceGapM": 0.0116,
+    "action": "review only; no physical connection approved",
+    "approved": false
+  },
+  "validation": {
+    "checks": {
+      "sourceGraphCounts": true,
+      "endpointCount": true,
+      "priorityNodeCount": true,
+      "priorityMountainSubset": true,
+      "priorityIncidenceCount": true,
+      "sourceHashReference": true,
+      "graphHashReference": true,
+      "uniqueFive": true,
+      "allAbove5cm": true,
+      "allHaveSourceEdges": true,
+      "separateComponentPreserved": true
+    },
+    "passed": 11,
+    "total": 11
+  },
+  "requiredNextInputs": [
+    "Precise EPSG:5179 XY of every source edge endpoint listed for five prioritized nodes",
+    "Mapping of original edge endpoints to quantized node IDs and pre/post connected component IDs",
+    "v129 provisional edge IDs incident to each node and source/target precise XY",
+    "Original SHP, DEM, v102/v129, 3D and audit ZIP bytes with independently recomputed SHA-256",
+    "Official trail access evidence or field validation before accepting any candidate"
+  ],
+  "completionGates": {
+    "rawArchiveVerified": false,
+    "all114Reviewed": false,
+    "all36084CandidatesReviewed": false,
+    "v69IndependentRegression": false,
+    "nationwideIndependentCoverage": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  }
+}

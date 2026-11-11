@@ -1,0 +1,61 @@
+{
+  "schema": "sanbak-v184-observed-drift-35m-gate-and-v183-ci",
+  "checkedAtUTC": "2026-11-11T13:52:33Z",
+  "baseCommit": "111429a41fde2bd27dc06e2549e8152955d711fb",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v183-two-endpoint-35m-ambiguity-gate-20261111.json": "97f36db18c044791fcfef66397b442ad5788abc2"
+  },
+  "sourceSHA256References": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v139": "5b115f537926b4ffe6eff3ba42cc95cf25aae9c340c97d571414c88b700cda64"
+  },
+  "method": "Recompute conservative observed endpoint displacement bound from v140 summary, cross-check v145 and v183 audit fields; not a substitute for per-candidate source coordinate inspection.",
+  "crs": "EPSG:5179",
+  "gridMeters": 0.1,
+  "theoreticalPairErrorBoundMeters": 0.14142135623730953,
+  "observedMaxSingleEndpointDriftMeters": 0.070569,
+  "observedDataPairErrorUpperBoundMeters": 0.141138,
+  "observedData35mGate": {
+    "definitelyWithinIfQuantizedDistanceAtMostMeters": 34.858862,
+    "definitelyOutsideIfQuantizedDistanceGreaterThanMeters": 35.141138,
+    "ambiguousOtherwise": true
+  },
+  "ci": {
+    "headCommit": "111429a41fde2bd27dc06e2549e8152955d711fb",
+    "runId": 43024443523,
+    "conclusion": "success",
+    "url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43024443523"
+  },
+  "checks": {
+    "inputBlobLinks": true,
+    "nodeCoverage": true,
+    "endpointOccurrences": true,
+    "prioritySubset": true,
+    "priorityIncidences": true,
+    "maxDriftValid": true,
+    "empiricalBoundTighter": true,
+    "theoreticalMatchesV183": true,
+    "noApproval": true,
+    "ciHeadMatches": true
+  },
+  "passed": 10,
+  "completionGates": {
+    "rawArchiveBytesVerified": false,
+    "all114NodesReviewed": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  },
+  "nextAction": "Obtain source ZIP member bytes and precise per-endpoint coordinates; compute per-candidate exact distances and provenance, classify uncertainty and require official evidence before approving any link. Keep original graph and DEM intact."
+}

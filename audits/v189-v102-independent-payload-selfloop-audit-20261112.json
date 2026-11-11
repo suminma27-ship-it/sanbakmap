@@ -1,0 +1,74 @@
+{
+  "schema": "sanbak-v189-v102-payload-independent-integrity-and-selfloop-audit",
+  "baseCommit": "1109c589c79e60fafd54e3475dbf594038b4862d",
+  "input": {
+    "libraryFiles": [
+      "산박지도_v102_전국연결망_배포원본.txt",
+      "산박지도_v102_전국연결망_배포원본(1).txt"
+    ],
+    "identicalFileSHA256": "e08554e0f2de097f5582d5ab3eb3c329ffc6107c73027cac4a63ea1f74628443",
+    "fileBytes": 1892370,
+    "format": "newline-delimited header JSON followed by 190 base64 chunks",
+    "decodedGzipBytes": 1418757,
+    "decodedGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "decompressedJSONBytes": 6229684,
+    "decompressedJSONSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+    "headerSourceSHA256ReferenceOnly": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "independentPayloadCounts": {
+    "buckets": 32,
+    "mountains": 2902,
+    "uniqueMountainCodes": 2902,
+    "nodes": 59301,
+    "edges": 67185,
+    "outOfBoundsEdgeEndpointReferences": 0,
+    "selfLoopEdges": 705,
+    "selfLoopsLongerThan1m": 219,
+    "selfLoopsLongerThan10m": 204,
+    "nonpositiveLengthEdges": 61,
+    "nonpositiveLengthEdgesAlsoSelfLoops": 61
+  },
+  "longestSelfLoops": [
+    {
+      "code": "427504201",
+      "edgeIndexZeroBased": 3,
+      "lengthMeters": 9527.29
+    },
+    {
+      "code": "427500901",
+      "edgeIndexZeroBased": 1,
+      "lengthMeters": 7438.64
+    },
+    {
+      "code": "471700101",
+      "edgeIndexZeroBased": 0,
+      "lengthMeters": 7182.91
+    }
+  ],
+  "checks": {
+    "duplicateV102FilesByteIdentical": true,
+    "gzipHashMatchesHeader": true,
+    "uncompressedHashMatchesHeader": true,
+    "decodedBucketCountMatchesHeader": true,
+    "decodedMountainCountMatchesHeader": true,
+    "decodedEdgeCountMatchesHeader": true,
+    "edgeEndpointsWithinNodeBounds": true,
+    "nonpositiveLengthSubsetOfSelfLoops": true
+  },
+  "interpretation": "Self-loop means both graph endpoints have the same node ID; it does NOT prove a physical path is zero length or erroneous. Long self-loops may be real loop geometries or source graph collapse and require original polyline comparison. No edges removed or merged.",
+  "limits": {
+    "originalSHPSHA256IndependentlyRecomputed": false,
+    "DEMVerified": false,
+    "sourcePolylineForSelfLoopsVerified": false,
+    "v69RegressionVerified": false,
+    "all35mCandidatesReviewed": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  },
+  "nextStep": "Compare 705 v102 self-loops, prioritizing 204 >10m and 61 zero-length records, against original SHP polyline geometry; do not remove based on endpoint IDs alone."
+}

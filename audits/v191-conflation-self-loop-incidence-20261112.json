@@ -1,0 +1,44 @@
+{
+  "schema": "sanbak-v191-quantization-self-loop-cross-audit",
+  "baseCommit": "52c49555e83d88c761dff14e7eea86be23502533",
+  "inputs": {
+    "v140ZipSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+    "v129ZipSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v140Entry": "output/potential-conflated-original-nodes.json",
+    "v129Entry": "original-topology-raw.json"
+  },
+  "method": "Independently read both Library ZIPs, enumerate all 1722 v140 conflated nodes against v129 incident edges, then count self-loop edges among those incident edges, deduplicating by mountainCode and edgeIndex. Check >5cm subset separately against v190 reported 119.",
+  "results": {
+    "mountains": 2902,
+    "conflatedNodesChecked": 1722,
+    "above5cmNodes": 114,
+    "incidentSelfLoopOccurrences": 490,
+    "distinctIncidentSelfLoopEdges": 490,
+    "selfLoopOccurrencesAbove10m": 3,
+    "selfLoopOccurrencesZeroLength": 61,
+    "above5cmSelfLoopOccurrences": 119,
+    "above5cmNodesWithSelfLoop": 111
+  },
+  "checks": {
+    "all1722NodeIncidentSetsMatch": true,
+    "selfLoopOccurrenceEqualsV190Reported119": true,
+    "above5cmPartition114": true,
+    "all2902Mountains": true
+  },
+  "interpretation": "119 self-loop incident edges refers only to >5cm subset; 490 refers to all 1722 conflated nodes. Self-loops may be valid closed paths; do not delete or join.",
+  "limits": {
+    "sourceSHPExactGeometryChecked": false,
+    "loopEdgesProvenInvalid": 0,
+    "newPassageApproved": 0,
+    "DEMChecked": false,
+    "v69Regression": false
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "deletedOrMerged": 0
+  },
+  "nextStep": "Use original SHP geometry to check 490 loop edges (prioritize 3 >10m and 61 zero-length); verify 114 >5cm node endpoint coordinates and official access evidence for 35m candidates; run v69 regression and nationwide DEM coverage."
+}

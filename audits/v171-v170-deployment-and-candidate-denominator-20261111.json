@@ -1,0 +1,58 @@
+{
+  "schema": "sanbak-v171-deployment-and-evidence-denominator-gate",
+  "checkedAtUTC": "2026-11-11T00:52:34Z",
+  "baseCommit": "0cd351a9cfb2545f0243a677b7455274236d547d",
+  "inputs": {
+    "v149GitBlobSHA1": "e070002d58024eafab90c9f760df67120cbcd6a4",
+    "v169GitBlobSHA1": "b42ba634ff2a60f1ba3b8b30050c7fd373ffe8c1",
+    "v170GitBlobSHA1": "a00af45183f9ff59b7eea2e041008877c3bcf1b3",
+    "sourceSHA256Reference": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "archiveSHA256Reference": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a",
+    "sourceBytesRehashed": false
+  },
+  "deployment": {
+    "runId": 42926277340,
+    "headSha": "0cd351a9cfb2545f0243a677b7455274236d547d",
+    "status": "completed",
+    "conclusion": "success",
+    "job": "deploy",
+    "routeTopologyAndUIRegression": "success",
+    "package": "success",
+    "upload": "success",
+    "pagesDeploy": "success",
+    "artifactName": "github-pages",
+    "artifactBytes": 18297721,
+    "artifactSHA256": "5c1931fce74126c2d188d2efde0b050533a0ffb95485fd39b90e59cf5d55740a"
+  },
+  "independentArithmetic": {
+    "endpointOccurrences": 134370,
+    "endpointCheck": true,
+    "candidatePartition": 144990,
+    "candidatePartitionCheck": true,
+    "provisionalCandidateShare": 0.24887233602317402,
+    "priorityNodeShare": 0.5,
+    "priorityIncidencesAreNotUniqueEdges": true,
+    "unverifiedCandidateCount": 36084,
+    "approvedPhysicalLinks": 0
+  },
+  "scope": {
+    "mountains": 2902,
+    "below200mIncluded": true,
+    "originalEdges": 67185
+  },
+  "safety": {
+    "sourceGraphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongExceptionPreserved": true,
+    "proximityOnlyApprovalForbidden": true
+  },
+  "blocked": [
+    "Raw SHP and DEM bytes not available for independent hash and exact-coordinate comparison",
+    "v129 per-edge overlay not available for deduplicating 150 priority incidences",
+    "v69 independent baseline fixtures unavailable",
+    "Official traversability evidence absent for provisional joins"
+  ],
+  "nextGate": "Acquire original SHP/DEM and v129 per-edge overlay; independently hash bytes, replay quantization for 57 priority nodes, deduplicate edge incidences, then compare 35m candidates and v69 fixtures without approving unverified joins.",
+  "complete": false
+}

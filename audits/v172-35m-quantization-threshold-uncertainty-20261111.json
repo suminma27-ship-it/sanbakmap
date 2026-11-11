@@ -1,0 +1,57 @@
+{
+  "schema": "sanbak-v172-35m-quantization-threshold-uncertainty-gate",
+  "checkedAtUTC": "2026-11-11T01:49:26Z",
+  "baseCommit": "f3cc5f6bafb1d00f721c2532ea9a5b17d4eeb19a",
+  "inputGitBlobSHA1": {
+    "v169": "b42ba634ff2a60f1ba3b8b30050c7fd373ffe8c1",
+    "v170": "a00af45183f9ff59b7eea2e041008877c3bcf1b3",
+    "v171": "84f1a51320dc43d210b21ca96037bbd228723806"
+  },
+  "sourceSHA256Reference": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "sourceBytesRehashed": false,
+  "calculation": {
+    "quantizationGridMeters": 0.1,
+    "nearestRoundingAssumed": true,
+    "maxSingleEndpointDisplacementMeters": 0.07071067811865477,
+    "maxTwoEndpointDistancePerturbationMeters": 0.14142135623730953,
+    "provisionalJoinThresholdMeters": 35,
+    "quantizedDistanceAmbiguityIntervalMeters": [
+      34.85857864376269,
+      35.14142135623731
+    ],
+    "interpretation": "A quantized pair distance below 34.858579m guarantees only an original pair distance below 35m under the stated rounding model; above 35.141421m guarantees original distance above 35m. The interval between is not reliably classifiable from quantized distance alone. These are geometric bounds, not proof of trail continuity or permission.",
+    "observedMaxEndpointDriftReferenceMeters": 0.070569,
+    "observedCrossComponentGapReferenceMeters": 0.0116
+  },
+  "checks": {
+    "singleEndpointBound": true,
+    "pairwiseBound": true,
+    "observedWithinBound": true,
+    "thresholdOrdering": true,
+    "sourceCount": true,
+    "candidatePartition": true,
+    "priorityShare": true
+  },
+  "scope": {
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "provisionalCandidateEdges": 36084,
+    "priorityNodes": 57,
+    "priorityIncidences": 150
+  },
+  "evidenceLimitations": [
+    "No raw per-candidate coordinates available to count candidates inside uncertainty interval",
+    "No original SHP/DEM bytes for independent hashing or source-coordinate replay",
+    "No v129 individual edge overlay or v69 independent regression fixtures",
+    "No approval of any 35m candidate based solely on proximity"
+  ],
+  "preservation": {
+    "originalGraphEdited": false,
+    "demEdited": false,
+    "uiEdited": false,
+    "hangyeryeongExceptionPreserved": true,
+    "newPhysicalConnectionsApproved": 0
+  },
+  "nextGate": "On recovering original edge endpoints, calculate both precise and quantized distances for each of 36,084 candidates; separately flag pairs with quantized distance 34.858579–35.141421m, cross-component near-coincidences and 57 priority nodes; use official/field evidence before approving any physical connection.",
+  "complete": false
+}

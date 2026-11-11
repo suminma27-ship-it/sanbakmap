@@ -1,0 +1,60 @@
+{
+  "schema": "sanbak-v178-quantization-risk-and-component-reduction-gate",
+  "checkedAtUTC": "2026-11-11T07:00:00Z",
+  "baseCommit": "fca6ab23e52a1c0c3602b22fb9c86f2301ad21e2",
+  "inputs": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v177-cross-version-coverage-and-provenance-gate-20261111.json": "74fcacc614d4cefc01e8a43f5225edf6dcb7c95e"
+  },
+  "checks": {
+    "sourceLineage": true,
+    "originalSites": true,
+    "originalEdges": true,
+    "priorityPartition": true,
+    "priorityProvisionalAttached": true,
+    "thresholdNested": true,
+    "candidatePartition": true,
+    "componentsReduction": true,
+    "componentsNotPhysicalProof": true,
+    "sourceGraphUnchanged": true
+  },
+  "passed": 10,
+  "derived": {
+    "nodesSpreadAbove5cm": 114,
+    "priorityNodesAttachedToProvisionalEdges": 57,
+    "spreadAbove5cmWithoutProvisionalIncidence": 57,
+    "priorityShareOfSpreadAbove5cm": 0.5,
+    "priorityIncidencesNotUniqueEdges": 150,
+    "sourceComponentCount": 3571,
+    "previewComponentCount": 3282,
+    "previewComponentReduction": 289,
+    "sitesWithPreviewComponentReduction": 166,
+    "siteShareWithPreviewComponentReduction": 0.057202,
+    "candidatePairs": 144990,
+    "provisionalPairs": 36084,
+    "provisionalPairShare": 0.248872,
+    "separateComponentSourceGapMeters": 0.0116
+  },
+  "interpretation": "The 289 preview component reductions across 166 sites are graph-topology effects of unapproved proximity overlays, not 289 validated passages. The 57 priority nodes are only the provisional-edge-attached half of 114 >5cm-spread nodes; the other 57 still require quantization review but have no provisional incidences in v145 summary. The 150 incidences are not unique edges.",
+  "rawInputHashStatus": "Only repository summary Git blob SHA-1 values verified; raw SHP, DEM, v129 overlay archive SHA-256 not independently recomputed.",
+  "completionGates": {
+    "rawSHPDEMIndependentHashes": false,
+    "all114Above5cmNodesExactSourceReviewed": false,
+    "all36084ProvisionalCandidatesIndividuallyClassifiedWithEvidence": false,
+    "v69IndependentRegression": false,
+    "nationwideOfficialAccessVerified": false,
+    "v177CIAndPagesVerified": false
+  },
+  "safety": {
+    "newPhysicalLinksApproved": 0,
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionPreserved": true,
+    "below200mExcluded": false
+  },
+  "nextAction": "Retrieve original EPSG:5179 SHP endpoints and v140 archive members; audit all 114 >5cm-spread nodes, prioritize 57 with provisional incidences; independently enumerate unique candidate IDs and classify all 36084 proximity links without auto-approval; verify 289 preview component reductions against source-grounded access evidence; check v177 CI/Pages and v69 fixtures.",
+  "complete": false
+}

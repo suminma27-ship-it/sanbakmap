@@ -1,0 +1,76 @@
+{
+  "schema": "sanbak-v182-quantization-displacement-bound-and-v181-ci-verification",
+  "checkedAtUTC": "2026-11-11T11:54:22Z",
+  "baseCommit": "de4a9a055571a914c86f0252fae907a8f69099b1",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v181-artifact-identity-priority-manifest-20261111.json": "545921a37d9954701d88885168b8ccfe67d8e5a5"
+  },
+  "method": "Independent half-cell Euclidean displacement bound in EPSG:5179 meters; replay of count conservation and GitHub Actions job steps. No raw ZIP bytes or physical trail evidence.",
+  "quantization": {
+    "crs": "EPSG:5179",
+    "gridMeters": 0.1,
+    "theoreticalMaxSingleEndpointDriftMeters": 0.07071067811865477,
+    "reportedMaxSingleEndpointDriftMeters": 0.070569,
+    "remainingBoundMarginMeters": 0.00014167811865475888,
+    "interpretation": "Observed maximum is compatible with nearest-grid-node rounding. This does not rule out conflated distinct source endpoints, nor certify trail connectivity."
+  },
+  "counts": {
+    "sites": 2902,
+    "originalEdges": 67185,
+    "sourceEndpointOccurrences": 134370,
+    "originalGraphNodes": 59301,
+    "componentsBefore": 3571,
+    "componentsAfterProvisional": 3282,
+    "provisionalCandidateEdges": 36084,
+    "provisionalApprovalCount": 0
+  },
+  "ci": {
+    "runId": 43007031449,
+    "headSha": "de4a9a055571a914c86f0252fae907a8f69099b1",
+    "conclusion": "success",
+    "jobId": 130476958156,
+    "validatedSteps": [
+      "Validate route topology and UI regressions",
+      "Package website",
+      "Upload site",
+      "Deploy site"
+    ],
+    "stepsConclusion": "success",
+    "url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43007031449"
+  },
+  "checks": {
+    "maxDriftWithinHalfCellDiagonal": true,
+    "sourceEndpointsTwiceEdges": true,
+    "graphCoverage": true,
+    "componentsDelta": true,
+    "candidatePartition": true,
+    "prioritySubset": true,
+    "v181CICompleted": true,
+    "v181TestAndDeploySuccess": true
+  },
+  "passed": 8,
+  "limitations": [
+    "Raw SHP/DEM/v102/v129/v69/3D archive bytes not available; input SHA-256 not independently recomputed.",
+    "Per-node exact coordinates and 36084 provisional edge records unavailable; no physical route approval.",
+    "A successful Pages deployment does not establish nationwide data accuracy or traversability."
+  ],
+  "completionGates": {
+    "rawSourceHashVerified": false,
+    "all114RiskNodesIndependentlyReviewed": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false,
+    "ciForBaseCommitVerified": true
+  },
+  "safety": {
+    "originalGraphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  },
+  "nextAction": "Obtain byte-level source manifests and exact endpoint records for 5 named priority nodes; independently hash source SHP and v129/v140 artifacts, compare per-node graph topology before classifying any candidate."
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v185-topology-conflation-vs-distance-gate",
+  "baseCommit": "721f72c48deb9033dd762eae3dd2d1ee855259aa",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v184-observed-drift-gate-and-v183-ci-20261111.json": "72454c85517ef0fe962126dbc0a757192fedb216"
+  },
+  "sourceSHA256References": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "method": "Independent arithmetic replay of v140/v145/v184 Git blob audit summaries; explicitly distinguish topology node conflation from 35m geometric distance uncertainty. No raw SHP bytes or candidate overlay independently read.",
+  "coverage": {
+    "mountains": 2902,
+    "edges": 67185,
+    "graphNodes": 59301,
+    "endpointOccurrences": 134370
+  },
+  "newFinding": {
+    "distinctExactEndpointsSharingQuantizedNode": 1722,
+    "nodesSpreadOver1mm": 470,
+    "nodesSpreadOver5cm": 114,
+    "priorityOver5cmWithProvisionalIncidence": 57,
+    "priorityIncidencesNotUniqueEdges": 150,
+    "nearbyDistinctComponentPairCount": 1,
+    "nearbyDistinctComponentExample": {
+      "mountainCode": "301101201",
+      "nodes": [
+        81,
+        80
+      ],
+      "sourceGapMeters": 0.0116
+    },
+    "distanceGateMeters": {
+      "definitelyWithinAtMost": 34.858862,
+      "definitelyOutsideGreaterThan": 35.141138
+    },
+    "interpretation": "Distance uncertainty bound cannot validate topology. Nodes formed by conflating distinct source endpoints require source-edge incidence and connected-component comparison independently of whether candidate endpoint distance is <=35m."
+  },
+  "validation": {
+    "checksPassed": 17,
+    "checksTotal": 17,
+    "allPassed": true
+  },
+  "nextRequiredEvidence": [
+    "For all 1722 quantized nodes with distinct source endpoints: source edge IDs, precise endpoint XY, quantized node ID, pre/post component IDs, and incidence provenance",
+    "For 114 nodes with >5cm source spread: verify topology impact; prioritize 57 nodes with 150 provisional edge incidences",
+    "For all 36084 provisional candidate edges: exact source XY distances, authoritative trail identity, permission/field evidence, and component delta",
+    "Obtain v69 independent route baseline, original SHP/DEM ZIP member bytes and SHA256; independently test nationwide coverage and deploy"
+  ],
+  "completionGates": {
+    "rawArchiveBytesVerified": false,
+    "all114NodesReviewed": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  }
+}

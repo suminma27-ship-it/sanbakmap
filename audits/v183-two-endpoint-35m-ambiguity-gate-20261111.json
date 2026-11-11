@@ -1,0 +1,79 @@
+{
+  "schema": "sanbak-v183-two-endpoint-quantization-and-35m-ambiguity-gate",
+  "checkedAtUTC": "2026-11-11T12:53:41Z",
+  "baseCommit": "ddd28a95eaa9ad9ef330299227906e760ba232da",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v145-source-endpoint-priority.json": "7d326a794710cc8f120dbe402a45180faf4e3a66",
+    "audits/v182-quantization-bound-and-v181-ci-20261111.json": "b8bf1bd541ceab30cc5d269802f81cc28eedae80"
+  },
+  "method": "Independent analytic two-endpoint Euclidean error bound and automated assertions over published audit inputs; no raw ZIP bytes or geometry records",
+  "crs": "EPSG:5179",
+  "gridMeters": 0.1,
+  "maxSingleEndpointRoundingDriftMeters": 0.07071067811865477,
+  "maxPairDistanceErrorMeters": 0.14142135623730953,
+  "quantizedDistance35m": {
+    "definitelyWithinWhenDistanceBelowMeters": 34.85857864376269,
+    "indeterminateFromMeters": 34.85857864376269,
+    "indeterminateThroughMeters": 35.14142135623731,
+    "definitelyOutsideWhenDistanceAboveMeters": 35.14142135623731,
+    "boundarySamplesMeters": [
+      34.8,
+      34.9,
+      35,
+      35.1,
+      35.2
+    ],
+    "boundaryClasses": [
+      "within",
+      "ambiguous",
+      "ambiguous",
+      "ambiguous",
+      "outside"
+    ],
+    "meaning": "Only geometrical proximity classification; never proof of official/physical traversability"
+  },
+  "sourceConflation": {
+    "reportedDistinctEndpointNodes": 1722,
+    "reportedSpreadAbove5cm": 114,
+    "reportedSpreadAbove10cm": 2,
+    "maximumPossibleWithinSameGridCellMeters": 0.14142135623730953,
+    "interpretation": "Spread above 0.1m can still fit the same 0.1m cell diagonally; inspect exact coordinates and rounding convention before declaring an erroneous merge."
+  },
+  "separateNodeExample": {
+    "code": "301101201",
+    "nodeA": 81,
+    "nodeB": 80,
+    "rawSourceEndpointGapMeters": 0.0116,
+    "status": "requires_source_grounded_review_not_permanent_connection",
+    "action": "retain disconnection pending official trail or field evidence"
+  },
+  "checks": {
+    "maxSpreadWithinTwoEndpointBound": true,
+    "observedDriftWithinSingleEndpointBound": true,
+    "thresholdsNested": true,
+    "prioritySampleContained": true,
+    "quantizedClosePairNotApproved": true,
+    "sourceCounts": true,
+    "ciPriorCommitLinked": true,
+    "allSourcesStable": true,
+    "boundaryClassification": true
+  },
+  "passed": 9,
+  "completionGates": {
+    "rawArchiveBytesVerified": false,
+    "all114NodesReviewed": false,
+    "all36084CandidatesEvidenceClassified": false,
+    "v69Regression": false,
+    "nationwideCoverageIndependentlyVerified": false,
+    "latestCommitCIAndPagesVerified": false
+  },
+  "safety": {
+    "graphModified": false,
+    "demModified": false,
+    "uiModified": false,
+    "hangyeryeongExceptionChanged": false,
+    "newLinksApproved": 0
+  },
+  "nextAction": "Recover original SHP/v102/v129/3D/DEM bytes and hash members; inspect exact coordinates for all 114 spread>5cm nodes and 36084 candidate distances using conservative 35m ambiguity band; perform v69 regression and CI deployment verification. No approval from proximity alone."
+}

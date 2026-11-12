@@ -1,0 +1,48 @@
+{
+  "schema": "sanbak-v205-source-part-to-graph-edge-lineage-gate",
+  "date": "2026-11-12",
+  "baseCommit": "08d36510cd82a069dc4ffcd7c74885e4d39f02e1",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v142-v69-rule-regression-summary.json": "1c1fc583084e67fd2ff93cd3333c74daa7448416",
+    "data/nationwide-topology/manifest.json": "e5b78474c16a71f828946d08e15eb8229a138566"
+  },
+  "referenceOriginalSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "observed": {
+    "mountainCodes": 2902,
+    "sourceFeatures": 59397,
+    "sourceLineParts": 66503,
+    "sourceOriginalVertices": 6094963,
+    "graphEdges": 67185,
+    "endToInteriorVertexContacts": 708,
+    "edgeMinusLineParts": 682,
+    "contactMinusEdgeSurplus": 26
+  },
+  "checks": {
+    "edgeSurplus": true,
+    "contactsNotEqualSurplus": true,
+    "contactsMinusSurplus": true,
+    "vertexCountPositive": true,
+    "sourceFeatureCountPositive": true,
+    "siteCount": true,
+    "sourceHashCrossAudit": true,
+    "unverifiedConnectionCount": true
+  },
+  "passed": 8,
+  "total": 8,
+  "interpretation": "708 endpoint-to-interior contacts cannot be assumed to correspond one-to-one with 682 net extra graph edges. Splitting, duplicate/collapsed parts, graph construction and source lineage require individual source-feature and segment IDs before attribution. This audit is an arithmetic/lineage acceptance gate, not an independent source SHP byte verification.",
+  "nextRequired": [
+    "Recover original SHP or topology ZIP and join each graph edge to source feature ID, line part index, and split interval; count zero/one/many mappings and reconcile net +682.",
+    "Independently verify 114 conflation-risk nodes, 61 zero-length self loops and the 1.16cm cross-component pair against raw EPSG:5179 geometry.",
+    "Test v69 individual routes and provisional 35m edge identifiers without granting physical passage.",
+    "Check DEM and deployed coverage of all 2902 sites including below 200m."
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

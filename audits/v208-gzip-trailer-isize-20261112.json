@@ -1,0 +1,38 @@
+{
+  "schema": "sanbak-v208-gzip-trailer-independent-gate",
+  "date": "2026-11-12",
+  "baseCommit": "8b2ab270c5cface3ccc42766165cc891575ab683",
+  "inputs": {
+    "manifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "lastPackGitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241",
+    "sourceReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "method": "Fetched complete pack-15.js and manifest from main. Extracted final 16 base64 characters, decoded final 12 bytes independently, interpreted final 8 bytes as RFC1952 gzip trailer (little-endian CRC32 and ISIZE). No gzip decompression performed.",
+  "results": {
+    "gzipTrailerCRC32": "f0e981ca",
+    "gzipTrailerISIZE": 6229684,
+    "manifestRawBytes": 6229684,
+    "isizeMatchesManifest": true,
+    "crc32NotYetValidatedAgainstDecompressedPayload": true,
+    "sourceZIPBytesNotRead": true
+  },
+  "checks": {
+    "base64SuffixValid": true,
+    "trailerEightBytesAvailable": true,
+    "isizeMatchesRawByteCount": true
+  },
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "status": "PASS_TRAILER_METADATA_ONLY",
+  "nextRequired": [
+    "Decode and decompress full 16-part payload, calculate gzip and raw SHA256, independently recompute gzip CRC32",
+    "Compare full geometry with original SHP and inspect 114 precision-risk nodes",
+    "Validate 35m candidate provenance, v69 path regression, DEM and nationwide coverage"
+  ]
+}

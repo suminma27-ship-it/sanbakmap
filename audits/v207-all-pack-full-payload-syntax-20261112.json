@@ -1,0 +1,150 @@
+{
+  "schema": "sanbak-v207-full-pack-payload-syntax-audit",
+  "date": "2026-11-12",
+  "baseCommit": "332bc004f7e4cf15fca49d2c059839fe14744232",
+  "inputs": {
+    "manifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "sourceReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "expectedGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "expectedRawSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da"
+  },
+  "method": "Fetched all 16 complete pack JavaScript text payloads from main using GitHub connector; anchored regex checks assignment syntax, contiguous indexes, base64 alphabet, lengths and padding. Does not decode gzip or independently calculate SHA256.",
+  "packs": [
+    {
+      "index": 0,
+      "gitBlobSHA1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 1,
+      "gitBlobSHA1": "70303c2e35b4c68c57d73bc141648332b4481269",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 2,
+      "gitBlobSHA1": "cca84df214c821a962853f9db60263045c681491",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 3,
+      "gitBlobSHA1": "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 4,
+      "gitBlobSHA1": "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 5,
+      "gitBlobSHA1": "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 6,
+      "gitBlobSHA1": "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 7,
+      "gitBlobSHA1": "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 8,
+      "gitBlobSHA1": "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 9,
+      "gitBlobSHA1": "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "fileBytes": 120073,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 10,
+      "gitBlobSHA1": "4fdb3bafef32814822142daa7844f50440d950d7",
+      "fileBytes": 120074,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 11,
+      "gitBlobSHA1": "a71a9cf11842105e3ef917db4508ab995d327191",
+      "fileBytes": 120074,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 12,
+      "gitBlobSHA1": "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "fileBytes": 120074,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 13,
+      "gitBlobSHA1": "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "fileBytes": 120074,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 14,
+      "gitBlobSHA1": "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "fileBytes": 120074,
+      "payloadChars": 120000,
+      "assignmentAndAlphabetValid": true
+    },
+    {
+      "index": 15,
+      "gitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241",
+      "fileBytes": 91750,
+      "payloadChars": 91676,
+      "assignmentAndAlphabetValid": true
+    }
+  ],
+  "checks": {
+    "all16Fetched": true,
+    "allAssignmentIndexesCorrect": true,
+    "allBase64AlphabetValid": true,
+    "allPayloadLengthsExpected": true,
+    "concatenatedBase64Characters": 1891676,
+    "expectedBase64Characters": 1891676,
+    "base64LengthMatches": true,
+    "gzipHeaderBase64Prefix": true
+  },
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "status": "PASS_STRUCTURE_ONLY",
+  "nextRequired": [
+    "Independently decode concatenated base64, hash gzip and decompressed JSON and compare to manifest",
+    "Inspect original SHP precision risk nodes, zero-length loops and micro gap",
+    "Complete 35m provenance, v69 path regression and DEM coverage"
+  ]
+}

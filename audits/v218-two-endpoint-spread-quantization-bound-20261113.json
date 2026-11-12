@@ -1,0 +1,62 @@
+{
+  "schema": "sanbak-v218-endpoint-spread-vs-quantization-displacement-audit",
+  "date": "2026-11-13",
+  "baseCommit": "7ba5b1a7c45008154201c7a9efa70bfaddcd166b",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    }
+  ],
+  "calculation": {
+    "gridMeters": 0.1,
+    "maxSingleEndpointDisplacementMeters": 0.07071067811865477,
+    "maxTwoEndpointsInSameQuantizationCellSeparationMeters": 0.14142135623730953,
+    "observedMaxSingleEndpointDisplacementMeters": 0.070569,
+    "sourceDistinctEndpointNodes": 1722,
+    "sourceDistinctEndpointNodesPct": 2.903829615014924,
+    "spreadAbove10cmNodes": 2,
+    "spreadAbove5cmNodes": 114,
+    "spreadAbove1cmNodes": 368,
+    "spreadAbove1mmNodes": 470,
+    "possibleFalseJoinCandidatesUnresolved": true
+  },
+  "tests": {
+    "two_endpoint_spread_bound": true,
+    "spread_threshold_nesting": true,
+    "distinct_source_endpoint_subset": true,
+    "covered_nodes": true,
+    "quantized_endpoint_max_bound": true,
+    "near_pair_nesting": true,
+    "component_pair_subset": true,
+    "source_consistency": true,
+    "all_edges": true,
+    "all_mountains": true,
+    "no_connection_approval": true
+  },
+  "passed": 11,
+  "total": 11,
+  "interpretation": "The v217 7.071cm bound applies to each individual endpoint-to-rounded-node displacement, NOT the distance between two different source endpoints assigned to the same rounded node. That pairwise separation may reach sqrt(2)*0.1m = 14.142cm. Thus two >10cm spread cases do not contradict the single-point bound. None of these summary statistics proves physical trail connectivity.",
+  "scope": "Deterministic cross-audit mathematical checks on existing repository summaries; original SHP endpoint arrays and exact affected node identities not available in these summaries.",
+  "nextGate": [
+    "Obtain original EPSG:5179 SHP and v140 archive to identify both >10cm spread nodes and independently measure exact endpoint coordinates",
+    "Verify 114 >5cm cases against raw endpoint arrays and identify cross-component merges without approving new links",
+    "Decompress 16 packs, validate raw JSON SHA-256 and coverage; later validate 35m candidates and v69 routes"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

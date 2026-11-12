@@ -1,0 +1,70 @@
+{
+  "schema": "sanbak-v216-precision-risk-and-hash-namespace-crosscheck",
+  "date": "2026-11-13",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v215-full-js-wrapper-integrity-20261113.json",
+      "gitBlobSHA1": "4d3d19c053e6dc9af6e5db594e76b8cd6981f4b8"
+    }
+  ],
+  "tests": {
+    "source_sha_across_three": true,
+    "topology_pack_sha_manifest_v129": true,
+    "v140_topology_sha_is_distinct_artifact": true,
+    "v140_graph_sha_matches_v129_overlay": true,
+    "all_mountains": true,
+    "all_edges": true,
+    "endpoint_occurrences": true,
+    "risk_thresholds_monotonic": true,
+    "across_component_pairs_subset": true,
+    "no_link_approval": true,
+    "v215_pack_count": true,
+    "v215_pack_bytes": true
+  },
+  "passed": 12,
+  "total": 12,
+  "findings": {
+    "riskNodesAbove5cm": 114,
+    "riskNodesAbove10cm": 2,
+    "nearbyDifferentNodePairs2cm": 4,
+    "nearbyAcrossComponents": 1,
+    "priorityExample": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "sourceSha256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "packGzipSha256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologySha256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v140GraphSha256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "interpretation": "v140 topology hash is not the v102 gzip-pack hash; distinct artifact namespaces must not be compared as identical. v140 graph hash equals v129 overlay package hash."
+  },
+  "scope": "Independent arithmetic and hash namespace consistency from repository JSON only; original SHP coordinates, decompressed topology and physical passage not verified.",
+  "nextGate": [
+    "Retrieve original SHP and v140 audit ZIP bytes and validate the 114 >5cm conflation-risk nodes, starting with two >10cm cases",
+    "Independently decompress all 16 topology packs and compare raw JSON SHA-256 and counts",
+    "Review 35m candidates with official access evidence; run v69 route regression"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

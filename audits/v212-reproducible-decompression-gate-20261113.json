@@ -1,0 +1,39 @@
+{
+  "schema": "sanbak-v212-reproducible-decompression-gate",
+  "date": "2026-11-13",
+  "baseCommit": "11fc4f697f0825606aa70d5f47b087a6f3932937",
+  "toolCommit": "98b30daf4bcd60e844b6cb6c3ea7c7436ce67dfb",
+  "toolPath": "audits/tools/verify_topology_gzip_v212.py",
+  "toolGitBlobSHA1": "c0c939c79db1cbc4cb7474998fa456313888f6a1",
+  "expected": {
+    "parts": 16,
+    "compressedBytes": 1418757,
+    "compressedSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "uncompressedBytes": 6229684,
+    "uncompressedCRC32": "f0e981ca",
+    "uncompressedSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da"
+  },
+  "checks": {
+    "repositoryHeadInspected": true,
+    "v211AuditRead": true,
+    "verifierFileCreated": true,
+    "verifierFetchedAndBlobRecorded": true,
+    "pythonSyntaxTestedOnCommittedExactBytes": false,
+    "fullPackDecompressionExecuted": false,
+    "originalSHPDEMAvailable": false
+  },
+  "status": "VERIFIER_ADDED_EXECUTION_PENDING",
+  "nextRequired": [
+    "Locate or retrieve all 16 pack files into one execution environment; run verifier and capture stdout and exit code",
+    "Compare original SHP precision risk nodes 114 and 0.1m quantization effects",
+    "Validate nationwide graph counts, 35m candidates without approval, v69 regression and DEM source hashes"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

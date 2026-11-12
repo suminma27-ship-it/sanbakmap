@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v195-precision-risk-triage-gates",
+  "baseCommit": "e199206f770dd962c466449eb356c255870ac4ab",
+  "sourceGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v191-conflation-self-loop-incidence-20261112.json": "04ebea00a84faba1343094fc80e868c8c69d5677",
+    "audits/v193-v102-v129-exact-original-topology-identity-20261112.json": "ba381d5d06f79482ef8f31aac36ec89ef20caa85",
+    "audits/v194-selfloop-quantization-intersection-priority-20261112.json": "983cf40d779ad1094cb08f5338d8f23e1b1032e1"
+  },
+  "method": "Read four current main-branch audit JSON files; independently evaluate 12 cross-file arithmetic and containment assertions. No raw SHP, DEM, ZIP bytes or field passage evidence accessed in this run.",
+  "results": {
+    "quantizedConflationNodes": 1722,
+    "highSpreadAbove5cm": 114,
+    "nearbyDifferentNodePairsWithin2cm": 4,
+    "nearbyDifferentNodePairsAcrossComponentsWithin2cm": 1,
+    "priorityCrossComponentExample": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "sourceEndpointOccurrences": 134370,
+    "baselineEdges": 67185,
+    "baselineSelfLoops": 705,
+    "conflationIncidentSelfLoops": 490,
+    "nonConflationSelfLoops": 215,
+    "zeroLengthConflationIncidentLoops": 61
+  },
+  "checks": {
+    "sourceEndpointOccurrencesTwiceEdges": true,
+    "graphCoverage": true,
+    "exactGraphIdentity": true,
+    "loopSubset": true,
+    "loopComplement": true,
+    "zeroLengthIdentity": true,
+    "longLoopIdentity": true,
+    "highSpreadSubset": true,
+    "highSpreadLoopSubset": true,
+    "nearPairComponentSubset": true,
+    "nearPair1cmSubset": true,
+    "noBaselineChange": true
+  },
+  "passed": 12,
+  "totalChecks": 12,
+  "priority": [
+    "Independently inspect exact original SHP endpoints for mountain 301101201 node 81 versus 80 (reported 0.0116m across components); do not connect based on proximity.",
+    "Inspect exact SHP polylines for 61 zero-recorded-length self-loops and 3 >10m conflation-incident loops before classifying as data errors.",
+    "Review 114 >5cm conflation candidates and 35m provisional links with geometry and official access evidence; run independent v69 and DEM checks."
+  ],
+  "limitations": {
+    "derivedAuditOnly": true,
+    "rawSHPRead": false,
+    "rawDEMRead": false,
+    "originalSHA256Recomputed": false,
+    "physicalConnectionsApproved": 0
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "deletedOrMerged": 0
+  }
+}

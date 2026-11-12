@@ -1,0 +1,47 @@
+{
+  "schema": "sanbak-v202-repository-manifest-independent-crosscheck",
+  "baseCommit": "92ac06f3fe417ab972b59c0eb632dab835a009ff",
+  "date": "2026-11-12",
+  "inputs": {
+    "data/nationwide-topology/manifest.json": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v142-v69-rule-regression-summary.json": "1c1fc583084e67fd2ff93cd3333c74daa7448416",
+    "audits/v201-v69-provisional-overlap-lower-bound-20261112.json": "81c082bb1fe32a3a39bb5d267a265999c8dea42b"
+  },
+  "method": "Fetched current main repository manifest and three independent audit JSON files; recomputed preservation, provenance and v69 numerical bounds without reading original SHP/DEM bytes.",
+  "checks": {
+    "mountains": true,
+    "nodes": true,
+    "edges": true,
+    "components": true,
+    "sourceHash": true,
+    "endpointOccurrences": true,
+    "riskSubset": true,
+    "v69Universe": true,
+    "v69Partition": true,
+    "provisional": true,
+    "legacyBound": true,
+    "hangyeryeong": true
+  },
+  "passed": 12,
+  "total": 12,
+  "sourcePackage": {
+    "mountains": 2902,
+    "nodes": 59301,
+    "edges": 67185,
+    "sourceFeatures": 59397,
+    "sourceLineParts": 66503,
+    "sourceVertices": 6094963,
+    "sourceZipSHA256Referenced": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "status": "manifest consistency verified, original GIS geometries and legal passage not verified",
+  "nextAcceptance": "Recover original EPSG:5179 SHP and compare 114 conflation nodes, 61 zero-length loops and 1.16cm cross-component pair; independently hash original ZIP and DEM, join per-candidate IDs to v69 fixture; verify 2902-mountain coverage and deployed graph.",
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

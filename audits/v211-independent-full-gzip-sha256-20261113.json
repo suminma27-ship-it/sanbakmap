@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v211-independent-full-gzip-sha256",
+  "date": "2026-11-13",
+  "baseCommit": "fa3a4e401fc3b514b73188459e82c03d1420edb6",
+  "inputs": {
+    "manifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "sourceZIPReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "packGitBlobSHA1": [
+      "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "70303c2e35b4c68c57d73bc141648332b4481269",
+      "cca84df214c821a962853f9db60263045c681491",
+      "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "4fdb3bafef32814822142daa7844f50440d950d7",
+      "a71a9cf11842105e3ef917db4508ab995d327191",
+      "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "af9a8da66f2640893b30bd969fb0adfc40d13241"
+    ]
+  },
+  "method": "Fetched full text of all 16 pack files from GitHub main, extracted each quoted Base64 payload, concatenated in numeric order, independently decoded all Base64 bytes, and computed SHA-256 in pure JavaScript using FIPS 180-4 message padding, prime-derived round constants and 64-round compression; compared resulting digest with previously recorded manifest expected gzip SHA-256.",
+  "results": {
+    "packs": 16,
+    "compressedBytes": 1418757,
+    "computedGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "manifestExpectedGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "equal": true,
+    "first10Hex": "1f8b08000000000002ff",
+    "gzipTrailerHex": "ca81e9f0b40e5f00"
+  },
+  "checks": {
+    "allPacksFetched": true,
+    "base64Decoded": true,
+    "compressedSizeMatches": true,
+    "sha256IndependentlyComputed": true,
+    "sha256MatchesManifest": true,
+    "allPackBlobSHA1MatchV210": true
+  },
+  "status": "PASS_COMPRESSED_SHA256_NOT_RAW_JSON",
+  "limitations": [
+    "Original SHP, v102/v129, 3D elevation, DEM and audit ZIP bytes unavailable in current execution; source ZIP SHA256 remains a reference only",
+    "No gzip decompression, uncompressed CRC32/raw JSON SHA256, graph feature parsing, individual geometry, 35m legal evidence, v69 route regression or deployment validation"
+  ],
+  "nextRequired": [
+    "Decompress reconstructed gzip and verify uncompressed CRC32 f0e981ca, ISIZE 6229684 and raw JSON SHA256 3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+    "Verify 2902 locations and 67185 graph edges in decoded JSON; examine 114 precision-risk nodes against source SHP",
+    "Maintain no auto joins, no deletions, preserve DEM and Hangyeryeong exception"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

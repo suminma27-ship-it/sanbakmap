@@ -1,0 +1,57 @@
+{
+  "schema": "sanbak-v214-cross-version-source-identity-and-invariant-gate",
+  "date": "2026-11-13",
+  "baseCommit": "e941165ebc5f39baf89a559ca2778313df1fa8b7",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    }
+  ],
+  "tests": {
+    "sourceHashMatches": true,
+    "gzipHashMatches": true,
+    "coverageMatches": true,
+    "graphNodesMatch": true,
+    "graphEdgesMatch": true,
+    "componentsMatch": true,
+    "endpointOccurrencesTwiceEdges": true,
+    "candidatePartition": true,
+    "candidateCountsAgree": true,
+    "componentDelta": true,
+    "riskThresholdMonotonic": true,
+    "noApproval": true
+  },
+  "passed": 12,
+  "total": 12,
+  "observations": {
+    "mountains": 2902,
+    "graphEdges": 67185,
+    "quantizedSpreadAbove5cm": 114,
+    "unapproved35mPairs": 36084,
+    "componentReductionPreview": 289,
+    "splitEdgesAdded": 20838
+  },
+  "scope": "Cross-version metadata arithmetic and provenance consistency only; no original bytes or route geometry independently verified",
+  "remaining": [
+    "Run v213 verifier against all 16 original pack files and validate decompressed JSON",
+    "Inspect 114 quantization risk nodes against original SHP bytes",
+    "Independently verify DEM, v69 route regressions, and official passage evidence"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

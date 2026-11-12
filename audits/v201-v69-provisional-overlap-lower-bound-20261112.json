@@ -1,0 +1,43 @@
+{
+  "schema": "sanbak-v201-legacy-provisional-overlap-lower-bound",
+  "baseCommit": "e8959028390f678cc0f65ce52cbf1d60b844ff6e",
+  "inputGitBlobSHA1": {
+    "v200": "df3dc0256837206d107094ba450436b818dcda82",
+    "v196": "cfb80d6eceff80fa96e5c3a3c95a7c799a831ec3"
+  },
+  "referencedSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "method": "Read v196 and v200 GitHub audit JSON; apply exact inclusion-exclusion set cardinality bounds over shared 144990 candidate universe; independent deterministic checks. No original SHP, DEM, ZIP or edge-level fixture available in this execution.",
+  "derived": {
+    "candidateUniverse": 144990,
+    "legacyWithin075m": 109392,
+    "provisional35m": 36084,
+    "provWithinLegacyLower": 486,
+    "provWithinLegacyUpper": 36084,
+    "provBeyondLegacyLower": 0,
+    "provBeyondLegacyUpper": 35598,
+    "minimumLegacyWithinProvisionalFraction": 0.013468573328899235
+  },
+  "checks": {
+    "sameUniverse": true,
+    "provisionalConsistent": true,
+    "thresholdPartition": true,
+    "provisionalPartition": true,
+    "inclusionExclusion": true,
+    "upperBound": true,
+    "complementBound": true,
+    "previousBeyondMaximum": true,
+    "provenance": true
+  },
+  "passed": 9,
+  "totalChecks": 9,
+  "interpretation": "At least 486 of the 36084 provisional candidate pairs must lie in the v69 <=0.75m band IF both counts refer to the same uniquely identified 144990-pair universe, regardless of pair identities. This does not identify which pairs, establish compatibility with v69 routing behavior, or authorize any trail connection. Distinguish numerical band membership from physical/legal passage.",
+  "nextAcceptance": "Acquire original per-candidate IDs/coordinates and v69 fixture to compute exact overlap and route regression; independently read source SHP for 114 quantization-risk nodes, 61 zero-length loops and 1.16cm cross-component pair; independently hash ZIP/DEM and verify nationwide deployment.",
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

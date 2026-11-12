@@ -1,0 +1,54 @@
+{
+  "schema": "sanbak-v204-independent-precision-geometry-and-provenance-guards",
+  "date": "2026-11-12",
+  "baseCommit": "e9ba7cfc23809aea3610c2951afda3250aecee20",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v142-v69-rule-regression-summary.json": "1c1fc583084e67fd2ff93cd3333c74daa7448416",
+    "data/nationwide-topology/manifest.json": "e5b78474c16a71f828946d08e15eb8229a138566"
+  },
+  "referenceSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "calculations": {
+    "roundingStepMeters": 0.1,
+    "singleEndpointMaxPlanarDriftMeters": 0.07071067811865477,
+    "maxTwoEndpointsInOneRoundedCellMeters": 0.14142135623730953,
+    "observedMaxDriftMeters": 0.070569,
+    "driftMarginMeters": 0.00014167811865475888,
+    "sourceEndpointOccurrences": 134370,
+    "rawCrossComponentGapMeters": 0.0116,
+    "sourcePartCount": 66503,
+    "graphEdgeCount": 67185,
+    "edgeMinusSourceParts": 682
+  },
+  "checks": {
+    "allSites": true,
+    "allEdges": true,
+    "allNodes": true,
+    "allComponents": true,
+    "endpointCount": true,
+    "quantizationDriftBound": true,
+    "quantizationSpreadBound": true,
+    "precisionPopulation": true,
+    "nearPairs": true,
+    "legacyCandidatePartition": true,
+    "hangyeryeongException": true,
+    "sourceSHA": true
+  },
+  "passed": 12,
+  "total": 12,
+  "interpretation": "Independent geometric upper-bound and cross-source invariants; not proof of correct source topology, legal passage, or route regression.",
+  "nextRequired": [
+    "Obtain original SHP and audit ZIP bytes for individual 114-node and 61-self-loop geometry adjudication",
+    "Reconcile 1.16cm cross-component pair against source features without merging",
+    "Join 35m provisional candidate identifiers to v69 route tests",
+    "Independently verify DEM and deployed 2902-site coverage"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

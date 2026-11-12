@@ -1,0 +1,85 @@
+{
+  "schema": "sanbak-v210-full-packed-gzip-reconstruction-crc32",
+  "date": "2026-11-13",
+  "baseCommit": "b54c91d6f759f5caf81db4ade108dea94b7ded6d",
+  "inputs": {
+    "manifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "packGitBlobSHA1": [
+      "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "70303c2e35b4c68c57d73bc141648332b4481269",
+      "cca84df214c821a962853f9db60263045c681491",
+      "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "4fdb3bafef32814822142daa7844f50440d950d7",
+      "a71a9cf11842105e3ef917db4508ab995d327191",
+      "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "af9a8da66f2640893b30bd969fb0adfc40d13241"
+    ],
+    "sourceZIPReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "method": "Fetched all 16 complete pack JS contents from main, extracted exactly one base64 literal per file, concatenated in numeric order, decoded all bytes with independent 6-bit base64 decoder, and streamed IEEE CRC32 over compressed bytes. This is compressed-payload CRC32, NOT gzip trailer CRC32 (which covers uncompressed bytes).",
+  "results": {
+    "parts": 16,
+    "base64Characters": 1891676,
+    "decodedGzipBytes": 1418757,
+    "compressedPayloadCRC32": "9ad12f4f",
+    "first12Hex": "1f8b08000000000002ffecbd",
+    "last12Hex": "fddfff0fca81e9f0b40e5f00",
+    "gzipTrailerUncompressedCRC32": "f0e981ca",
+    "gzipTrailerISIZE": 6229684,
+    "partBase64Lengths": [
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      120000,
+      91676
+    ]
+  },
+  "checks": {
+    "all16PacksFetched": true,
+    "oneLiteralPerPack": true,
+    "packBlobSHA1MatchesV206": true,
+    "base64LengthMatchesManifest": true,
+    "decodedGzipLengthMatchesManifest": true,
+    "gzipHeaderMatchesV209": true,
+    "gzipTrailerMatchesV208": true,
+    "crc32CompressedComputedFromAllBytes": true
+  },
+  "status": "PASS_FULL_COMPRESSED_BYTE_RECONSTRUCTION_NOT_DECOMPRESSION",
+  "limitations": [
+    "No decompression or independent gzip/raw SHA256; compressed CRC32 is not the gzip trailer integrity check",
+    "Original SHP/DEM/ZIP bytes not accessible in this run",
+    "No individual geometry, 35m legal access, v69 path, nationwide coverage or deployment validation"
+  ],
+  "nextRequired": [
+    "Independently gunzip reconstructed bytes and compare uncompressed CRC32 f0e981ca, ISIZE 6229684, raw SHA256 and gzip SHA256 to manifest",
+    "Parse complete nationwide topology and compare 2902 codes and 67185 edges; inspect 114 precision-risk nodes against original SHP",
+    "Preserve original graph/DEM, Hangyeryeong exception, and prohibit automatic proximity joins"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "sanbak-v209-gzip-header-independent-gate",
+  "date": "2026-11-12",
+  "baseCommit": "c6fe0d214354fb03063e72f1a6ae8eb021d442db",
+  "inputs": {
+    "firstPackGitBlobSHA1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+    "manifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "previousAuditGitBlobSHA1": "8b2828ebb4c020cd90fd291a9118c6e985cb0317",
+    "sourceReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+  },
+  "method": "Fetched complete pack-00.js, manifest and v208 audit from main. Independently parsed first 24 base64 characters with a local six-bit alphabet decoder, interpreted first ten RFC1952 gzip header bytes; cross-checked v208 trailer and source provenance. Did not decompress gzip or access original SHP/DEM.",
+  "results": {
+    "gzipHeaderHex": "1f8b08000000000002ff",
+    "compressionMethod": 8,
+    "flags": 0,
+    "mtime": 0,
+    "xfl": 2,
+    "operatingSystem": 255,
+    "checksPassed": 9,
+    "checksTotal": 9
+  },
+  "checks": {
+    "gzipMagic": true,
+    "deflateMethod": true,
+    "noReservedFlags": true,
+    "noOptionalHeader": true,
+    "mtimeZero": true,
+    "expectedPartCount": true,
+    "priorISIZE": true,
+    "sourceSHAReference": true,
+    "manifestGitBlobMatchesPrior": true
+  },
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "status": "PASS_HEADER_METADATA_ONLY",
+  "nextRequired": [
+    "Retrieve and reconstruct all 16 parts in a binary-capable runtime, gunzip and independently recompute gzip/raw SHA256 and CRC32",
+    "Compare source SHP feature geometry and 114 precision-risk nodes without auto-joining",
+    "Individually validate 35m candidates and v69 paths, DEM, full nationwide coverage and deployment"
+  ]
+}

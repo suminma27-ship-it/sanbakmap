@@ -1,0 +1,49 @@
+{
+  "schema": "sanbak-v199-quantization-risk-stratification",
+  "baseCommit": "9329897dccd921d16a91a25c23132844755968b6",
+  "inputs": {
+    "v140BlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v129BlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "referencedSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "referencedOverlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "method": "Recomputed disjoint threshold bins and denominators from fetched GitHub v140/v129 audit JSON; no source SHP/ZIP/DEM bytes accessed.",
+  "derived": {
+    "distinctExactEndpointNodes": 1722,
+    "unaffectedByDistinctEndpointConflation": 57579,
+    "over5cmAmongConflatedPercent": 6.620209,
+    "over5cmAmongAllNodesPercent": 0.19224,
+    "belowOrEqual1mmConflated": 1252,
+    "above1mmTo1cm": 102,
+    "above1cmTo5cm": 254,
+    "above5cmTo10cm": 112,
+    "above10cm": 2,
+    "componentReduction": 289,
+    "provisionalEdgesPerComponentReduction": 124.858131,
+    "distinctCellNearPairsNotApproved": 4
+  },
+  "checks": {
+    "binsSum": true,
+    "monotone": true,
+    "unaffectedSum": true,
+    "sourceHash": true,
+    "overlayHash": true,
+    "componentReduction": true,
+    "provisionalCount": true,
+    "below200Removed": true,
+    "rawTopologyPreserved": true,
+    "passageNotApproved": true
+  },
+  "passed": 10,
+  "totalChecks": 10,
+  "interpretation": "Risk triage only; bins classify reported maximum precise-endpoint spread, not verified false junctions. 1.16cm distinct-component candidate remains unapproved. Provisional edges do not prove passage.",
+  "nextAcceptance": "Recover source SHP and compare feature geometry at 114 >5cm conflations, 61 zero-length self-loops, 1.16cm pair; then v69/DEM/35m evidence tests.",
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

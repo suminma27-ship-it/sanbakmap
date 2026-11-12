@@ -1,0 +1,143 @@
+{
+  "schema": "sanbak-v215-strict-full-js-wrapper-gate",
+  "date": "2026-11-13",
+  "baseCommit": "58f3109f433dee7ec7c96fe0063ac5aa68b42276",
+  "inputManifestGitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+  "inputPacks": [
+    {
+      "path": "data/nationwide-topology/pack-00.js",
+      "gitBlobSHA1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-01.js",
+      "gitBlobSHA1": "70303c2e35b4c68c57d73bc141648332b4481269",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-02.js",
+      "gitBlobSHA1": "cca84df214c821a962853f9db60263045c681491",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-03.js",
+      "gitBlobSHA1": "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-04.js",
+      "gitBlobSHA1": "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-05.js",
+      "gitBlobSHA1": "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-06.js",
+      "gitBlobSHA1": "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-07.js",
+      "gitBlobSHA1": "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-08.js",
+      "gitBlobSHA1": "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-09.js",
+      "gitBlobSHA1": "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-10.js",
+      "gitBlobSHA1": "4fdb3bafef32814822142daa7844f50440d950d7",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-11.js",
+      "gitBlobSHA1": "a71a9cf11842105e3ef917db4508ab995d327191",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-12.js",
+      "gitBlobSHA1": "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-13.js",
+      "gitBlobSHA1": "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-14.js",
+      "gitBlobSHA1": "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "base64Characters": 120000,
+      "exactWrapper": true,
+      "indexCorrect": true
+    },
+    {
+      "path": "data/nationwide-topology/pack-15.js",
+      "gitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241",
+      "base64Characters": 91676,
+      "exactWrapper": true,
+      "indexCorrect": true
+    }
+  ],
+  "testRule": "Entire file must match anchored JS assignment (window.SANBAK_TOPOLOGY_PARTS||(window.SANBAK_TOPOLOGY_PARTS=[]))[index]=\"BASE64\"; with matching index and no trailing executable content",
+  "tests": {
+    "all16FilesFetched": true,
+    "all16ExactWrapper": true,
+    "all16CorrectIndex": true,
+    "base64CharactersMatchManifest": true
+  },
+  "base64CharactersTotal": 1891676,
+  "expectedGzipBytes": 1418757,
+  "scope": "Full JS wrapper validation only; gzip decompression, CRC32 of plaintext, JSON contents, SHP precision, DEM, 35m permissions and v69 routes not independently checked",
+  "remaining": [
+    "Run v213 byte-level verifier and verify uncompressed JSON SHA-256",
+    "Review 114 quantization-risk nodes with original source geometry",
+    "Independently audit 35m candidate evidence and v69 route regressions"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

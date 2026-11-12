@@ -1,0 +1,56 @@
+{
+  "schema": "sanbak-v198-quantization-geometric-bounds-gate",
+  "baseCommit": "1424832fab94ff9c1846248317cda0dd1a2681fa",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+  },
+  "inputReferencedSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v140Topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129Topology": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "overlay": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "method": "Independent mathematical bounds check on published EPSG:5179 decimeter coordinate rounding and cross-audit provenance. Reads GitHub audit blobs, not raw SHP/ZIP/DEM.",
+  "derived": {
+    "quantizationMeters": 0.1,
+    "theoreticalMaximumSingleEndpointRoundingDriftMeters": 0.07071067811865475,
+    "theoreticalMaximumTwoSourceEndpointsInSameRoundedCellMeters": 0.14142135623730953,
+    "observedMaximumDriftMeters": 0.070569,
+    "remainingDriftMarginMeters": 0.000141678118654745,
+    "observedNodesWithSourceSpreadAbove10cm": 2,
+    "interpretation": "Two exact endpoints assigned to one 0.1m rounded node can differ by up to sqrt(2)*0.1m; >0.1m spread alone does not violate rounding. This is a bound, not a per-node validation or a passage authorization."
+  },
+  "checks": {
+    "endpointDriftWithinHalfCellDiagonal": true,
+    "spreadAbove10cmGeometricallyPossible": true,
+    "sourceEndpointCount": true,
+    "graphCountsAgree": true,
+    "sourceHashMatches": true,
+    "overlayHashMatches": true,
+    "distinctNodePairSubset": true,
+    "provisionalNoPassage": true,
+    "hangyeryeongExcluded": true
+  },
+  "passed": 9,
+  "totalChecks": 9,
+  "remainingAcceptanceGates": [
+    "Recover and hash raw SHP and both topology ZIPs; compare per-feature precise geometry, CRS and stable identifiers.",
+    "Inspect 114 >5cm node conflations, 61 zero-length self-loops and 1.16cm cross-component example against source polylines.",
+    "Validate 36084 provisional <=35m connections with authoritative passage evidence; retain Hangyeryeong exception.",
+    "Independent v69 regression, nationwide DEM coverage and deployment verification."
+  ],
+  "limits": {
+    "rawSHPRead": false,
+    "rawDEMRead": false,
+    "rawTopologyZipRead": false,
+    "approvedConnections": 0
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "deletedOrMerged": 0
+  }
+}

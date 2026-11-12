@@ -1,0 +1,58 @@
+{
+  "schema": "sanbak-v197-hash-role-topology-provenance-gate",
+  "baseCommit": "8ecd60588baa6500b5cb277d3406bb2390d0ffbc",
+  "sourceGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v196-candidate-denominator-provenance-gates-20261112.json": "cfb80d6eceff80fa96e5c3a3c95a7c799a831ec3"
+  },
+  "method": "Read three main-branch audit blobs; check cross-version hash identity and explicitly distinguish topology ZIP from overlay graph ZIP. No archive bytes read.",
+  "hashRoles": {
+    "sourceSHPReference": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v129SourceSHPReference": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v140TopologyArchive": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129TopologyArchive": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140GraphArchive": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v129OverlayArchive": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "findings": {
+    "sourceSHPHashMatches": true,
+    "overlayGraphHashMatches": true,
+    "topologyArchiveHashesDiffer": true,
+    "topologyArchivesByteIdentical": false,
+    "topologyEquivalence": "NOT ESTABLISHED by SHA-256; different bytes may represent same geometry but require independent normalized comparison",
+    "provisionalEdges": 36084,
+    "originalMountains": 2902,
+    "originalEdges": 67185
+  },
+  "checks": {
+    "sameSource": true,
+    "overlayHash": true,
+    "topologyHashesDifferent": true,
+    "graphCount": true,
+    "overlayCounts": true,
+    "components": true,
+    "zeroApproval": true,
+    "consistentPrior": true
+  },
+  "passed": 8,
+  "totalChecks": 8,
+  "nextSteps": [
+    "Recover both topology ZIPs and compare normalized geometry, CRS, per-feature identity and independent SHA-256; do not infer byte equality from common source SHP hash.",
+    "Independently inspect exact SHP endpoints for mountain 301101201 nodes 81 and 80 and 114 >5cm conflation nodes.",
+    "Validate provisional 35m edges with official passage evidence, then run v69 regression and DEM coverage."
+  ],
+  "limits": {
+    "rawArchiveRead": false,
+    "rawSHPRead": false,
+    "rawDEMRead": false,
+    "approvedConnections": 0
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "deletedOrMerged": 0
+  }
+}

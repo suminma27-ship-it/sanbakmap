@@ -1,0 +1,67 @@
+{
+  "schema": "sanbak-v196-candidate-denominator-provenance-gate",
+  "baseCommit": "d436e3db9927ba9ddb21beec071cec1e4d6f0fc0",
+  "sourceGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v193-v102-v129-exact-original-topology-identity-20261112.json": "ba381d5d06f79482ef8f31aac36ec89ef20caa85",
+    "audits/v195-precision-cross-component-priority-gates-20261112.json": "ceb6685f38d89a8a3b3c03e51739cf1f36a2b5f0"
+  },
+  "method": "Read four main-branch GitHub JSON blobs and independently evaluate 12 cross-file assertions. No source ZIP bytes, SHP geometry, DEM, or v69 runtime accessed.",
+  "results": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "remainingProvisionalCandidatePairs": 36084,
+    "partitionEquation": "144990 = 108906 + 36084",
+    "splitEdgesAddedSeparateFromCandidatePairPartition": 20838,
+    "orphanPartsAdded": 1,
+    "originalComponentsBefore": 3571,
+    "planningOverlayComponentsAfter": 3282,
+    "planningComponentReduction": 289,
+    "mountainsWithComponentReductions": 166,
+    "baselineMountains": 2902,
+    "baselineEdges": 67185,
+    "endpointOccurrences": 134370,
+    "quantizedHighSpreadNodes": 114,
+    "nearCrossComponentGapMeters": 0.0116,
+    "sourceArchiveReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v129OverlayPackageSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v102v129CanonicalOriginalGraphSHA256": "0f23264a415430d927faaa3b35f6807860f7904c902a84d95d2edc34d80a6767"
+  },
+  "checks": {
+    "sourceSHPReference": true,
+    "graphZipIdentity": true,
+    "baseline2902": true,
+    "baselineEdges": true,
+    "endpointTwice": true,
+    "quantizedRisk": true,
+    "componentDrop": true,
+    "candidatePartition": true,
+    "splitSeparate": true,
+    "physicalNotVerified": true,
+    "zeroBaselineDiff": true,
+    "nearbyPair": true
+  },
+  "passed": 12,
+  "totalChecks": 12,
+  "interpretation": "The 20,838 split-edge operations are a distinct overlay operation and must NOT be added to or subtracted from the 144,990 candidate-pair denominator. The 36,084 remaining candidate pairs are provisional, not 36,084 confirmed traversable trails. The 289 planning-component reductions do not establish legal/physical access. Hashes here are referenced and cross-matched from source audits, not independently recomputed from archive bytes in this run.",
+  "nextSteps": [
+    "Reopen original SHP and v140 per-node geometry for the 114 >5cm cases, especially 301101201 nodes 81/80, retaining source CRS and exact endpoints.",
+    "Revalidate 36,084 provisional candidate pairs against official/legal/field passage evidence; no auto-approval.",
+    "Independently execute v69 route regression, DEM coverage and deployment tests; independently hash raw archives."
+  ],
+  "limits": {
+    "rawSHPRead": false,
+    "rawDEMRead": false,
+    "rawArchiveSHA256Recomputed": false,
+    "v69Regression": false,
+    "passageApproved": 0
+  },
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "deletedOrMerged": 0
+  }
+}

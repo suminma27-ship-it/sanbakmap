@@ -1,0 +1,42 @@
+{
+  "schema": "sanbak-v203-historical-v69-blob-and-precision-acceptance-gates",
+  "date": "2026-11-12",
+  "baseCommit": "3993e8ee4d476c11ff6016b09b03f45fa38a4963",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v142-v69-rule-regression-summary.json": "1c1fc583084e67fd2ff93cd3333c74daa7448416",
+    "data/nationwide-topology/manifest.json": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "audits/v202-repository-manifest-crosscheck-20261112.json": "cb7f37d53215c009765380c2052afafad5be0c5b"
+  },
+  "historicV69IndexBlobSHA1": "9b1851098d1135d4b856cd658db911a95f0abea8",
+  "checks": {
+    "v69HistoricalBlobMatchesFixture": true,
+    "manifestSourceMatchesPrecision": true,
+    "manifestCountsMatchPrecision": true,
+    "endpointOccurrences": true,
+    "thresholdMonotonic": true,
+    "nearPairSubset": true,
+    "componentPairSubset": true,
+    "hangyeryeongBeyondAuto": true,
+    "legacyCandidatePartition": true,
+    "mainManifestPreviouslyAudited": true
+  },
+  "passed": 10,
+  "total": 10,
+  "interpretation": "Verifies historical v69 file identity and cross-file numerical acceptance gates, not individual route equivalence or source SHP geometry.",
+  "outstanding": [
+    "Read original SHP ZIP bytes and independently hash",
+    "Resolve 114 precision-conflation nodes and 61 zero-length self-loops against source geometry",
+    "Inspect 1.16cm cross-component candidate without auto-joining",
+    "Join candidate IDs to v69 routing outcomes",
+    "DEM and 2902-site deployed coverage checks"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

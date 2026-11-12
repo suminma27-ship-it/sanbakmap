@@ -1,0 +1,44 @@
+{
+  "schema": "sanbak-v200-v69-v129-candidate-set-identifiability-gate",
+  "baseCommit": "f03254eaa01684ecb6cba41b3c60b22642d222c1",
+  "inputs": {
+    "v140BlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v142BlobSHA1": "1c1fc583084e67fd2ff93cd3333c74daa7448416",
+    "v129BlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "overlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "method": "Independently read GitHub audit JSON and check candidate universe, threshold partition, provenance and exception; compute set-intersection bounds without claiming per-edge identity. No source SHP/DEM bytes read.",
+  "counts": {
+    "candidateUniverse": 144990,
+    "legacyWithin075m": 109392,
+    "beyond075m": 35598,
+    "provisional35m": 36084,
+    "possibleProvisionalBeyond075mMinimum": 0,
+    "possibleProvisionalBeyond075mMaximum": 35598,
+    "hangyeryeongOriginalGapMeters": 48.7268
+  },
+  "checks": {
+    "sourceProvenance": true,
+    "overlayProvenance": true,
+    "universe": true,
+    "bandPartition": true,
+    "provisionalCount": true,
+    "componentReduction": true,
+    "hangyeryeongBeyond35": true,
+    "hangyeryeongBeyondLegacy": true,
+    "below200Preserved": true
+  },
+  "passed": 9,
+  "totalChecks": 9,
+  "decision": "No individual 35m edge can be classified as v69-compatible from these aggregate counts. Require per-edge identifiers, endpoints, degree/component, height, uniqueness, reciprocal uniqueness and source provenance; passage authorization remains separate.",
+  "nextAcceptance": "Obtain v129 candidate edge table and v69 fixture, perform ID-level join; obtain source SHP geometry for 114 precision-risk nodes, 61 zero-length self-loops and 1.16cm pair; independent DEM checks.",
+  "safety": {
+    "graphChanged": false,
+    "DEMChanged": false,
+    "UIChanged": false,
+    "HangyeryeongExceptionChanged": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

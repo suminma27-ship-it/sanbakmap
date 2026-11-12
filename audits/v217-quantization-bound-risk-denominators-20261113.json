@@ -1,0 +1,50 @@
+{
+  "schema": "sanbak-v217-quantization-bound-and-risk-denominator-check",
+  "date": "2026-11-13",
+  "baseCommit": "5a439dedf4b4193dbd67510ab12e6cbf80d07fcf",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3",
+      "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566",
+      "rawSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da"
+    }
+  ],
+  "calculation": {
+    "quantizationGridMeters": 0.1,
+    "theoreticalMaxEuclideanDriftMeters": 0.07071067811865477,
+    "observedMaxDriftMeters": 0.070569,
+    "remainingBoundMarginMeters": 0.00014167811865475888,
+    "riskAbove5cmPercentOfNodes": 0.19223959123792178,
+    "riskAbove10cmPercentOfNodes": 0.0033726244076828383,
+    "nearbyCrossComponentPairCount": 1
+  },
+  "tests": {
+    "quantization_displacement_within_theoretical_bound": true,
+    "quantization_displacement_near_theoretical_bound": true,
+    "risk_threshold_nesting": true,
+    "risk_nodes_within_all_nodes": true,
+    "source_endpoints_exactly_twice_edges": true,
+    "nearby_pair_threshold_nesting": true,
+    "cross_component_subset": true,
+    "source_hash_matches_manifest": true,
+    "national_counts_match_manifest": true,
+    "no_source_modification": true
+  },
+  "passed": 10,
+  "total": 10,
+  "scope": "Independent deterministic arithmetic checks of repository audit summaries; not an independent original SHP or topology reconstruction",
+  "nextGate": "Inspect two >10cm within-cell endpoint spreads and 114 >5cm cases against original EPSG:5179 SHP endpoint arrays; decompress v102 16 packs and verify raw JSON SHA256; do not approve links without access evidence",
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

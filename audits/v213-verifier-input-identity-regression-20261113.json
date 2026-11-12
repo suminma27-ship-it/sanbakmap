@@ -1,0 +1,43 @@
+{
+  "schema": "sanbak-v213-verifier-input-identity-regression",
+  "date": "2026-11-13",
+  "baseCommit": "d060003ec1f3463bd0af75d498726c08bfa9a482",
+  "verifierCommit": "6a8179d32e061e8e2305181d515baf48ca9aff65",
+  "inputVerifier": {
+    "path": "audits/tools/verify_topology_gzip_v212.py",
+    "gitBlobSHA1": "c0c939c79db1cbc4cb7474998fa456313888f6a1",
+    "sha256": "a5f0c6d00891f66e343756b2c8bc2c059062d615f5929b1a279aab0567928201"
+  },
+  "outputVerifier": {
+    "path": "audits/tools/verify_topology_gzip_v213.py",
+    "gitBlobSHA1": "d65a138d8f7637a1d46a8e1b3de70f0654ce0b92",
+    "sha256": "74ccbf34c7792987124a68a2c93f6d581294f256c7280ae1873b03b3fd89b615"
+  },
+  "finding": "v212 dict comprehension silently overwrote duplicate pack index, allowing 17 input paths with a repeated pack-00 to pass the index count gate; v213 rejects duplicates and unexpected filenames before any data read.",
+  "localTests": {
+    "pythonCompile": "PASS",
+    "missingPack": "PASS_REJECTED",
+    "duplicatePack": "PASS_REJECTED",
+    "unexpectedFilename": "PASS_REJECTED",
+    "syntheticInvalidPayload": "REJECTED_BY_LENGTH_ASSERTION",
+    "fullRealPackDecompression": "NOT_RUN"
+  },
+  "limitations": [
+    "Container network DNS could not resolve github.com, so 16 real packs could not be materialized locally.",
+    "Original SHP/DEM/v102/v129 and audit ZIP not independently byte-verified.",
+    "No geometry or connectivity approvals; nationwide counts, 114 risk nodes, 35m candidates and v69 routes remain pending."
+  ],
+  "nextRequired": [
+    "Materialize 16 original pack JS files and run v213; capture exit code, gzip CRC32 and raw SHA256.",
+    "Inspect 114 precision-risk nodes against unquantized SHP, preserving source and Hangyeryeong exception.",
+    "Check 2902 codes and 67185 edges, official access evidence, v69 regression and DEM hashes."
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

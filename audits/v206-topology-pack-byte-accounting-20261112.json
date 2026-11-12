@@ -1,0 +1,154 @@
+{
+  "schema": "sanbak-v206-packed-topology-structural-byte-accounting",
+  "date": "2026-11-12",
+  "baseCommit": "4a22c3bec84e8d6e6d5090c10c6516710c09d276",
+  "inputGitBlobSHA1": {
+    "data/nationwide-topology/manifest.json": "e5b78474c16a71f828946d08e15eb8229a138566"
+  },
+  "sourceReferenceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "manifestExpectedGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+  "manifestExpectedRawSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+  "gzipBytes": 1418757,
+  "expectedBase64Characters": 1891676,
+  "observedTreeTotalBytes": 1892850,
+  "calculatedWrapperBytes": 1174,
+  "packs": [
+    {
+      "path": "data/nationwide-topology/pack-00.js",
+      "gitBlobSHA1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-01.js",
+      "gitBlobSHA1": "70303c2e35b4c68c57d73bc141648332b4481269",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-02.js",
+      "gitBlobSHA1": "cca84df214c821a962853f9db60263045c681491",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-03.js",
+      "gitBlobSHA1": "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-04.js",
+      "gitBlobSHA1": "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-05.js",
+      "gitBlobSHA1": "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-06.js",
+      "gitBlobSHA1": "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-07.js",
+      "gitBlobSHA1": "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-08.js",
+      "gitBlobSHA1": "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-09.js",
+      "gitBlobSHA1": "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "fileBytes": 120073,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 73
+    },
+    {
+      "path": "data/nationwide-topology/pack-10.js",
+      "gitBlobSHA1": "4fdb3bafef32814822142daa7844f50440d950d7",
+      "fileBytes": 120074,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 74
+    },
+    {
+      "path": "data/nationwide-topology/pack-11.js",
+      "gitBlobSHA1": "a71a9cf11842105e3ef917db4508ab995d327191",
+      "fileBytes": 120074,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 74
+    },
+    {
+      "path": "data/nationwide-topology/pack-12.js",
+      "gitBlobSHA1": "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "fileBytes": 120074,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 74
+    },
+    {
+      "path": "data/nationwide-topology/pack-13.js",
+      "gitBlobSHA1": "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "fileBytes": 120074,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 74
+    },
+    {
+      "path": "data/nationwide-topology/pack-14.js",
+      "gitBlobSHA1": "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "fileBytes": 120074,
+      "expectedBase64Characters": 120000,
+      "inferredWrapperBytes": 74
+    },
+    {
+      "path": "data/nationwide-topology/pack-15.js",
+      "gitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241",
+      "fileBytes": 91750,
+      "expectedBase64Characters": 91676,
+      "inferredWrapperBytes": 74
+    }
+  ],
+  "checks": {
+    "sixteenContiguous": true,
+    "base64PayloadLength": true,
+    "wrapperSizeMatches": true,
+    "allPacksNonEmpty": true,
+    "base64DivisibleByFour": true,
+    "treeBlobShaPresent": true,
+    "noExtraPackFiles": true
+  },
+  "passed": 7,
+  "total": 7,
+  "interpretation": "All 16 committed pack file byte lengths reconcile exactly with the manifest's 1,418,757-byte gzip size after base64 encoding and JS assignment wrappers. This is independent Git tree structural accounting, NOT decompression, independent gzip SHA-256, JSON parse, source SHP geometry, or complete nationwide feature coverage validation.",
+  "nextRequired": [
+    "Fetch all 16 full pack payloads, concatenate, base64-decode, independently calculate gzip SHA-256 and uncompressed SHA-256, parse JSON and verify 2902 mountain codes and 67185 original edges.",
+    "Recover source SHP and check 114 conflation nodes, 61 self loops and 1.16cm disconnected pair.",
+    "Validate v69 routes, 35m candidate provenance, DEM and deployed coverage."
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedPhysicalLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

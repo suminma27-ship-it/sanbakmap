@@ -1,0 +1,55 @@
+{
+  "schema": "sanbak-v237-quantization-geometric-bound-and-source-gate",
+  "date": "2026-11-14",
+  "scope": "Independent geometric bound validation from committed summaries only; not original SHP replay",
+  "inputGitBlobSHA1": {
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v129": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+  },
+  "inputDeclaredSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "quantization": {
+    "cellMeters": 0.1,
+    "theoreticalMaxCenterDriftMeters": 0.07071067811865477,
+    "observedMaxDriftMeters": 0.070569,
+    "theoreticalMaxWithinCellPairSpreadMeters": 0.14142135623730953,
+    "importantDistinction": "A pair of distinct exact endpoints assigned to one decimeter cell can be more than 10cm apart diagonally; that is not evidence of a legitimate trail junction."
+  },
+  "riskQueue": {
+    "sameCellDistinctExactEndpointNodes": 1722,
+    "spreadAbove5cm": 114,
+    "spreadAbove10cm": 2,
+    "nearbyDifferentNodesWithin2cm": 4,
+    "acrossComponents": 1,
+    "priorityExample": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    }
+  },
+  "checks": {
+    "sourceIdentity": true,
+    "graphIdentity": true,
+    "maxEndpointDriftWithinHalfCellDiagonal": true,
+    "sourceEndpointCount": true,
+    "sameCellSpreadCanExceedOneAxisStep": true,
+    "riskyNodesSubset": true,
+    "differentNodePairsSubset": true,
+    "unapprovedCandidates": true
+  },
+  "passed": 8,
+  "total": 8,
+  "blocked": "Original SHP, v102/v129 archives, v140 audit ZIP and DEM files not mounted in this run; cannot independently identify individual affected source features or compute their byte hashes.",
+  "nextGate": "Retrieve original archives; match SHA256; replay 114 >5cm nodes and four <=2cm cross-node pairs with source feature IDs; never approve proximity-only joins.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0
+  }
+}

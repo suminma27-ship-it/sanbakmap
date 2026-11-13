@@ -1,0 +1,56 @@
+{
+  "schema": "sanbak-v241-precision-risk-threshold-invariants",
+  "date": "2026-11-14",
+  "scope": "Read-only independent consistency checks on committed v129/v140 summary JSON; not raw source feature verification",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+      "declaredSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+      "declaredTopologySHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3",
+      "declaredSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+      "declaredTopologySHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183"
+    }
+  ],
+  "checks": {
+    "sourceSHA256Consistent": true,
+    "graphSHA256Consistent": true,
+    "mountainsPreserved": true,
+    "endpointCount": true,
+    "nodeCoverage": true,
+    "spreadThresholdMonotonic": true,
+    "nearNodeThresholdMonotonic": true,
+    "crossComponentSubset": true,
+    "affectedMountainsBound": true,
+    "exampleWithinThreshold": true,
+    "candidatePartition": true,
+    "noPhysicalApproval": true,
+    "noMutation": true
+  },
+  "passed": 13,
+  "total": 13,
+  "derived": {
+    "spreadAbove5cmFractionOfDistinctEndpointNodes": 0.06620209059233449,
+    "nearbyDifferentNodesAcrossComponents": 1,
+    "sourceEndpointOccurrences": 134370,
+    "unapprovedCandidatePairs": 36084
+  },
+  "risk": "Threshold nesting and arithmetic are consistent but cannot classify a node merge as physically correct. 1.16cm cross-component example must remain unconnected absent source/field evidence.",
+  "next": "Acquire v129/v140 topology ZIPs and original SHP; compare per-feature original endpoint identities, coordinate rounding and connected components, then v69 route regression and nationwide DEM verification.",
+  "limitations": [
+    "Original SHP/v102/v129/3D/audit ZIP/DEM bytes not available in this execution; declared SHA256 values not recomputed",
+    "No live trail passage or CI/deployment verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "connectionsApproved": 0
+  },
+  "completion": false
+}

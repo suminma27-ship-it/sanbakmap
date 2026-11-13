@@ -1,0 +1,52 @@
+{
+  "schema": "sanbak-v222-full-wrapper-byte-verifier-hardening",
+  "date": "2026-11-13",
+  "baseCommit": "ed054307d0d6152cffc1dd0bc0b33227570fc865",
+  "inputs": [
+    {
+      "path": "audits/tools/verify_topology_gzip_v221.py",
+      "gitBlobSHA1": "63926da4b1e9a77d9f63cbb05c4bbbd717114666"
+    },
+    {
+      "path": "audits/v215-full-js-wrapper-integrity-20261113.json",
+      "gitBlobSHA1": "4d3d19c053e6dc9af6e5db594e76b8cd6981f4b8"
+    },
+    {
+      "path": "data/nationwide-topology/pack-15.js",
+      "gitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241"
+    }
+  ],
+  "output": {
+    "path": "audits/tools/verify_topology_gzip_v222.py",
+    "gitBlobSHA1": "16fdd958883b933f169f16dc4462b0c2b3232eca",
+    "localPrototypeSHA256": "24954ce302bb2456f5a2f2f4b8fcb6111ca7b4477f2972d0f022116d0ffa111c"
+  },
+  "finding": "v221 extracts a long Base64 literal but does not reject extra executable JS or wrong wrapper assignment. v222 anchors the entire expected wrapper and exact index/length before byte checks.",
+  "localPrototypeTests": {
+    "syntaxCompile": true,
+    "validPack00": true,
+    "validPack15": true,
+    "rejectTrailingJS00": true,
+    "rejectTrailingJS15": true,
+    "rejectLeadingJS00": true,
+    "rejectLeadingJS15": true,
+    "rejectWrongIndex00": true,
+    "rejectWrongIndex15": true,
+    "rejectWrongLength00": true,
+    "rejectWrongLength15": true
+  },
+  "scope": "Synthetic wrapper mutation tests on local Python prototype; exact GitHub v222 file was fetched after upload and checked for expected regex; actual 16-pack decompression not executed.",
+  "nextGate": [
+    "Retrieve all 16 pack files and run v222 under normal and -O Python; verify gzip, CRC32 and JSON SHA256",
+    "Compare 114 quantization-risk nodes and four near-node pairs to original SHP",
+    "Run 35m official-access checks, v69 regression, DEM/source hashes, nationwide deployment validation"
+  ],
+  "safety": {
+    "sourceChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

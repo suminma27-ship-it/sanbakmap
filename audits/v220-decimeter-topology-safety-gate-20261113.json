@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v220-quantization-topology-safety-gate",
+  "date": "2026-11-13",
+  "baseCommit": "e3dc31c4449c0e67d9c095452834aa890a83c96b",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v219-35m-overlay-accounting-20261113.json",
+      "gitBlobSHA1": "4e86e7400df0d2a4f031fe94b3ab8a1a15bb947e"
+    }
+  ],
+  "boundsMeters": {
+    "singlePointMax": 0.07071067811865477,
+    "sameCellPairMax": 0.14142135623730953,
+    "observedSinglePointMax": 0.070569
+  },
+  "derived": {
+    "distinctSourceEndpointsNodes": 1722,
+    "above5cm": 114,
+    "above10cm": 2,
+    "nearDifferentNodePairs": 4,
+    "nearAcrossComponents": 1,
+    "previewProvisional": 36084
+  },
+  "tests": {
+    "all_endpoint_occurrences": true,
+    "risk_nested": true,
+    "per_endpoint_drift_bounded": true,
+    "two_endpoint_spread_10cm_physically_possible": true,
+    "two_endpoint_spread_over_14_15cm_impossible": true,
+    "distinct_nodes_near_pairs_not_approved": true,
+    "preserved_coverage": true,
+    "preview_partition": true,
+    "preview_component_delta": true,
+    "preview_not_authorized": true,
+    "predecessor_tests": true,
+    "source_hash_match": true,
+    "graph_hash_match": true
+  },
+  "passed": 13,
+  "total": 13,
+  "scope": "Repository summary-level invariants and EPSG:5179 decimeter-grid theoretical bounds; not original SHP coordinates or decompressed topology bytes.",
+  "nextGate": [
+    "Retrieve original SHP and v140 ZIP and inspect all 114 >5cm nodes plus 4 distinct-node near pairs",
+    "Execute v213 gzip decoder against all 16 pack files and validate decompressed JSON hash",
+    "Do not authorize any of 35m provisional links without official passage evidence; run v69 regression and DEM coverage checks"
+  ],
+  "safety": {
+    "sourceChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

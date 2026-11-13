@@ -135,3 +135,10 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/map-entry-gate.test.mjs`에 5개 자동 회귀 테스트 추가. Node 독립 환경에서 동일 코드/테스트 5/5 통과 (직접 진입, 미동의, 교차 출처, 동의, 이중 삽입/누락 head 거부). 저장소 전체 `npm test`, `prepare:web`, GitHub Actions 및 브라우저 실동작은 아직 미검증: 컨테이너 `git clone` 시 `Could not resolve host: github.com`.
 - 관련 커밋: `bbe22129e7eb6bec86470dab28e24059f9237c97`, `17b35123fab642a4045926bcc31c2589546f59d0`, `aec0471afdd6de272bd107a0c071fd5c1dd4d8c3`.
 - 다음 합격 기준: CI에서 실제 패키징된 map 게이트 검사 및 전체 회귀 통과, 모바일 브라우저 직접/iframe 탐색 검증, 실재 출처 장소 데이터, 전국 산 색인/검증 경로 연동, Android 빌드. 클라이언트 LNT 게이트는 서버 접근제어가 아니며 실제 통행 허가를 뜻하지 않음. 별도 전국 데이터 정리 작업과 스케줄 불변.
+
+## 2026-11-14 모바일 CI 실패 원인 수정
+
+- GitHub Actions `Mobile MVP regression` 실행 [43511990378](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43511990378)의 실제 job 로그 확인: Node 테스트 40개 중 39개 통과, `valley-evidence.test.mjs`의 `valid allowed evidence preserved and trimmed` 1개 실패. 이후 패키징 단계는 건너뜀.
+- 실패 원인: 테스트에서 `2026-11-14`를 이미 지난 확인일로 가정했으나 GitHub Actions는 UTC `2026-11-13 21:35`에 실행되어 날짜 검증이 미래 날짜로 올바르게 강등함. 제품 코드 결함이 아닌 시간대 의존 테스트 데이터 결함.
+- 테스트의 정상 허용 사례 날짜만 `2020-01-01`로 수정. 실제 출입 허용 데이터가 아니라 테스트용 가상 레코드이며 출시 목록에 추가하지 않음. 원래의 미래 날짜 차단 정책 유지. 수정 전 실패 로그 확인 및 동일 검증식 Node 독립 실행 단언 통과. **수정 커밋 이후 GitHub Actions 전체 테스트/패키징 성공은 아직 확인 전**.
+- 남은 합격 기준: 새 커밋 CI 40개 회귀 및 패키징 성공 확인, 모바일 브라우저 직접/iframe 동작, 실재 출처 장소 데이터, 전국 산 색인·지역 검색·상세, Android 검증. 기존 지도/원본 그래프/DEM/한계령 예외/35m 후보 및 별도 전국 데이터 정리 자동 작업 변경 없음.

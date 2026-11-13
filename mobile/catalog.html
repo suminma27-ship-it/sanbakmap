@@ -1,6 +1,13 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>산박지도 · 탐색</title><style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,'Noto Sans KR',sans-serif;background:#f3f7f4;color:#163b2a}header{background:#173d2d;color:white;padding:18px}h1{margin:0;font-size:1.4rem}main{padding:16px;max-width:700px;margin:auto}nav{display:flex;gap:7px;flex-wrap:wrap}button,input,select{font:inherit;padding:10px;border:1px solid #9cb6a4;border-radius:8px;min-height:44px;background:white}button[aria-pressed=true]{background:#215b42;color:white}label{display:block;margin-top:15px}input,select{display:block;width:100%}li,#detail{background:white;padding:14px;margin:10px 0;border-radius:10px}ul{padding:0;list-style:none}.note{font-size:.9rem;color:#526b5b}
-</style></head><body><header><h1>산박지도</h1><div>산 · 섬 · 계곡 · 암벽 · 트레킹</div></header><main><p>전국 장소 탐색 · 이용 허용 여부는 관리기관 확인 전 미확인입니다.</p><nav id="categories" aria-label="장소 유형"></nav><label for="region">지역</label><select id="region"><option value="">전국</option></select><label for="search">이름 검색</label><input id="search" type="search" placeholder="장소 이름"><p id="count" role="status"></p><ul id="results"></ul><section id="detail" hidden aria-live="polite"></section><p><a href="./map.html">기존 산 지도 열기</a></p><p class="note">지도 선형은 현행 통행 허가를 의미하지 않습니다.</p></main><script type="module">
+</style></head><body><header><h1>산박지도</h1><div>산 · 섬 · 계곡 · 암벽 · 트레킹</div></header><main><p>전국 장소 탐색 · 이용 허용 여부는 관리기관 확인 전 미확인입니다.</p><nav id="categories" aria-label="장소 유형"></nav><label for="region">지역</label><select id="region"><option value="">전국</option></select><label for="search">이름 검색</label><input id="search" type="search" placeholder="장소 이름"><p id="count" role="status"></p><ul id="results"></ul><section id="detail" hidden aria-live="polite"></section><p><a href="./map.html">기존 산 지도 열기</a></p><p class="note">지도 선형은 현행 통행 허가를 의미하지 않습니다.</p></main><script>
+// The catalog is an embedded view; a direct navigation must start at the LNT gate.
+try {
+  if (window.parent === window || !window.parent.document.body.classList.contains('unlocked')) {
+    window.location.replace('./index.html');
+  }
+} catch (_) { window.location.replace('./index.html'); }
+</script><script type="module">
 import {CATEGORIES,normalizeCatalog,filterRecords,VALLEY_ACTIVITIES} from './src/catalog.mjs';
 const $=id=>document.getElementById(id),labels={entry:'출입',swimming:'물놀이',cooking:'취사',camping:'야영'},states={unknown:'미확인',allowed:'허용',restricted:'제한',prohibited:'금지'};
 let selected='mountain',records=[],loadError='',rejectedCount=0;

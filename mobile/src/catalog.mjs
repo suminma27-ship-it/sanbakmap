@@ -23,7 +23,11 @@ export function normalizeRecord(raw){
     for(const key of VALLEY_ACTIVITIES){
       const item=raw.activity?.[key],status=item?.status??'unknown';
       if(!ACCESS_STATES.includes(status))throw new TypeError('Invalid activity status: '+key);
-      output.activity[key]=(status==='allowed'&&!(item?.source&&item?.checkedAt))?{status:'unknown',source:'',checkedAt:''}:{status,source:String(item?.source??''),checkedAt:String(item?.checkedAt??'')};
+      const source=typeof item?.source==='string'?item.source.trim():'';
+      const checkedAt=typeof item?.checkedAt==='string'?item.checkedAt.trim():'';
+      // An allowed claim requires a nonblank source and a real ISO calendar date.
+      const validDate=/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)&&!Number.isNaN(Date.parse(checkedAt))&&new Date(checkedAt).toISOString().slice(0,10)===checkedAt;
+      output.activity[key]=(status==='allowed'&&!(source&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt};
     }
   }
   return output;

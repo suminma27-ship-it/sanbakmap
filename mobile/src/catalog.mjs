@@ -37,3 +37,19 @@ export function filterRecords(records,{category='',region='',search=''}={}){
   const term=String(search).trim().toLocaleLowerCase('ko-KR');
   return records.filter(r=>(!category||r.category===category)&&(!region||r.region===region)&&(!term||(r.name+' '+r.region).toLocaleLowerCase('ko-KR').includes(term)));
 }
+
+/** Keep verified records visible even if another source row is malformed.
+ * Duplicate IDs are rejected rather than silently replacing a place. */
+export function normalizeCatalog(rows){
+  if(!Array.isArray(rows))throw new TypeError('Catalog must be an array');
+  const records=[],rejected=[],ids=new Set();
+  rows.forEach((row,index)=>{
+    try{
+      const record=normalizeRecord(row);
+      if(ids.has(record.id))throw new TypeError('Duplicate place id');
+      ids.add(record.id);
+      records.push(record);
+    }catch(error){rejected.push({index,reason:String(error.message)});}
+  });
+  return {records,rejected};
+}

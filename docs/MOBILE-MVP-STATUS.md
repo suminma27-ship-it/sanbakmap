@@ -50,3 +50,20 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 2. 기존 공식 전국 산 데이터 색인과 공통 카테고리 탐색의 실제 연동.
 3. 실재 출처 확인된 계곡·섬·암벽·트레킹 데이터의 최소 표본 추가. 이용 허가 미확인 기본값 유지.
 4. 브라우저에서 LNT 수락/거부·목록·상세·지도 진입 검증 및 Android 패키징.
+
+
+## 2026-11-13 자동 개발 실행 3
+
+- 최신 `main`의 `mobile/catalog.html`, `entry.html`, `src/catalog.mjs`, 단위·UI 테스트, `scripts/prepare-web.mjs`, `package.json` 및 기존 `index.html` blob 존재를 GitHub API로 확인.
+- `normalizeRecord`가 `null`·빈 문자열·누락 좌표를 `Number(...)=0`으로 변환해 허구의 (0,0) 지점을 생성할 수 있는 문제를 수정. 좌표 누락 시 명시적으로 거부하며 기존 5개 카테고리·계곡 4개 활동 상태는 유지.
+- `mobile/tests/catalog.test.mjs`에 누락/공백/null 좌표 회귀 테스트 추가. 수정 함수에 대한 독립 JS 실행 검사 6개(누락·빈값 5개 거부 및 정상값/카테고리 보존) 통과. 전체 저장소 `npm test`는 아직 실행 결과 확인 전.
+- `.github/workflows/mobile-mvp.yml` 신규 작성: Node 22에서 `npm test`, `npm run check:web`, `npm run prepare:web` 및 패키징된 LNT/탐색/지도 파일의 존재·게이트 구조 검사. **Actions 성공 결과는 아직 확인하지 않았으므로 CI 통과로 표시하지 않음.**
+- 변경 커밋: `77255d35ee6e91bfaf7805c8e200acada41a4e37`, `8cbcc039a8bbb434f878644f04a5564c2275397e`, `597a065f7827391a627d1fb814813017e1dbd43f`.
+- 기존 지도 UI, 원본 그래프/DEM, 한계령 예외, 35m 연결 후보 승인 규칙 불변. 전국 데이터 정리 자동 작업은 수정하지 않음.
+
+### 다음 검증
+
+1. GitHub Actions `Mobile MVP regression`의 실제 실행 및 오류 로그 확인, 통과 전에는 완료 판정 금지.
+2. 출처 확인된 실제 장소의 최소 데이터, 지역 검색·상세의 브라우저 통합 검증.
+3. LNT 동의/거부 후 직접 `map.html` 접근 같은 딥링크 우회와 모바일 앱 진입 경로의 안전성 점검.
+4. 전국 산 지도 데이터 색인 연동, 실기기 또는 브라우저 지도 표시 검증, Android 패키징.

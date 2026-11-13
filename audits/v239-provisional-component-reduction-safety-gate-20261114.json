@@ -1,0 +1,70 @@
+{
+  "schema": "sanbak-v239-provisional-component-reduction-safety-gate",
+  "date": "2026-11-14",
+  "scope": "Independent cross-record audit of v129 preview component counts versus v140 immutable original graph; not source replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v238-risk-triage-derived-metrics-20261114.json",
+      "gitBlobSHA1": "81feac529be3dc3446f2744a92dd92a4ea077ab9"
+    }
+  ],
+  "declaredSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "topologyV129": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "topologyV140": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "auditZipV140": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "checks": {
+    "sourceShaMatch": true,
+    "graphShaMatch": true,
+    "coverage": true,
+    "candidatePartition": true,
+    "componentReduction": true,
+    "componentReductionIsPreviewOnly": true,
+    "sourceTopologyNotChanged": true,
+    "hangyeryeongOutOfThreshold": true,
+    "riskCounts": true,
+    "latestChain": true,
+    "noAuthorizedJoins": true
+  },
+  "passed": 11,
+  "total": 11,
+  "findings": {
+    "originalComponents": 3571,
+    "previewComponents": 3282,
+    "previewComponentReduction": 289,
+    "mountainsWithPreviewReduction": 166,
+    "provisionalUnapprovedPairs": 36084,
+    "interpretation": "The 289-component reduction is a plan-only preview, NOT verified physical/legal connectivity; it must not be promoted into the original graph or official routes.",
+    "differentTopologyHashes": "v129 topologyZipSha256 and v140 inputSHA256.topology differ; do not assert identical input bytes without inspecting archive provenance.",
+    "hangyeryeong": "User-confirmed 48.73m gap outside 35m preview threshold; preserve exception."
+  },
+  "limitations": [
+    "Source SHP/v102/v129/3D/audit ZIP/DEM bytes not independently rehashed or replayed",
+    "No feature-level adjudication of 114 high-spread nodes and four <=2cm near pairs",
+    "No v69 real-route regression, nationwide DEM coverage, CI or deployment verification"
+  ],
+  "nextGate": [
+    "Acquire archive bytes, verify declared SHA256 and reconcile differing topology archive hashes by provenance",
+    "Replay source feature IDs for 114 nodes and four near pairs",
+    "Verify 35m candidate legality independently; never approve proximity alone",
+    "Run v69 regression, DEM coverage and deployment gates"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "connectionsApproved": 0
+  },
+  "completion": false
+}

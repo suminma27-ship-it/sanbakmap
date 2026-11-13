@@ -2,8 +2,9 @@
  * Stage existing static site for native packaging without changing source data or UI.
  * Execute from mobile/: npm run prepare:web
  */
-import { cp, mkdir, readdir, rm, stat, lstat } from 'node:fs/promises';
+import { cp, mkdir, readdir, rm, stat, lstat, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import {guardMapHtml} from '../src/map-guard.mjs';
 import { fileURLToPath } from 'node:url';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,11 +51,12 @@ async function main() {
   await mkdir(target,{recursive:true});
   for (const file of files) await cp(path.join(source,file),path.join(target,file));
   for (const dir of dirs) await cp(path.join(source,dir),path.join(target,dir),{recursive:true});
-  await cp(path.join(target,'index.html'),path.join(target,'map.html'));
+  const mapHtml = await readFile(path.join(target,'index.html'),'utf8');
+  await writeFile(path.join(target,'map.html'),guardMapHtml(mapHtml));
   await cp(path.join(mobile,'entry.html'),path.join(target,'index.html'));
   await cp(path.join(mobile,'catalog.html'),path.join(target,'catalog.html'));
   await cp(path.join(mobile,'catalog.json'),path.join(target,'data','catalog.json'));
   await cp(path.join(mobile,'src'),path.join(target,'src'),{recursive:true});
-  console.log('Prepared gated mobile entry and unchanged map.html. Online services still need internet.');
+  console.log('Prepared gated mobile entry and LNT-guarded map copy (original index unchanged). Online services still need internet.');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

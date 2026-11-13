@@ -1,0 +1,20 @@
+{
+  "name": "sanbakmap-mobile",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Android/iOS shell for existing Sanbakmap web app",
+  "scripts": {
+    "check:web": "node scripts/prepare-web.mjs --check",
+    "prepare:web": "node scripts/prepare-web.mjs",
+    "android": "npm run prepare:web && npx cap sync android && npx cap open android",
+    "ios": "npm run prepare:web && npx cap sync ios && npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/ios": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}

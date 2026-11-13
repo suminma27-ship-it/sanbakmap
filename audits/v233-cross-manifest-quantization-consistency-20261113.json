@@ -1,0 +1,68 @@
+{
+  "schema": "sanbak-v233-cross-manifest-quantization-consistency",
+  "date": "2026-11-13",
+  "scope": "Independent metadata-level consistency audit of v140 precision summary, v102 manifest, v231 and v232; no original SHP coordinate replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v231-current-head-deployment-risk-trace-20261113.json",
+      "gitBlobSHA1": "91b8e02a4717a877b4cc715a06d8a8034790ac16"
+    },
+    {
+      "path": "audits/v232-v69-rule-regression-evidence-20261113.json",
+      "gitBlobSHA1": "c4fffc80cc68e92d0b0a3a8dd021019a650e23f3"
+    }
+  ],
+  "checks": {
+    "sameSource": true,
+    "counts": true,
+    "endpointArithmetic": true,
+    "components": true,
+    "quantizationBounds": true,
+    "nearPairs": true,
+    "drift": true,
+    "partition": true,
+    "nonAuthorization": true,
+    "zeroMutation": true
+  },
+  "passed": 10,
+  "total": 10,
+  "derived": {
+    "maximumExpectedRoundToDecimeterDriftMeters": 0.07071067811865477,
+    "reportedMaximumDriftMeters": 0.070569,
+    "sourceEndpointOccurrences": 134370,
+    "graphEdges": 67185,
+    "quantizationRiskNodesAbove5cm": 114,
+    "quantizationRiskNodesAbove10cm": 2,
+    "nearPairsAtMost2cm": 4,
+    "nearPairsAcrossComponents": 1,
+    "unapproved35mOverlayEdges": 36084
+  },
+  "limitations": [
+    "These are invariants over previously published metadata, not direct source geometry tests or fresh SHA-256 hashing.",
+    "A valid decimeter drift bound does not prove absence of topology conflation or split.",
+    "114 risk nodes and four near pairs still need feature-level source SHP/v140 archive replay.",
+    "35m candidates have no physical/legal route approval.",
+    "v69 actual graph and DEM nationwide coverage not yet recomputed."
+  ],
+  "preservation": {
+    "uiChanged": false,
+    "graphChanged": false,
+    "demChanged": false,
+    "hangyeryeongChanged": false,
+    "autoApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "nextGate": [
+    "Locate original SHP/v140 ZIP bytes and verify source SHA-256 before direct 114-node and four-pair replay.",
+    "Generate per-node feature IDs and source endpoint distances; classify without auto-merging.",
+    "Recompute 35m candidate provenance, v69 real graph regression, DEM 2902-site coverage and current HEAD CI."
+  ]
+}

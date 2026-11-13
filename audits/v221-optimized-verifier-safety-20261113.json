@@ -1,0 +1,41 @@
+{
+  "schema": "sanbak-v221-verifier-optimized-mode-hardening",
+  "date": "2026-11-13",
+  "baseCommit": "1830e2722aec8b1f296a49ad2ebf5aa2a2036e57",
+  "inputs": [
+    {
+      "path": "audits/tools/verify_topology_gzip_v213.py",
+      "gitBlobSHA1": "d65a138d8f7637a1d46a8e1b3de70f0654ce0b92"
+    },
+    {
+      "path": "audits/v220-decimeter-topology-safety-gate-20261113.json",
+      "gitBlobSHA1": "37333471d191e77b5dad5cb928fb90bf202a3548"
+    }
+  ],
+  "output": {
+    "path": "audits/tools/verify_topology_gzip_v221.py",
+    "gitBlobSHA1": "63926da4b1e9a77d9f63cbb05c4bbbd717114666"
+  },
+  "finding": "v213 uses assert for security-critical byte/hash checks; python -O disables all assertions, allowing PASS output without integrity validation.",
+  "tests": {
+    "explicit_require": true,
+    "no_assert_statements": true,
+    "six_integrity_guards": true,
+    "unchanged_expected_hashes": true
+  },
+  "localRegression": "Python 3 subprocess reproduced: assert False fails normally but prints PASS under python -O. Replacement explicit require checks tested with missing, incomplete and unexpected filename inputs under normal and -O modes; all reject with nonzero exit.",
+  "limitations": "The exact GitHub-hosted v221 script was inspected structurally after upload but not executed against the 16 actual gzip packs; no full JSON decompression or SHP/DEM coordinate audit was performed.",
+  "nextGate": [
+    "Run v221 against all 16 original packs under normal and -O Python; verify compressed and decompressed SHA256",
+    "Compare original SHP endpoint arrays for 114 risk nodes and four near-node pairs",
+    "Check 35m candidates against official access evidence and v69 regression; preserve Hangyeryeong exception"
+  ],
+  "safety": {
+    "sourceChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

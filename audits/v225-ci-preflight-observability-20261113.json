@@ -1,0 +1,44 @@
+{
+  "version": "v225",
+  "date": "2026-11-13",
+  "base_commit": "2c12cded56b445edbdf9c5393ae8858d8ca54fc9",
+  "scope": "Read-only CI gate preflight and workflow observability audit",
+  "inputs": {
+    "workflow_blob_sha1": "1aad114b7ddc51507f18838bfa37586a78c32491",
+    "verifier_blob_sha1": "16fdd958883b933f169f16dc4462b0c2b3232eca",
+    "manifest_blob_sha1": "e5b78474c16a71f828946d08e15eb8229a138566"
+  },
+  "checks": {
+    "workflow_push_main": true,
+    "workflow_dispatch": true,
+    "workflow_checkout": true,
+    "workflow_python_optimized": true,
+    "workflow_targets_all_16_packs": true,
+    "manifest_gzip_bytes_matches_verifier": true,
+    "manifest_raw_bytes_matches_verifier": true,
+    "manifest_gzip_sha256_matches_verifier": true,
+    "manifest_raw_sha256_matches_verifier": true,
+    "manifest_pack_count_matches_verifier": true,
+    "expected_base64_length_consistent_with_gzip_bytes": true
+  },
+  "computed": {
+    "expected_base64_characters": 1891676,
+    "manifest_gzip_bytes": 1418757,
+    "manifest_raw_bytes": 6229684,
+    "manifest_mountains": 2902,
+    "manifest_edges": 67185
+  },
+  "workflow_observability": {
+    "commit_workflow_runs_query_for_workflow_commit": "empty",
+    "limitation": "Connector endpoint filters to pull_request-triggered runs; workflow is push/dispatch, so empty result cannot establish whether CI ran.",
+    "github_actions_web_page": "unavailable in this execution environment",
+    "conclusion": "UNKNOWN; do not claim byte-level CI pass"
+  },
+  "pending": [
+    "Obtain push/dispatch workflow run ID and conclusion via Actions API or GitHub UI",
+    "Read actual workflow job log to establish gzip/JSON SHA256 PASS",
+    "Direct source SHP endpoint-coordinate inspection for 114 precision-risk nodes",
+    "35m candidate access validation, v69 regression, DEM integrity and nationwide coverage"
+  ],
+  "preservation": "No graph, DEM, UI, routing, Han-gye-ryeong exception or approvals changed."
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "sanbak-v219-35m-overlay-accounting-audit",
+  "date": "2026-11-13",
+  "baseCommit": "038048446d6307aee7695d5788e3c36eb399b657",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    }
+  ],
+  "derived": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdgesAdded": 36084,
+    "splitEdgesAdded": 20838,
+    "componentReduction": 289,
+    "mountainsWithReductions": 166,
+    "hangyeryeongGapMeters": 48.73
+  },
+  "tests": {
+    "source_hash": true,
+    "coverage": true,
+    "edges": true,
+    "components": true,
+    "candidate_partition": true,
+    "component_delta": true,
+    "component_reduction_bounded": true,
+    "split_edges_separate": true,
+    "hangyeryeong_outside_35m": true,
+    "risk_counts_nested": true,
+    "preservation": true
+  },
+  "passed": 11,
+  "total": 11,
+  "scope": "Cross-check of existing repository summaries only; no raw SHP/DEM or 35m candidate coordinates independently inspected.",
+  "interpretation": "Candidate pairs partition into already-same-node and provisional connection counts; split-edge count is a separate overlay operation, not additional verified passages. Component reduction 289 is only in a provisional preview and is not authorized routing.",
+  "nextGate": [
+    "Directly inspect source endpoints for 2 nodes with >10cm spread and all 114 nodes >5cm using original SHP/v140 archive",
+    "Run v213 decompression verifier against 16 full packages and validate raw JSON SHA-256",
+    "Independently inspect 35m candidate coordinates and official passage evidence; v69 regression and DEM completeness remain pending"
+  ],
+  "safety": {
+    "graphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongChanged": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

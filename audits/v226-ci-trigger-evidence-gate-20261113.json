@@ -1,0 +1,45 @@
+{
+  "version": "v226",
+  "date": "2026-11-13",
+  "base_commit": "99dd361d177289154bac83e86f7f79c83641e9cc",
+  "scope": "Independent audit of executable byte-level gate trigger semantics and evidence availability; no source topology mutation",
+  "inputs": {
+    "workflow_git_blob_sha1": "1aad114b7ddc51507f18838bfa37586a78c32491",
+    "verifier_git_blob_sha1": "16fdd958883b933f169f16dc4462b0c2b3232eca",
+    "manifest_git_blob_sha1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "prior_audit_git_blob_sha1": "4def5fd09f0865cb240176f5b04eb2f28d1dd399"
+  },
+  "verified_checks": {
+    "workflow_has_push_main": true,
+    "workflow_has_manual_dispatch": true,
+    "workflow_push_path_filters_include_packs": true,
+    "workflow_push_path_filters_include_verifier": true,
+    "workflow_push_path_filters_include_workflow_itself": true,
+    "workflow_audit_only_commit_does_not_match_push_paths": true,
+    "workflow_uses_python_optimized_mode": true,
+    "verifier_requires_exactly_16_unique_pack_indices": true,
+    "verifier_rejects_extra_javascript_wrapper_content": true,
+    "verifier_checks_compressed_length_sha256": true,
+    "verifier_checks_decompressed_length_crc32_sha256": true,
+    "verifier_parses_decompressed_json": true,
+    "manifest_gzip_sha256_equals_verifier_constant": true,
+    "manifest_raw_sha256_equals_verifier_constant": true,
+    "manifest_counts_2902_and_67185": true
+  },
+  "checked_commit": "e83b512dd1aa25eed2ddf3e152a11bb8293de544",
+  "ci_evidence": {
+    "combined_commit_statuses": [],
+    "pull_request_filtered_workflow_runs": [],
+    "conclusion": "UNKNOWN",
+    "interpretation": "Empty commit status and PR-filtered run lists do not establish a pass, failure or absence of push-triggered Actions run."
+  },
+  "deterministic_trigger_finding": "v225 audit-only JSON change does not match push.paths, so it does not itself start this workflow. The v224 workflow creation changed the workflow path and matches the configured push filter, but no executable run conclusion was obtainable through the connector.",
+  "test_result": "PASS for source-level static checks and trigger-path logic only; byte-level live-package verification NOT RUN",
+  "pending": [
+    "Retrieve push/dispatch Actions run conclusion and logs or locally materialize all 16 pack JS files and run v222 verifier",
+    "Inspect original SHP endpoint coordinates for 114 precision-risk nodes including 2 over 10cm",
+    "Check 35m candidates against authoritative routes without automatic approval",
+    "Run v69 regression, DEM checks, nationwide 2902/67185 coverage and deployment checks"
+  ],
+  "preservation": "No graph/DEM/UI edits; no edge approvals, merges, deletions; Hangyeryeong exception untouched."
+}

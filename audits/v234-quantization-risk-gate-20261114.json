@@ -1,0 +1,70 @@
+{
+  "schema": "sanbak-v234-quantization-risk-regression-gate",
+  "date": "2026-11-14",
+  "scope": "Direct current GitHub v140/v102 metadata checks and new reproducible, fail-closed quantization test code; not SHP geometry replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "tools/v234-quantization-risk-gate.mjs",
+      "gitCommit": "41d6619ba309cfc114716caa273e05943a3e9fff",
+      "localSHA256": "e84d837e43e192396c7b29de8296013168e2c95d7b35b0a528c367cec33d3c52"
+    }
+  ],
+  "checks": {
+    "sourceSHA256": true,
+    "mountains": true,
+    "nodes": true,
+    "edges": true,
+    "endpoints": true,
+    "components": true,
+    "thresholds": true,
+    "multiEndpointBound": true,
+    "nearPairs": true,
+    "crossComponentPairs": true,
+    "mountainConflationBound": true,
+    "mountainNearPairBound": true,
+    "mountainCrossComponentBound": true,
+    "decimeterDrift": true,
+    "noMutation": true
+  },
+  "passed": 15,
+  "total": 15,
+  "localRegression": {
+    "command": "node tools/v234-quantization-risk-gate.mjs",
+    "passed": 8,
+    "total": 8
+  },
+  "findings": {
+    "nodesSpreadAbove5cm": 114,
+    "nearPairsWithin2cm": 4,
+    "nearPairsAcrossComponents": 1,
+    "originalSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "sourceArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "limitations": [
+    "Original SHP and v140 ZIP byte replay not performed; hashes are published expected values, not newly computed archive hashes.",
+    "Tests exercise metadata constraints and synthetic coordinate pairs, not 114 actual node feature IDs.",
+    "No 35m candidates or v69 actual route graph evaluated; no physical or legal passage approved.",
+    "DEM and nationwide coverage not freshly recomputed."
+  ],
+  "nextGate": [
+    "Obtain original SHP and v140 archive bytes, independently verify SHA-256, replay 114 node spread anomalies and four near pairs with source feature identifiers.",
+    "Classify endpoint changes without automatic merge; compare real v69 routes and 35m candidate provenance.",
+    "Recompute all 2902-site DEM coverage and CI/deployment."
+  ],
+  "preservation": {
+    "uiChanged": false,
+    "graphChanged": false,
+    "demChanged": false,
+    "hangyeryeongChanged": false,
+    "autoApproved": 0,
+    "deletedOrMerged": 0
+  }
+}

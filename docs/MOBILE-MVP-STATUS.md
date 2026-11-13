@@ -126,3 +126,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 코드 커밋 `5286c0888dd0e8d751da1e20a171d36ae14b5561`, 테스트 커밋 `de8d43d5d74aecc443552589d053fa13067492fc`.
 - **제한:** 이 조치는 카탈로그 직접 진입만 방어하며 `map.html` 직접 URL 접근까지 차단하지 않는다. 또한 클라이언트 측 게이트는 서버 권한 통제가 아니므로 LNT 완전 우회 방지라고 판정하지 않는다.
 - 남은 합격 기준: 패키징된 `map.html` 직접 진입 통제, 전체 Node 회귀 및 모바일 웹 실행 검증, 실제 장소 출처·전국 산 색인·지역 검색·상세 연동, Android 검증. 기존 원본 지도/그래프/DEM, 한계령 예외, 35m 미승인 후보, 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-14 모바일 지도 직접 진입 방어
+
+- GitHub main 최신 커밋과 `mobile/scripts/prepare-web.mjs`, `entry.html`, `catalog.html`, `package.json`, 기존 카탈로그 게이트 테스트를 확인. `mobile/map.html`은 원본 저장소에 없으며 패키징 시 루트 `index.html`에서 생성됨.
+- `mobile/src/map-guard.mjs`를 추가하고 패키저가 **복사본** `www/map.html`의 head 선두에 동기식 LNT 진입 검사를 삽입하도록 수정. 최상위 직접 진입, 미동의 부모, 교차 출처 부모는 `./index.html`로 이동. 동의한 `entry.html` iframe에서는 지도 표시 허용. 원본 루트 `index.html`과 그래프·DEM·경로 데이터는 수정하지 않음.
+- `mobile/tests/map-entry-gate.test.mjs`에 5개 자동 회귀 테스트 추가. Node 독립 환경에서 동일 코드/테스트 5/5 통과 (직접 진입, 미동의, 교차 출처, 동의, 이중 삽입/누락 head 거부). 저장소 전체 `npm test`, `prepare:web`, GitHub Actions 및 브라우저 실동작은 아직 미검증: 컨테이너 `git clone` 시 `Could not resolve host: github.com`.
+- 관련 커밋: `bbe22129e7eb6bec86470dab28e24059f9237c97`, `17b35123fab642a4045926bcc31c2589546f59d0`, `aec0471afdd6de272bd107a0c071fd5c1dd4d8c3`.
+- 다음 합격 기준: CI에서 실제 패키징된 map 게이트 검사 및 전체 회귀 통과, 모바일 브라우저 직접/iframe 탐색 검증, 실재 출처 장소 데이터, 전국 산 색인/검증 경로 연동, Android 빌드. 클라이언트 LNT 게이트는 서버 접근제어가 아니며 실제 통행 허가를 뜻하지 않음. 별도 전국 데이터 정리 작업과 스케줄 불변.

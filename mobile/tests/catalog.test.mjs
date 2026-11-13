@@ -8,3 +8,5 @@ test('allowance without evidence fails closed',()=>assert.equal(normalizeRecord(
 test('source-and-date evidence is preserved',()=>assert.equal(normalizeRecord({...base,activity:{entry:{status:'allowed',source:'관리기관 안내',checkedAt:'2026-11-13'}}}).activity.entry.status,'allowed'));
 test('invalid category, coordinates, status rejected',()=>{assert.throws(()=>normalizeRecord({...base,category:'campsite'}));assert.throws(()=>normalizeRecord({...base,lat:91}));assert.throws(()=>normalizeRecord({...base,activity:{entry:{status:'safe'}}}));});
 test('common filtering',()=>{const records=[normalizeRecord(base),normalizeRecord({...base,id:'m-01',name:'다른 산',category:'mountain',region:'강원'})];assert.deepEqual(filterRecords(records,{category:'valley',region:'경기',search:'샘플'}).map(r=>r.id),['valley-01']);});
+
+test('missing or blank coordinates cannot fabricate a Gulf of Guinea location',()=>{for(const coordinates of [{lat:null},{lon:null},{lat:''},{lon:'   '},{lat:undefined},{lon:undefined}])assert.throws(()=>normalizeRecord({...base,...coordinates}),/coordinates/);});

@@ -7,7 +7,8 @@
     "check:web": "node scripts/prepare-web.mjs --check",
     "prepare:web": "node scripts/prepare-web.mjs",
     "android": "npm run prepare:web && npx cap sync android && npx cap open android",
-    "ios": "npm run prepare:web && npx cap sync ios && npx cap open ios"
+    "ios": "npm run prepare:web && npx cap sync ios && npx cap open ios",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^7.0.0",

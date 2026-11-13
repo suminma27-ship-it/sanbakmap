@@ -1,0 +1,53 @@
+{
+  "schema": "sanbak-v235-source-coverage-precision-example-gate",
+  "date": "2026-11-14",
+  "scope": "Read-only v140 summary versus v102 manifest cross-field consistency and synthetic negative regression; not source SHP replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "tools/v235-source-coverage-gate.mjs",
+      "gitBlobSHA1": "dfe0ebe10edbdfac9930ca42bb1686b19f4b25a4",
+      "localSHA256": "0618e1c644430153d2912bb2b0df427b2a1c53069663f5f371b3235e448f49be"
+    }
+  ],
+  "localExecution": {
+    "command": "node tools/v235-source-coverage-gate.mjs audits/v140-original-coordinate-quantization-summary.json data/nationwide-topology/manifest.json",
+    "metadataChecksPassed": 12,
+    "metadataChecksTotal": 12,
+    "regressionsPassed": 7,
+    "regressionsTotal": 7,
+    "note": "Local execution used exact relevant field values transcribed from fetched GitHub JSON; repo script is committed but remote CI execution not verified."
+  },
+  "finding": {
+    "coveredGraphNodes": 59301,
+    "endpointOccurrences": 134370,
+    "sourceLineParts": 66503,
+    "graphEdges": 67185,
+    "example": {
+      "mountainCode": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "gapMeters": 0.0116,
+      "status": "unapproved source-grounded review required"
+    },
+    "newlyAuthorizedConnections": 0
+  },
+  "limitations": [
+    "No original SHP/v140 ZIP byte access or fresh archive SHA256 verification",
+    "No full geometry recomputation of 114 risk nodes, four near pairs, 35m candidates, v69 real routes or nationwide DEM",
+    "Metadata agreement cannot establish physical or legal access",
+    "No UI, original graph, DEM or Hangyeryeong exception changed"
+  ],
+  "nextGate": [
+    "Retrieve and hash original source SHP and audit archive, inspect 114 exact endpoint clusters and four near pairs by source feature ID",
+    "Compare historical v69 actual routes, 35m candidate provenance and official access evidence without merging",
+    "Recompute 2902-site DEM coverage and validate current HEAD CI/deployment"
+  ]
+}

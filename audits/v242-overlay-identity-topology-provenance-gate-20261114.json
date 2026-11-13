@@ -1,0 +1,59 @@
+{
+  "schema": "sanbak-v242-overlay-identity-topology-provenance-gate",
+  "date": "2026-11-14",
+  "scope": "Read-only independent cross-audit of committed summary files; no original archive bytes available",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v241-precision-risk-threshold-invariants-20261114.json",
+      "gitBlobSHA1": "097bf872056ae20aa6bda0acb52d8a03549182ea"
+    }
+  ],
+  "declaredSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "overlayGraph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v129Topology": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140Topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v140AuditArchive": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "checks": {
+    "sharedSourceHash": true,
+    "sharedOverlayGraphHash": true,
+    "distinctTopologyArchiveHashes": true,
+    "originalMountainCoverage": true,
+    "originalGraphEdges": true,
+    "sourceEndpointMultiplicity": true,
+    "originalComponentBaseline": true,
+    "originalGraphImmutable": true,
+    "unapprovedPreview": true,
+    "provisionalCandidatePartition": true,
+    "thresholdRiskNotAutomaticallyApproved": true
+  },
+  "passed": 11,
+  "total": 11,
+  "findings": {
+    "sharedOverlayPackageAndGraphDigest": true,
+    "interpretation": "The v129 overlay package SHA-256 equals the v140 graph input SHA-256, but their topology archive digests differ. This supports a recorded graph artifact identity claim only; without the bytes it does not establish identical source feature endpoints, topology ZIP contents, generation commands, or physical trail connectivity.",
+    "unresolved": "Obtain both topology archives and the shared overlay graph archive; compute actual SHA-256, compare ZIP manifests and per-feature original edge IDs/endpoints, and replay quantization on raw SHP.",
+    "risk": "No 35m proximity or <=2cm endpoint proximity may be promoted to an approved trail without authoritative passage evidence."
+  },
+  "limitations": [
+    "Original SHP, v102/v129/3D/audit ZIP and DEM bytes not mounted; recorded SHA256 values cannot be independently recomputed",
+    "v69 route regression, nationwide DEM coverage, CI and deployment not verified"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "connectionsApproved": 0
+  },
+  "completion": false
+}

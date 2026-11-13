@@ -13,6 +13,8 @@ export function normalizeRecord(raw){
   const category=String(raw.category??'');
   if(!CATEGORIES.some(c=>c.id===category))throw new TypeError('Invalid category');
   if(typeof raw.id!=='string'||!raw.id.trim()||typeof raw.name!=='string'||!raw.name.trim())throw new TypeError('Missing id or name');
+  // Missing/null/blank coordinates must never silently become (0, 0).
+  if(raw.lat===null||raw.lat===undefined||raw.lon===null||raw.lon===undefined||String(raw.lat).trim()===''||String(raw.lon).trim()==='')throw new TypeError('Missing coordinates');
   const lat=Number(raw.lat),lon=Number(raw.lon);
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw new TypeError('Invalid coordinates');
   const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim():'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:typeof raw.checkedAt==='string'?raw.checkedAt.trim():''};

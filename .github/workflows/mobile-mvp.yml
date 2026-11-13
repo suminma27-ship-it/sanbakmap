@@ -1,0 +1,37 @@
+name: Mobile MVP regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-mvp.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run mobile unit and UI contract tests
+        working-directory: mobile
+        run: npm test
+      - name: Verify source tree for packaging
+        working-directory: mobile
+        run: npm run check:web
+      - name: Package static mobile web entry
+        working-directory: mobile
+        run: npm run prepare:web
+      - name: Verify packaged LNT gate and map
+        run: |
+          test -s mobile/www/index.html
+          test -s mobile/www/catalog.html
+          test -s mobile/www/map.html
+          test -f mobile/www/data/catalog.json
+          test -s mobile/www/src/lnt-gate.mjs
+          test -s mobile/www/src/catalog.mjs
+          node --input-type=module -e "import fs from 'node:fs';const html=fs.readFileSync('mobile/www/index.html','utf8');if(!html.includes('transitionGate')||html.includes('<iframe id=\"app\" src='))process.exit(1)"

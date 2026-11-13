@@ -11,6 +11,7 @@ const source = path.resolve(mobile, '..');
 const target = path.resolve(mobile, 'www');
 const extensions = new Set(['.html','.js','.css','.json','.webmanifest','.png','.jpg','.jpeg','.svg','.ico']);
 const dirs = ['core','data'];
+const mobileAssets = ['entry.html'];
 const checkOnly = process.argv.includes('--check');
 
 async function verifyTree(dir) {
@@ -36,6 +37,11 @@ async function main() {
     if (!(await stat(path.join(source,dir))).isDirectory()) throw Error('Missing directory '+dir);
     await verifyTree(path.join(source,dir));
   }
+  for (const file of mobileAssets) {
+    const info = await lstat(path.join(mobile,file));
+    if (!info.isFile() || info.isSymbolicLink()) throw Error('Missing safe mobile entry: '+file);
+  }
+  await verifyTree(path.join(mobile,'src'));
   if (checkOnly) {
     console.log('PASS: index, '+files.length+' root assets, '+dirs.join(', '));
     return;
@@ -44,6 +50,9 @@ async function main() {
   await mkdir(target,{recursive:true});
   for (const file of files) await cp(path.join(source,file),path.join(target,file));
   for (const dir of dirs) await cp(path.join(source,dir),path.join(target,dir),{recursive:true});
-  console.log('Prepared mobile/www from unchanged web source. Online services still need internet.');
+  await cp(path.join(target,'index.html'),path.join(target,'map.html'));
+  await cp(path.join(mobile,'entry.html'),path.join(target,'index.html'));
+  await cp(path.join(mobile,'src'),path.join(target,'src'),{recursive:true});
+  console.log('Prepared gated mobile entry and unchanged map.html. Online services still need internet.');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

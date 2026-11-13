@@ -35,7 +35,7 @@ const accept=document.getElementById('accept'),decline=document.getElementById('
 accept.addEventListener('click',()=>{
  state=transitionGate(state,'accept');
  if(!state.accepted)return;
- document.getElementById('app').src='./map.html';
+ document.getElementById('app').src='./catalog.html';
  document.body.classList.add('unlocked');
 });
 decline.addEventListener('click',()=>{

@@ -1,0 +1,158 @@
+{
+  "schema": "sanbak-v223-live-16-pack-wrapper-verification",
+  "date": "2026-11-13",
+  "baseCommit": "9e6c9bf8b513cdcc6e58955d9ea5ea96a0a6e0a2",
+  "scope": "Live GitHub connector fetch of all sixteen complete JS files on main, exact full-string wrapper/index/length checks. Not a decompression or payload SHA256 test.",
+  "packs": [
+    {
+      "index": 0,
+      "path": "data/nationwide-topology/pack-00.js",
+      "gitBlobSHA1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 1,
+      "path": "data/nationwide-topology/pack-01.js",
+      "gitBlobSHA1": "70303c2e35b4c68c57d73bc141648332b4481269",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 2,
+      "path": "data/nationwide-topology/pack-02.js",
+      "gitBlobSHA1": "cca84df214c821a962853f9db60263045c681491",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 3,
+      "path": "data/nationwide-topology/pack-03.js",
+      "gitBlobSHA1": "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 4,
+      "path": "data/nationwide-topology/pack-04.js",
+      "gitBlobSHA1": "1424f6ca9b51c66ac313ec37209156a12791e226",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 5,
+      "path": "data/nationwide-topology/pack-05.js",
+      "gitBlobSHA1": "814e2bb7855b91d250ee6b6f30c0079668431d01",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 6,
+      "path": "data/nationwide-topology/pack-06.js",
+      "gitBlobSHA1": "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 7,
+      "path": "data/nationwide-topology/pack-07.js",
+      "gitBlobSHA1": "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 8,
+      "path": "data/nationwide-topology/pack-08.js",
+      "gitBlobSHA1": "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 9,
+      "path": "data/nationwide-topology/pack-09.js",
+      "gitBlobSHA1": "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 10,
+      "path": "data/nationwide-topology/pack-10.js",
+      "gitBlobSHA1": "4fdb3bafef32814822142daa7844f50440d950d7",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 11,
+      "path": "data/nationwide-topology/pack-11.js",
+      "gitBlobSHA1": "a71a9cf11842105e3ef917db4508ab995d327191",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 12,
+      "path": "data/nationwide-topology/pack-12.js",
+      "gitBlobSHA1": "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 13,
+      "path": "data/nationwide-topology/pack-13.js",
+      "gitBlobSHA1": "bdc1ca12a407434b6319d77bca7596f32c018fab",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 14,
+      "path": "data/nationwide-topology/pack-14.js",
+      "gitBlobSHA1": "33b3faf0f3cdf77766236d954e0873a8637990c1",
+      "fullWrapperValid": true,
+      "base64Length": 120000,
+      "expectedLength": 120000
+    },
+    {
+      "index": 15,
+      "path": "data/nationwide-topology/pack-15.js",
+      "gitBlobSHA1": "af9a8da66f2640893b30bd969fb0adfc40d13241",
+      "fullWrapperValid": true,
+      "base64Length": 91676,
+      "expectedLength": 91676
+    }
+  ],
+  "tests": {
+    "allSixteenFetched": true,
+    "uniqueIndices": true,
+    "strictWholeFileWrappers": true,
+    "expectedBase64Lengths": true,
+    "totalBase64Characters": 1891676,
+    "expectedTotalBase64Characters": 1891676
+  },
+  "status": "PASS_WRAPPER_ONLY",
+  "pending": [
+    "Fetch binary payload into a byte-capable execution environment and run v222 in normal and optimized Python mode to independently check compressed SHA256, gzip, CRC32, JSON SHA256 and JSON semantics",
+    "Direct original SHP/v140 audit ZIP endpoint-level review of 114 quantization-risk nodes",
+    "35m candidate access validation, v69 regression, DEM and national coverage/deployment checks"
+  ],
+  "safety": {
+    "originalGraphChanged": false,
+    "demChanged": false,
+    "uiChanged": false,
+    "hangyeryeongExceptionChanged": false,
+    "newApprovedLinks": 0,
+    "deletedOrMerged": 0
+  }
+}

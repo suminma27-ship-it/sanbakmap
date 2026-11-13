@@ -1,0 +1,22 @@
+{
+  "version": "v224",
+  "date": "2026-11-13",
+  "base_commit": "88618d8b55bbfe693a93af56942ca294eaed0c18",
+  "workflow_commit": "e83b512dd1aa25eed2ddf3e152a11bb8293de544",
+  "source_verifier_blob_sha1": "16fdd958883b933f169f16dc4462b0c2b3232eca",
+  "source_pack_00_blob_sha1": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+  "source_manifest_blob_sha1": "e5b78474c16a71f828946d08e15eb8229a138566",
+  "change": "New read-only GitHub Actions workflow runs existing v222 byte-integrity verifier against all 16 actual repository packages in Python optimized mode.",
+  "expected_compressed_sha256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+  "expected_plain_sha256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+  "checks": [
+    "exact JS wrapper",
+    "base64 strict decode",
+    "compressed size/SHA256",
+    "gzip decompression",
+    "uncompressed size/CRC32/SHA256",
+    "JSON parse"
+  ],
+  "status": "CI configured; execution not yet observed, no byte-level PASS claim",
+  "next": "Inspect Actions run conclusion and logs; if unavailable, investigate GitHub Actions enablement and permissions. Then source SHP 114 precision risks, 35m candidates, v69 regression and DEM."
+}

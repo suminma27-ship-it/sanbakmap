@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123c2b">
+<title>산박지도 · 자연 보호 동의</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#f5f8f4;color:#163a2a}
+main{max-width:650px;margin:auto;min-height:100dvh;padding:calc(28px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center}
+h1{font-size:1.9rem;margin:0 0 16px}h2{font-size:1.1rem}p{line-height:1.6}ol{padding-left:1.6rem;line-height:1.85}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}button{font:inherit;min-height:48px;border-radius:12px;padding:12px 22px;border:1px solid #1e583e;cursor:pointer}#accept{background:#1e583e;color:white;flex:1}#decline{background:white;color:#1e583e}
+#app{display:none;width:100%;height:100dvh;border:0}body.unlocked #app{display:block}body.unlocked main{display:none}
+</style>
+</head>
+<body>
+<main id="gate" aria-labelledby="heading">
+<h1 id="heading">산박지도</h1>
+<p id="promise"></p>
+<h2>LNT 자연 보호 7원칙</h2>
+<ol id="principles"></ol>
+<p>산·섬·계곡·암벽·트레킹 정보는 계획용입니다. 실제 출입·야영·취사 허용 여부는 현장 관리기관의 최신 안내를 확인해야 합니다.</p>
+<div class="actions"><button type="button" id="decline">동의하지 않음</button><button type="button" id="accept">동의하고 시작</button></div>
+<p id="closed" role="status" hidden>동의하지 않아 앱을 열 수 없습니다. 다시 접속하면 동의 여부를 선택할 수 있습니다.</p>
+</main>
+<iframe id="app" title="산박지도 지도" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<script type="module">
+import {LNT_RULES,CONSENT_TEXT,createGateState,transitionGate} from './src/lnt-gate.mjs';
+let state=createGateState();
+document.getElementById('promise').textContent=CONSENT_TEXT;
+const list=document.getElementById('principles');
+for(const principle of LNT_RULES){const li=document.createElement('li');li.textContent=principle;list.append(li);}
+const accept=document.getElementById('accept'),decline=document.getElementById('decline');
+accept.addEventListener('click',()=>{
+ state=transitionGate(state,'accept');
+ if(!state.accepted)return;
+ document.getElementById('app').src='./map.html';
+ document.body.classList.add('unlocked');
+});
+decline.addEventListener('click',()=>{
+ state=transitionGate(state,'decline');
+ accept.disabled=true;decline.disabled=true;
+ document.getElementById('closed').hidden=false;
+});
+</script>
+</body>
+</html>

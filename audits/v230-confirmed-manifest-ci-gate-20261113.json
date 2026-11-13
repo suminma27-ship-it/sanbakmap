@@ -1,0 +1,46 @@
+{
+  "version": "v230",
+  "date": "2026-11-13",
+  "scope": "Observe previously unconfirmed v229 manifest gate in real GitHub Actions; read-only evidence audit",
+  "inputs": {
+    "manifest_git_blob_sha1": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "verifier_git_blob_sha1": "9bea3b87431ff001a7e4b140cb0551b2cd572575",
+    "workflow_git_blob_sha1": "2b0664457c041fc7f21183ae8ddf3f68434505b4",
+    "v229_audit_git_blob_sha1": "21b45bbea3f415b812358a81a529736ecb4bace7"
+  },
+  "github_actions": {
+    "run_id": 43413140396,
+    "url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43413140396",
+    "head_sha": "05e945a28f4de104a67193a08e6554155a9519e8",
+    "run_status": "completed",
+    "run_conclusion": "success",
+    "job_id": 131844327294,
+    "job_name": "verify",
+    "job_conclusion": "success",
+    "steps": {
+      "Validate all 16 actual packages including gzip and JSON SHA-256": "success",
+      "Validate nationwide source metadata and no-routing restrictions": "success"
+    }
+  },
+  "result": {
+    "v229_manifest_ci_gate": "passed",
+    "pack_byte_integrity_ci_gate": "passed",
+    "scope": "GitHub Actions reported successful execution on checked-out commit; no independent original SHP validation",
+    "original_geometry_or_route_authorization": "not established"
+  },
+  "remaining": [
+    "Original SHP and v140 source ZIP independent precision-node comparison including 114 >5cm nodes and 4 near-node pairs",
+    "35m candidate provenance and official passability checks; do not auto-authorize",
+    "v69 route regression",
+    "DEM integrity and nationwide 2902-site semantic coverage",
+    "Confirm final CI/deployment on eventual approved nationwide data changes"
+  ],
+  "preservation": {
+    "ui_changed": false,
+    "graph_changed": false,
+    "dem_changed": false,
+    "hangyeryeong_changed": false,
+    "auto_approved_edges": 0,
+    "deleted_or_merged": 0
+  }
+}

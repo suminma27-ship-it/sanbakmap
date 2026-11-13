@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v236-cross-generation-risk-invariant-audit",
+  "date": "2026-11-14",
+  "scope": "Read-only cross-check of committed v129 and v140 summary records; no original ZIP/SHP replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    }
+  ],
+  "checks": {
+    "sourceSHA256Equal": true,
+    "graphOverlaySHA256Equal": true,
+    "mountainCountEqual": true,
+    "preOverlayComponentCountEqual": true,
+    "endpointOccurrencesTwiceEdgeCount": true,
+    "quantizationSpreadThresholdsMonotonic": true,
+    "nearPairThresholdsMonotonic": true,
+    "candidatePairPartitionExact": true,
+    "noPhysicalPassageApproved": true
+  },
+  "results": {
+    "passed": 9,
+    "total": 9,
+    "mountains": 2902,
+    "originalEdges": 67185,
+    "endpointOccurrences": 134370,
+    "quantizedNodesSpreadAbove5cm": 114,
+    "nearbyPairsAtMost2cm": 4,
+    "nearbyPairsAcrossComponents": 1,
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalUnapprovedEdges": 36084,
+    "sourceExample": {
+      "mountainCode": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawGapMeters": 0.0116,
+      "approved": false
+    }
+  },
+  "limitations": [
+    "GitHub committed summaries only; original SHP, 3D elevation, audit ZIP and DEM bytes not accessed or rehashed",
+    "No individual source-feature coordinate verification of 114 nodes or four near pairs",
+    "No physical/legal trail permission inferred from proximity",
+    "No full v69 route replay, nationwide DEM coverage or current deployment test"
+  ],
+  "nextGate": [
+    "Obtain original archives and verify SHA256 before source-coordinate replay",
+    "Inspect each high-risk node and four near pairs against exact SHP feature IDs",
+    "Retain all 35m connections as candidates unless independently verified",
+    "Run v69 real-route regression and nationwide DEM coverage tests"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeongException": false,
+    "connectionsApproved": 0
+  }
+}

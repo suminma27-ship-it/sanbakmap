@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {CATEGORIES,normalizeRecord,filterRecords} from '../src/catalog.mjs';
+import {CATEGORIES,normalizeRecord,normalizeCatalog,filterRecords} from '../src/catalog.mjs';
 const base={id:'valley-01',name:'샘플 계곡',category:'valley',lat:37.5,lon:127,region:'경기'};
 test('five categories have distinct identifiers',()=>assert.deepEqual(CATEGORIES.map(c=>c.id),['mountain','island','valley','climbing','trekking']));
 test('valley default is unknown for four activities',()=>assert.ok(Object.values(normalizeRecord(base).activity).every(a=>a.status==='unknown')));
@@ -10,3 +10,12 @@ test('invalid category, coordinates, status rejected',()=>{assert.throws(()=>nor
 test('common filtering',()=>{const records=[normalizeRecord(base),normalizeRecord({...base,id:'m-01',name:'다른 산',category:'mountain',region:'강원'})];assert.deepEqual(filterRecords(records,{category:'valley',region:'경기',search:'샘플'}).map(r=>r.id),['valley-01']);});
 
 test('missing or blank coordinates cannot fabricate a Gulf of Guinea location',()=>{for(const coordinates of [{lat:null},{lon:null},{lat:''},{lon:'   '},{lat:undefined},{lon:undefined}])assert.throws(()=>normalizeRecord({...base,...coordinates}),/coordinates/);});
+
+test('batch catalog isolates malformed and duplicate records',()=>{
+ const valid={id:'valid',name:'검증용 산',category:'mountain',lat:37,lon:127};
+ const {records,rejected}=normalizeCatalog([valid,{...valid,id:'broken',lat:null},valid,{...valid,id:'second'}]);
+ assert.deepEqual(records.map(r=>r.id),['valid','second']);
+ assert.deepEqual(rejected.map(r=>r.index),[1,2]);
+ assert.match(rejected[1].reason,/Duplicate/);
+ assert.throws(()=>normalizeCatalog({}),/array/);
+});

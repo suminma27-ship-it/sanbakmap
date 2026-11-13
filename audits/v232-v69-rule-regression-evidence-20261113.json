@@ -1,0 +1,53 @@
+{
+  "schema": "sanbak-v232-v69-rule-regression-evidence",
+  "date": "2026-11-13",
+  "scope": "Historical v69 rule-only synthetic regression; no raw nationwide SHP geometry or DEM replay",
+  "inputs": [
+    {
+      "path": "tools/v232-v69-rule-gate.mjs",
+      "gitBlobSHA1": "9b863c0a06be72942b0fad9143dc2237424c2634"
+    },
+    {
+      "path": "audits/v69-routing-v126-reference.md",
+      "gitBlobSHA1": "34a3ff1050d5b301c5750d53d5088435f1753b9a"
+    },
+    {
+      "path": "audits/v231-current-head-deployment-risk-trace-20261113.json",
+      "gitBlobSHA1": "91b8e02a4717a877b4cc715a06d8a8034790ac16"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    }
+  ],
+  "execution": {
+    "command": "node tools/v232-v69-rule-gate.mjs",
+    "node": "v22.16.0",
+    "passed": 9,
+    "total": 9,
+    "authorizedConnections": 0,
+    "syntheticOnly": true
+  },
+  "findings": {
+    "v69HorizontalMaxMeters": 0.75,
+    "v69VerticalMaxMeters": 4,
+    "provisional35mCandidateMaxMeters": 35,
+    "thresholdRatio": 46.666666666666664,
+    "conclusion": "A 35m candidate cannot be promoted by v69's 0.75m rule; even matching the v69 historical stitch rule does not establish current official passage authorization.",
+    "historicalException": "Hangyeryeong bridge is a user-requested provisional planning hypothesis; preserved without authorization."
+  },
+  "outstanding": [
+    "Directly recompute all 114 >5cm quantization risk nodes and four near-node pairs from source SHP/v140 archive",
+    "Compare actual candidate endpoints against historical v69 graph with compatible graph identity; synthetic rules are not a nationwide match",
+    "Independently inspect 35m candidates and official passage evidence",
+    "Recompute DEM and 2902-site coverage; verify CI and deployment of new HEAD"
+  ],
+  "preservation": {
+    "uiChanged": false,
+    "graphChanged": false,
+    "demChanged": false,
+    "hangyeryeongChanged": false,
+    "autoApproved": 0,
+    "deletedOrMerged": 0
+  }
+}

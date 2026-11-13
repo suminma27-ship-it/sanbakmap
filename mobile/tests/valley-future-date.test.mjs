@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {normalizeRecord} from '../src/catalog.mjs';
+const base={id:'sample',name:'검증용 계곡',category:'valley',lat:37.5,lon:127};
+const withEvidence=(date)=>normalizeRecord({...base,activity:{camping:{status:'allowed',source:'관리기관',checkedAt:date}}}).activity.camping.status;
+test('future dated permission is not allowed',()=>assert.equal(withEvidence('2099-01-01'),'unknown'));
+test('real historical permission date retains allowed status',()=>assert.equal(withEvidence('2024-02-29'),'allowed'));
+test('invalid leap date is unknown',()=>assert.equal(withEvidence('2025-02-29'),'unknown'));
+test('invalid date format is unknown',()=>assert.equal(withEvidence('2026-11-13T00:00'),'unknown'));
+test('future date does not weaken prohibition',()=>assert.equal(normalizeRecord({...base,activity:{camping:{status:'prohibited',source:'관리기관',checkedAt:'2099-01-01'}}}).activity.camping.status,'prohibited'));

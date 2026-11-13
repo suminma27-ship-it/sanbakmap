@@ -1,0 +1,52 @@
+{
+  "version": "v227",
+  "date": "2026-11-13",
+  "scope": "Direct reconstruction of compressed bytes from all 16 live GitHub pack JS files; no topology mutation",
+  "input_git_blob_sha1": {
+    "pack-00.js": "dc91302ff83dd6406a93d7296cfd5836e3b8a44a",
+    "pack-01.js": "70303c2e35b4c68c57d73bc141648332b4481269",
+    "pack-02.js": "cca84df214c821a962853f9db60263045c681491",
+    "pack-03.js": "a9a0e8591e0f6f9bae5d34276bb3e02606c61e15",
+    "pack-04.js": "1424f6ca9b51c66ac313ec37209156a12791e226",
+    "pack-05.js": "814e2bb7855b91d250ee6b6f30c0079668431d01",
+    "pack-06.js": "9e75720d2cb8221da39ce8b377c6b4c9e125b6bc",
+    "pack-07.js": "f18441ad7de3a0d08f9350b2ffc0e540bb8699f7",
+    "pack-08.js": "3aaee9a85aa3ea133620fa2c175b5571d96bb26e",
+    "pack-09.js": "95a0aee9e0dd188fc85551ce09d1b08383e872aa",
+    "pack-10.js": "4fdb3bafef32814822142daa7844f50440d950d7",
+    "pack-11.js": "a71a9cf11842105e3ef917db4508ab995d327191",
+    "pack-12.js": "10c56159d10c144d25497f6c6c655a15e4c5d0cc",
+    "pack-13.js": "bdc1ca12a407434b6319d77bca7596f32c018fab",
+    "pack-14.js": "33b3faf0f3cdf77766236d954e0873a8637990c1",
+    "pack-15.js": "af9a8da66f2640893b30bd969fb0adfc40d13241"
+  },
+  "related_git_blob_sha1": {
+    "verifier": "16fdd958883b933f169f16dc4462b0c2b3232eca",
+    "workflow": "1aad114b7ddc51507f18838bfa37586a78c32491",
+    "v226_audit": "890d4429226a4e1991e155672ba64adadd691c49"
+  },
+  "method": "Fetched all 16 live pack files using GitHub connector, validated exact JS wrapper and indices, concatenated Base64 chunks, decoded to bytes in isolated JS, inspected gzip header and trailer. Did not inflate gzip or calculate SHA-256.",
+  "results": {
+    "all_16_exact_wrappers_pass": true,
+    "base64_chars": 1891676,
+    "compressed_bytes": 1418757,
+    "compressed_bytes_matches_manifest": true,
+    "gzip_header_hex": "1f8b08",
+    "gzip_trailer_crc32_hex": "f0e981ca",
+    "gzip_trailer_uncompressed_isize": 6229684,
+    "crc_and_isize_match_expected": true
+  },
+  "checks_passed": 6,
+  "limitations": [
+    "Gzip trailer fields are stored metadata and do not prove decompressed data integrity",
+    "Compressed SHA-256 and decompressed SHA-256 not independently computed",
+    "Original SHP and DEM files not directly reprocessed",
+    "35m adjacency candidates remain unapproved"
+  ],
+  "next": [
+    "Execute full v222 verifier on 16 packs and capture independent compressed/decompressed SHA-256 and gzip CRC verification",
+    "Inspect 114 precision-risk nodes against original SHP coordinates, beginning with 2 >10cm",
+    "Run v69 regression and DEM/coverage checks"
+  ],
+  "preservation": "No UI/graph/DEM change, no connection approval, no merge/deletion; Hangyeryeong exception untouched."
+}

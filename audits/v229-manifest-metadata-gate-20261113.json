@@ -1,0 +1,47 @@
+{
+  "version": "v229",
+  "date": "2026-11-13",
+  "scope": "Add read-only nationwide manifest metadata CI safety gate; no graph or UI modifications",
+  "input_git_blob_sha1": {
+    "manifest": "e5b78474c16a71f828946d08e15eb8229a138566",
+    "previous_workflow": "1aad114b7ddc51507f18838bfa37586a78c32491",
+    "previous_byte_verifier": "16fdd958883b933f169f16dc4462b0c2b3232eca"
+  },
+  "output_git_blob_sha1": {
+    "manifest_verifier": "9bea3b87431ff001a7e4b140cb0551b2cd572575",
+    "workflow": "2b0664457c041fc7f21183ae8ddf3f68434505b4"
+  },
+  "local_tests": {
+    "valid_metadata_pass": true,
+    "negative_mutations_rejected": 6,
+    "negative_cases": [
+      "graph_edges",
+      "mountain_codes",
+      "source_zip_sha256 length",
+      "snapped_gaps",
+      "routing status",
+      "proximity restriction"
+    ],
+    "note": "Local fixture reproduced fetched manifest values; local fixture file bytes not identical to GitHub formatting; GitHub CI execution outcome not yet confirmed."
+  },
+  "checks": [
+    "source count 2902",
+    "graph edges 67185",
+    "original vertices 6094963",
+    "source zip hash format",
+    "no routing permission",
+    "no proximity edges",
+    "zero snapped gaps"
+  ],
+  "limitations": [
+    "Metadata assertions are not independent SHP coordinate validation",
+    "No evidence yet of GitHub Actions v229 passing",
+    "114 precision-risk nodes, 35m candidates, v69 regression, DEM, complete coverage remain unverified"
+  ],
+  "next": [
+    "Inspect CI run for commit 05e945a28f4de104a67193a08e6554155a9519e8 and capture success or failure",
+    "Acquire original SHP and v140 audit ZIP to compare 114 precision-risk nodes without auto-joining",
+    "Run independent v69 route and DEM/coverage checks"
+  ],
+  "preservation": "No graph/DEM/UI edits; no adjacency approvals, deletes or merges; Hangyeryeong exception untouched."
+}

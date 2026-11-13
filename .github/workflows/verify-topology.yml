@@ -1,0 +1,22 @@
+name: Nationwide topology byte integrity
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/nationwide-topology/**'
+      - 'audits/tools/verify_topology_gzip_v222.py'
+      - '.github/workflows/verify-topology.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate all 16 actual packages including gzip and JSON SHA-256
+        run: python -O audits/tools/verify_topology_gzip_v222.py data/nationwide-topology/pack-{00..15}.js

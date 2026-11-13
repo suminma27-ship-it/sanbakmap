@@ -19,6 +19,10 @@ export function normalizeRecord(raw){
   for(const value of [raw.lat,raw.lon]){
     if(typeof value!=='number'&&typeof value!=='string')throw new TypeError('Invalid coordinate type');
   }
+  // Decimal degrees only: Number() otherwise accepts hex, binary and exponent notation.
+  for(const value of [raw.lat,raw.lon]){
+    if(typeof value==='string'&&!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(value.trim()))throw new TypeError('Invalid coordinate format');
+  }
   const lat=Number(raw.lat),lon=Number(raw.lon);
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw new TypeError('Invalid coordinates');
   const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim():'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:typeof raw.checkedAt==='string'?raw.checkedAt.trim():''};

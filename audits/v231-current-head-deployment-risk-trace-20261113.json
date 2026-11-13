@@ -1,0 +1,102 @@
+{
+  "schema": "sanbak-v231-current-head-deployment-risk-trace",
+  "date": "2026-11-13",
+  "scope": "Independently inspect live GitHub Actions deploy run for current pre-audit main HEAD, and cross-check precision/35m risk denominators against immutable Git blob inputs; metadata-level audit only",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v219-35m-overlay-accounting-20261113.json",
+      "gitBlobSHA1": "4e86e7400df0d2a4f031fe94b3ab8a1a15bb947e"
+    },
+    {
+      "path": "audits/v230-confirmed-manifest-ci-gate-20261113.json",
+      "gitBlobSHA1": "0f7e1dd5c86d4b3778870838f03ef0f23106133e"
+    }
+  ],
+  "observedCurrentPreAuditHead": "170c96c80b25a8358b1611d45a903edf57f856fa",
+  "liveActions": {
+    "runId": 43426553154,
+    "url": "https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43426553154",
+    "headSha": "170c96c80b25a8358b1611d45a903edf57f856fa",
+    "status": "completed",
+    "conclusion": "success",
+    "job": "deploy",
+    "stepsConfirmedSuccess": [
+      "Validate route topology and UI regressions",
+      "Package website",
+      "Upload site",
+      "Deploy site"
+    ],
+    "observedCreatedAtUTC": "2026-11-13T12:36:06Z"
+  },
+  "previousIntegrityActions": {
+    "runId": 43413140396,
+    "headSha": "05e945a28f4de104a67193a08e6554155a9519e8",
+    "status": "completed",
+    "conclusion": "success",
+    "note": "Earlier verified head, not a fresh full byte integrity run for this current head"
+  },
+  "sourceLineage": {
+    "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "mountains": 2902,
+    "graphEdges": 67185,
+    "graphNodes": 59301,
+    "sourceEndpointOccurrences": 134370,
+    "quantizedNodesWithDistinctSourceEndpoints": 1722,
+    "spreadAbove5cm": 114,
+    "spreadAbove10cm": 2,
+    "nearDifferentNodePairsWithin2cm": 4,
+    "nearDifferentNodePairsAcrossComponents": 1
+  },
+  "provisional35m": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdges": 36084,
+    "splitEdgesSeparate": 20838,
+    "authorizedNewConnections": 0,
+    "provisionalReductionOnly": 289
+  },
+  "checks": {
+    "source_sha_lineage": true,
+    "site_count": true,
+    "edge_count": true,
+    "endpoint_occurrences_twice_edges": true,
+    "candidate_partition": true,
+    "quantization_risk_nested": true,
+    "latest_pages_run_completed": true,
+    "latest_pages_validation_step_success": true,
+    "latest_pages_deployment_step_success": true,
+    "prior_byte_integrity_ci_success": true,
+    "provisional_not_authorized": true
+  },
+  "passed": 11,
+  "total": 11,
+  "limitations": [
+    "Live CI success verifies workflow steps, not direct original SHP or DEM recomputation",
+    "Git blob SHA-1 records repository object identity; original source SHA-256 is inherited from existing manifest, not freshly rehashed",
+    "The four near-node pairs and 114 high-spread nodes still need source-grounded inspection",
+    "35m provisional edges are not authorized routes; v69 regression and nationwide DEM coverage remain pending",
+    "Audit commit creates a new HEAD; the deployment success observed here applies to the pre-audit HEAD"
+  ],
+  "nextGate": [
+    "Recover original source SHP/v140 ZIP and enumerate all 114 >5cm nodes and 4 near-node pairs with original feature identifiers",
+    "Check 35m candidates against independent source evidence and official passage authorization",
+    "Execute v69 regression and DEM semantic coverage for all 2902 sites",
+    "Check CI/Pages on this audit commit and after any approved data change"
+  ],
+  "preservation": {
+    "uiChanged": false,
+    "graphChanged": false,
+    "demChanged": false,
+    "hangyeryeongChanged": false,
+    "autoApproved": 0,
+    "deletedOrMerged": 0
+  }
+}

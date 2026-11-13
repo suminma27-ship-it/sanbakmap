@@ -1,0 +1,54 @@
+{
+  "schema": "sanbak-v238-risk-triage-derived-metrics",
+  "date": "2026-11-14",
+  "scope": "Read-only derived risk triage from GitHub committed v236/v237 records; NOT original source replay",
+  "inputs": [
+    {
+      "path": "audits/v236-cross-generation-risk-invariants-20261114.json",
+      "gitBlobSHA1": "b9409ab0d5d446558c42ef54e92714b1874e4d76"
+    },
+    {
+      "path": "audits/v237-quantization-geometric-bound-source-gate-20261114.json",
+      "gitBlobSHA1": "2b4cc5827a8c3d7fc341fd22c6ef3de4952dd056"
+    }
+  ],
+  "declaredOriginalSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "graph": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "checks": {
+    "riskPartition": true,
+    "maxDriftBound": true,
+    "pairSpreadBound": true,
+    "spreadHierarchy": true,
+    "nearComponentSubset": true,
+    "sourceCaseUnapproved": true,
+    "noMutations": true,
+    "sameCounts": true,
+    "sameNearPairs": true,
+    "endpointCount": true
+  },
+  "passed": 10,
+  "total": 10,
+  "derived": {
+    "candidatePairs": 144990,
+    "unapprovedProvisionalPairs": 36084,
+    "unapprovedProvisionalSharePercent": 24.8872,
+    "sameCellDistinctExactEndpointNodes": 1722,
+    "spreadAbove5cm": 114,
+    "spreadAbove10cm": 2,
+    "nearPairsWithin2cm": 4,
+    "nearPairsAcrossComponents": 1,
+    "maximumTheoreticalSameCellPairSpreadMeters": 0.14142135623730953
+  },
+  "priority": "Do not mistake pair spread >10cm for single endpoint drift >10cm. Retrieve original SHP/ZIP and verify feature-level exact coordinates for the 114 high-spread nodes and four near-node pairs; preserve all unapproved 35m candidates.",
+  "blocked": "Original SHP, v102/v129 ZIP, 3D height/audit ZIP, DEM bytes unavailable for this execution; no independent SHA256 replay or v69/DEM/CI verification.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "connectionsApproved": 0
+  },
+  "completion": false
+}

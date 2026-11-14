@@ -34,4 +34,20 @@ jobs:
           test -f mobile/www/data/catalog.json
           test -s mobile/www/src/lnt-gate.mjs
           test -s mobile/www/src/catalog.mjs
-          node --input-type=module -e "import fs from 'node:fs';const html=fs.readFileSync('mobile/www/index.html','utf8');if(!html.includes('transitionGate')||html.includes('<iframe id=\"app\" src='))process.exit(1)"
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const read = p => readFileSync(p, 'utf8');
+          const entry = read('mobile/www/index.html');
+          const map = read('mobile/www/map.html');
+          const source = read('index.html');
+          const catalog = read('mobile/www/catalog.html');
+          assert.match(entry, /transitionGate/);
+          assert.doesNotMatch(entry, /<iframe[^>]+src=/i);
+          assert.match(map, /<script data-sanbakmap-lnt-map-guard>/);
+          assert.ok(map.indexOf('data-sanbakmap-lnt-map-guard') < map.indexOf('<title'));
+          assert.equal(map.replace(/<script data-sanbakmap-lnt-map-guard>[\\s\\S]*?<\\/script>/, '').replace(/\\n(?=<title>)/, ''), source);
+          assert.match(catalog, /normalizeCatalog/);
+          assert.deepEqual(JSON.parse(read('mobile/www/data/catalog.json')), JSON.parse(read('mobile/catalog.json')));
+          console.log('PASS: packaged LNT entry, guarded unmodified map, catalog and data');
+          NODE

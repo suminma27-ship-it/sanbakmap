@@ -11,7 +11,7 @@ export const VALLEY_ACTIVITIES=Object.freeze(['entry','swimming','cooking','camp
 /** Placeholder labels are not provenance for a published place or an allowed activity. */
 export function hasEvidenceSource(value){
   if(typeof value!=='string')return false;
-  const normalized=value.normalize('NFKC').trim().replace(/\\s+/g,' ').toLocaleLowerCase('ko-KR');
+  const normalized=value.normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
   return normalized!==''&&!['미확인','확인 안 됨','확인되지 않음','없음','unknown','n/a','na','null','-'].includes(normalized);
 }
 export function normalizeRecord(raw){

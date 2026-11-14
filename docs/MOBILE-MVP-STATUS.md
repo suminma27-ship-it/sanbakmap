@@ -328,3 +328,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 카탈로그의 초기 HTML이 iframe LNT 검증 완료 전에 순간적으로 표시될 수 있는 문제를 줄이기 위해 기본 body를 숨기고, 올바른 부모 동의 상태와 iframe 신원이 모두 확인된 분기에서만 표시. 직접 URL/부모 오류/거부 시 기존 게이트 리다이렉트 유지. 다섯 카테고리, 원본 지도, 그래프/DEM 및 산 데이터 불변.
 - 코드 커밋 9a59cc6a3c1cda8e01be07d9f1d5872ce120d1de, 테스트 커밋 6af80062734959ebeb97ff6505fa96cfa27eb306. 입력 코드 blob 7e8739a4a12cb4cb40daead2a126fbb8a0a15d4c, 결과 코드 blob 70cb21472b63d069c2835a040712dec58c6aa66b, 신규 테스트 blob 7b2a45ad409688d041d68fc4f64238219c48ce16. 수정 전후 5개 정적 계약 조건 통과 및 GitHub 재조회 확인. 신규 Node 테스트 및 전체 npm test, GitHub Actions, 모바일 브라우저 실측은 이번 실행에서 수행/확인하지 못했으므로 통과로 간주하지 않음.
 - 남은 합격 기준: LNT 수락·거부·딥링크 실제 브라우저 검증, 출처 있는 다섯 카테고리 실데이터와 지역/상세, 전국 산 색인 및 검증 경로 지도 연동, 전체 자동 회귀/모바일 웹 실행, Android 패키징. 한계령 예외·비공식 35m 후보 정책·전국 데이터 정리 자동 작업 변경 없음. 기본 기능 미완료.
+
+
+## 2026-11-15 모바일 장소 근거 플레이스홀더 차단
+
+- 최신 main의 `mobile/src/catalog.mjs`, `mobile/catalog.html`, `mobile/entry.html`, `mobile/scripts/prepare-web.mjs`, `mobile/package.json`, `mobile/tests/catalog.test.mjs` 및 본 상태 기록 확인.
+- 장소 출처가 `미확인`, `unknown`, `N/A`, `없음` 등 플레이스홀더여도 게시 카탈로그에 들어가거나 계곡 `allowed` 근거로 인정될 수 있던 문제 수정. NFKC/공백/대소문자 정규화 후 차단; 제한/금지는 완화하지 않음. 허구 장소 추가 없음.
+- 소스 변경 커밋 `d4cdf48140fbe25d2a1c958276a053b8d5d82173`, 정규식 수정 `a0a1f9c099c189413e81807a2617b5e258afaaf3`; 회귀 테스트 추가 `4d2fdec86fed6b6f173c25754d98ab7ed3180121`, 테스트 문구 정정 `0024e5a44a11ded4743c870ea870393431c1ed1b`. 결과 소스 blob SHA `a31621779198af8e6a0ad85ecc23bd346d7e6d60`, 테스트 blob SHA `ad62dac2c1b9bb815238aa1b90bbd7a0a35b31ec`.
+- Node 22.16.0에서 동일 근거 판정 함수 독립 단언 8/8 통과. **전체 저장소 `npm test` 및 `npm run check:web`은 로컬 `github.com` DNS 해석 실패로 checkout 불가하여 미검증**. 원격 GitHub Actions·모바일 브라우저·Android 실기기 실행도 확인하지 못함. 독립 검사만 통과한 변경이므로 통합 합격 판정 금지.
+- 다음 합격 기준: 전체 회귀 및 패키징 CI 실행 증거, 실제 출처 장소와 지역 검색/상세 통합, 전국 산 색인과 검증 경로, LNT 모바일 웹 동작 확인. 원본 지도/그래프/DEM, 한계령 예외, 35m 후보 및 별도 전국 데이터 정리 작업 불변. MVP 미완료.

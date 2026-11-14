@@ -43,6 +43,16 @@ decline.addEventListener('click',()=>{
  accept.disabled=true;decline.disabled=true;
  document.getElementById('closed').hidden=false;
 });
+// A back/forward-cache restoration is a new entry: consent must be renewed.
+window.addEventListener('pageshow',event=>{
+ if(!event.persisted)return;
+ state=createGateState();
+ const frame=document.getElementById('app');
+ frame.removeAttribute('src');
+ document.body.classList.remove('unlocked');
+ accept.disabled=false;decline.disabled=false;
+ document.getElementById('closed').hidden=true;
+});
 </script>
 </body>
 </html>

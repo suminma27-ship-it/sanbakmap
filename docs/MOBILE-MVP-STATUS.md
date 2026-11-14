@@ -241,3 +241,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 동일 판정식의 독립 실행 5건 통과(잘못된 날짜, 미래 날짜, 정상 과거 날짜, 허용 강등, 미확인). `mobile/tests/activity-date-display.test.mjs`에 4개 자동 회귀 케이스 추가. **저장소 전체 npm test, GitHub Actions 및 모바일 브라우저/Android 실행 결과는 이 실행에서 확인하지 못함**.
 - 코드 커밋 `f31cdfc7b413858b6e88f3533980349f012eca80`, 테스트 커밋 `39a3586da7cfc60589f8425a0805f9cb899cded2`.
 - 남은 합격 조건: 실제 출처 있는 장소 데이터, 전국 산 색인·지도 연결, 5개 카테고리 실데이터 탐색, LNT/지도 브라우저 검증, 전체 CI/웹 패키징 및 Android 실행. 기존 지도·원본 그래프/DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 자동 작업 변경 없음.
+
+## 2026-11-14 모바일 장소 ID 유니코드 충돌 방어
+
+- GitHub main 최신 커밋과 `mobile/package.json`, `entry.html`, `catalog.html`, `src/catalog.mjs`, `scripts/prepare-web.mjs`, 카탈로그 테스트, 기존 `index.html` 존재 및 상태 문서를 확인.
+- `normalizeCatalog`의 중복 ID 비교를 NFC 정규화하여 조합형/분해형 한글 ID가 서로 다른 장소로 중복 게시되지 않게 수정. 원본 ID 표기는 보존하며 두 번째 중복 행만 검증 실패로 격리. 신규 허구 장소 추가 없음.
+- `mobile/tests/catalog-unicode-id.test.mjs` 회귀 테스트 추가. Node 독립 NFC 중복 판정 단언 통과. 전체 저장소 `npm test`와 `prepare:web`은 컨테이너의 `github.com` DNS 해석 실패로 checkout 불가하여 미실행; GitHub Actions 결과 및 브라우저/Android 실동작 미확인.
+- 코드 커밋 `467818c066372370117c3018c591b1c1732725d7`, 테스트 커밋 `91223ce878b075856717ff0f32c9ba9eb00a5a9e`.
+- 남은 합격 기준: LNT 게이트 모바일 웹 실제 실행, 5개 카테고리 출처 확인 데이터/지역 검색/상세, 전국 산 색인·기존 지도 진입, 전체 회귀·패키징·배포 확인. 기존 지도/원본 그래프/DEM/한계령 예외/35m 후보 정책과 별도 전국 데이터 정리 작업 불변. MVP 미완료.

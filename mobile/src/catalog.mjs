@@ -58,12 +58,14 @@ export function filterRecords(records,{category='',region='',search=''}={}){
 
 /** Keep verified records visible even if another source row is malformed.
  * Duplicate IDs are rejected rather than silently replacing a place. */
-export function normalizeCatalog(rows){
+export function normalizeCatalog(rows,{requireSource=false}={}){
   if(!Array.isArray(rows))throw new TypeError('Catalog must be an array');
   const records=[],rejected=[],ids=new Set();
   rows.forEach((row,index)=>{
     try{
       const record=normalizeRecord(row);
+      // Published places require provenance; import/test callers may opt out.
+      if(requireSource&&!record.source)throw new TypeError('Missing place source');
       if(ids.has(record.id))throw new TypeError('Duplicate place id');
       ids.add(record.id);
       records.push(record);

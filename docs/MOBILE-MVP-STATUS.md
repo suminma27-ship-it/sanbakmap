@@ -205,3 +205,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 정렬 및 원본 불변성을 확인하는 Node 회귀 테스트 추가. 독립 JS `localeCompare('ko')` 샘플 3개 순서 확인 통과. **신규 회귀 테스트 전체 실행 결과는 미확인**.
 - 코드/화면/테스트 커밋: `43f0f75`, `258ec0b`, `2f915cf`. GitHub API 파일 업데이트 성공. 컨테이너 `git ls-remote`는 `Could not resolve host: github.com`으로 실패하여 clone 및 `npm test`/브라우저 검증 불가. CI/모바일 웹 실행 성공으로 간주하지 않음.
 - 남은 완료 게이트: 출처 확인된 실재 장소 최소 데이터, 전국 산 색인, LNT 수락/거부 및 목록/상세/지도 브라우저 통합 테스트, `npm test` 및 `prepare:web` 실행, Android 패키징 확인. 기본 기능 미완료. 별도 전국 데이터 정리 작업 변경 없음.
+
+
+## 2026-11-14 장소 출처 누락 표시 차단 (15:36 KST 실행)
+- 최신 main 및 `mobile/src/catalog.mjs`, `mobile/catalog.html`, 테스트, 패키징 스크립트, 빈 `catalog.json` 확인.
+- 공개 탐색에서는 `normalizeCatalog(data,{requireSource:true})`를 적용해 출처가 비어 있거나 공백뿐인 장소를 목록/상세에서 제외. 제외 건수는 기존 안내에 포함. 내부 가져오기·테스트의 기본 정규화 동작은 유지.
+- 회귀 테스트에 출처 누락/공백 거부, 출처 있는 행 유지, 기본 호환성 4가지 단언 추가. 로컬 Node 22.16.0에서 동등한 격리 로직 4개 단언 통과. **실제 저장소 전체 `npm test`, `prepare:web`, 브라우저 및 Android 실행은 미확인**: 로컬 git ls-remote가 `Could not resolve host: github.com`으로 실패. GitHub Actions 결과도 별도 확인 필요.
+- 커밋: `93426ed791b71b5e56dd78db8a8ac11314009049`, `16c615dee4606d3bcf38d8179a1d981ca3f4e7cb`, `df731fe7442a04c52fdb1db38b0eb50194274e42`.
+- 주의: 비어 있지 않은 출처 문자열은 **실제 출처의 진위 검증이 아님**. 공식 원문·좌표·이용 규정을 대조하기 전 데이터 수록 승인 금지.
+- 남은 합격 기준: 실재 출처 검증 데이터, 전국 산 색인, 5개 카테고리 지역/상세 실데이터 확인, LNT 모바일 브라우저 회귀, 전체 CI/웹 패키징 성공, Android 실행. 지도/그래프/DEM·한계령 예외·35m 후보 및 별도 전국 정리 자동 작업 불변.

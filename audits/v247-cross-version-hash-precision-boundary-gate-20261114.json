@@ -1,0 +1,74 @@
+{
+  "schema": "sanbak-v247-cross-version-hash-and-precision-boundary-gate",
+  "date": "2026-11-14",
+  "scope": "Read-only independent cross-record checks, not source SHP/DEM replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v193-v102-v129-exact-original-topology-identity-20261112.json",
+      "gitBlobSHA1": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v246-baseline-self-loop-precision-gate-20261114.json",
+      "gitBlobSHA1": "f6ad4ed2cc4ea7040c53045ba92b420944e4bc3c"
+    }
+  ],
+  "checks": {
+    "sourceDigestCrossRecord": true,
+    "graphArchiveCrossRecord": true,
+    "topologyArchiveDigestConflict": true,
+    "graphCanonicalEqual": true,
+    "baselineCounts": true,
+    "endpointOccurrences": true,
+    "loopPartitions": true,
+    "quantizationMaxDrift": true,
+    "spreadNesting": true,
+    "nearPairNesting": true,
+    "crossComponentSubset": true,
+    "exampleNotWithin1cm": true,
+    "overlayCandidatePartition": true,
+    "componentReduction": true,
+    "unverified": true
+  },
+  "passed": 15,
+  "total": 15,
+  "findings": {
+    "sourceArchiveSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "baselineGraphArchiveSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "canonicalGraphSHA256": "0f23264a415430d927faaa3b35f6807860f7904c902a84d95d2edc34d80a6767",
+    "v129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyZipSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "topologyZipDigestsDiffer": true,
+    "quantizationMaxDriftMeters": 0.070569,
+    "theoreticalNearestGridDriftBoundMeters": 0.07071067811865477,
+    "distinctNodePairsWithin1cm": 1,
+    "distinctNodePairsWithin2cm": 4,
+    "crossComponentPairGapMeters": 0.0116,
+    "rawSourceReverified": false
+  },
+  "interpretation": "v129 and v140 topology ZIP digests differ despite matching source/graph archive digests; archive members must be compared before asserting topology equivalence. The flagged 1.16cm cross-component pair is not the <=1cm pair. No physical passage inferred.",
+  "blocked": [
+    "Original source SHP/DEM and v129/v140 topology ZIP archive bytes not available for this execution",
+    "No direct 114-node geometry replay, v69 regression, nationwide DEM/deployment verification"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain both topology ZIPs and compare member list, per-member SHA256 and original feature IDs; explain digest mismatch",
+    "Replay 114 >5cm quantized node spreads and four <=2cm distinct-node pairs against original EPSG:5179 geometries",
+    "Verify 2902 mountain/67185 edge full coverage, 35m candidates, v69 routes, Hangyeryeong exception, DEM and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedPhysicalLinks": 0
+  },
+  "completion": false
+}

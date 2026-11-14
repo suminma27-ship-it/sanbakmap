@@ -1,0 +1,62 @@
+{
+  "schema": "sanbak-v248-planning-overlay-component-conservation-gate",
+  "date": "2026-11-14",
+  "scope": "Independent arithmetic gate on committed v129/v140/v193 summaries; NOT source geometry replay",
+  "baseMainCommit": "2b50d6ae8f0c0d46bf7f7a2fc2d15dd42f36f314",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v193-v102-v129-exact-original-topology-identity-20261112.json",
+      "gitBlobSHA1": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+    }
+  ],
+  "checks": {
+    "endpointConservation": true,
+    "candidatePartition": true,
+    "componentMonotonic": true,
+    "componentReductionBound": true,
+    "affectedMountainBound": true,
+    "highSpreadSubset": true,
+    "graphCountsPositive": true,
+    "nonApprovedCandidateInterpretation": true
+  },
+  "passed": 8,
+  "total": 8,
+  "derived": {
+    "componentReduction": 289,
+    "affectedMountains": 166,
+    "affectedMountainRatePercent": 5.7202,
+    "reductionPerAffectedMountain": 1.741,
+    "unaffectedMountains": 2736,
+    "provisionalCandidates": 36084,
+    "candidateFractionProvisionalPercent": 24.8872,
+    "splitEdgesSeparateFromPairCount": 20838,
+    "originalEndpointOccurrences": 134370
+  },
+  "interpretation": "The 289 planning-graph component reductions across 166 mountains are aggregate preview changes, not 289 confirmed physical trail links. 20,838 split edges are not an additional 35m pair category. The source records do not identify individual component merges, so this audit cannot independently prove their validity.",
+  "blocked": [
+    "Original SHP and topology ZIP bytes unavailable for independent precision-node replay and per-member hash reconciliation",
+    "No v69 route regression, field access, full DEM or deployed-map verification"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain and SHA256 original SHP, v102/v129 topology ZIP, v140 audit ZIP and DEM; compare per-member hashes",
+    "Replay all 114 >5cm spread nodes and four <=2cm distinct-node pairs with feature IDs and CRS",
+    "Validate each proposed 35m connector against official/field evidence; do not promote proximity candidates",
+    "Verify 2902 mountain coverage, 67185 original edges, v69 routes, Hangyeryeong exception and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0
+  },
+  "completion": false
+}

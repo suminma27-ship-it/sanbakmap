@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v259-topology-archive-non-equivalence-gate",
+  "date": "2026-11-15",
+  "scope": "Independent cross-check of published v129/v140/v254 GitHub audit metadata only; raw archives unavailable",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v254-component-reduction-provenance-gate-20261114.json",
+      "gitBlobSHA1": "bb70b23e6e1ca5b7bb98096b3fcfaeddee04bff8"
+    }
+  ],
+  "checks": {
+    "sourceSHA256Agreement": true,
+    "graphSHA256Agreement": true,
+    "topologySHA256Different": true,
+    "topologyHashRecorded": true,
+    "topologyEquivalenceNotProven": true,
+    "edgeEndpoints": true,
+    "coverage": true,
+    "componentArithmetic": true,
+    "nearbyDistinctComponentSubset": true,
+    "hangyeryeongNot35m": true,
+    "noApprovedLinks": true
+  },
+  "passed": 11,
+  "total": 11,
+  "derived": {
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyZipSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "sameTopologyZipBytes": false,
+    "topologyMemberEquivalenceVerified": false,
+    "sourceEndpointOccurrences": 134370,
+    "originalEdges": 67185,
+    "originalMountains": 2902,
+    "componentReductionsPlanOnly": 289,
+    "verifiedPhysicalConnections": 0
+  },
+  "interpretation": "Two topology ZIP hashes differ, so archive byte identity is disproven, but identical logical graph content remains unknown until archive member hashes and feature-level content are compared. Shared source/graph hash claims in metadata are not independent byte rehashes. Do not infer approved passage from proximity, graph component reductions or quantization.",
+  "nextAcceptanceCriteria": [
+    "Obtain both topology ZIP byte streams and compare normalized archive member names, decompressed member SHA256, geometry counts and CRS; distinguish ZIP metadata changes from graph content changes",
+    "Independently SHA256 source SHP/DEM/v102/v129/v140 archive members and replay 67185 original edges and 134370 endpoints",
+    "Inspect 114 quantized nodes with >5cm source spread and four <=2cm different-node pairs using exact feature IDs; preserve unapproved state",
+    "Replay v69 regression and user-confirmed Hangyeryeong exception; verify 2902 mountain coverage and deployed outputs"
+  ],
+  "limitations": [
+    "Raw SHP/DEM/ZIP files not fetched or independently rehashed in this run",
+    "No per-feature topology comparison, v69 replay or deployed nationwide verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

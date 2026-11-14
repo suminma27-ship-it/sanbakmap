@@ -1,0 +1,68 @@
+{
+  "schema": "sanbak-v262-quantization-cell-bound-and-geographic-triage-gate",
+  "date": "2026-11-15",
+  "scope": "Derived independent arithmetic checks on GitHub-published audit JSON only; no original geometry or archive byte access",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v261-quantization-threshold-partition-gate-20261115.json",
+      "gitBlobSHA1": "073947ac3b6e94bd456aeed16a8cf17aaceb604c"
+    }
+  ],
+  "derived": {
+    "quantizationMeters": 0.1,
+    "maximumExpectedNearestGridCenterDriftMeters": 0.07071067811865477,
+    "reportedMaximumDriftMeters": 0.070569,
+    "driftMarginMeters": 0.00014167811865475888,
+    "quantizationAffectedMountainCount": 332,
+    "quantizationAffectedMountainFraction": 0.11440385940730531,
+    "nearDifferentNodeMountainCount": 4,
+    "crossComponentNearMountainCount": 1,
+    "priorityNodesOver5cm": 114,
+    "priorityNodesOver10cm": 2,
+    "originalEdges": 67185,
+    "originalMountains": 2902
+  },
+  "checks": {
+    "maxDriftWithinRoundedCell": true,
+    "spreadHierarchy": true,
+    "spreadPartition": true,
+    "sourceHashMatch": true,
+    "graphHashMatch": true,
+    "edgeConservation": true,
+    "allNodesCovered": true,
+    "coverage": true,
+    "componentArithmetic": true,
+    "affectedMountainBounds": true,
+    "notApproved": true,
+    "originalUntouched": true
+  },
+  "passed": 12,
+  "total": 12,
+  "interpretation": "Observed maximum endpoint-to-quantized-node displacement lies within theoretical 0.1m nearest-grid-center diagonal bound; this is a necessary plausibility check, not proof of rounding implementation or topology correctness. 332 mountains are flagged for possible same-node conflation; these are audit candidates, not proven broken trails.",
+  "nextAcceptanceCriteria": [
+    "Retrieve raw SHP and v129/v140 ZIP members and compare independent SHA256 and exact feature endpoints",
+    "Inspect two >10cm spread nodes and 112 >5cm nodes with source feature IDs, and four nearby different-node pairs",
+    "Replay v69 and Hangyeryeong exception, verify all 2902 mountains, official trail access and deployed nationwide data"
+  ],
+  "limitations": [
+    "Only metadata arithmetic; exact rounding mode, per-feature joins and archive members unverified",
+    "No DEM byte verification, v69 runtime regression or deployment test"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

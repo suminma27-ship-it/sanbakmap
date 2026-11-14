@@ -25,7 +25,11 @@ export function normalizeRecord(raw){
   }
   const lat=Number(raw.lat),lon=Number(raw.lon);
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw new TypeError('Invalid coordinates');
-  const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim().replace(/\s+/g,' '):'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:typeof raw.checkedAt==='string'?raw.checkedAt.trim():''};
+  // An unverified or future catalog-level date must never appear as a completed check.
+  const placeDate=typeof raw.checkedAt==='string'?raw.checkedAt.trim():'';
+  const placeDateParsed=new Date(placeDate);
+  const validPlaceDate=/^\d{4}-\d{2}-\d{2}$/.test(placeDate)&&!Number.isNaN(placeDateParsed.getTime())&&placeDateParsed.toISOString().slice(0,10)===placeDate&&placeDate<=new Date().toISOString().slice(0,10);
+  const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim().replace(/\s+/g,' '):'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:validPlaceDate?placeDate:''};
   if(category==='valley'){
     output.activity={};
     for(const key of VALLEY_ACTIVITIES){

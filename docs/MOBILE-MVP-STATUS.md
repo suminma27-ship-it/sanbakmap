@@ -275,3 +275,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 전체 `npm test`, 패키징, 브라우저/Android 실행 및 GitHub Actions 성공은 이번 실행에서 검증하지 못함. Actions 실행 목록 조회는 GitHub fetch 허용 URL 제약(HTTP 400)으로 실패. 따라서 MVP 완료 아님.
 - 다음 합격 기준: 실제 출처 있는 장소 데이터 및 지역검색, 전국 산 색인, LNT/지도 딥링크 브라우저 회귀, 전체 테스트·웹 패키징·Android 실행 증거.
 - 기존 지도/UI 본체, 그래프/DEM, 한계령 예외, 35m 후보 및 전국 데이터 정리 자동 작업은 변경하지 않음.
+
+
+## 2026-11-14 카탈로그 재시도 기능 (23:36 KST)
+
+- GitHub main의 `mobile/catalog.html`, `entry.html`, `src/catalog.mjs`, `scripts/prepare-web.mjs`, `package.json`, 기존 테스트 및 진행표를 읽음. `mobile/index.html`은 원본에 없고 웹 패키징 시 생성됨.
+- 카탈로그 JSON 요청 실패 시 기존에는 오류 문구만 있고 재시도 동작이 없었음. 오류 상태에서만 '다시 불러오기' 버튼을 노출하고 성공 시 오류를 해제하며 지역 선택지를 새 데이터 기준으로 다시 생성하도록 변경. 이전 지역이 여전히 존재하면 선택을 유지. 데이터 없음과 네트워크 실패를 구별하고 허구 레코드를 만들지 않음.
+- 변경 전후 정적 계약 검사(로더 교체, 오류 초기화, 지역 옵션 중복 제거, 재시도 이벤트 연결) 통과. `mobile/tests/catalog-retry.test.mjs`에 Node 자동 회귀 2건 추가. **새 테스트 및 전체 `npm test` 실제 실행은 미검증**: 로컬 `git ls-remote`가 `Could not resolve host: github.com`으로 실패. GitHub 커넥터 파일 읽기/쓰기만 가능했으며 브라우저·Android 실기기 검증도 미실행.
+- 코드 커밋 `df5f12697b2a5a80672d933c97624db9a53aaa4e`, 테스트 커밋 `5218557b4a28a5207c3562c67fe4357a089d8ec7`.
+- 남은 합격 조건: GitHub Actions 전체 회귀/패키징 성공, LNT 및 카탈로그 모바일 브라우저 실행, 실재 출처 장소 데이터, 전국 산 색인/검증 경로 연동, Android 빌드. 기존 지도·원본 그래프/DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업 변경 없음. 기본 기능 미완료.

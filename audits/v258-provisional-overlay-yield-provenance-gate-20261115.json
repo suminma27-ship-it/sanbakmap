@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v258-provisional-overlay-yield-provenance-gate",
+  "date": "2026-11-15",
+  "scope": "Cross-check published v129/v140/v254 audit JSON only; no raw source replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v254-component-reduction-provenance-gate-20261114.json",
+      "gitBlobSHA1": "bb70b23e6e1ca5b7bb98096b3fcfaeddee04bff8"
+    }
+  ],
+  "checks": {
+    "candidatePartition": true,
+    "edgeSplitSeparate": true,
+    "reductionMatches": true,
+    "reductionsBounded": true,
+    "affectedMountains": true,
+    "scope": true,
+    "sourceHash": true,
+    "graphHash": true,
+    "topologyDiff": true,
+    "noPassage": true,
+    "unmodified": true
+  },
+  "passed": 11,
+  "total": 11,
+  "derived": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdgesAdded": 36084,
+    "splitEdgesAdded": 20838,
+    "componentReductions": 289,
+    "provisionalEdgesPerComponentReduction": 124.85813148788927,
+    "componentReductionsPerProvisionalEdge": 0.008009089901341315,
+    "affectedMountains": 166,
+    "verifiedPhysicalConnections": 0
+  },
+  "interpretation": "The 36,084 plan-only provisional edges yield 289 reported component reductions, approximately 0.8% reductions per edge; the ratio is descriptive, not a passage validation rate. 20,838 split edges are separate from the 144,990 pair partition and must not be added to candidate-pair counts. Graph connectivity can be redundant. No 35m adjacency is approved.",
+  "limitations": [
+    "Source SHP/DEM/ZIP bytes and per-member hashes not independently replayed",
+    "Per-feature 114 >5cm conflations, four <=2cm pairs, 705 self-loops and 35m passage candidates not adjudicated",
+    "v69 regression, Hangyeryeong exception and nationwide deployment not verified"
+  ],
+  "nextAcceptanceCriteria": [
+    "Independently hash source archives and inspect per-member topology differences",
+    "Replay exact endpoint coordinates and feature IDs for 114 high-spread nodes, four close pairs and provisional 35m candidates; require official or field evidence before approval",
+    "Verify v69 regression, 2902 mountains, 67185 original edges, DEM, Hangyeryeong exception and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

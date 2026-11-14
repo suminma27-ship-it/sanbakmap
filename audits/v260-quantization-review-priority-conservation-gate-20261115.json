@@ -1,0 +1,74 @@
+{
+  "schema": "sanbak-v260-quantization-review-priority-and-conservation-gate",
+  "date": "2026-11-15",
+  "scope": "Cross-check GitHub audit JSON metadata only; not raw geometry verification",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v259-topology-archive-non-equivalence-gate-20261115.json",
+      "gitBlobSHA1": "81edd2a583102c64e37bb3158b507e11e1ec03ec"
+    }
+  ],
+  "checks": {
+    "endpointConservation": true,
+    "allNodesCovered": true,
+    "quantizedDistinctSubset": true,
+    "thresholdNested": true,
+    "nearbyNested": true,
+    "componentSubset": true,
+    "exampleWithinThreshold": true,
+    "coverage": true,
+    "graphHash": true,
+    "sourceHash": true,
+    "zeroApproved": true,
+    "originalUnchanged": true
+  },
+  "passed": 12,
+  "total": 12,
+  "derived": {
+    "exactDistinctEndpointNodes": 1722,
+    "reportedAbove5cm": 114,
+    "reportedAbove10cm": 2,
+    "reportedNearPairs": 4,
+    "reportedCrossComponentNearPairs": 1,
+    "reportedExample": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "percentNodesWithDistinctExactEndpoints": 2.90383,
+    "percentNodesAbove5cm": 0.19224,
+    "unclassifiedDistinctEndpointNodes": 1252,
+    "above5cmWithin10cm": 112
+  },
+  "reviewPriority": [
+    "First inspect two reported >10cm spread nodes using exact source feature IDs and 0.1m grid assignments; do not infer a false connection from spread alone",
+    "Then inspect 112 reported >5cm through 10cm nodes and four <=2cm different-node pairs, prioritizing the single cross-component pair in mountain 301101201 (nodes 81 and 80; 0.0116m reported gap)",
+    "Replay full 67185 original edges and 134370 endpoint occurrences against raw EPSG:5179 geometry; verify no topology changes",
+    "Compare decompressed members of v129 and v140 topology ZIPs and verify source and DEM bytes independently",
+    "Replay v69, preserve Hangyeryeong user-confirmed exception, validate 2902 mountain coverage and deployed data"
+  ],
+  "interpretation": "Counts and prioritization are derived from previously published metadata; none proves erroneous or physically traversable junctions. No proximity-based approval.",
+  "limitations": [
+    "Original SHP, DEM, ZIP bytes not independently available or hashed in this run",
+    "No exact feature ID review, v69 replay, deployment or field permission verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

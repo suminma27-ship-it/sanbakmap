@@ -170,3 +170,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/catalog-region.test.mjs`에 정규화된 시·도/시군구 검색 회귀 케이스 추가. 동일 정규화식의 독립 JS 입력 3건 통과. **전체 `npm test`와 패키징·브라우저 실행은 미검증**: 로컬 `git ls-remote`가 `Could not resolve host: github.com`으로 실패하여 원격 체크아웃 불가. 테스트 커밋 후 GitHub Actions 통과도 아직 확인하지 못함.
 - 코드 커밋 `de4d6d1daf6b4013f1c50de0a6a1a0edbd8d61fc`, 테스트 커밋 `90929e6233e946ecad2917bc63820bc92fa88bb3`.
 - 남은 완료 조건: 실제 출처 장소 데이터와 전국 산 색인, 다섯 카테고리 지역/상세 브라우저 통합 검증, LNT 직접 진입 검증, 전체 회귀·모바일 웹 실행, Android 빌드. 기존 지도 UI·원본 그래프/DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-14 지역 선택 시군구 확장
+
+- `main` 최신 커밋 `dfcd8a4dd3e022f7eda525d7059b30f555968c69` 및 `mobile/src/catalog.mjs`, `catalog.html`, `entry.html`, `package.json`, 테스트, 패키징 스크립트를 GitHub 커넥터로 확인.
+- 실재 목록의 지역 문자열에서 시·도와 전체 시군구 선택지를 중복 없이 생성하는 `regionOptions` 추가. 기존 시·도 검색은 유지하고 전체 시군구 선택 시 해당 지역만 필터링. 빈 지역은 선택지에 추가하지 않으며 허구 장소는 생성하지 않음.
+- 독립 Node v22.16.0에서 동일 `regionOptions` 구현의 2개 테스트 통과(중복/정렬, 공백 정규화). 저장소에 `mobile/tests/region-options.test.mjs` 3개 회귀 테스트 추가; **신규 테스트 포함 전체 `npm test`는 미실행**. 로컬 `git ls-remote`는 `Could not resolve host: github.com`으로 실패. GitHub Actions와 모바일 브라우저 검증도 미확인.
+- 코드/테스트 커밋 `f5c703637dd397ab861efbb6b71aef6b910b78a4`, `f0454f397a9b9a7f6ade11db06955ed392c0bc1d`, `49ae47eef68a6204de3f8f0e3a36179b361de7be`.
+- 남은 완료 게이트: 실제 출처 장소 데이터, 전국 산 색인/검증 경로 연동, 전체 회귀 및 패키징 CI 성공, LNT 포함 모바일 웹 브라우저 실행과 Android 빌드. 원본 지도/그래프/DEM, 한계령 예외, 35m 후보 정책, 별도 전국 데이터 정리 작업/스케줄 변경 없음. 기본 기능 미완료.

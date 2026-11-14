@@ -1,0 +1,71 @@
+{
+  "schema": "sanbak-v254-component-reduction-provenance-gate",
+  "date": "2026-11-14",
+  "scope": "Cross-audit metadata consistency only, not raw SHP/DEM replay or official passage approval",
+  "baseMainCommit": "03207dec9cbf2e26b9d6b3a522ccf7abe92aeff4",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v253-endpoint-incidence-multiplicity-gate-20261114.json",
+      "gitBlobSHA1": "9e2cf56528e128624442cc5b04a608e4e3d7917f"
+    }
+  ],
+  "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+  "graphSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+  "topologyZipHashes": {
+    "v140": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "byteEquivalenceProven": false
+  },
+  "checks": {
+    "sourceHashAgreement": true,
+    "graphHashAgreement": true,
+    "topologyZipHashDiffers": true,
+    "componentReductionArithmetic": true,
+    "componentCountNonnegative": true,
+    "affectedMountainsWithinScope": true,
+    "provisionalNotVerified": true,
+    "hangyeryeongOutside35m": true,
+    "quantizationRiskBound": true,
+    "coverage": true,
+    "previousGate": true
+  },
+  "passed": 11,
+  "total": 11,
+  "derived": {
+    "componentsBefore": 3571,
+    "componentsAfter": 3282,
+    "provisionalComponentReductions": 289,
+    "mountainsWithProvisionalReduction": 166,
+    "meanReductionsPerAffectedMountain": 1.7409638554216869,
+    "verifiedPassageCount": 0,
+    "hangyeryeongReportedGapMeters": 48.73
+  },
+  "limitations": [
+    "Reduction of 289 graph components is plan-only metadata and must not be interpreted as approved trail connectivity",
+    "Different topology ZIP SHA256 values require member-level hash comparison before asserting equivalence",
+    "Exact source endpoint feature IDs, 114 >5cm cases, four <=2cm pairs and 705 self-loops remain unadjudicated",
+    "Original SHP/DEM/ZIP bytes, v69 regression, Hangyeryeong replay and deployed nationwide checks unavailable in this run"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover exact raw SHP and topology ZIP bytes; verify member SHA256 and feature IDs",
+    "Compare 114 spread nodes and four near pairs against exact EPSG:5179 endpoints; flag only, never merge by proximity",
+    "Replay v69 and Hangyeryeong exception with real route fixtures; verify 2902 mountains, 67185 edges, DEM and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

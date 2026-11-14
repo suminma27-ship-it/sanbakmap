@@ -37,6 +37,7 @@ jobs:
           node --input-type=module <<'NODE'
           import assert from 'node:assert/strict';
           import {readFileSync} from 'node:fs';
+          import {guardMapHtml} from './mobile/src/map-guard.mjs';
           const read = p => readFileSync(p, 'utf8');
           const entry = read('mobile/www/index.html');
           const map = read('mobile/www/map.html');
@@ -46,7 +47,7 @@ jobs:
           assert.doesNotMatch(entry, /<iframe[^>]+src=/i);
           assert.match(map, /<script data-sanbakmap-lnt-map-guard>/);
           assert.ok(map.indexOf('data-sanbakmap-lnt-map-guard') < map.indexOf('<title'));
-          assert.equal(map.replace(/<script data-sanbakmap-lnt-map-guard>[\\s\\S]*?<\\/script>/, '').replace(/\\n(?=<title>)/, ''), source);
+          assert.equal(map, guardMapHtml(source));
           assert.match(catalog, /normalizeCatalog/);
           assert.deepEqual(JSON.parse(read('mobile/www/data/catalog.json')), JSON.parse(read('mobile/catalog.json')));
           console.log('PASS: packaged LNT entry, guarded unmodified map, catalog and data');

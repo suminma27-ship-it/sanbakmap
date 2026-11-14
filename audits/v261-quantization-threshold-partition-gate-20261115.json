@@ -1,0 +1,68 @@
+{
+  "schema": "sanbak-v261-quantization-threshold-partition-gate",
+  "date": "2026-11-15",
+  "scope": "Derived threshold partition from GitHub audit metadata only; NOT source-feature geometry verification",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v260-quantization-review-priority-conservation-gate-20261115.json",
+      "gitBlobSHA1": "49e6393265387181f010de1cdd211d91018acd36"
+    }
+  ],
+  "derived": {
+    "distinctExactEndpointNodes": 1722,
+    "mutuallyExclusiveSpreadBinsMeters": {
+      "atMost1mm": 1252,
+      "above1mmAtMost1cm": 102,
+      "above1cmAtMost5cm": 254,
+      "above5cmAtMost10cm": 112,
+      "above10cm": 2
+    },
+    "binTotal": 1722,
+    "priorityOver5cm": 114,
+    "priorityOver10cm": 2,
+    "sourceEndpointOccurrences": 134370,
+    "originalEdges": 67185
+  },
+  "checks": {
+    "binsNonnegative": true,
+    "binsSum": true,
+    "endpointCount": true,
+    "sourceCoverage": true,
+    "sourceHash": true,
+    "graphHash": true,
+    "archiveDifference": true,
+    "coverage": true,
+    "componentConservation": true,
+    "approvedZero": true,
+    "priorityMatches": true
+  },
+  "passed": 11,
+  "total": 11,
+  "interpretation": "Threshold bins partition 1,722 reported quantized nodes with distinct source endpoints; node spread is not proof of incorrect or traversable junction. Archive SHA256 differs but decompressed-member equivalence is unknown.",
+  "nextAcceptanceCriteria": [
+    "Retrieve original source SHP, v129/v140 topology ZIPs and DEM bytes; independently hash and compare decompressed archive members",
+    "Identify source feature IDs and compare exact EPSG:5179 coordinates for two >10cm nodes, 112 >5cm to 10cm nodes and four nearby different-node pairs",
+    "Replay v69 and Hangyeryeong exception, verify 2,902 nationwide mountain coverage and deployment"
+  ],
+  "limitations": [
+    "No raw SHP/DEM/ZIP byte access or independent feature-level geometry replay in this execution",
+    "No v69 runtime regression or deployed-map validation"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

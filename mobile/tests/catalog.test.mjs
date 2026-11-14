@@ -19,3 +19,13 @@ test('batch catalog isolates malformed and duplicate records',()=>{
  assert.match(rejected[1].reason,/Duplicate/);
  assert.throws(()=>normalizeCatalog({}),/array/);
 });
+
+test('search and region tolerate repeated whitespace without partial-region false positives',()=>{
+ const records=[
+  normalizeRecord({id:'sokcho',name:'설악산 대청봉',category:'mountain',lat:38.1,lon:128.4,region:'강원특별자치도 속초시'}),
+  normalizeRecord({id:'wonju',name:'백운산',category:'mountain',lat:37.3,lon:127.9,region:'강원특별자치도 원주시'})
+ ];
+ assert.deepEqual(filterRecords(records,{region:' 강원특별자치도  ',search:'설악산   대청봉'}).map(r=>r.id),['sokcho']);
+ assert.deepEqual(filterRecords(records,{region:'강원특별자치도 속초시',search:'대청봉'}).map(r=>r.id),['sokcho']);
+ assert.deepEqual(filterRecords(records,{region:'강원특별자치도 속',search:''}),[]);
+});

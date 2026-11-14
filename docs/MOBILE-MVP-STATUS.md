@@ -346,3 +346,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 독립 JavaScript 입력 11건(거부 8, 실제 출처 형식 유지 3) 통과. `mobile/tests/catalog-evidence-markers.test.mjs`에 게시 데이터/활동 허용 회귀 추가. 코드 커밋 `cdaeb6016548b7eefee179518eec0e8eaca6e5d9`, 테스트 커밋 `85d4d4f333646adb9049ce49ba521131f25c7378`.
 - 로컬 GitHub clone은 DNS 오류 `Could not resolve host: github.com`로 불가능. 전체 `npm test`, 패키징, 브라우저 및 Android 실행은 이번에 검증하지 못했으므로 MVP 미완료. 실제 장소 출처 데이터, 전국 산 색인, 경로/고도 연동, CI 및 모바일 웹 실동작 검증 필요.
 - 기존 지도 UI·원본 그래프/DEM·한계령 예외·35m 후보 승인 정책 및 별도 전국 데이터 정리 자동 작업 불변.
+
+## 2026-11-15 모바일 출처 보류표기 차단
+
+- 최신 main 및 mobile 패키징·카탈로그 모듈·테스트·기존 지도 진입을 GitHub에서 확인. 원본 index.html/그래프/DEM은 수정하지 않음.
+- `mobile/src/catalog.mjs`의 출처 검사에 `TBD`, `TODO`, `pending`, `unverified`, `추후 확인`, `확인 예정`, `출처 없음` 등의 보류 표기를 추가. 구두점·공백 정규화 후 거부하며 장소 게시 및 계곡의 근거 없는 `allowed` 표시 모두 차단.
+- `mobile/tests/catalog-source-pending.test.mjs` 회귀 테스트 추가. Node 22.16.0에서 동일 판정 로직의 독립 단언 9건 통과. GitHub 저장소 전체 `npm test`, CI, 브라우저/Android 실행은 이번 단계에서 확인하지 못했으므로 통과로 표시하지 않음.
+- 입력 blob SHA-1: `mobile/src/catalog.mjs` `d6af5550da312ade8a52b40bfba2ba6c28b4a1ac`; 결과 blob SHA-1: `36fe006adb7e2ad62a359aff938fbd7cd4bdfcd7`. 코드 커밋 `dde26464688d7477fa2f45aade0a9d7b733746bf`, 테스트 커밋 `137c99b6f4437d151f0a91dc9a2201ea9c957a3e`.
+- 미완료: 실제 출처 검증된 장소 데이터, 전국 산 색인/지역 검색 및 검증 경로 연동, LNT 모바일 웹 통합 검증, 전체 자동 회귀/CI, Android 빌드. 별도 전국 데이터 정리 자동 작업·스케줄 불변.

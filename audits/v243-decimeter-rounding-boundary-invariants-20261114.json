@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v243-decimeter-rounding-boundary-invariants",
+  "date": "2026-11-14",
+  "scope": "Read-only arithmetic/geometry bound validation of GitHub committed summary JSON, not raw SHP or archive byte verification",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v242-overlay-identity-topology-provenance-gate-20261114.json",
+      "gitBlobSHA1": "6aed4ff792cd730b57855e2a334bebfbe5829072"
+    }
+  ],
+  "checks": {
+    "quantizationDriftWithinTheoretical2DBound": true,
+    "observedDriftNonnegative": true,
+    "sourceEndpointOccurrencesTwiceEdges": true,
+    "allSourceNodesCovered": true,
+    "distinctEndpointNodesSubset": true,
+    "thresholdCountsNested": true,
+    "nearNodeCountsNested": true,
+    "crossComponentSubset": true,
+    "originalCoverage": true,
+    "candidatePartition": true,
+    "sourceHashAgreement": true,
+    "graphHashAgreement": true,
+    "topologyArchiveMismatch": true,
+    "noPhysicalPromotion": true,
+    "previousAuditInputIdentity": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "quantizationGridMeters": 0.1,
+    "theoreticalMax2DNearestRoundingDriftMeters": 0.07071067811865477,
+    "reportedMaximumDriftMeters": 0.070569,
+    "marginToTheoreticalBoundMeters": 0.00014167811865475888,
+    "affectedSpreadAbove5cm": 114,
+    "affectedSpreadAbove10cm": 2,
+    "nearbyCrossComponentPairCount": 1
+  },
+  "interpretation": "Reported max endpoint-to-node displacement is consistent with independent nearest-0.1m rounding in 2D EPSG:5179; this necessary bound does not establish the actual quantizer implementation, rule out conflation, or validate any trail passage. >10cm spread among exact source endpoints in the same quantized node is not the same as an individual >10cm rounding displacement.",
+  "nextAcceptanceCriteria": [
+    "Acquire original SHP and both v129/v140 topology ZIP bytes and recompute SHA256 and ZIP manifests",
+    "Replay exact EPSG:5179 source endpoint-to-node mapping and inspect 114 >5cm spread nodes, 2 >10cm spread nodes and four <=2cm separate-node pairs",
+    "Preserve Hangyeryeong user exception, forbid promotion of 35m candidates without official passage evidence",
+    "Run v69 route regressions, all 2902 mountain coverage and 67185 edge checks, DEM reproducibility and deployment tests"
+  ],
+  "limitations": [
+    "GitHub summary records only; no original SHP/v102/v129/3D/audit ZIP/DEM bytes available in this run",
+    "No independent raw coordinate, v69 route, DEM or deployment verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "connectionsApproved": 0
+  },
+  "completion": false
+}

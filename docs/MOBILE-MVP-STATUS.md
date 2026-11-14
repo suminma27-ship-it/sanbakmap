@@ -196,3 +196,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 코드 커밋 `3e11c8f1139e5fbbe805a8e6cdf6ba67720d555e`, 테스트 커밋 `f5dfa6f5bd66e18a1eadd8ddac4ece730829f842`. 테스트 3개: 3단계 옵션, 단계별 필터 일치, 불완전한 시명 오탐 방지.
 - 독립 JS 접두 구간 단언 1건 통과. 실제 저장소 전체 `npm test`와 `prepare:web`는 `git ls-remote`에서 `Could not resolve host: github.com`으로 checkout 불가하여 미실행. 신규 테스트의 실제 실행 및 CI 결과는 확인 전.
 - 다음 합격 조건: GitHub CI 전체 회귀/패키징 성공, LNT 동의/거부와 직접 지도 URL의 브라우저 검증, 실재 출처 장소 자료 및 전국 산 색인 연결, 모바일 웹/Android 실행. 다섯 카테고리 및 미확인 기본값 유지. 원본 지도·그래프·DEM·한계령 예외·35m 후보 정책과 별도 전국 데이터 정리 작업 불변. **MVP 미완료**.
+
+
+## 2026-11-14 모바일 개발 실행 6 (14:37 KST)
+
+- 최신 main 커밋 `14c9703` 및 `mobile/package.json`, `mobile/src/catalog.mjs`, `mobile/catalog.html`, `mobile/tests/catalog.test.mjs`, `mobile/entry.html`, `mobile/scripts/prepare-web.mjs`, 기존 `index.html` 존재를 GitHub API로 확인.
+- 장소 목록을 한국어 이름 가나다순으로 정렬하도록 순수 함수 `sortRecordsByName` 추가 및 목록 UI에 연결. 원본 데이터 순서를 변경하지 않음. 산·섬·계곡·암벽·트레킹, LNT 게이트, 기존 지도/DEM/그래프 불변.
+- 정렬 및 원본 불변성을 확인하는 Node 회귀 테스트 추가. 독립 JS `localeCompare('ko')` 샘플 3개 순서 확인 통과. **신규 회귀 테스트 전체 실행 결과는 미확인**.
+- 코드/화면/테스트 커밋: `43f0f75`, `258ec0b`, `2f915cf`. GitHub API 파일 업데이트 성공. 컨테이너 `git ls-remote`는 `Could not resolve host: github.com`으로 실패하여 clone 및 `npm test`/브라우저 검증 불가. CI/모바일 웹 실행 성공으로 간주하지 않음.
+- 남은 완료 게이트: 출처 확인된 실재 장소 최소 데이터, 전국 산 색인, LNT 수락/거부 및 목록/상세/지도 브라우저 통합 테스트, `npm test` 및 `prepare:web` 실행, Android 패키징 확인. 기본 기능 미완료. 별도 전국 데이터 정리 작업 변경 없음.

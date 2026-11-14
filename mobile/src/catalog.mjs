@@ -42,8 +42,14 @@ export function normalizeRecord(raw){
   return output;
 }
 export function filterRecords(records,{category='',region='',search=''}={}){
-  const term=String(search).trim().toLocaleLowerCase('ko-KR');
-  return records.filter(r=>(!category||r.category===category)&&(!region||(r.region===region||r.region.startsWith(region+' ')))&&(!term||(r.name+' '+r.region).toLocaleLowerCase('ko-KR').includes(term)));
+  // Normalize user whitespace as well as imported place names; do not infer locations.
+  const clean=value=>String(value??'').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
+  const term=clean(search),selectedRegion=clean(region);
+  return records.filter(r=>{
+    const placeRegion=clean(r.region);
+    const searchable=clean(r.name+' '+(r.region||''));
+    return (!category||r.category===category)&&(!selectedRegion||(placeRegion===selectedRegion||placeRegion.startsWith(selectedRegion+' ')))&&(!term||searchable.includes(term));
+  });
 }
 
 /** Keep verified records visible even if another source row is malformed.

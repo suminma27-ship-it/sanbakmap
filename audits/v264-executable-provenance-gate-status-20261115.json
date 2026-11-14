@@ -1,0 +1,22 @@
+{
+  "schema": "sanbak-v264-executable-provenance-gate",
+  "date": "2026-11-15",
+  "mainAtStart": "5ce7aae020d1d796aae8b20e353e8b9c71bd7b04",
+  "sourceAuditGitBlobSHA1": {
+    "v129": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "v140": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "v263": "c0cb81c0a79a558ec0424c8c55fa5ab4baec2f1d"
+  },
+  "change": "Add read-only Node.js executable gate for Git blob provenance, source/overlay hash claims, candidate partition, edge conservation, quantization risk and approval prohibition.",
+  "checksDefined": 11,
+  "execution": "NOT_RUN",
+  "blocker": "Local git clone failed: Could not resolve host github.com; GitHub connector reads/writes available but no full checkout for Node execution.",
+  "completion": false,
+  "approvedConnections": 0,
+  "graphDemUiChanged": false,
+  "nextAcceptanceCriteria": [
+    "Obtain runnable repository checkout and execute node scripts/check-national-audit-provenance.cjs",
+    "Compare raw ZIP member hashes and original SHP precision for two >10cm nodes",
+    "Run v69 regression and nationwide coverage/deployment checks"
+  ]
+}

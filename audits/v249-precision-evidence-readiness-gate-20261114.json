@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v249-precision-evidence-readiness-gate",
+  "date": "2026-11-14",
+  "scope": "Repository summary integrity and evidence availability; no raw SHP/DEM/ZIP replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v193-v102-v129-exact-original-topology-identity-20261112.json",
+      "gitBlobSHA1": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+    },
+    {
+      "path": "audits/v248-planning-component-conservation-gate-20261114.json",
+      "gitBlobSHA1": "a74d07dccbce33088c77bb2b971d6b27d4054a52"
+    }
+  ],
+  "checks": {
+    "mountains": true,
+    "edges": true,
+    "endpointOccurrences": true,
+    "allNodesCovered": true,
+    "spreadNested": true,
+    "nearPairsNested": true,
+    "componentSubset": true,
+    "driftBound": true,
+    "overlayPartition": true,
+    "components": true,
+    "baselineIdentity": true,
+    "unverified": true
+  },
+  "passed": 12,
+  "total": 12,
+  "evidenceReadiness": {
+    "quantizationNodeCasesOver5cm": 114,
+    "nearDistinctNodePairsAtMost2cm": 4,
+    "crossComponentPairsAtMost2cm": 1,
+    "sourceFeatureIdsForCasesAvailableInFetchedSummaries": false,
+    "perCaseRawEndpointCoordinatesAvailableInFetchedSummaries": false,
+    "independentOriginalSHPBytesAvailable": false,
+    "independentTopologyZIPBytesAvailable": false,
+    "independentDEMBytesAvailable": false,
+    "librarySearchExactAuditZIPFound": false
+  },
+  "finding": "All 59,301 graph nodes are reported as covered by source endpoints, but that aggregate does not prove 1:1 endpoint identity or validate the 114 high-spread node cases. The <=2cm pairs and 35m proximity pairs remain unapproved; no source-grounded individual geometry verdict is possible from these summaries.",
+  "nextAcceptanceCriteria": [
+    "Obtain original EPSG:5179 SHP and v140 audit ZIP bytes; record independent SHA256 and case-level feature IDs/endpoint coordinates for all 114 >5cm cases and four <=2cm distinct-node pairs",
+    "Compare v129 and v140 topology ZIP members and hashes to explain differing archive digests",
+    "Run v69 route regression and 35m candidate official passage evidence gate without automatic approval",
+    "Verify 2902/67185 nationwide graph coverage, DEM and deployed map against originals"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0
+  },
+  "completion": false
+}

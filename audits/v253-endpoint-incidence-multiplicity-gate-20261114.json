@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v253-endpoint-incidence-multiplicity-gate",
+  "date": "2026-11-14",
+  "scope": "Arithmetic consistency of GitHub audit summaries only; no raw SHP/DEM/archive replay",
+  "baseMainCommit": "b21fc71019e47aa839437171dd3b1c33fc2cd471",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v252-baseline-selfloop-precision-crossgate-20261114.json",
+      "gitBlobSHA1": "d943fc7a856e279a5a7ab472f9f5b629754d31f1"
+    }
+  ],
+  "checks": {
+    "endpointIncidence": true,
+    "nodeCoverage": true,
+    "multiNodesWithinTotal": true,
+    "minimumIncidenceFeasible": true,
+    "excessIncidenceExact": true,
+    "singletonNodeCount": true,
+    "minimumMultiNodeIncidence": true,
+    "riskSubset": true,
+    "noRemovedMountains": true,
+    "candidatePartition": true,
+    "graphCounts": true,
+    "priorAuditPassed": true,
+    "noPhysicalLinks": true
+  },
+  "passed": 13,
+  "total": 13,
+  "derived": {
+    "totalEndpointIncidences": 134370,
+    "singletonGraphNodes": 18749,
+    "multiOccurrenceGraphNodes": 40552,
+    "endpointIncidencesAtMultiOccurrenceNodes": 115621,
+    "extraIncidencesBeyondOnePerNode": 75069,
+    "extraIncidencesBeyondTwoPerMultiNode": 34517
+  },
+  "interpretation": "These are occurrence-count identities, not proof of correct physical junctions. The extra 34,517 incidences beyond two per multi-occurrence node reflect aggregate multiplicity only; exact endpoint IDs and coordinate geometry are required to identify false merges.",
+  "blocked": [
+    "Original SHP, DEM, v140 archive and topology ZIP member bytes not independently recovered",
+    "No feature-ID adjudication for 114 >5cm nodes, 4 <=2cm node pairs or 705 self loops",
+    "v69 route regression, Hangyeryeong exception replay and deployed nationwide validation outstanding"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover original byte-identical SHP/v140 ZIP and verify SHA256; enumerate endpoint IDs and exact EPSG:5179 coordinates",
+    "Review 114 spread nodes and 4 near pairs against source and official passage evidence; never approve by proximity alone",
+    "Replay v69, Hangyeryeong exception, nationwide 2902/67185 coverage and DEM checks"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

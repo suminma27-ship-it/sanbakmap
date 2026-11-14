@@ -1,0 +1,62 @@
+{
+  "schema": "sanbak-v255-quantization-risk-bucket-crossgate",
+  "date": "2026-11-14",
+  "scope": "GitHub audit metadata arithmetic and risk-bucket disaggregation only; not raw SHP/DEM replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v254-component-reduction-provenance-gate-20261114.json",
+      "gitBlobSHA1": "bb70b23e6e1ca5b7bb98096b3fcfaeddee04bff8"
+    }
+  ],
+  "checks": {
+    "spreadNested": true,
+    "nodeAndMountainBounds": true,
+    "nearPairsNested": true,
+    "crossComponentSubset": true,
+    "endpointCount": true,
+    "candidatePartition": true,
+    "sameSourceHash": true,
+    "sameGraphHash": true,
+    "differentTopologyZip": true,
+    "unapproved": true,
+    "allMountains": true,
+    "noSourceMutation": true
+  },
+  "passed": 12,
+  "total": 12,
+  "derived": {
+    "spreadAbove1mmOnly": 102,
+    "spreadAbove1cmThrough5cm": 254,
+    "spreadAbove5cmThrough10cm": 112,
+    "spreadAbove10cm": 2,
+    "distinctExactEndpointNodesAtMost1mm": 1252,
+    "riskNodeFraction": 0.02903829615014924,
+    "spreadAbove5cmFraction": 0.0019223959123792179,
+    "nearPairsBetween1cmAnd2cm": 3,
+    "quantizationMaxSameCellSeparationMeters": 0.14142135623730953,
+    "maxCenterDisplacementMeters": 0.07071067811865475
+  },
+  "interpretation": "Spread buckets are disjoint differences of reported nested thresholds, not counts of proven false trail joins. Proximity candidates remain unapproved. The source archive and topology ZIP member bytes are not independently verified.",
+  "nextAcceptanceCriteria": [
+    "Recover byte-identical original SHP, DEM, v102/v129/v140 archives and record member SHA256; compare differing topology ZIP members",
+    "Enumerate exact EPSG:5179 source feature IDs for all 114 >5cm nodes and four <=2cm cross-node pairs; preserve original topology and require official/field passage evidence",
+    "Replay v69 and Hangyeryeong exception, verify 2902 mountains, 67185 edges, DEM and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

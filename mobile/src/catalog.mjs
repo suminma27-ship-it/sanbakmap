@@ -43,7 +43,7 @@ export function normalizeRecord(raw){
 }
 export function filterRecords(records,{category='',region='',search=''}={}){
   const term=String(search).trim().toLocaleLowerCase('ko-KR');
-  return records.filter(r=>(!category||r.category===category)&&(!region||r.region===region)&&(!term||(r.name+' '+r.region).toLocaleLowerCase('ko-KR').includes(term)));
+  return records.filter(r=>(!category||r.category===category)&&(!region||(r.region===region||r.region.startsWith(region+' ')))&&(!term||(r.name+' '+r.region).toLocaleLowerCase('ko-KR').includes(term)));
 }
 
 /** Keep verified records visible even if another source row is malformed.

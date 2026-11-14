@@ -161,3 +161,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 코드 커밋 `c697ae41c32e0778c35b064c5b3c8bbb933fefa1`, `a3ba42f4ead77e6dc7da58375993da99536aa3fc`; 테스트 커밋 `7e7e4e55514533b0d5e52ecb70df640a9f9ce696`.
 - **남은 합격 기준**: 실제 출처 장소와 전국 산 색인 연동, 5개 카테고리의 실데이터 지역/상세 확인, LNT 브라우저 우회 회귀, 전체 CI/웹 패키징 및 모바일 웹 실행, Android 검증. 현재 `catalog.json`은 빈 목록이므로 실제 지역 검색은 아직 검증할 수 없음.
 - 기존 지도/UI·원본 그래프/DEM·한계령 예외·35m 연결 정책 및 별도 전국 데이터 정리 자동 작업 변경 없음.
+
+
+## 2026-11-14 지역 공백 정규화 후속 검증
+
+- `main` 최신 커밋 및 `mobile/catalog.html`, `entry.html`, `src/catalog.mjs`, `scripts/prepare-web.mjs`, `package.json`, 지역 필터 테스트를 GitHub 커넥터로 확인. `mobile/index.html`은 원본에 없으며 패키징 시 `entry.html`에서 생성되는 구조 유지.
+- 실제 지역 문자열에 연속 공백·탭·줄바꿈이 섞이면 시·도 선택이 누락되는 문제를 막기 위해 `normalizeRecord`에서 지역 공백을 단일 공백으로 정규화. 산·섬·계곡·암벽·트레킹 카테고리 및 허용 상태 판단 로직 불변.
+- `mobile/tests/catalog-region.test.mjs`에 정규화된 시·도/시군구 검색 회귀 케이스 추가. 동일 정규화식의 독립 JS 입력 3건 통과. **전체 `npm test`와 패키징·브라우저 실행은 미검증**: 로컬 `git ls-remote`가 `Could not resolve host: github.com`으로 실패하여 원격 체크아웃 불가. 테스트 커밋 후 GitHub Actions 통과도 아직 확인하지 못함.
+- 코드 커밋 `de4d6d1daf6b4013f1c50de0a6a1a0edbd8d61fc`, 테스트 커밋 `90929e6233e946ecad2917bc63820bc92fa88bb3`.
+- 남은 완료 조건: 실제 출처 장소 데이터와 전국 산 색인, 다섯 카테고리 지역/상세 브라우저 통합 검증, LNT 직접 진입 검증, 전체 회귀·모바일 웹 실행, Android 빌드. 기존 지도 UI·원본 그래프/DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 자동 작업 불변.

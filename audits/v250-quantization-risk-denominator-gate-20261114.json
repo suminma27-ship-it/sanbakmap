@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v250-quantization-risk-denominator-and-evidence-gate",
+  "date": "2026-11-14",
+  "baseMainCommit": "9fbe45d5a53a2da31ff5d4e9770e8b2fe2c8fb17",
+  "scope": "Independent denominator, subset and safety cross-check of committed summaries; not a raw geometry replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v193-v102-v129-exact-original-topology-identity-20261112.json",
+      "gitBlobSHA1": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+    }
+  ],
+  "checks": {
+    "allMountains": true,
+    "endpointIncidence": true,
+    "quantizedSubsets": true,
+    "nearPairs": true,
+    "drift": true,
+    "overlay": true,
+    "component": true,
+    "graphIdentity": true,
+    "zeroApproval": true
+  },
+  "passed": 9,
+  "total": 9,
+  "derived": {
+    "distinctExactEndpointQuantizedNodes": 1722,
+    "shareOfAllGraphNodesPercent": 2.9038,
+    "spreadAbove5cmNodes": 114,
+    "shareOfAllGraphNodesAbove5cmPercent": 0.1922,
+    "spreadAbove10cmNodes": 2,
+    "shareOfConflatedNodesAbove5cmPercent": 6.6202,
+    "potentialConflationMountains": 332,
+    "shareOfMountainsPercent": 11.4404,
+    "sourceEndpointOccurrences": 134370,
+    "meanEndpointOccurrencesPerNode": 2.2659
+  },
+  "interpretation": "Rates describe flags within summarized quantized graph, not confirmed wrong junctions. Spread cases may be legitimate repeated endpoint coordinate jitter. Cannot determine per-case topology effect without original EPSG:5179 endpoint coordinates, feature IDs and original SHP bytes. Neither 35m proximity nor 1.16cm cross-component gap is proof of legal traversability.",
+  "blocked": [
+    "Original SHP, v140 audit ZIP, v129/v140 topology ZIP members and DEM bytes not independently replayed",
+    "No v69 route regression or nationwide deployed-map coverage verification"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover raw source and v140 audit ZIP; SHA256 each and enumerate 114 >5cm cases and four <=2cm distinct-node pairs by source feature ID, precise EPSG:5179 endpoints and component membership",
+    "Compare per-member hashes for v129/v140 topology archives to explain differing archive SHA256",
+    "Verify all 2902 mountains, 67185 edges, DEM coverage, v69 route regression, Hangyeryeong exception and deployed map without promoting unverified 35m candidates"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0
+  },
+  "completion": false
+}

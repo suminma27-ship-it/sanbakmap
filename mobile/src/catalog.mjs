@@ -51,7 +51,7 @@ export function sortRecordsByName(records){
 }
 export function filterRecords(records,{category='',region='',search=''}={}){
   // Normalize user whitespace as well as imported place names; do not infer locations.
-  const clean=value=>String(value??'').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
+  const clean=value=>String(value??'').normalize('NFC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
   const term=clean(search),selectedRegion=clean(region);
   return records.filter(r=>{
     const placeRegion=clean(r.region);

@@ -1,0 +1,72 @@
+{
+  "schema": "sanbak-v263-proximity-candidate-conservation-and-approval-separation-gate",
+  "date": "2026-11-15",
+  "scope": "Independent derived arithmetic on GitHub v129/v140/v262 audit metadata; no raw SHP/DEM/ZIP bytes or feature-level validation",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v262-quantization-cell-bound-geographic-triage-20261115.json",
+      "gitBlobSHA1": "6514ba4d58f6c8256f130ac37e4598be25c8114d"
+    }
+  ],
+  "derived": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdges": 36084,
+    "candidatePartitionSum": 144990,
+    "alreadySameNodeFraction": 0.751127663976826,
+    "provisionalFraction": 0.24887233602317402,
+    "splitEdgesAdded": 20838,
+    "componentReductionsPlanOnly": 289,
+    "mountainsWithReductions": 166,
+    "originalMountains": 2902,
+    "originalEdges": 67185,
+    "sourceSHA256Claim": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v129TopologyZIPClaim": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyZIPClaim": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "hangyeryeongGapMeters": 48.73,
+    "proximityThresholdMeters": 35
+  },
+  "checks": {
+    "candidatePartition": true,
+    "splitEdgesNotAdditionalCandidatePairs": true,
+    "componentReductionArithmetic": true,
+    "componentReductionDoesNotExceedCandidates": true,
+    "affectedMountainsBound": true,
+    "originalCoverage": true,
+    "sourceHashAgreement": true,
+    "overlayHashAgreement": true,
+    "topologyArchiveNonIdentity": true,
+    "proximityNotApproval": true,
+    "hangyeryeongThresholdException": true,
+    "quantizationRiskNotApproved": true
+  },
+  "passed": 12,
+  "total": 12,
+  "interpretation": "144,990 proximity candidates partition into 108,906 already-same-node cases and 36,084 provisional edges. 20,838 split edges are a separate graph representation operation, not additional verified passages or candidate pairs. The plan-only 289 component reductions across 166 mountains do not authorize physical connections. Different v129/v140 topology ZIP hashes prevent archive byte-identity claims; normalized member equivalence is unverified.",
+  "nextAcceptanceCriteria": [
+    "Fetch raw v129/v140 ZIP bytes; compare decompressed member hashes, source feature IDs and geometry, distinguish metadata-only ZIP differences",
+    "Retrieve original SHP/DEM/v102 files and independently rehash; audit >10cm nodes (2), 5-10cm nodes (112), and four near-node pairs",
+    "Reproduce v69 regression, preserve user-confirmed Hangyeryeong exception, verify 2,902 mountain coverage and deployment"
+  ],
+  "limitations": [
+    "No independent raw source/archive byte access, no feature-level topology adjudication",
+    "No verified on-the-ground access, no v69 runtime or deployed-map tests"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

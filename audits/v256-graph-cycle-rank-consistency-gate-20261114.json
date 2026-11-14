@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v256-graph-cycle-rank-consistency-gate",
+  "date": "2026-11-14",
+  "scope": "Derived graph-theoretic bounds from GitHub audit metadata only; not original SHP/DEM replay",
+  "baseMainCommit": "5a91a2c3873e7791886a0905bc77559a4fffd9d1",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v253-endpoint-incidence-multiplicity-gate-20261114.json",
+      "gitBlobSHA1": "9e2cf56528e128624442cc5b04a608e4e3d7917f"
+    }
+  ],
+  "checks": {
+    "cyclomaticNonnegative": true,
+    "forestBound": true,
+    "loopLowerBound": true,
+    "edgesTwice": true,
+    "allMountains": true,
+    "provisionalUnapproved": true,
+    "baselineComponents": true,
+    "sourceCoverage": true
+  },
+  "passed": 8,
+  "total": 8,
+  "derived": {
+    "vertices": 59301,
+    "edges": 67185,
+    "components": 3571,
+    "minimumSpanningForestEdges": 55730,
+    "cycleRankIncludingSelfLoops": 11455,
+    "reportedSelfLoops": 705,
+    "cycleRankAfterRemovingOnlySelfLoopContribution": 10750,
+    "endpointIncidences": 134370
+  },
+  "interpretation": "Cycle rank E-V+C is a multigraph identity, not a count of verified hiking circuits. The 705 reported self-loops contribute 705 to rank if they are represented as actual graph self-loop edges; 11455-705=10750 is only the remaining algebraic rank. Do not remove or merge loops or infer traversability.",
+  "limitations": [
+    "Independent SHP/DEM/archive member SHA256 not verified",
+    "Exact edge/node IDs and graph representation for 705 self loops not replayed",
+    "114 >5cm nodes, four <=2cm pairs, v69 regression, Hangyeryeong exception and nationwide deployment remain unverified"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover original SHP/DEM/v102/v129/v140 ZIP bytes and member hashes",
+    "Recompute V/E/C and cycle rank from raw per-mountain graph and inspect 705 self-loop feature IDs",
+    "Inspect 114 >5cm quantization nodes and four <=2cm pairs with exact EPSG:5179 coordinates; never approve proximity-only links",
+    "Replay v69, Hangyeryeong exception, 2902 mountains, 67185 edges and deployed map"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

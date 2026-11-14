@@ -1,0 +1,67 @@
+{
+  "schema": "sanbak-v252-cross-baseline-loop-and-precision-safety-gate",
+  "date": "2026-11-14",
+  "scope": "Cross-check committed audit summaries; not raw SHP, DEM, v69, or topology ZIP member replay",
+  "baseMainCommit": "5d3f0a326e80d75d7aa3e348dce50e072a9610a1",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v193-v102-v129-exact-original-topology-identity-20261112.json",
+      "gitBlobSHA1": "ba381d5d06f79482ef8f31aac36ec89ef20caa85"
+    }
+  ],
+  "checks": {
+    "sourceHash": true,
+    "graphHash": true,
+    "topologyZipDifferent": true,
+    "originalCounts": true,
+    "endpointIncidence": true,
+    "zeroLengthSelfLoopSubset": true,
+    "loopClassesDisjoint": true,
+    "nearPairsNested": true,
+    "nearCrossComponentSubset": true,
+    "exampleGap": true,
+    "spreadNested": true,
+    "noApprovedLinks": true,
+    "graphIdentity": true,
+    "quantizationBounds": true
+  },
+  "passed": 14,
+  "total": 14,
+  "derived": {
+    "baselineSelfLoops": 705,
+    "zeroOrNegativeLengthSelfLoops": 61,
+    "selfLoopsLongerThan10m": 204,
+    "remainingSelfLoopsNotInThoseTwoClasses": 440,
+    "nearDistinctNodePairsAtMost1cm": 1,
+    "nearDistinctNodePairsAtMost2cm": 4,
+    "notableCrossComponentGapMeters": 0.0116
+  },
+  "finding": "v102 and v129 baseline graph identity reported by v193 is consistent with v140 endpoint incidence and v129 source/graph hashes. 705 baseline self-loops include 61 zero-or-negative-length and 204 >10m, leaving 440 in other length classes; these are flags, not evidence to delete edges. The notable 1.16cm cross-component gap belongs to <=2cm but not <=1cm. Different v129/v140 topology ZIP SHA256 values remain unresolved without member-level replay.",
+  "blocked": [
+    "Original SHP, DEM, v140 audit archive and both topology ZIP member bytes unavailable for independent verification",
+    "No feature-ID-level adjudication of 114 >5cm quantization-spread nodes, four <=2cm pairs or 705 baseline self-loops",
+    "No v69 regression, official passage validation, or nationwide deployed map verification"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover source SHP and v140 audit ZIP, hash full bytes and enumerate exact endpoint feature IDs for 114 cases and four near pairs",
+    "Inspect 61 zero/negative self-loops and 204 >10m self-loops against source polyline geometries without deleting or merging",
+    "Compare topology ZIP members and run v69, Hangyeryeong, DEM and 2902/67185 coverage regression"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "sanbak-v244-source-graph-candidate-accounting-reconciliation",
+  "date": "2026-11-14",
+  "scope": "Read-only independent consistency verification of committed audit summaries, not original SHP/ZIP/DEM replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v243-decimeter-rounding-boundary-invariants-20261114.json",
+      "gitBlobSHA1": "aba3f0cda89a3526b88cd07d8d8e32a492f0382f"
+    }
+  ],
+  "checks": {
+    "sourceHashIdentity": true,
+    "graphHashIdentity": true,
+    "topologyHashDifference": true,
+    "endpointIncidenceCount": true,
+    "fullGraphNodeCoverage": true,
+    "candidatePartition": true,
+    "candidateSubset": true,
+    "splitNotCandidate": true,
+    "componentReductionNonnegative": true,
+    "componentReductionCount": true,
+    "mountainCoverage": true,
+    "originalEdgeCount": true,
+    "noPhysicalPromotion": true,
+    "riskSubset": true,
+    "previousAuditComplete": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "originalEndpointOccurrences": 134370,
+    "provisionalCandidatePairs": 36084,
+    "provisionalComponentReduction": 289,
+    "edgeSplitOperationsNotAdditiveToCandidatePairs": 20838,
+    "quantizedSpreadRiskNodes": 114
+  },
+  "interpretation": "144990 proximity candidates partition into 108906 already-same-node cases and 36084 provisional pairs; 20838 edge-split operations are a different count and must not be added to candidate pairs. Component reduction 289 is only plan-graph simulation, never proof of passage. Different topology ZIP SHA256 remains unresolved despite source and graph hash agreement.",
+  "blocked": [
+    "Original SHP, v102/v129 topology archives, 3D height, audit ZIP and DEM bytes unavailable to this run; cannot independently recompute source SHA256 or replay precise coordinates.",
+    "Cannot establish whether v129 and v140 topology ZIP contents differ semantically without both archives.",
+    "v69 physical-route regression, nationwide DEM replay, deployment tests remain outstanding."
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain both topology ZIPs and original SHP, verify byte SHA256 and member-level manifests, compare edge IDs and endpoint mapping.",
+    "Replay 114 nodes with >5cm source spread, 2 with >10cm, and 4 distinct-node pairs <=2cm using exact EPSG:5179 endpoints.",
+    "Verify all 2902 mountain coverage and 67185 immutable edges, v69 route regressions, Hangyeryeong exception, official passage evidence for any 35m proposal, DEM and deployment."
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0
+  },
+  "completion": false
+}

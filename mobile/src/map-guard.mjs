@@ -1,7 +1,7 @@
 // Inject only into the packaged map copy. Never mutate the source map.
 export const MAP_GATE_SCRIPT = `<script data-sanbakmap-lnt-map-guard>
 try {
-  if (window.parent === window || !window.parent.document.body.classList.contains('unlocked')) {
+  if (window.parent === window || !window.parent.document.body.classList.contains('unlocked') || window.parent.document.getElementById('app') !== window.frameElement) {
     window.location.replace('./index.html');
   }
 } catch (_) { window.location.replace('./index.html'); }

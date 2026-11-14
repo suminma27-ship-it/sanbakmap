@@ -284,3 +284,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 변경 전후 정적 계약 검사(로더 교체, 오류 초기화, 지역 옵션 중복 제거, 재시도 이벤트 연결) 통과. `mobile/tests/catalog-retry.test.mjs`에 Node 자동 회귀 2건 추가. **새 테스트 및 전체 `npm test` 실제 실행은 미검증**: 로컬 `git ls-remote`가 `Could not resolve host: github.com`으로 실패. GitHub 커넥터 파일 읽기/쓰기만 가능했으며 브라우저·Android 실기기 검증도 미실행.
 - 코드 커밋 `df5f12697b2a5a80672d933c97624db9a53aaa4e`, 테스트 커밋 `5218557b4a28a5207c3562c67fe4357a089d8ec7`.
 - 남은 합격 조건: GitHub Actions 전체 회귀/패키징 성공, LNT 및 카탈로그 모바일 브라우저 실행, 실재 출처 장소 데이터, 전국 산 색인/검증 경로 연동, Android 빌드. 기존 지도·원본 그래프/DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업 변경 없음. 기본 기능 미완료.
+
+
+## 2026-11-15 모바일 카탈로그 재시도 실패 시 오래된 장소 제거
+
+- 최신 main과 `mobile/catalog.html`, `mobile/src/catalog.mjs`, `mobile/entry.html`, `mobile/scripts/prepare-web.mjs`, `mobile/package.json`, 기존 재시도 회귀 테스트 확인.
+- 이전 성공 응답의 장소 목록이 남은 상태에서 다음 JSON 요청이 실패하면 화면에 오래된 장소가 표시될 수 있는 결함 수정. 실패 시 `records=[]`, `rejectedCount=0`으로 초기화하고 오류 및 재시도 버튼을 유지. 장소·허용 상태를 새로 생성하지 않음.
+- 기능 커밋 `f34960c5286a865d32988b995620b21ab7d6869a`, 회귀 테스트 커밋 `dc0be8f0689372cec88a5de159d4258f8bf44077`. GitHub에서 재조회한 코드/테스트 정적 계약 4개 통과. 별도 Node 상태 전이 독립 검사 통과. 신규 Node 테스트 전체 실행, GitHub Actions 및 모바일 웹 브라우저 실행 결과는 미확인; 이를 통합 테스트 성공으로 취급하지 않음.
+- 남은 합격 조건: 실재 출처 장소 및 전국 산 색인, 다섯 카테고리의 지역/상세 실데이터 검증, LNT 포함 브라우저 지도 진입, 전체 npm 회귀·패키징 CI 성공, Android 실빌드. 기존 지도 UI·원본 그래프/DEM·한계령 예외·35m 후보 정책과 별도 전국 데이터 정리 자동 작업 불변. MVP 미완료.

@@ -40,7 +40,7 @@ export function normalizeRecord(raw){
       // An allowed claim requires a nonblank source and a real ISO calendar date.
       const parsedDate=new Date(checkedAt);
       const validDate=/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)&&!Number.isNaN(parsedDate.getTime())&&parsedDate.toISOString().slice(0,10)===checkedAt&&checkedAt<=new Date().toISOString().slice(0,10);
-      output.activity[key]=(status==='allowed'&&!(source&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt};
+      output.activity[key]=(status==='allowed'&&!(source&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
     }
   }
   return output;

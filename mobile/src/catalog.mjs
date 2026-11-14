@@ -61,3 +61,15 @@ export function normalizeCatalog(rows){
   });
   return {records,rejected};
 }
+
+/** Province and full municipality choices, without inventing regions. */
+export function regionOptions(records){
+  const regions=new Set();
+  for(const record of records){
+    const full=typeof record.region==='string'?record.region.trim().replace(/\s+/g,' '):'';
+    if(!full)continue;
+    regions.add(full.split(' ')[0]);
+    if(full.includes(' '))regions.add(full);
+  }
+  return [...regions].sort((a,b)=>a.localeCompare(b,'ko'));
+}

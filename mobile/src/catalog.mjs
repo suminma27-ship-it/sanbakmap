@@ -8,6 +8,12 @@ export const CATEGORIES = Object.freeze([
 ]);
 export const ACCESS_STATES=Object.freeze(['unknown','allowed','restricted','prohibited']);
 export const VALLEY_ACTIVITIES=Object.freeze(['entry','swimming','cooking','camping']);
+/** Placeholder labels are not provenance for a published place or an allowed activity. */
+export function hasEvidenceSource(value){
+  if(typeof value!=='string')return false;
+  const normalized=value.normalize('NFKC').trim().replace(/\\s+/g,' ').toLocaleLowerCase('ko-KR');
+  return normalized!==''&&!['미확인','확인 안 됨','확인되지 않음','없음','unknown','n/a','na','null','-'].includes(normalized);
+}
 export function normalizeRecord(raw){
   if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new TypeError('Invalid record');
   const category=String(raw.category??'');
@@ -29,7 +35,7 @@ export function normalizeRecord(raw){
   const placeDate=typeof raw.checkedAt==='string'?raw.checkedAt.trim():'';
   const placeDateParsed=new Date(placeDate);
   const validPlaceDate=/^\d{4}-\d{2}-\d{2}$/.test(placeDate)&&!Number.isNaN(placeDateParsed.getTime())&&placeDateParsed.toISOString().slice(0,10)===placeDate&&placeDate<=new Date().toISOString().slice(0,10);
-  const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim().replace(/\s+/g,' '):'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:validPlaceDate&&typeof raw.source==='string'&&raw.source.trim()?placeDate:''};
+  const output={id:raw.id.trim(),name:raw.name.trim(),category,lat,lon,region:typeof raw.region==='string'?raw.region.trim().replace(/\s+/g,' '):'',source:typeof raw.source==='string'?raw.source.trim():'',checkedAt:validPlaceDate&&hasEvidenceSource(raw.source)?placeDate:''};
   if(category==='valley'){
     output.activity={};
     for(const key of VALLEY_ACTIVITIES){
@@ -40,7 +46,7 @@ export function normalizeRecord(raw){
       // An allowed claim requires a nonblank source and a real ISO calendar date.
       const parsedDate=new Date(checkedAt);
       const validDate=/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)&&!Number.isNaN(parsedDate.getTime())&&parsedDate.toISOString().slice(0,10)===checkedAt&&checkedAt<=new Date().toISOString().slice(0,10);
-      output.activity[key]=(status==='allowed'&&!(source&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
+      output.activity[key]=(status==='allowed'&&!(hasEvidenceSource(source)&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
     }
   }
   return output;
@@ -69,7 +75,7 @@ export function normalizeCatalog(rows,{requireSource=false}={}){
     try{
       const record=normalizeRecord(row);
       // Published places require provenance; import/test callers may opt out.
-      if(requireSource&&!record.source)throw new TypeError('Missing place source');
+      if(requireSource&&!hasEvidenceSource(record.source))throw new TypeError('Missing place source');
       // Unicode-equivalent identifiers must not publish the same place twice.
       const canonicalId=record.id.normalize('NFC');
       if(ids.has(canonicalId))throw new TypeError('Duplicate place id');

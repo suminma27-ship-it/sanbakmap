@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v266-quantization-cross-audit-executed",
+  "date": "2026-11-15",
+  "mainObserved": "a55a39042214f35b2c975dc6058186ff824fcc79",
+  "scope": "Live GitHub connector audit metadata, 12 JavaScript assertions actually executed; not raw SHP/DEM/ZIP or original feature geometry",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v262-quantization-cell-bound-geographic-triage-20261115.json",
+      "gitBlobSHA1": "6514ba4d58f6c8256f130ac37e4598be25c8114d"
+    },
+    {
+      "path": "audits/v263-proximity-candidate-conservation-gate-20261115.json",
+      "gitBlobSHA1": "c0cb81c0a79a558ec0424c8c55fa5ab4baec2f1d"
+    }
+  ],
+  "checksPassed": [
+    "0.1m nearest-grid-center theoretical displacement bound",
+    "v262 theoretical bound consistency",
+    "v140/v262 risk counts agreement",
+    "cross-component near-node subset",
+    "332/2902 affected mountain fraction",
+    "35m threshold preserved",
+    "zero verified physical passage approvals",
+    "2902 mountain count agreement",
+    "67185 original edges agreement",
+    "source SHA256 metadata claim agreement",
+    "v129/v140 topology archive hash nonidentity",
+    "114 minus 2 = 112 nodes in 5-10cm priority band"
+  ],
+  "passed": 12,
+  "total": 12,
+  "priority": {
+    "nodesSpreadOver10cm": 2,
+    "nodesSpread5to10cm": 112,
+    "nearDifferentNodePairsWithin2cm": 4,
+    "crossComponentPairsWithin2cm": 1,
+    "example": {
+      "mountainCode": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawGapMeters": 0.0116,
+      "approval": "held"
+    }
+  },
+  "rawSourceAvailability": "Not independently accessed in this run; hashes above identify GitHub audit JSON only",
+  "remaining": [
+    "Raw source SHP/v102/v129/v140 audit ZIP/DEM independent SHA256 and ZIP member inspection",
+    "Feature-ID and exact endpoint coordinate review for 2 >10cm nodes and 112 5-10cm nodes",
+    "v69 route regression and Hangyeryeong user exception verification",
+    "All 2902 coverage, official trail legal access, test and deployment verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

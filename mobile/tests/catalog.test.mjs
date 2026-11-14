@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {CATEGORIES,normalizeRecord,normalizeCatalog,filterRecords} from '../src/catalog.mjs';
+import {CATEGORIES,normalizeRecord,normalizeCatalog,filterRecords,sortRecordsByName} from '../src/catalog.mjs';
 const base={id:'valley-01',name:'샘플 계곡',category:'valley',lat:37.5,lon:127,region:'경기'};
 test('five categories have distinct identifiers',()=>assert.deepEqual(CATEGORIES.map(c=>c.id),['mountain','island','valley','climbing','trekking']));
 test('valley default is unknown for four activities',()=>assert.ok(Object.values(normalizeRecord(base).activity).every(a=>a.status==='unknown')));
@@ -28,4 +28,10 @@ test('search and region tolerate repeated whitespace without partial-region fals
  assert.deepEqual(filterRecords(records,{region:' 강원특별자치도  ',search:'설악산   대청봉'}).map(r=>r.id),['sokcho']);
  assert.deepEqual(filterRecords(records,{region:'강원특별자치도 속초시',search:'대청봉'}).map(r=>r.id),['sokcho']);
  assert.deepEqual(filterRecords(records,{region:'강원특별자치도 속',search:''}),[]);
+});
+
+test('catalog browsing sorts Korean names without mutating source records',()=>{
+ const records=['한라산','가야산','설악산'].map((name,i)=>normalizeRecord({id:'mountain-'+i,name,category:'mountain',lat:37,lon:127}));
+ assert.deepEqual(sortRecordsByName(records).map(r=>r.name),['가야산','설악산','한라산']);
+ assert.deepEqual(records.map(r=>r.name),['한라산','가야산','설악산']);
 });

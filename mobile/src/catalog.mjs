@@ -41,6 +41,10 @@ export function normalizeRecord(raw){
   }
   return output;
 }
+/** Stable Korean name ordering for browsing; retain original input order on ties. */
+export function sortRecordsByName(records){
+  return [...records].sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+}
 export function filterRecords(records,{category='',region='',search=''}={}){
   // Normalize user whitespace as well as imported place names; do not infer locations.
   const clean=value=>String(value??'').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');

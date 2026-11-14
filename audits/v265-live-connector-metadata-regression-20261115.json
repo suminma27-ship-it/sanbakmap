@@ -1,0 +1,71 @@
+{
+  "schema": "sanbak-v265-live-connector-metadata-regression",
+  "date": "2026-11-15",
+  "scope": "Fresh GitHub connector reads and executable JavaScript assertions over audit JSON; NOT execution of repository Node script, NOT raw SHP/DEM/ZIP or per-feature audit",
+  "mainObserved": "bad7db30cbb45243fce90fff96f8cb0a8e121b66",
+  "inputs": [
+    {
+      "label": "v129",
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "label": "v140",
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "label": "v262",
+      "path": "audits/v262-quantization-cell-bound-geographic-triage-20261115.json",
+      "gitBlobSHA1": "6514ba4d58f6c8256f130ac37e4598be25c8114d"
+    },
+    {
+      "label": "v263",
+      "path": "audits/v263-proximity-candidate-conservation-gate-20261115.json",
+      "gitBlobSHA1": "c0cb81c0a79a558ec0424c8c55fa5ab4baec2f1d"
+    }
+  ],
+  "checksPassed": [
+    "v263 input Git blob identities",
+    "source SHA256 claim agreement",
+    "overlay SHA256 claim agreement",
+    "v129/v140 topology ZIP SHA256 difference",
+    "2902 mountain coverage claim",
+    "67185 edges/134370 endpoint occurrences/59301 nodes",
+    "144990 candidate partition",
+    "289 component reduction arithmetic",
+    "quantization risk threshold hierarchy",
+    "zero physical passage approvals",
+    "Hangyeryeong 48.73m > 35m threshold",
+    "v262 input blob identities"
+  ],
+  "passed": 12,
+  "total": 12,
+  "observed": {
+    "originalMountains": 2902,
+    "originalEdges": 67185,
+    "sourceEndpointOccurrences": 134370,
+    "quantizationNodesSpreadAbove10cm": 2,
+    "quantizationNodesSpreadAbove5cm": 114,
+    "candidatePairs": 144990,
+    "provisionalEdges": 36084,
+    "approvedConnections": 0
+  },
+  "resultHash": "GitHub returned SHA-1 blob identities above; SHA-256 source/archive values are metadata claims, not independently rehashed bytes",
+  "repositoryNodeScript": "NOT_RUN: full local checkout and raw input artifacts unavailable in this execution; independent connector JavaScript assertions executed instead",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false,
+  "nextAcceptanceCriteria": [
+    "Execute repository scripts/check-national-audit-provenance.cjs in a checkout and retain stdout/exit code",
+    "Obtain raw SHP, v102/v129, v140 audit ZIP, DEM; independently SHA256 hash bytes and compare ZIP members",
+    "Review exact feature IDs for 2 nodes >10cm, 112 nodes >5cm and 4 nearby node pairs",
+    "Run v69 baseline regression, full 2902 mountain coverage and deployment tests"
+  ]
+}

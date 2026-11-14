@@ -354,3 +354,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/catalog-source-pending.test.mjs` 회귀 테스트 추가. Node 22.16.0에서 동일 판정 로직의 독립 단언 9건 통과. GitHub 저장소 전체 `npm test`, CI, 브라우저/Android 실행은 이번 단계에서 확인하지 못했으므로 통과로 표시하지 않음.
 - 입력 blob SHA-1: `mobile/src/catalog.mjs` `d6af5550da312ade8a52b40bfba2ba6c28b4a1ac`; 결과 blob SHA-1: `36fe006adb7e2ad62a359aff938fbd7cd4bdfcd7`. 코드 커밋 `dde26464688d7477fa2f45aade0a9d7b733746bf`, 테스트 커밋 `137c99b6f4437d151f0a91dc9a2201ea9c957a3e`.
 - 미완료: 실제 출처 검증된 장소 데이터, 전국 산 색인/지역 검색 및 검증 경로 연동, LNT 모바일 웹 통합 검증, 전체 자동 회귀/CI, Android 빌드. 별도 전국 데이터 정리 자동 작업·스케줄 불변.
+
+
+## 2026-11-15 LNT 뒤로가기 캐시 복원 차단
+
+- 최신 `main` 트리에서 `mobile/entry.html`, `mobile/catalog.html`, `mobile/src/lnt-gate.mjs`, `mobile/src/catalog.mjs`, `mobile/package.json`, 기존 테스트 및 원본 `index.html` 확인. `mobile/catalog.json`은 빈 배열이며 실제 장소 수집·전국 산 색인 연동은 미완료.
+- `mobile/entry.html`에 `pageshow`/`event.persisted` 처리 추가. 브라우저 뒤로/앞으로 캐시에서 동의 완료 페이지를 복원하면 iframe `src` 제거, `unlocked` 해제, LNT 상태 초기화 및 수락/거부 버튼 재활성화. 일반 최초 `pageshow`는 변경하지 않음. 별도 회귀 테스트 `mobile/tests/lnt-bfcache-restore.test.mjs` 추가.
+- 변경 전 entry blob `8d4511dd55f8d98e2c987cc59c0865151eb2f0e4`, 변경 후 `59e969134868f97510e045fe41a0ef866875d366`. 코드 커밋 `ee273871fa207c4a0fe8368a75c1a3776c04cc8b`, 테스트 커밋 `286f49fd040841a1310e8b8a99bbe9b351199d73`. 로컬 Node에서 동등한 캐시 복원 상태 전환 단언 5개 통과; **새 저장소 테스트 파일 자체의 실행과 전체 `npm test`는 미확인**. `git clone` 시 `Could not resolve host: github.com`으로 로컬 checkout 불가. GitHub 커넥터를 통해 코드 반영.
+- 미완료 합격 기준: 실제 모바일 브라우저의 bfcache/직접 진입/LNT 거부 검증, 출처 확인된 다섯 카테고리 장소 데이터 및 지역·상세 검색, 전국 산 지도/검증 경로·고도 연동, 전체 회귀/모바일 웹 패키징, Android 빌드. 원본 지도·그래프·DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업은 수정하지 않음. 기본 기능 미완료.

@@ -1,0 +1,65 @@
+{
+  "schema": "sanbak-v251-quantization-bound-and-overlay-partition-gate",
+  "date": "2026-11-14",
+  "baseMainCommit": "98127d6fb98cbbb1276ae018493593df73fb96d3",
+  "scope": "Independent mathematical and cross-summary checks only; no original SHP/DEM or archive-member replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v250-quantization-risk-denominator-gate-20261114.json",
+      "gitBlobSHA1": "e7560cbc2d6d982db10b60eb6f0c1323d0e275e1"
+    }
+  ],
+  "checks": {
+    "endpointIncidence": true,
+    "allNodesCovered": true,
+    "cellCenterMaxDrift": true,
+    "conflationMonotonic": true,
+    "pairMonotonic": true,
+    "componentPairSubset": true,
+    "sourceHashSame": true,
+    "overlayHashSame": true,
+    "topologyArchiveDiffers": true,
+    "candidatePartition": true,
+    "componentReduction": true,
+    "allMountains": true,
+    "noApproval": true
+  },
+  "passed": 13,
+  "total": 13,
+  "derived": {
+    "maxCenterDriftBoundMeters": 0.07071067811865477,
+    "maxWithinCellEndpointSeparationMeters": 0.14142135623730953,
+    "reportedMaxDriftMeters": 0.070569,
+    "provisionalCandidatePairs": 36084,
+    "alreadySameNodePairs": 108906,
+    "componentReduction": 289,
+    "splitEdgesNotAdditiveToCandidatePairs": 20838
+  },
+  "interpretation": "0.1m quantization permits up to 0.141421m between exact coordinates mapped to the same cell, and 0.070711m from a cell center; flagged >0.1m spread does not alone prove a bug. v129 and v140 report the same source and overlay SHA256 but different topology ZIP SHA256; ZIP member identity remains unverified. 35m candidate partition is bookkeeping, not verified legal or physical passage.",
+  "blocked": [
+    "Original source SHP, v140 audit ZIP, v129/v140 topology archive bytes and DEM not independently replayed",
+    "114 high-spread nodes and four <=2cm pairs not independently enumerated by feature ID",
+    "v69 regression, nationwide deployment and legal passage validation outstanding"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain original archives and verify SHA256, member-by-member comparison and precise endpoint-to-feature provenance",
+    "Review all 114 >5cm spread nodes and four <=2cm cross-node pairs without automatically connecting or deleting",
+    "Verify 2902 mountain coverage, 67185 original edges, DEM and v69 regressions including Hangyeryeong exception"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0
+  },
+  "completion": false
+}

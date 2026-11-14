@@ -257,3 +257,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `.github/workflows/mobile-mvp.yml`의 패키징 검증을 확장: LNT 동의 전 iframe src 부재, 패키징 지도 head 선두 가드, **원본 `index.html`과 가드 삽입본의 완전 일치**, 카탈로그 모듈 연결 및 원본/패키징 카탈로그 JSON 일치를 자동 단언. 원본 지도·그래프·DEM·UI는 수정하지 않음.
 - 워크플로 정적 구조 검토 및 원본 `guardMapHtml` 호출 계약 확인. 실제 GitHub Actions 실행 성공 여부는 미확인. CI 검증 커밋 `bcebbd64cf65dc64a0e08c9080dac76bbde2cdd9`, 비교 방식 수정 `0835352659bef24a216ffb0ff72fee1035714ac9`.
 - **남은 합격 조건:** CI 전체 `npm test`·패키징 실행 성공 로그, LNT 브라우저 동작, 출처 확인된 실제 다섯 카테고리 장소 및 전국 산 색인/지역 검색/상세, 기존 산 지도/거리/고도 연동 검증, 모바일 웹·Android 실행. 전국 데이터 정리 자동 작업과 한계령 예외·35m 미승인 후보 정책 불변.
+
+
+## 2026-11-14 장소 확인일 출처 결합 검증 (21:34 KST)
+
+- `main` 최근 커밋, `mobile/src/catalog.mjs`, `catalog.html`, `entry.html`, `scripts/prepare-web.mjs`, `package.json`, CI 및 테스트를 GitHub 커넥터로 확인.
+- 장소 수준 `checkedAt`에 유효한 과거 날짜만 있고 출처가 없더라도 검증일처럼 노출되던 문제를 수정. 출처가 비어 있으면 확인일은 미확인으로 유지. 계곡별 제한/금지와 별도 활동 근거는 변경하지 않음.
+- 정상 과거 날짜/출처, 출처 누락, 공백 출처, 비정상 달력 날짜, 미래 날짜 등 독립 JS 판정 5건 통과. `mobile/tests/catalog.test.mjs` 회귀 케이스 추가. 저장소 전체 `npm test`, GitHub Actions, 브라우저/Android 실행은 이번 실행에서 확인하지 못함.
+- 기능 커밋 `6900e9900580f915ca9c7ffa2734c5310d1bf8bc`, 테스트 커밋 `e1f73fcdc6f79ccb5061b6e73d70edd0e92abf5e`.
+- 남은 합격 기준: 5개 카테고리 실재 출처 장소/지역 검색/상세, LNT 및 지도 진입 모바일 웹 통합 실행, 전국 산 색인과 검증 경로 연동, 전체 회귀/패키징 성공 증거. 원본 지도·그래프·DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 작업은 변경하지 않음. MVP 미완료.

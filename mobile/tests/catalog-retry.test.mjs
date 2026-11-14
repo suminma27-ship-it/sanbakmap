@@ -14,3 +14,8 @@ test('successful retry clears error and rebuilds regions without stale options',
   assert.match(html,/region\.value=previous/);
   assert.match(html,/await loadCatalog\(\)/);
 });
+
+test('failed retry clears previously loaded places instead of showing stale records',()=>{
+  assert.match(html,/catch\(error\)\{console\.warn\('Catalog load failed',error\);records=\[\];rejectedCount=0;loadError='자료 로딩 실패'/);
+  assert.match(html,/loadError\?'장소 자료를 불러오지 못했습니다/);
+});

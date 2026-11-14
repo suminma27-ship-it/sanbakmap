@@ -1,0 +1,64 @@
+{
+  "schema": "sanbak-v257-quantization-grid-bound-crossgate",
+  "date": "2026-11-14",
+  "scope": "GitHub audit JSON mathematical consistency only; no raw SHP/DEM/ZIP replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v255-quantization-risk-bucket-crossgate-20261114.json",
+      "gitBlobSHA1": "e02982f6b4789e77d994a5ad633d52af8127274f"
+    },
+    {
+      "path": "audits/v256-graph-cycle-rank-consistency-gate-20261114.json",
+      "gitBlobSHA1": "85068bf15e33e5997ceea91da6671fc65369650c"
+    }
+  ],
+  "checks": {
+    "positiveGrid": true,
+    "driftWithinNearestGridBound": true,
+    "driftWithin2dSpreadBound": true,
+    "spreadNested": true,
+    "spreadBound": true,
+    "nearbyNested": true,
+    "sourceEndpoints": true,
+    "coverage": true,
+    "originalCounts": true,
+    "priorDriftBoundConsistent": true,
+    "priorCycleRankConsistent": true,
+    "unapproved": true
+  },
+  "passed": 12,
+  "total": 12,
+  "derived": {
+    "gridMeters": 0.1,
+    "maximumNearestGridPointDisplacementMeters": 0.07071067811865477,
+    "reportedMaximumEndpointNodeDriftMeters": 0.070569,
+    "marginToTheoreticalMaximumMeters": 0.00014167811865475888,
+    "maximumTwoPointsWithinOneGridCellMeters": 0.14142135623730953,
+    "spreadAbove5cmNodes": 114,
+    "spreadAbove10cmNodes": 2
+  },
+  "interpretation": "The reported maximum drift is consistent with 0.1m nearest-grid rounding under Euclidean 2D distance; this does not establish that every endpoint was correctly assigned to its source feature or that conflated endpoints represent a traversable junction. Two source endpoints within a quantization cell can be separated by up to sqrt(2)*0.1m. No adjacency approved.",
+  "limitations": [
+    "No original SHP/DEM/v102/v129/v140 archive member byte access or independent SHA256 validation",
+    "No per-feature replay of 114 >5cm node spreads or four <=2cm distinct-node pairs",
+    "No v69 regression, Hangyeryeong exception replay or nationwide deployment confirmation"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain raw SHP/DEM/archive bytes and independently hash members",
+    "Replay exact EPSG:5179 endpoint-to-grid assignment for all 67185 edges, inspect 114 high-spread nodes and four close pairs without proximity-only approval",
+    "Replay v69 and Hangyeryeong exception and check nationwide coverage, DEM, deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedLinks": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

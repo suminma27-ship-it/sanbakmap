@@ -337,3 +337,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 소스 변경 커밋 `d4cdf48140fbe25d2a1c958276a053b8d5d82173`, 정규식 수정 `a0a1f9c099c189413e81807a2617b5e258afaaf3`; 회귀 테스트 추가 `4d2fdec86fed6b6f173c25754d98ab7ed3180121`, 테스트 문구 정정 `0024e5a44a11ded4743c870ea870393431c1ed1b`. 결과 소스 blob SHA `a31621779198af8e6a0ad85ecc23bd346d7e6d60`, 테스트 blob SHA `ad62dac2c1b9bb815238aa1b90bbd7a0a35b31ec`.
 - Node 22.16.0에서 동일 근거 판정 함수 독립 단언 8/8 통과. **전체 저장소 `npm test` 및 `npm run check:web`은 로컬 `github.com` DNS 해석 실패로 checkout 불가하여 미검증**. 원격 GitHub Actions·모바일 브라우저·Android 실기기 실행도 확인하지 못함. 독립 검사만 통과한 변경이므로 통합 합격 판정 금지.
 - 다음 합격 기준: 전체 회귀 및 패키징 CI 실행 증거, 실제 출처 장소와 지역 검색/상세 통합, 전국 산 색인과 검증 경로, LNT 모바일 웹 동작 확인. 원본 지도/그래프/DEM, 한계령 예외, 35m 후보 및 별도 전국 데이터 정리 작업 불변. MVP 미완료.
+
+
+## 2026-11-15 출처 미확인 표기 우회 보완
+
+- 최신 `main`의 모바일 패키징 스크립트, LNT 진입점, 카테고리 UI, 데이터 모듈 및 테스트 계약 확인. `mobile/index.html`은 원본에 없고 패키징 시 생성됨.
+- `hasEvidenceSource`가 `N/A.`, `UNKNOWN.`, `미 확인`, `확인-안됨` 등의 미확인 표기를 출처로 인정하던 결함 수정. 구두점·공백 정규화 후 미확인 표기를 거부하며 출처가 없는 장소 게시와 계곡 `allowed` 상태를 차단.
+- 독립 JavaScript 입력 11건(거부 8, 실제 출처 형식 유지 3) 통과. `mobile/tests/catalog-evidence-markers.test.mjs`에 게시 데이터/활동 허용 회귀 추가. 코드 커밋 `cdaeb6016548b7eefee179518eec0e8eaca6e5d9`, 테스트 커밋 `85d4d4f333646adb9049ce49ba521131f25c7378`.
+- 로컬 GitHub clone은 DNS 오류 `Could not resolve host: github.com`로 불가능. 전체 `npm test`, 패키징, 브라우저 및 Android 실행은 이번에 검증하지 못했으므로 MVP 미완료. 실제 장소 출처 데이터, 전국 산 색인, 경로/고도 연동, CI 및 모바일 웹 실동작 검증 필요.
+- 기존 지도 UI·원본 그래프/DEM·한계령 예외·35m 후보 승인 정책 및 별도 전국 데이터 정리 자동 작업 불변.

@@ -74,8 +74,10 @@ export function regionOptions(records){
   for(const record of records){
     const full=typeof record.region==='string'?record.region.trim().replace(/\s+/g,' '):'';
     if(!full)continue;
-    regions.add(full.split(' ')[0]);
-    if(full.includes(' '))regions.add(full);
+    // Offer every administrative prefix: province, city/county, then district.
+    // Only prefixes present in real source records are exposed.
+    const parts=full.split(' ');
+    for(let length=1;length<=parts.length;length++)regions.add(parts.slice(0,length).join(' '));
   }
   return [...regions].sort((a,b)=>a.localeCompare(b,'ko'));
 }

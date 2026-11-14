@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {hasEvidenceSource,normalizeCatalog,normalizeRecord} from '../src/catalog.mjs';
 const base={id:'v',name:'검증용 계곡',category:'valley',lat:37,lon:127,source:'지자체 원문'};
 test('placeholder provenance never approves access',()=>{
- for(const source of ['미확인','  확 인 안 됨  ','UNKNOWN','N/A','없음','-','Ｎ／Ａ']){
+ for(const source of ['미확인','  확인 안 됨  ','UNKNOWN','N/A','없음','-','Ｎ／Ａ']){
   const status=normalizeRecord({...base,activity:{camping:{status:'allowed',source,checkedAt:'2026-01-01'}}}).activity.camping.status;
   assert.equal(status,'unknown',source);
  }

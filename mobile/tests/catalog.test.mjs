@@ -45,3 +45,12 @@ test('published catalog rejects missing or blank place provenance without hiding
  assert.ok(published.rejected.every(r=>/Missing place source/.test(r.reason)));
  assert.equal(normalizeCatalog(rows).records.length,4);
 });
+
+
+test('place checkedAt requires both a valid past date and a nonblank source',()=>{
+ const row={...base,checkedAt:'2020-01-01'};
+ assert.equal(normalizeRecord(row).checkedAt,'');
+ assert.equal(normalizeRecord({...row,source:'   '}).checkedAt,'');
+ assert.equal(normalizeRecord({...row,source:'관리기관'}).checkedAt,'2020-01-01');
+ assert.equal(normalizeRecord({...row,source:'관리기관',checkedAt:'2099-01-01'}).checkedAt,'');
+});

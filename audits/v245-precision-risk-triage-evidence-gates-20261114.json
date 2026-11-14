@@ -1,0 +1,96 @@
+{
+  "schema": "sanbak-v245-precision-risk-triage-and-evidence-gates",
+  "date": "2026-11-14",
+  "scope": "Derived read-only prioritization from committed v129/v140/v244 summary records; NOT raw-coordinate replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v244-candidate-accounting-precision-gate-20261114.json",
+      "gitBlobSHA1": "ffa5c84b7e7820c3855e48d412f580369a205dcf"
+    }
+  ],
+  "checks": {
+    "riskNodesNested": true,
+    "distinctNodesSubset": true,
+    "affectedMountainsBound": true,
+    "crossComponentPairsSubset": true,
+    "nestedNearPairs": true,
+    "gapWithinTwoCm": true,
+    "candidatePartition": true,
+    "componentReduction": true,
+    "sourceIdentity": true,
+    "overlayIdentity": true,
+    "topologyDifferent": true,
+    "priorAuditAllPass": true,
+    "allMountains": true,
+    "allEdges": true,
+    "noApproval": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "mountainsWithPossibleQuantizedConflation": 332,
+    "mountainConflationFlagRatePercent": 11.4404,
+    "distinctEndpointQuantizedNodes": 1722,
+    "spreadOver5cm": 114,
+    "spreadOver10cm": 2,
+    "spreadOver5cmShareOfDistinctNodesPercent": 6.6202,
+    "differentNodePairsWithin2cm": 4,
+    "crossComponentPairsWithin2cm": 1,
+    "highestPriorityCrossComponentExample": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "provisional35mCandidates": 36084
+  },
+  "triage": [
+    {
+      "priority": 1,
+      "case": "Mountain 301101201, graph nodes 81/80, recorded 0.0116m raw gap across components",
+      "acceptance": "Compare exact original endpoint IDs, quantization cells, official trail classification and authoritative passage evidence; preserve separate components pending verification"
+    },
+    {
+      "priority": 2,
+      "case": "2 quantized nodes with >10cm original endpoint spread",
+      "acceptance": "Replay exact EPSG:5179 endpoint membership and inspect source feature IDs, verify no false junctions"
+    },
+    {
+      "priority": 3,
+      "case": "Remaining 112 nodes with >5cm spread",
+      "acceptance": "Replay exact endpoint membership, identify genuine intersections versus distinct lines"
+    },
+    {
+      "priority": 4,
+      "case": "Remaining 3 different-node pairs <=2cm and all 36084 provisional 35m candidate edges",
+      "acceptance": "No automatic physical connection approval; inspect official trail or field evidence and v69 regression"
+    }
+  ],
+  "limitations": [
+    "All derived metrics are from committed summary JSON, not verified against original SHP/ZIP/DEM bytes",
+    "Different v129/v140 topology ZIP digests remain unresolved",
+    "No v69 route, DEM, deployed map or field-access regression performed"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain source SHP and v102/v129/v140 topology/audit/3D/DEM bytes; independently SHA256 each and compare archive members",
+    "Replay 114 >5cm spread nodes, four <=2cm distinct-node pairs with EPSG:5179 original coordinates and source feature IDs",
+    "Check all 2902 mountains, 67185 immutable edges, v69 routes, Hangyeryeong exception, DEM coverage and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0
+  },
+  "completion": false
+}

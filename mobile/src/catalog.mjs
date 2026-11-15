@@ -13,7 +13,7 @@ export function hasEvidenceSource(value){
   if(typeof value!=='string')return false;
   const normalized=value.normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
   const marker=normalized.replace(/[\s.·_\-–—/:：!?？()[\]{}]+/g,'');
-  return marker!==''&&!/^(?:todo|tbd|pending|미확인|확인중|검토\s*중|조사\s*중|추후\s*확인|확인\s*예정|출처\s*미상)(?:[:：\-–—\s]|$)/i.test(normalized)&&!['미확인','확인안됨','확인되지않음','확인중','검토중','조사중','자료없음','출처미상','미정','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);
+  return marker!==''&&!/^(?:todo|tbd|pending|미확인|확인중|검토\s*중|조사\s*중|추후\s*확인|확인\s*예정|출처\s*미상|자료\s*없음|출처\s*없음|미정)(?:[:：\-–—\s]|$)/i.test(normalized)&&!['미확인','확인안됨','확인되지않음','확인중','검토중','조사중','자료없음','출처미상','미정','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);
 }
 export function normalizeRecord(raw){
   if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new TypeError('Invalid record');

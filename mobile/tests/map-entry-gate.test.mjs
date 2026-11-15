@@ -10,8 +10,8 @@ assert.ok(result.indexOf('data-sanbakmap-lnt-map-guard') < result.indexOf('<titl
 assert.equal(result.replace(/<script data-sanbakmap-lnt-map-guard>[\s\S]*?<\/script>/, '').replace(/\n(?=<title>)/, ''), source);
 function visit({direct, unlocked, crossOrigin=false}) {
   let redirect = '';
-  const parent = crossOrigin ? {get document(){throw Error('cross-origin')}} : {document:{body:{classList:{contains(name){return name==='unlocked' && unlocked}}}}};
-  const window = {location:{replace(path){redirect=path}}};
+  const frame = {}; const parent = crossOrigin ? {get document(){throw Error('cross-origin')}} : {document:{body:{classList:{contains(name){return name==='unlocked' && unlocked}}},getElementById(id){return id==='app'?frame:null}}};
+  const window = {frameElement:frame,location:{replace(path){redirect=path}}};
   window.parent=direct?window:parent;
   new Function('window',script)(window);
   return redirect;

@@ -1,0 +1,89 @@
+{
+  "schema": "sanbak-v288-stage-attribution-evidence-gate",
+  "date": "2026-11-16",
+  "headAtInspection": "e4fea93480f9d25fe299f241a775f2de07aaabe8",
+  "scope": "Re-evaluation of published source metadata; no original geometry/archive bytes or per-edge graph replay",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v280-35m-preview-candidate-partition-gate-20261115.json",
+      "gitBlobSHA1": "150055b3d01b09533b69b4162e405d7ad355b5ad"
+    },
+    {
+      "path": "audits/v286-35m-preview-component-reduction-bound-20261116.json",
+      "gitBlobSHA1": "5da1a9399a62d65e3385bc067daf4b82f9f774f3"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    }
+  ],
+  "checks": {
+    "siteCount": true,
+    "edgeCount": true,
+    "endpointCount": true,
+    "partition": true,
+    "delta": true,
+    "stageOperations": true,
+    "sourceHash": true,
+    "overlayHash": true,
+    "priorCorrection": true,
+    "allUnapproved": true
+  },
+  "passed": 10,
+  "total": 10,
+  "derived": {
+    "candidatePairs": 144990,
+    "sameNode": 108906,
+    "provisionalEdges": 36084,
+    "splitEdgesAdded": 20838,
+    "orphanPartsAdded": 1,
+    "componentsBefore": 3571,
+    "componentsAfter": 3282,
+    "netComponentDecrease": 289,
+    "highSpreadNodes": 114,
+    "nearPairsAcrossComponents": 1
+  },
+  "finding": "Stage totals alone cannot attribute 289 net component reductions to specific provisional edges. The published 35m overlay does not expose a replayable per-operation component ledger. Prior v286 per-edge attribution is superseded by v287; this audit independently checks cross-source consistency and adds an explicit replay gate.",
+  "requiredReplayLedgerFields": [
+    "site_code",
+    "operation_index",
+    "operation_kind(split|orphan|candidate)",
+    "stable_original_edge_ids",
+    "source_feature_ids",
+    "component_count_before",
+    "component_count_after",
+    "candidate_endpoint_ids",
+    "original_precise_EPSG5179_coordinates",
+    "official_access_evidence",
+    "decision"
+  ],
+  "acceptance": [
+    "Hash original SHP/DEM and v129 archive bytes independently against published SHA-256",
+    "Reconstruct component counts for each stage and require telescoping sum of all deltas to equal -289",
+    "Replay 114 >5cm nodes and four <=2cm different-node pairs from original precise coordinates",
+    "Compare v69 route and elevation fixtures without adding UI features",
+    "Confirm all 2902 sites, 67185 original edges, Hangyeryeong exception and deployed data coverage",
+    "Do not approve 35m links absent official/field passage evidence"
+  ],
+  "limitations": [
+    "GitHub metadata only, not source bytes",
+    "No per-edge stage attribution or physical traversal approval"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

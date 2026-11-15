@@ -528,3 +528,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 독립 JavaScript에서 동일 예시 출처 판별의 수용 행 인덱스 `[2]` 확인. 전체 `npm test`, `npm run prepare:web`, 모바일 브라우저 및 Android 실기기 실행은 이 실행에서 미검증; 통합 통과 주장 금지.
 - 테스트 변경 커밋 `5606411196341a02a3eab2922dd9e40ddfc02be2`. 출시 장소 카탈로그는 여전히 빈 배열; 실재 장소·전국 산 경로/고도 연동과 모바일 웹 실행 증거가 필요.
 - 기존 지도 UI/그래프/DEM, 한계령 승인 예외, 비공식 35m 자동 연결 정책 및 별도 전국 데이터 정리 작업 불변. MVP 미완료.
+
+
+## 2026-11-16 모바일 출처 URI 안전성 보강 (08:34 KST)
+
+- main 최신 상태 및 mobile/src/catalog.mjs, catalog.html, entry.html, tests/catalog.test.mjs, scripts/prepare-web.mjs, package.json, catalog.json([]) 확인.
+- 출처 필드의 javascript:, data:, file:, blob:, about: URI를 근거로 인정하지 않도록 차단. 장소 공개 목록 및 계곡 활동 허용 상태 모두 기존 hasEvidenceSource 검증을 사용하므로 미확인 기본값 유지. 다섯 카테고리 및 원본 지도/그래프/DEM 변경 없음.
+- 변경된 실제 함수 본문을 독립 JavaScript로 실행한 9개 입력 검사 통과. 회귀 테스트 mobile/tests/catalog-source-scheme.test.mjs 3개 추가. 전체 npm test, prepare:web, 브라우저/Android 실행 및 신규 CI 성공은 아직 검증되지 않음. GitHub 커넥터를 통한 소스 수정은 성공했으나 로컬 저장소 체크아웃/전체 테스트 실행 증거는 확보하지 못함.
+- 코드 커밋 b9f3f7b9da37f9143b23ff701bdb0165348a4a84, 테스트 커밋 fe2be8299866ab2735308e8dfb7bef792870d66d.
+- 남은 합격 기준: 실제 출처 장소 최소 데이터, 전국 산 색인 및 검증 경로·거리·고도 연결, LNT 직접 진입/거부 모바일 브라우저 검증, 전체 자동 회귀·웹 패키징 성공, Android 패키징/실기기 검증. 기본 기능 미완료. 한계령 사용자 예외, 비공식 35m 후보 임의 연결 금지 및 별도 전국 데이터 정리 자동 작업/스케줄 불변.

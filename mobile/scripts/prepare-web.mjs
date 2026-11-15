@@ -5,6 +5,7 @@
 import { cp, mkdir, readdir, rm, stat, lstat, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import {guardMapHtml} from '../src/map-guard.mjs';
+import {normalizeCatalog} from '../src/catalog.mjs';
 import { fileURLToPath } from 'node:url';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -43,6 +44,14 @@ async function main() {
     if (!info.isFile() || info.isSymbolicLink()) throw Error('Missing safe mobile entry: '+file);
   }
   await verifyTree(path.join(mobile,'src'));
+  // Validate the exact catalog shipped to web/native clients, including --check.
+  // Do not silently discard unsourced or malformed rows during packaging.
+  const catalogText = await readFile(path.join(mobile,'catalog.json'),'utf8');
+  let catalogRows;
+  try { catalogRows = JSON.parse(catalogText); }
+  catch { throw Error('Invalid mobile/catalog.json JSON'); }
+  const catalog = normalizeCatalog(catalogRows,{requireSource:true});
+  if (catalog.rejected.length) throw Error('Invalid mobile catalog rows: '+catalog.rejected.map(r=>r.index+': '+r.reason).join('; '));
   if (checkOnly) {
     console.log('PASS: index, '+files.length+' root assets, '+dirs.join(', '));
     return;

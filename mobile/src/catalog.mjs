@@ -32,6 +32,8 @@ export function normalizeRecord(raw){
   }
   const lat=Number(raw.lat),lon=Number(raw.lon);
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw new TypeError('Invalid coordinates');
+  // Reject Null Island: a coordinate sentinel, not a Korean place.
+  if(lat===0&&lon===0)throw new TypeError('Null Island coordinates are not a place');
   // An unverified or future catalog-level date must never appear as a completed check.
   const placeDate=typeof raw.checkedAt==='string'?raw.checkedAt.trim():'';
   const placeDateParsed=new Date(placeDate);

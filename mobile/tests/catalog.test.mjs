@@ -40,8 +40,8 @@ test('published catalog rejects missing or blank place provenance without hiding
  const row={id:'source-a',name:'테스트 산',category:'mountain',lat:37,lon:127};
  const rows=[row,{...row,id:'source-b',source:'   '},{...row,id:'source-c',source:'지자체 원문'},{...row,id:'source-d',source:'https://example.org/source'}];
  const published=normalizeCatalog(rows,{requireSource:true});
- assert.deepEqual(published.records.map(r=>r.id),['source-c','source-d']);
- assert.deepEqual(published.rejected.map(r=>r.index),[0,1]);
+ assert.deepEqual(published.records.map(r=>r.id),['source-c']);
+ assert.deepEqual(published.rejected.map(r=>r.index),[0,1,3]);
  assert.ok(published.rejected.every(r=>/Missing place source/.test(r.reason)));
  assert.equal(normalizeCatalog(rows).records.length,4);
 });

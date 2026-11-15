@@ -1,0 +1,69 @@
+{
+  "schema": "sanbak-v270-overlay-count-semantics-and-quantization-regression",
+  "date": "2026-11-15",
+  "scope": "Executable cross-file consistency assertions against GitHub audit JSON; no source SHP/DEM/ZIP bytes accessed",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v269-quantized-node-risk-partition-gate-20261115.json",
+      "gitBlobSHA1": "823eda23b7daa6350c6c784e6634aa49a2816dd7"
+    }
+  ],
+  "checks": {
+    "sourceHash": true,
+    "graphHash": true,
+    "coverage": true,
+    "edgeEndpointIdentity": true,
+    "componentBaseline": true,
+    "componentReduction": true,
+    "componentMountainBound": true,
+    "candidatePairPartition": true,
+    "candidatePairTopLevel": true,
+    "splitEdgeNotCandidatePair": true,
+    "conflationBandSum": true,
+    "conflationRiskSubset": true,
+    "nearPairs": true,
+    "precisionCellDiameter": true,
+    "planOnly": true,
+    "lowMountains": true,
+    "sourcePreserved": true
+  },
+  "passed": 17,
+  "total": 17,
+  "derived": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdgesAdded": 36084,
+    "splitEdgesAdded": 20838,
+    "componentDelta": 289,
+    "componentReductionMountains": 166,
+    "quantizationOver5cm": 114
+  },
+  "interpretation": "Candidate pairs partition into already-same-node and provisional pairs. Split edges are a separate overlay construction count and MUST NOT be added to candidate pair totals. Component reduction (289) is plan-only, not physically verified connectivity. Node spread >5cm is an unadjudicated risk subset.",
+  "limitations": [
+    "Raw SHP, v102/v129, DEM/3D and audit ZIP byte-level hashes and feature IDs not independently verified",
+    "No official passage verification, v69 runtime regression or deployed nationwide map test"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "nextAcceptanceCriteria": [
+    "Acquire original bytes and verify SHA256 and ZIP member identities",
+    "Feature-level review of two >10cm and 112 5-10cm nodes plus four near-node pairs",
+    "Review 35m candidates against official access evidence without automatic approval",
+    "Execute v69 regression and nationwide coverage/deployment checks"
+  ],
+  "completion": false
+}

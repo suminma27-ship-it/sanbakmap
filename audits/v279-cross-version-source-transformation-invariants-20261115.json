@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v279-cross-version-source-transformation-invariants",
+  "date": "2026-11-15",
+  "baseCommit": "26ea837b6e87498d316a709231e8c3273d0712d9",
+  "scope": "Published GitHub metadata consistency only; no source SHP/DEM/archive bytes or individual edge provenance",
+  "inputs": [
+    {
+      "path": "audits/v205-source-part-edge-lineage-reconciliation-gate-20261112.json",
+      "gitBlobSHA1": "9233c9048c7b64506b06844ce909c5b2f2f479ea"
+    },
+    {
+      "path": "audits/v278-source-line-parts-graph-edge-denominator-gate-20261115.json",
+      "gitBlobSHA1": "2e28456c8dcc7b8585d66bbf0c0a8b29c0b3bbb4"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    }
+  ],
+  "checks": {
+    "sourceFeatureAgreement": true,
+    "partsAgreement": true,
+    "edgesAgreement": true,
+    "vertexAgreement": true,
+    "contactsAgreement": true,
+    "netSurplusAgreement": true,
+    "contactDifferenceAgreement": true,
+    "endpointAgreement": true,
+    "siteAgreement": true,
+    "sourceHashAgreement": true,
+    "zeroSnaps": true,
+    "nonApproved": true,
+    "precisionRisk": true
+  },
+  "passed": 13,
+  "total": 13,
+  "observed": {
+    "sourceFeatures": 59397,
+    "sourceLineParts": 66503,
+    "sourceVertices": 6094963,
+    "graphEdges": 67185,
+    "endpointToInteriorContacts": 708,
+    "netEdgeSurplus": 682,
+    "contactsMinusNetSurplus": 26,
+    "quantizedNodesOver5cm": 114
+  },
+  "interpretation": "The 708 endpoint-to-interior contacts cannot be identified as 708 unique split operations: net edge surplus is 682, and +26 difference is not attributable without feature/part/edge lineage. These independent historic audits agree arithmetically, not geometrically. No new trail connection is approved.",
+  "nextAcceptanceCriteria": [
+    "Recover original SHP/ZIP bytes and hash each member; build feature ID + part index + split interval -> graph edge mapping and reconcile 682 net surplus and 708 contacts",
+    "Review all 114 >5cm spread nodes against original EPSG:5179 feature coordinates and preserve Hangyeryeong user-confirmed exception",
+    "Independently test 35m candidate legal/field access, v69 route/elevation regression and deployed 2902-site coverage including <=200m"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

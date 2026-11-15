@@ -1,0 +1,59 @@
+{
+  "schema": "sanbak-v290-runtime-and-source-access-gate",
+  "date": "2026-11-16",
+  "headObserved": "8fe8be3787e08036e8cda3f30b979012a1e492d6",
+  "inputs": [
+    {
+      "path": "scripts/audit-national-metadata-gate.js",
+      "gitBlobSHA1": "91e1172182dd9e1ed0237fc7fba2f7f7693ce5f8"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    }
+  ],
+  "verifiedFromFetchedFiles": {
+    "sourceHashMatches": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "overlayHashMatches": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "sites": 2902,
+    "edges": 67185,
+    "endpoints": 134370,
+    "originalComponents": 3571,
+    "previewComponents": 3282,
+    "netReduction": 289,
+    "highSpreadNodes": 114,
+    "provisionalEdges": 36084,
+    "physicalConnectionsApproved": 0
+  },
+  "execution": {
+    "attempt": "git clone --depth 1 https://github.com/suminma27-ship-it/sanbakmap.git && node scripts/audit-national-metadata-gate.js",
+    "status": "blocked",
+    "error": "Could not resolve host: github.com",
+    "nodeScriptExecuted": false,
+    "githubConnectorFileRead": true
+  },
+  "acceptance": [
+    "Execute the existing Node metadata gate in a runner with GitHub access and capture stdout/exit code and SHA256 of result",
+    "Obtain original SHP/DEM/ZIP bytes and independently verify SHA256 before any feature-level decision",
+    "Replay 114 high-spread nodes and 4 near-node pairs using source feature IDs",
+    "Reconstruct stage-specific 35m graph component transitions and run v69 regression",
+    "Confirm 2902-site deployment and keep all unverified links unapproved"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

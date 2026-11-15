@@ -79,8 +79,8 @@ export function normalizeCatalog(rows,{requireSource=false}={}){
       const record=normalizeRecord(row);
       // Published places require provenance; import/test callers may opt out.
       if(requireSource&&!hasEvidenceSource(record.source))throw new TypeError('Missing place source');
-      // Unicode-equivalent identifiers must not publish the same place twice.
-      const canonicalId=record.id.normalize('NFC');
+      // Compatibility-equivalent identifiers (including full-width forms) must not publish the same place twice.
+      const canonicalId=record.id.normalize('NFKC');
       if(ids.has(canonicalId))throw new TypeError('Duplicate place id');
       ids.add(canonicalId);
       records.push(record);

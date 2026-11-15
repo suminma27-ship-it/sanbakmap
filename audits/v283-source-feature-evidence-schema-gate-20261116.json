@@ -1,0 +1,76 @@
+{
+  "schema": "sanbak-v283-source-evidence-case-schema-gate",
+  "date": "2026-11-16",
+  "repositoryHeadAtInspection": "e2cc354441667f3fde82e5d3bf8cb91676f61caa",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v277-prioritized-source-feature-verification-queue-20261115.json",
+      "gitBlobSHA1": "8800dc3ea756ce33176058d4df61307967a4e7fc"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    }
+  ],
+  "checks": {
+    "headSource": true,
+    "sites": true,
+    "edges": true,
+    "endpointCount": true,
+    "prioritySum": true,
+    "highRisk": true,
+    "nearPair": true,
+    "drift": true,
+    "spreadPossible": true,
+    "unapproved": true,
+    "lowElevation": true
+  },
+  "passed": 11,
+  "total": 11,
+  "geometry": {
+    "maxSingleEndpointRoundingDriftMeters": 0.07071067811865477,
+    "maxTwoEndpointsInSameDecimeterCellMeters": 0.14142135623730953,
+    "interpretation": "Spread above 10cm can occur within one 0.1m cell; this is a mathematical possibility, not proof of a correct junction."
+  },
+  "requiredCaseEvidenceFields": [
+    "mountain_code",
+    "graph_node_id",
+    "source_archive_sha256",
+    "source_shp_member_path",
+    "source_feature_id",
+    "source_part_index",
+    "source_endpoint_index",
+    "original_epsg5179_x",
+    "original_epsg5179_y",
+    "quantized_node_x",
+    "quantized_node_y",
+    "distance_m",
+    "component_ids_before",
+    "official_trail_reference",
+    "passage_approval_status",
+    "review_decision",
+    "reviewer_evidence"
+  ],
+  "pendingCaseCounts": {
+    "sameNodeSpreadAbove5cm": 114,
+    "ofWhichAbove10cm": 2,
+    "differentNodePairsWithin2cm": 4
+  },
+  "acceptance": "Fail closed: do not label any of 114 spread cases or 4 near pairs as physically connected without per-feature evidence and legal passage review.",
+  "blockers": [
+    "Original SHP/DEM/ZIP bytes and feature-level mapping not present in reviewed files",
+    "No v69 route/elevation fixture replay or 2902-site deployed artifact verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0
+  },
+  "completion": false
+}

@@ -370,3 +370,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - Node.js 독립 동일 판정식 10개 단언 통과. 수정 소스 blob `a7476f215c1090d7d85424716b08416ada577de4`; 코드 커밋 `9ccb696ffb430d9ada30fb7db801f18739de4c47`, 테스트 커밋 `6c6a61f5e6128571b7de9bb1c3f49653d06ea3fe`.
 - 로컬 GitHub clone은 `Could not resolve host: github.com`으로 실패. 따라서 저장소 전체 `npm test`, GitHub Actions, 실제 모바일 웹 및 Android 패키징 통과는 이번 실행에서 확인하지 못함. 독립 단언만 통과한 것으로 기록.
 - 다음 합격 기준: CI에서 신규 테스트 포함 전체 회귀·웹 패키징 성공 확인, 실제 출처 장소 데이터·전국 산 색인 및 검증 경로 연동, 브라우저 LNT/검색/상세/지도 실행 검증. 원본 지도·그래프·DEM·한계령 예외·35m 후보 승인 규칙과 별도 전국 데이터 정리 작업은 변경하지 않음. MVP 미완료.
+
+
+## 2026-11-15 모바일 좌표 센티널 검증
+
+- GitHub main 최신 커밋과 `mobile/package.json`, `entry.html`, `catalog.html`, `src/catalog.mjs`, `scripts/prepare-web.mjs`, `tests/catalog.test.mjs`, 루트 지도 `index.html` blob 및 기존 상태 문서를 확인.
+- `mobile/src/catalog.mjs`에서 좌표 `(0,0)` 또는 문자열 `'0','0'`을 실제 한국 장소로 게시하지 않도록 거부. 정상 좌표와 기존 5개 카테고리·이용 미확인 정책 유지. 기존 지도/그래프/DEM/한계령 예외 및 35m 후보 승인 정책은 변경하지 않음.
+- 원격 소스 원문을 사용한 JavaScript 독립 실행 검증 5건 통과: 숫자·문자열·음수 0 센티널 3건 거부, 정상 좌표 1건 보존, 혼합 목록 정상 1건/제외 1건 검증. `mobile/tests/catalog.test.mjs` 회귀 케이스 추가.
+- 코드 커밋 `5d115584444fdf4601283cdafa1cc61926dab166`, 테스트 커밋 `ebcad9fca04b01fc8499981615bc9d409b140691`. 전체 저장소 `npm test`, Actions 성공, 브라우저·Android 실기기 실행은 이 실행에서 검증하지 못했으므로 완료 판정 불가.
+- 다음 합격 기준: 전체 회귀/패키징 실행 성공 증거, 실재 출처 장소 최소 데이터와 지역 검색·상세 브라우저 검증, 전국 산 색인·검증 경로 거리/고도 연동, LNT/지도 진입 실동작, Android 빌드. 별도 전국 데이터 정리 자동 작업 불변.

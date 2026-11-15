@@ -1,0 +1,68 @@
+{
+  "schema": "sanbak-v284-risk-denominator-and-evidence-separation-gate",
+  "date": "2026-11-16",
+  "scope": "Independent executable cross-file assertions on published GitHub JSON metadata; no original SHP/ZIP/DEM byte replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v277-prioritized-source-feature-verification-queue-20261115.json",
+      "gitBlobSHA1": "8800dc3ea756ce33176058d4df61307967a4e7fc"
+    }
+  ],
+  "checks": {
+    "source_hash": true,
+    "graph_hash": true,
+    "all_sites": true,
+    "edges": true,
+    "endpoints": true,
+    "coverage": true,
+    "drift": true,
+    "spread10_possible": true,
+    "high_risk": true,
+    "near_pairs": true,
+    "candidate_partition": true,
+    "component_delta": true,
+    "no_approval": true,
+    "no_mutation": true,
+    "low_altitude": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "distinctExactEndpointNodes": 1722,
+    "highRiskNodesAbove5cm": 114,
+    "highRiskNodeFraction": 0.0019223959123792179,
+    "highRiskMountainCountUpperBound": 332,
+    "nearDifferentNodePairs": 4,
+    "nearAcrossComponents": 1,
+    "previewProvisionalEdges": 36084,
+    "previewComponentDelta": 289
+  },
+  "interpretation": "114 high-spread graph nodes are a node-level risk queue, not 114 proven bad joins; 332 affected mountain codes cannot be treated as high-risk node count. 36,084 plan-only proximity edges and 289 preview component reductions have no official passage approval.",
+  "nextAcceptanceCriteria": [
+    "Recover original SHP and v140 audit archive bytes and independently verify SHA-256 before feature replay",
+    "Produce feature-ID and exact EPSG:5179 coordinate evidence for two >10cm nodes then 112 remaining >5cm nodes",
+    "Keep 35m candidates unapproved pending official passage evidence; preserve Hangyeryeong exception",
+    "Execute v69 route/elevation regression and deployed 2902-site coverage comparison"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

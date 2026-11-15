@@ -7,4 +7,4 @@ test('future dated permission is not allowed',()=>assert.equal(withEvidence('209
 test('real historical permission date retains allowed status',()=>assert.equal(withEvidence('2024-02-29'),'allowed'));
 test('invalid leap date is unknown',()=>assert.equal(withEvidence('2025-02-29'),'unknown'));
 test('invalid date format is unknown',()=>assert.equal(withEvidence('2026-11-13T00:00'),'unknown'));
-test('future date does not weaken prohibition',()=>assert.equal(normalizeRecord({...base,activity:{camping:{status:'prohibited',source:'관리기관',checkedAt:'2099-01-01'}}}).activity.camping.status,'prohibited'));
+test('future date cannot verify prohibition',()=>assert.equal(normalizeRecord({...base,activity:{camping:{status:'prohibited',source:'관리기관',checkedAt:'2099-01-01'}}}).activity.camping.status,'unknown'));

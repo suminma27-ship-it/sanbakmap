@@ -13,3 +13,9 @@ test('province includes cities but full municipality selects only its city',()=>
  assert.equal(filterRecords(records,{region:'강원특별자치도'}).length,2);
  assert.deepEqual(filterRecords(records,{region:'강원특별자치도 춘천시'}).map(r=>r.id),['a']);
 });
+
+test('region options normalize compatibility characters consistently with filtering',()=>{
+ const records=[{id:'a',category:'mountain',name:'A',region:'강원특별자치도　원주시'},{id:'b',category:'mountain',name:'B',region:'강원특별자치도 원주시'}];
+ assert.deepEqual(regionOptions(records),['강원특별자치도','강원특별자치도 원주시']);
+ assert.deepEqual(filterRecords(records,{region:'강원특별자치도 원주시'}).map(r=>r.id),['a','b']);
+});

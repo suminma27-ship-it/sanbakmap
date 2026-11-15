@@ -13,7 +13,7 @@ export function hasEvidenceSource(value){
   if(typeof value!=='string')return false;
   const normalized=value.normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
   const marker=normalized.replace(/[\s.·_\-–—/:：!?？()[\]{}]+/g,'');
-  return marker!==''&&!['미확인','확인안됨','확인되지않음','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);
+  return marker!==''&&!['미확인','확인안됨','확인되지않음','확인중','검토중','조사중','자료없음','출처미상','미정','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);
 }
 export function normalizeRecord(raw){
   if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new TypeError('Invalid record');

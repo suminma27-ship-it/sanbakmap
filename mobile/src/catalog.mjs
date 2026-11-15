@@ -102,3 +102,8 @@ export function regionOptions(records){
   }
   return [...regions].sort((a,b)=>a.localeCompare(b,'ko'));
 }
+
+/** Regions shown for a category must come only from verified records in that category. */
+export function categoryRegionOptions(records,category){
+  return regionOptions(records.filter(record=>record.category===category));
+}

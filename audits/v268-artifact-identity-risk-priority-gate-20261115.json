@@ -1,0 +1,80 @@
+{
+  "schema": "sanbak-v268-source-artifact-identity-and-risk-priority-gate",
+  "date": "2026-11-15",
+  "scope": "Independent executable cross-file assertions on published GitHub audit JSON only; raw SHP/DEM/ZIP unavailable",
+  "mainAtRead": "7cf98cce48e78599a9746173e6d39461b64ccc7f",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v262-quantization-cell-bound-geographic-triage-20261115.json",
+      "gitBlobSHA1": "6514ba4d58f6c8256f130ac37e4598be25c8114d"
+    },
+    {
+      "path": "audits/v267-grid-diameter-vs-center-displacement-gate-20261115.json",
+      "gitBlobSHA1": "0a5d17e06793605d2a23d90df34f33e27e5ad446"
+    }
+  ],
+  "checks": {
+    "source_sha": true,
+    "graph_sha": true,
+    "coverage": true,
+    "edges": true,
+    "endpoints": true,
+    "nodes": true,
+    "component_delta": true,
+    "candidate_partition": true,
+    "spread_hierarchy": true,
+    "near_pair_hierarchy": true,
+    "drift_bound": true,
+    "distinct_source_nodes": true,
+    "source_graph_unchanged": true
+  },
+  "passed": 13,
+  "total": 13,
+  "artifactIdentity": {
+    "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "topologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "topologyInputSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "graphOverlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "topologyZipAndTopologyInputAreDistinct": true,
+    "interpretation": "The topology ZIP hash and v140 topology input hash are distinct artifacts; do not compare them as identical bytes without manifest evidence."
+  },
+  "riskPriority": {
+    "over10cm": 2,
+    "between5And10cm": 112,
+    "within2cmDifferentNodePairs": 4,
+    "acrossComponentsPairs": 1,
+    "example": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    }
+  },
+  "limitations": [
+    "No source archive bytes, member-level hashes, exact feature endpoints or DEM read in this run",
+    "No v69 runtime, national deployment or physical access validation"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0
+  },
+  "nextAcceptanceCriteria": [
+    "Acquire original SHP/DEM and audit ZIP bytes and verify SHA256 plus member manifests",
+    "Extract exact feature IDs for two >10cm conflation nodes and inspect source coordinate pairings",
+    "Validate 112 5-10cm nodes and four nearby node pairs without auto joining",
+    "Run v69 regression and nationwide 2902 coverage/deployment verification"
+  ],
+  "completion": false
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v275-quantization-geometric-bound-gate",
+  "date": "2026-11-15",
+  "scope": "Read-only published metadata geometric plausibility gate, not original feature or archive byte verification",
+  "repositoryHeadAtInspection": "81bb0dab3ec768f634f3217831a9e52588c35d83",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v274-published-topology-manifest-lineage-gate-20261115.json",
+      "gitBlobSHA1": "4a04bcc529b3864d9e954869569cb1ee57a4bf19"
+    }
+  ],
+  "checks": {
+    "quantizationDriftWithinRoundingBound": true,
+    "quantizationDriftNearBound": true,
+    "spreadOver10cmPossibleWithinCell": true,
+    "endpointConservation": true,
+    "sourceCoverage": true,
+    "sourceHash": true,
+    "topologyHashRole": true,
+    "unapproved": true,
+    "allMountains": true,
+    "highRiskSubset": true,
+    "priorIncomplete": true
+  },
+  "passed": 11,
+  "total": 11,
+  "findings": {
+    "quantizationStepMeters": 0.1,
+    "perAxisMaxRoundingMeters": 0.05,
+    "theoreticalEuclideanMaxRoundingDriftMeters": 0.07071067811865477,
+    "reportedMaximumDriftMeters": 0.070569,
+    "remainingMarginMeters": 0.00014167811865475888,
+    "theoreticalMaxSameCellEndpointSeparationMeters": 0.14142135623730953,
+    "reportedNodesSpreadOver10cm": 2,
+    "highRiskNodesOver5cm": 114,
+    "sourceEndpoints": 134370
+  },
+  "interpretation": "Reported 0.070569m maximum node drift is geometrically compatible with nearest 0.1m rounding in 2D EPSG:5179 (upper bound sqrt(2)*0.05m). Same-cell exact endpoints may differ by up to sqrt(2)*0.1m; two >10cm spread nodes therefore do not by themselves demonstrate a quantization implementation bug. This is a necessary plausibility bound, not proof that node assignment, source provenance, or trail connectivity is correct.",
+  "nextAcceptanceCriteria": [
+    "Inspect exact EPSG:5179 endpoint coordinates and node IDs for all 114 >5cm spread nodes, including two >10cm nodes, with feature identifiers and deterministic coordinate transforms",
+    "Compare original ZIP bytes, archive member inventories and per-member SHA-256; determine v140 topology hash role",
+    "Review 35m provisional candidates with official trail/passage evidence and preserve Hangyeryeong exception",
+    "Run v69 route/elevation regressions, all 2902 mountain coverage and deployed artifact checks"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

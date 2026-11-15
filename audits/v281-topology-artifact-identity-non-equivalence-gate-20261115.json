@@ -1,0 +1,66 @@
+{
+  "schema": "sanbak-v281-topology-artifact-identity-and-non-equivalence-gate",
+  "date": "2026-11-15",
+  "scope": "Cross-check published metadata only, not source ZIP bytes or member-level content",
+  "baseCommit": "c26aef94f600e2ea693d7b454373a6313b23b282",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v280-35m-preview-candidate-partition-gate-20261115.json",
+      "gitBlobSHA1": "150055b3d01b09533b69b4162e405d7ad355b5ad"
+    }
+  ],
+  "checks": {
+    "sourceIdentity": true,
+    "publishedTopologyIdentity": true,
+    "v140TopologyDifferent": true,
+    "v140GraphIsPreviewOverlay": true,
+    "v140AuditArchiveDistinct": true,
+    "preserveCoverage": true,
+    "preserveComponents": true,
+    "candidateCount": true,
+    "noApproval": true,
+    "noGraphChange": true
+  },
+  "passed": 10,
+  "total": 10,
+  "observed": {
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "publishedTopologyGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyInputSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v140GraphInputSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v129OverlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v140AuditArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "interpretation": "v140 topology input is NOT byte-identical to v102/v129 published topology gzip. v140 graph input DOES equal v129 preview overlay. These are different artifact roles, not evidence of corruption. Do not equate archive hashes with content equivalence or approve any 35m link.",
+  "blockingEvidence": [
+    "Need bytes for v140 topology input and v102/v129 topology gzip to compare decompressed member manifests and per-record geometry",
+    "Need original SHP/DEM and v69 fixtures to validate 114 >5cm nodes, candidate links, national deployment"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain both topology byte streams; independently verify SHA256 and compare canonical decompressed records with documented schema/CRS and deterministic ordering",
+    "Reconstruct exact feature-to-graph mapping for high-risk nodes and 682-edge surplus without changing originals",
+    "Require official legal/field evidence before promoting any 35m candidate; preserve Hangyeryeong exception",
+    "Verify v69 route/elevation fixtures and all 2902 deployed sites including <=200m"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

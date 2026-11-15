@@ -1,0 +1,69 @@
+{
+  "schema": "sanbak-v276-cross-cell-near-endpoint-review-gate",
+  "date": "2026-11-15",
+  "scope": "Published metadata consistency; not raw SHP endpoint verification",
+  "repositoryHeadAtInspection": "975c25c27d4e32da38aad1e415fa315821c289ac",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v275-quantization-geometric-bound-gate-20261115.json",
+      "gitBlobSHA1": "a5c0437df3254972ec862e46fa2a5fe06220aac5"
+    }
+  ],
+  "checks": {
+    "allFourNearbyPairsAccounted": true,
+    "acrossComponentSubset": true,
+    "subcentimeterSubset": true,
+    "submillimeterSubset": true,
+    "sourceGapWithin2cm": true,
+    "exampleOutside1cm": true,
+    "sourceGraphUnmodified": true,
+    "zeroApproved": true,
+    "allMountains": true,
+    "edgeEndpoints": true,
+    "priorNotComplete": true
+  },
+  "passed": 11,
+  "total": 11,
+  "findings": {
+    "nearbyDistinctNodePairsWithin2cm": 4,
+    "acrossComponents": 1,
+    "within1cm": 1,
+    "within1mm": 0,
+    "example": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "sourceEndpointCount": 134370
+  },
+  "interpretation": "Four <=2cm different-node pairs are not evidence of permitted trail passage; one spans distinct components. The named 1.16cm pair is a review example, not a new connection. Exact feature IDs and coordinates are absent from this summary; no automatic snapping.",
+  "nextAcceptanceCriteria": [
+    "Retrieve exact original EPSG:5179 source feature IDs and coordinates for four <=2cm cross-node pairs and 114 >5cm same-node spread cases",
+    "Independently verify original SHP, topology ZIP and DEM archive bytes, then compare v140 topology hash role",
+    "Check official passage evidence before approving any <=35m candidate; preserve Hangyeryeong user exception",
+    "Run v69 route/elevation regression and nationwide deployed 2902-site checks"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

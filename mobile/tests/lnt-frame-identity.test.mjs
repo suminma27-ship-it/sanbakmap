@@ -13,7 +13,7 @@ function attempt(script,{top=false,unlocked=true,correctFrame=true,throws=false}
   const redirects=[];
   const child={frameElement:frame,location:{replace:href=>redirects.push(href)},parent};
   if(top)child.parent=child;
-  runInNewContext(script,{window:child});
+  runInNewContext(script,{window:child,document:{body:{style:{}}}});
   return redirects;
 }
 for(const [name,script] of [['catalog',catalogGuard],['map',mapGuard]]){

@@ -79,3 +79,12 @@ test('search matches compatibility-equivalent names and regions',()=>{
  assert.deepEqual(filterRecords(records,{search:'백운산 １코스',region:'강원특별자치도　원주시'}).map(r=>r.id),['compat-1']);
  assert.deepEqual(filterRecords(records,{search:'백운산 ２코스'}),[]);
 });
+
+test('published IDs reject case and full-width equivalent duplicates',()=>{
+ const row={id:'Mountain-A',name:'검증용 산',category:'mountain',lat:37,lon:127,source:'지자체 원문'};
+ const rows=[row,{...row,id:'ｍｏｕｎｔａｉｎ－ａ'},{...row,id:'mountain-a'},{...row,id:'Mountain-B'}];
+ const result=normalizeCatalog(rows,{requireSource:true});
+ assert.deepEqual(result.records.map(r=>r.id),['Mountain-A','Mountain-B']);
+ assert.deepEqual(result.rejected.map(r=>r.index),[1,2]);
+ assert.ok(result.rejected.every(r=>/Duplicate place id/.test(r.reason)));
+});

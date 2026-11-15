@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v273-source-artifact-lineage-identity-gate",
+  "date": "2026-11-15",
+  "scope": "Executed metadata-only provenance cross-check on GitHub main. Not original archive byte verification.",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v272-national-coverage-denominator-gate-20261115.json",
+      "gitBlobSHA1": "bc711cdd798cf8b9c45b50d5ed28d697fc8bb0c5"
+    }
+  ],
+  "checks": {
+    "sourceIdentity": true,
+    "overlayGraphIdentity": true,
+    "topologyIdentityUnresolved": true,
+    "sourceHashValid": true,
+    "v129TopologyHashValid": true,
+    "v140TopologyHashValid": true,
+    "overlayHashValid": true,
+    "atlasSeparate": true,
+    "auditArchiveSeparate": true,
+    "sourceEndpoints": true,
+    "allNodesCovered": true,
+    "coverageUnfiltered": true,
+    "noPhysicalApproval": true,
+    "priorAuditPassed": true,
+    "priorAuditIncomplete": true
+  },
+  "passed": 15,
+  "total": 15,
+  "artifactLineage": {
+    "sameSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "sameOverlayGraphSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyInputSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "topologyArtifactIdentity": "unresolved_different_hashes_not_proven_same_bytes",
+    "v129AtlasSHA256": "8c9fef7fbcdca39b5c039c8f5dd2712d6b5d0a7c079e29c6dc077c9c2c7d1970",
+    "v140AuditArchiveSHA256": "a813b28b5f22cb8673348fa42dda1a17ca3548be85b8ac5212a47a3340163b3a"
+  },
+  "interpretation": "v129 overlay package SHA256 exactly matches v140 graph input SHA256; v129 source ZIP hash exactly matches v140 source input hash. v129 topology ZIP and v140 topology input hashes differ; this alone cannot establish corruption or a regression without file identity, ZIP member inventories, decompression and independent byte hashes. All comparisons use published metadata only.",
+  "nextAcceptanceCriteria": [
+    "Acquire original SHP, v102/v129, 3D DEM, topology and audit ZIP bytes and independently calculate SHA256",
+    "Generate sorted ZIP member manifests with member paths, uncompressed sizes and per-member SHA256; establish whether v129 topology ZIP and v140 topology input are same artifact or different stages",
+    "For each of 114 nodes with >5cm source endpoint spread inspect source feature IDs and exact projected endpoints; do not auto-connect",
+    "Review 35m candidates using official or field evidence, preserve Hangyeryeong exception, execute v69 runtime regression and 2902-place deployed coverage checks"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

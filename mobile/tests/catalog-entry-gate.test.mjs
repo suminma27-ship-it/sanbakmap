@@ -7,8 +7,8 @@ const match=html.match(/<script>\s*([\s\S]*?)<\/script>/);
 assert.ok(match,'catalog must include the navigation gate');
 function visit({direct,unlocked}) {
  let redirected=false;
- const parent={document:{body:{classList:{contains(name){return name==='unlocked' && unlocked}}}}};
- const window={location:{replace(path){assert.equal(path,'./index.html');redirected=true}}};
+ const frame={}; const parent={document:{body:{classList:{contains(name){return name==='unlocked' && unlocked}}},getElementById(id){return id==='app'?frame:null}}};
+ const window={frameElement:frame,location:{replace(path){assert.equal(path,'./index.html');redirected=true}}};
  window.parent=direct?window:parent;
  new Function('window',match[1])(window);
  return redirected;

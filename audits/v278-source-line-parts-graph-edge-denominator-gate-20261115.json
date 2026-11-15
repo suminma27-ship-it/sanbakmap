@@ -1,0 +1,62 @@
+{
+  "schema": "sanbak-v278-source-line-parts-vs-graph-edges-denominator-gate",
+  "date": "2026-11-15",
+  "scope": "Independent cross-file denominator reconciliation using published metadata only; original feature geometry not available",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    }
+  ],
+  "checks": {
+    "endpointTwiceEdges": true,
+    "graphIdentity": true,
+    "sourceLinePartsNotEdges": true,
+    "featureToPartsNondecreasing": true,
+    "edgeToPartsDifference": true,
+    "sourceHashIdentity": true,
+    "topologyArchiveIdentity": true,
+    "quantizedCoverage": true,
+    "nonApproved": true,
+    "componentIdentity": true
+  },
+  "passed": 10,
+  "total": 10,
+  "observed": {
+    "sourceFeatures": 59397,
+    "sourceLineParts": 66503,
+    "graphEdges": 67185,
+    "endpointOccurrences": 134370,
+    "graphEdgesMinusSourceLineParts": 682,
+    "sourceLinePartsMinusFeatures": 7106
+  },
+  "interpretation": "Source line parts and graph edges are distinct denominators; 682 additional graph edges are not independently attributed to split, clipping, or other transformations. Do not infer dropped or fabricated trails from this difference.",
+  "blockingEvidence": [
+    "Need original feature-to-line-part-to-graph-edge lineage to account for all 682 difference deterministically",
+    "Original SHP/DEM/ZIP byte and per-feature coordinate replay unavailable in this audit",
+    "114 nodes above 5cm spread and <=35m candidates remain unapproved",
+    "v69 routing/elevation regression and 2902-site deployed artifact validation pending"
+  ],
+  "nextAcceptanceCriteria": [
+    "Produce source feature ID -> line part ID -> graph edge ID mapping and account for 682 edge difference with per-operation counts",
+    "Validate mapping against original source bytes and member SHA-256 before any geometry edit",
+    "Preserve all 2902 sites including <=200m, 67185 original graph edges, Hangyeryeong exception, and immutable DEM"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -12,7 +12,7 @@ export const VALLEY_ACTIVITIES=Object.freeze(['entry','swimming','cooking','camp
 export function hasEvidenceSource(value){
   if(typeof value!=='string')return false;
   const normalized=value.normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
-  const marker=normalized.replace(/[\s.·_\-–—/]+/g,'');
+  const marker=normalized.replace(/[\s.·_\-–—/:：!?？()[\]{}]+/g,'');
   return marker!==''&&!['미확인','확인안됨','확인되지않음','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);
 }
 export function normalizeRecord(raw){

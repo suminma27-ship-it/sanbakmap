@@ -1,0 +1,67 @@
+{
+  "schema": "sanbak-v267-grid-diameter-vs-center-displacement-gate",
+  "date": "2026-11-15",
+  "scope": "Executed cross-file arithmetic and provenance checks on published GitHub audit JSON, not raw SHP/DEM/ZIP or feature-level geometry",
+  "mainObserved": "afadc9f73a59456a33c940253e52b41676de2b53",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v262-quantization-cell-bound-geographic-triage-20261115.json",
+      "gitBlobSHA1": "6514ba4d58f6c8256f130ac37e4598be25c8114d"
+    },
+    {
+      "path": "audits/v263-proximity-candidate-conservation-gate-20261115.json",
+      "gitBlobSHA1": "c0cb81c0a79a558ec0424c8c55fa5ab4baec2f1d"
+    }
+  ],
+  "theory": {
+    "gridSpacingMeters": 0.1,
+    "maximumCenterDisplacementMeters": 0.07071067811865477,
+    "maximumWithinCellPairSeparationMeters": 0.14142135623730953,
+    "observedMaximumCenterDisplacementMeters": 0.070569,
+    "interpretation": "The maximum distance from one endpoint to its rounded grid center is half a cell diagonal, whereas the maximum spread between two source endpoints assigned to one cell is a full cell diagonal. A >10cm pair spread can be geometrically possible without exceeding the individual endpoint drift bound; this does not validate the join."
+  },
+  "risk": {
+    "spreadOver10cm": 2,
+    "spreadOver5cm": 114,
+    "nearDifferentNodesWithin2cm": 4,
+    "nearAcrossComponents": 1
+  },
+  "checks": {
+    "sourceHash": true,
+    "graphHash": true,
+    "coverage": true,
+    "edgeEndpointConservation": true,
+    "componentDelta": true,
+    "componentAfter": true,
+    "candidatePartition": true,
+    "nearestGridBound": true,
+    "nodePairBound": true,
+    "nearPairSubset": true,
+    "hangyeryeongNotAutomatic": true,
+    "notPhysicalApproval": true
+  },
+  "passed": 12,
+  "total": 12,
+  "rawSourceBytesVerified": false,
+  "featureLevelCorrectnessVerified": false,
+  "physicalPassageApproved": 0,
+  "graphModified": false,
+  "demModified": false,
+  "uiModified": false,
+  "hangyeryeongExceptionModified": false,
+  "nextAcceptanceCriteria": [
+    "Obtain raw source SHP and v129/v140 audit ZIP/DEM bytes and independently verify SHA256/member hashes",
+    "For two >10cm nodes, inspect exact feature IDs and endpoints; classify false joins vs legitimate intersections without automatic edits",
+    "Repeat for 112 nodes with 5-10cm spread and four near-node pairs",
+    "Run v69 regression, nationwide 2902 coverage and deployed-map tests"
+  ],
+  "completion": false
+}

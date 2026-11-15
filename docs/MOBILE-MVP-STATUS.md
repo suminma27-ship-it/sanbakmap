@@ -431,3 +431,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `자료 없음: 담당자 확인`, `출처 없음 - 보류`, `미정: 확인 예정`처럼 보류 문구 뒤에 설명이 붙은 출처를 거부하도록 출처 검사식을 보완. 기존 정상 출처 문자열을 허용하는 7개 독립 정규식 사례 검증 통과(거부 5, 허용 2). 새 회귀 사례를 기존 `catalog-source-prefix.test.mjs`에 추가.
 - 코드 `29582b6152cb2c58d4dc41ae802065de9526b798`, 테스트 `f679b53a895026faabc64714cf9fb011559cb58e`. 전체 `npm test`, 웹 패키징 및 모바일 브라우저/Android 실기기 실행은 이번 변경에 대해 아직 확인되지 않았으므로 완료 판정 불가.
 - 남은 합격 기준: GitHub Actions 전체 회귀/패키징 성공, 출처 검증된 실제 다섯 카테고리 장소 데이터, 전국 산 색인·검증 경로/고도 연동, LNT 수락·거부·딥링크 모바일 웹 실행, Android 빌드 검증. 원본 지도/그래프/DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 작업 불변.
+
+
+## 2026-11-15 18:36 KST — 최신 모바일 CI 통합 검증 확인
+
+- GitHub `main`의 `mobile/` 구조, `entry.html`, `catalog.html`, `src/catalog.mjs`, `scripts/prepare-web.mjs`, `package.json`, 테스트와 `mobile/catalog.json`(빈 배열)을 다시 확인. 기존 `index.html` 지도 복사본만 패키징하는 구조 유지.
+- 이전에 결과 미확인이던 [CI 43690640700](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43690640700)은 성공으로 종료됨. 이어 최신 모바일 회귀 [CI 43695380034](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43695380034) (`f679b53a895026faabc64714cf9fb011559cb58e`, 2026-11-15 08:37 UTC)도 `success`로 종료됨. 해당 실행의 `mobile-web` job에서 `Run mobile unit and UI contract tests`, `Verify source tree for packaging`, `Package static mobile web entry`, `Verify packaged LNT gate and map` 네 단계가 모두 `success`임을 GitHub Actions job API로 개별 확인. 이전의 '전체 npm test/패키징 미검증' 표기는 이 SHA에 대해서는 해소됨.
+- 컨테이너의 직접 `git ls-remote`는 `Could not resolve host: github.com`으로 여전히 실패해 별도 로컬 재현/실제 모바일 브라우저·Android 실행은 불가. CI 성공은 테스트와 정적 패키징의 증거이지 모바일 웹 실기기 동작의 증거가 아님.
+- 남은 합격 기준: 실제 관리기관/공식 출처로 확인된 산·섬·계곡·암벽·트레킹 최소 장소 데이터(현재 catalog.json 비어 있음), 전국 산 색인과 검증된 경로·거리·고도 연동, 모바일 브라우저에서 LNT 수락/거부/딥링크·지역/상세·지도 표시 검증, Android 패키징·실행. **MVP 미완료**. 원본 지도/UI·그래프·DEM·한계령 예외·35m 미승인 후보 및 별도 전국 데이터 정리 작업/스케줄 변경 없음.

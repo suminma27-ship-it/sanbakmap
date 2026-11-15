@@ -379,3 +379,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 원격 소스 원문을 사용한 JavaScript 독립 실행 검증 5건 통과: 숫자·문자열·음수 0 센티널 3건 거부, 정상 좌표 1건 보존, 혼합 목록 정상 1건/제외 1건 검증. `mobile/tests/catalog.test.mjs` 회귀 케이스 추가.
 - 코드 커밋 `5d115584444fdf4601283cdafa1cc61926dab166`, 테스트 커밋 `ebcad9fca04b01fc8499981615bc9d409b140691`. 전체 저장소 `npm test`, Actions 성공, 브라우저·Android 실기기 실행은 이 실행에서 검증하지 못했으므로 완료 판정 불가.
 - 다음 합격 기준: 전체 회귀/패키징 실행 성공 증거, 실재 출처 장소 최소 데이터와 지역 검색·상세 브라우저 검증, 전국 산 색인·검증 경로 거리/고도 연동, LNT/지도 진입 실동작, Android 빌드. 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-15 모바일 카탈로그 배포 전 검증
+
+- GitHub main의 모바일 디렉터리, LNT 진입점, 탐색 화면, 카탈로그 정규화, 패키저, 테스트 목록과 기존 상태 기록을 확인.
+- `mobile/scripts/prepare-web.mjs`의 `--check` 및 실제 패키징 경로에서 `mobile/catalog.json`을 JSON 파싱하고 `normalizeCatalog(...,{requireSource:true})`를 실행하도록 추가. 출처 누락·잘못된 좌표·중복 ID 등의 거부 행이 하나라도 있으면 패키징을 실패시켜, 화면에서 조용히 제외된 장소가 배포되는 문제를 방지. 빈 카탈로그는 유효하지만 데이터 완료로 간주하지 않음.
+- `mobile/tests/catalog-package-gate.test.mjs`에 실제 출시 JSON 검증과 오류 행 3종 회귀 테스트 추가. 원격 GitHub에서 변경 파일을 다시 읽어 blob SHA를 확인했고, 로컬 Node 22에서 동등한 독립 시나리오 2/2 통과. **저장소 전체 `npm test`와 `npm run check:web`는 GitHub clone의 `Could not resolve host: github.com` 장애로 실행하지 못함. 새 GitHub Actions 성공 여부도 미확인.**
+- 코드 커밋 `076aad1a1a1f0650dd715db7a4c4a3b801bdb351`, 테스트 커밋 `b2d4b0fc50cb3147e7ab9e4405c825b69bdadaa3`. 원본 지도/그래프/DEM/한계령 예외/35m 미승인 후보 및 별도 전국 정리 자동 작업 불변.
+- 남은 합격 조건: 전체 CI 및 실제 모바일 웹 실행, LNT 동의/거부와 지도 딥링크 브라우저 검증, 실재 출처의 다섯 카테고리 장소/지역검색/상세, 전국 산 데이터·검증 경로/거리/고도 연동, Android 빌드 확인. 기본 기능 미완료.

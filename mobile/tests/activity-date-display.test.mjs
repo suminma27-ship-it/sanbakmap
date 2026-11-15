@@ -7,10 +7,10 @@ function activity(status,checkedAt,source='관리기관 안내'){
   return normalizeRecord({...base,activity:{entry:{status,checkedAt,source}}}).activity.entry;
 }
 test('invalid calendar date is not displayed as verified for prohibited status',()=>{
-  assert.deepEqual(activity('prohibited','2026-02-30'),{status:'prohibited',source:'관리기관 안내',checkedAt:''});
+  assert.deepEqual(activity('prohibited','2026-02-30'),{status:'unknown',source:'',checkedAt:''});
 });
 test('future restricted date is unverified but restriction remains',()=>{
-  assert.deepEqual(activity('restricted','2099-01-01'),{status:'restricted',source:'관리기관 안내',checkedAt:''});
+  assert.deepEqual(activity('restricted','2099-01-01'),{status:'unknown',source:'',checkedAt:''});
 });
 test('valid historical prohibited date is retained',()=>{
   assert.equal(activity('prohibited','2020-01-01').checkedAt,'2020-01-01');

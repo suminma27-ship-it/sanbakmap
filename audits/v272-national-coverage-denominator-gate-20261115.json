@@ -1,0 +1,72 @@
+{
+  "schema": "sanbak-v272-national-coverage-denominator-gate",
+  "date": "2026-11-15",
+  "scope": "Executed 19 metadata assertions; published GitHub audit summaries only, not independent SHP/DEM/ZIP feature verification",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v271-near-component-gap-hangyeryeong-gate-20261115.json",
+      "gitBlobSHA1": "918442aba8901c08bb8c3295b5ad9f86c5ea1ab9"
+    }
+  ],
+  "checks": {
+    "endpointConservation": true,
+    "nodeCoverage": true,
+    "distinctNodeSubset": true,
+    "nodeCountBound": true,
+    "riskNodeSubset": true,
+    "riskMountainSubset": true,
+    "nearbyMountainBound": true,
+    "nearbyAcrossComponentBound": true,
+    "componentBaseline": true,
+    "componentReduction": true,
+    "unchangedGraph": true,
+    "preservedElevation": true,
+    "coverage": true,
+    "lowAltitudeRetained": true,
+    "noPhysicalApproval": true,
+    "sourceHashAgreement": true,
+    "overlayHashAgreement": true,
+    "separateTopologyHashes": true,
+    "hangyeryeongOutside35": true
+  },
+  "passed": 19,
+  "total": 19,
+  "derived": {
+    "nodeCoveragePercent": 100,
+    "multipleEndpointNodePercent": 68.38,
+    "distinctEndpointNodePercent": 2.9,
+    "over5cmNodePercent": 0.19,
+    "potentialConflationMountainPercent": 11.44,
+    "nearbyDifferentNodeMountainPercent": 0.14,
+    "sourceEndpointOccurrencesPerEdge": 2
+  },
+  "interpretation": "Coverage is count-based: 59301/59301 source-covered graph nodes and 134370/67185=2 endpoint occurrences per edge. These checks do not establish exact feature geometry, valid physical passage, or actual deployed 2902-place rendering. Risk percentages are denominated against all 59301 graph nodes or all 2902 places, not against verified trail connections. v129 and v140 topology SHA256 refer to unproven-identical artifacts; no damage inference.",
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "limitations": [
+    "Original SHP, v102/v129, 3D/DEM and audit ZIP bytes not independently available for SHA256/member verification",
+    "No feature-level adjudication of 114 >5cm spread nodes or 4 nearby separate-node pairs",
+    "No official passage review of 35m candidates, v69 runtime regression or deployed map validation"
+  ],
+  "nextAcceptanceCriteria": [
+    "Verify original archive bytes and topology archive identity/member manifests",
+    "Review 114 >5cm nodes and four <=2cm pairs against source feature IDs",
+    "Preserve Hangyeryeong user exception without auto-approving other proximity candidates",
+    "Run v69 regression and deployed nationwide 2902-place coverage tests"
+  ],
+  "completion": false
+}

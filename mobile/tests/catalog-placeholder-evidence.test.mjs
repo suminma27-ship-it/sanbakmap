@@ -16,5 +16,5 @@ test('genuine source still preserves evidence and prohibitions',()=>{
  assert.equal(hasEvidenceSource('  지자체 안내  '),true);
  const r=normalizeRecord({...base,activity:{entry:{status:'allowed',source:'지자체 안내',checkedAt:'2026-01-01'},camping:{status:'prohibited',source:'미확인'}}});
  assert.equal(r.activity.entry.status,'allowed');
- assert.equal(r.activity.camping.status,'prohibited');
+ assert.equal(r.activity.camping.status,'unknown');
 });

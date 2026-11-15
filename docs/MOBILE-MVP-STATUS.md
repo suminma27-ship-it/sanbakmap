@@ -422,3 +422,5 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 테스트 수정 커밋: `f398427d`, `6642542f`, `b283637c`, `43413d8f`, `03a2accb`, `b23951a3`, `c6bc3650`, `c08d9b7a`, `b33a804d`. 최신 [모바일 CI 실행 43690603348](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43690603348)은 이 기록 시점 진행 중이므로 통과 주장 불가. 컨테이너 직접 checkout은 `Could not resolve host: github.com`으로 불가.
 - 완료 기준: CI에서 전체 Node 회귀 및 `prepare:web` 성공, 패키징된 LNT 게이트/지도 확인, 모바일 브라우저 실동작, 실제 출처가 있는 다섯 카테고리 장소, 전국 산 색인/검증 경로·고도 연동, Android 빌드. 아직 미완료.
 - 원본 지도/UI·그래프·DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업/스케줄 변경 없음.
+
+- CI 후속: 실행 `43690603348`은 91개 중 90개 통과/1개 실패(동의된 iframe의 `document.body.style.visibility` mock 누락). 테스트 환경만 보완한 커밋 `73ac9156`; [후속 CI 43690640700](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43690640700) 결과 확인 전. 제품 코드 변경 없음.

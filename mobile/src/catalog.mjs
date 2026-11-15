@@ -93,7 +93,7 @@ export function normalizeCatalog(rows,{requireSource=false}={}){
 export function regionOptions(records){
   const regions=new Set();
   for(const record of records){
-    const full=typeof record.region==='string'?record.region.trim().replace(/\s+/g,' '):'';
+    const full=typeof record.region==='string'?record.region.normalize('NFKC').trim().replace(/\s+/g,' '):'';
     if(!full)continue;
     // Offer every administrative prefix: province, city/county, then district.
     // Only prefixes present in real source records are exposed.

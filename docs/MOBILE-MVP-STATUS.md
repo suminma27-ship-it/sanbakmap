@@ -413,3 +413,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - Node.js 22.16.0에서 수정 판정식의 독립 10개 입력 단언 통과(최초 시도에서 공백 포함 '검토 중' 누락 발견 후 정규식 보완 및 재검증). 저장소 자동 회귀 파일 `mobile/tests/catalog-source-prefix.test.mjs` 추가. **전체 npm test 및 신규 테스트의 저장소 내 실행은 미검증**: `git ls-remote`가 `Could not resolve host: github.com`으로 실패. 모바일 웹/Android 실동작 및 Actions 성공도 미확인.
 - 코드 커밋 `19606c6e5376c7c9a97c89c4a43f7ce2a3986ab9`, 테스트 커밋 `06f1d4902c73a1fd6d95016b3d3fb695b97f83e7`. 출처 문자열의 형식 검사는 공식 자료의 진위 검증을 대신하지 않음.
 - 남은 합격 기준: 실제 출처 대조된 5개 카테고리 장소, 전국 산 색인/검증 경로·거리·고도 연동, LNT 수락/거부 및 직접 진입 브라우저 검증, 전체 npm test/패키징 CI 성공, 모바일 웹 실행 및 Android 검증. 기존 지도/UI·그래프·DEM·한계령 예외·35m 미승인 후보 및 별도 전국 정리 자동 작업 변경 없음. 기본 기능 미완료.
+
+
+## 2026-11-15 16:33 KST — CI 실패 10건 원인 확인 및 회귀 테스트 정비
+
+- `main` 기준 GitHub Actions [43686283639](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43686283639)의 실제 job 로그를 확인: Node 91개 중 81개 통과, 10개 실패. 패키징 단계는 미실행.
+- 원인: 기존 테스트의 LNT iframe 부모 `#app` 동일성 mock 누락(3건), 미확인 근거를 가진 금지/제한 상태를 확정으로 기대하는 구 정책(4건), 카탈로그 비동기 로딩 순서 보호 `loadSequence` 도입 후 구형 문자열 패턴 검사(2건), iframe 테스트에서 문서 mock 누락(1건). 제품 코드의 LNT 우회나 허용 상태를 완화하지 않고 9개 테스트 파일의 기대값과 mock만 최신 계약에 맞게 수정.
+- 테스트 수정 커밋: `f398427d`, `6642542f`, `b283637c`, `43413d8f`, `03a2accb`, `b23951a3`, `c6bc3650`, `c08d9b7a`, `b33a804d`. 최신 [모바일 CI 실행 43690603348](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43690603348)은 이 기록 시점 진행 중이므로 통과 주장 불가. 컨테이너 직접 checkout은 `Could not resolve host: github.com`으로 불가.
+- 완료 기준: CI에서 전체 Node 회귀 및 `prepare:web` 성공, 패키징된 LNT 게이트/지도 확인, 모바일 브라우저 실동작, 실제 출처가 있는 다섯 카테고리 장소, 전국 산 색인/검증 경로·고도 연동, Android 빌드. 아직 미완료.
+- 원본 지도/UI·그래프·DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업/스케줄 변경 없음.

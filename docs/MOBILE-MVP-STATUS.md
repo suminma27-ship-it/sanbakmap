@@ -396,3 +396,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - GitHub 원문에서 추출한 변경 후 `hasEvidenceSource` 함수를 실행해 보류 표기 8건 거부와 유효 형식 예시 3건 유지, 총 11/11 단언 통과. 신규 `mobile/tests/catalog-provenance-placeholders.test.mjs` 추가. **저장소 전체 npm test, 신규 테스트 파일 직접 실행, 패키징·브라우저·Android 검증은 미실행**: 컨테이너 `git ls-remote`가 `Could not resolve host: github.com`으로 실패. 독립 함수 검증만으로 전체 회귀 합격을 주장하지 않음.
 - 코드 커밋 `702fe9908ae6f52a290e86fb39f60b4b17e78fb0`, 회귀 테스트 커밋 `58e9b3658b5014c9a443185efb0f4d13b4e4512d`. 출처 문자열의 존재는 출처 진위·현장 허용 검증을 대신하지 않음.
 - 남은 합격 기준: 실제 출처 대조한 5개 카테고리 최소 데이터, 전국 산 색인과 검증 경로 연동, LNT/지역/상세/지도 모바일 웹 통합 실행, 전체 Node 회귀·패키징 CI, Android 빌드. 전국 데이터 정리 자동 작업과 일정 변경 없음. **MVP 미완료**.
+
+
+## 2026-11-15 계곡 이용 상태 출처 검증 강화
+
+- 최신 main의 mobile 카탈로그 모듈, 테스트, LNT 진입, 탐색 화면, 패키징 스크립트 및 빈 catalog.json 확인.
+- 기존에는 계곡의 allowed만 출처/날짜를 강제하고 restricted/prohibited는 근거 없이 표시할 수 있었음. 이제 unknown을 제외한 모든 상태에 출처 및 유효 확인일을 요구하며 미충족 시 unknown으로 보수적 강등. 근거가 있는 상태는 보존.
+- 독립 JavaScript 상태 판정 12개 입력 확인. 자동 회귀 테스트 1건(3개 상태×근거 누락·placeholder·미래 날짜·유효 근거) 추가. 전체 npm test/패키징/브라우저 실측은 미실행: 컨테이너 git ls-remote가 github.com DNS 해석 오류로 실패. 독립 단언을 전체 회귀 통과로 간주하지 않음.
+- 코드 커밋 466db9d02f3f5fabc8577d84bdea6d4544109fa9, 테스트 커밋 ca25446b4002e43c1424af3178d4cfd46af21e27. 원본 지도·DEM·그래프·한계령 예외·35m 후보 및 전국 데이터 정리 자동 작업 불변.
+- 남은 합격 기준: 실제 출처가 검증된 5개 카테고리 최소 장소 데이터와 전국 산 색인, 지역/상세·LNT·지도 모바일 웹 브라우저 통합 실행, 전체 npm test 및 웹 패키징 성공, Android 빌드 확인. MVP 미완료.

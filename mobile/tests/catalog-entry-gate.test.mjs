@@ -10,7 +10,7 @@ function visit({direct,unlocked}) {
  const frame={}; const parent={document:{body:{classList:{contains(name){return name==='unlocked' && unlocked}}},getElementById(id){return id==='app'?frame:null}}};
  const window={frameElement:frame,location:{replace(path){assert.equal(path,'./index.html');redirected=true}}};
  window.parent=direct?window:parent;
- new Function('window',match[1])(window);
+ new Function('window','document',match[1])(window,{body:{style:{}}});
  return redirected;
 }
 test('direct catalog navigation redirects to LNT entry',()=>assert.equal(visit({direct:true,unlocked:false}),true));

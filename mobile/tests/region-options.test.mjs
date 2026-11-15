@@ -19,3 +19,11 @@ test('region options normalize compatibility characters consistently with filter
  assert.deepEqual(regionOptions(records),['강원특별자치도','강원특별자치도 원주시']);
  assert.deepEqual(filterRecords(records,{region:'강원특별자치도 원주시'}).map(r=>r.id),['a','b']);
 });
+
+import {categoryRegionOptions} from '../src/catalog.mjs';
+test('category region options never expose regions from another category',()=>{
+ const rows=[{category:'mountain',region:'강원특별자치도 춘천시'},{category:'island',region:'전라남도 신안군'},{category:'valley',region:'강원특별자치도 원주시'}];
+ assert.deepEqual(categoryRegionOptions(rows,'mountain'),['강원특별자치도','강원특별자치도 춘천시']);
+ assert.deepEqual(categoryRegionOptions(rows,'island'),['전라남도','전라남도 신안군']);
+ assert.deepEqual(categoryRegionOptions(rows,'climbing'),[]);
+});

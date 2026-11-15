@@ -388,3 +388,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/catalog-package-gate.test.mjs`에 실제 출시 JSON 검증과 오류 행 3종 회귀 테스트 추가. 원격 GitHub에서 변경 파일을 다시 읽어 blob SHA를 확인했고, 로컬 Node 22에서 동등한 독립 시나리오 2/2 통과. **저장소 전체 `npm test`와 `npm run check:web`는 GitHub clone의 `Could not resolve host: github.com` 장애로 실행하지 못함. 새 GitHub Actions 성공 여부도 미확인.**
 - 코드 커밋 `076aad1a1a1f0650dd715db7a4c4a3b801bdb351`, 테스트 커밋 `b2d4b0fc50cb3147e7ab9e4405c825b69bdadaa3`. 원본 지도/그래프/DEM/한계령 예외/35m 미승인 후보 및 별도 전국 정리 자동 작업 불변.
 - 남은 합격 조건: 전체 CI 및 실제 모바일 웹 실행, LNT 동의/거부와 지도 딥링크 브라우저 검증, 실재 출처의 다섯 카테고리 장소/지역검색/상세, 전국 산 데이터·검증 경로/거리/고도 연동, Android 빌드 확인. 기본 기능 미완료.
+
+## 2026-11-15 출처 보류 표기 차단
+
+- main의 모바일 카탈로그·LNT 진입점·패키징 스크립트·기존 단위 테스트·빈 catalog.json을 확인. 원본 지도/그래프/DEM은 변경하지 않음.
+- `mobile/src/catalog.mjs`에서 '확인 중', '검토 중', '조사 중', '자료 없음', '출처 미상', '미정'을 실제 출처로 오인하지 않도록 추가 차단. 산·섬·계곡·암벽·트레킹 5종 모두 동일 적용. 허구 장소·허용 상태 생성 없음.
+- GitHub 원문에서 추출한 변경 후 `hasEvidenceSource` 함수를 실행해 보류 표기 8건 거부와 유효 형식 예시 3건 유지, 총 11/11 단언 통과. 신규 `mobile/tests/catalog-provenance-placeholders.test.mjs` 추가. **저장소 전체 npm test, 신규 테스트 파일 직접 실행, 패키징·브라우저·Android 검증은 미실행**: 컨테이너 `git ls-remote`가 `Could not resolve host: github.com`으로 실패. 독립 함수 검증만으로 전체 회귀 합격을 주장하지 않음.
+- 코드 커밋 `702fe9908ae6f52a290e86fb39f60b4b17e78fb0`, 회귀 테스트 커밋 `58e9b3658b5014c9a443185efb0f4d13b4e4512d`. 출처 문자열의 존재는 출처 진위·현장 허용 검증을 대신하지 않음.
+- 남은 합격 기준: 실제 출처 대조한 5개 카테고리 최소 데이터, 전국 산 색인과 검증 경로 연동, LNT/지역/상세/지도 모바일 웹 통합 실행, 전체 Node 회귀·패키징 CI, Android 빌드. 전국 데이터 정리 자동 작업과 일정 변경 없음. **MVP 미완료**.

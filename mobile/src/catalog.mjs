@@ -49,7 +49,7 @@ export function normalizeRecord(raw){
       // Any claimed access status requires a non-placeholder source and a valid check date.
       const parsedDate=new Date(checkedAt);
       const validDate=/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)&&!Number.isNaN(parsedDate.getTime())&&parsedDate.toISOString().slice(0,10)===checkedAt&&checkedAt<=new Date().toISOString().slice(0,10);
-      output.activity[key]=(status!=='unknown'&&!(hasEvidenceSource(source)&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
+      output.activity[key]=(status==='unknown'||!(hasEvidenceSource(source)&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt};
     }
   }
   return output;

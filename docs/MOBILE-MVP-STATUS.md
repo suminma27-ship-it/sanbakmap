@@ -501,3 +501,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 변경 커밋: afff8aa28950bcab1f489f130aab2c9f2f590738; 정적 회귀 테스트 추가: 65a3e5cbd12b4f40a1aa1205e4419cb1bf7698ef.
 - 변경된 HTML 문자열 조건과 분기 구조를 확인. **전체 저장소 npm test/웹 패키징/브라우저 실행 결과는 이번 실행에서 확보하지 못했으므로 통과로 간주하지 않음.** 신규 테스트의 CI 통과 확인 필요.
 - 남은 완료 조건: 출처 검증된 실제 장소 데이터, 전국 산 색인/검증 경로·거리·고도 연동, LNT/검색/상세 모바일 웹 실행, 전체 회귀 테스트, Android 검증. 한계령 예외 및 35m 미승인 후보 정책, 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-16 모바일 자동 개발 실행 11
+
+- 최신 `main` 커밋 `de72cf11959063016bc0f6f8035c8c939a8cebc1` 및 `mobile/package.json`, `mobile/src/catalog.mjs`, `mobile/catalog.html`, `mobile/entry.html`, `mobile/scripts/prepare-web.mjs`, `mobile/tests/catalog.test.mjs` 확인. `mobile/index.html`과 `mobile/app.js`는 존재하지 않으며 모바일 진입점은 `entry.html`임.
+- 장소 ID의 NFKC·대소문자 정규화 후에도 연속 공백 차이로 동일 장소가 중복 등록될 수 있는 결함 수정. 공백 연속을 단일 공백으로 통일해 중복 거부하며 원래 표시 ID는 보존. 새 회귀 테스트 1건 추가.
+- 독립 JS 정규화 단언 3건 통과. GitHub 커넥터를 통해 소스와 테스트를 커밋했으나 **전체 `cd mobile && npm test`, `npm run check:web`, 브라우저/Android 실기기 실행은 이 실행에서 검증하지 못함**. 새 회귀 테스트의 CI 결과도 미확인. 코드 커밋 `8d9aefcf3017ee6a988ff395eda9f129a25f540b`, 테스트 커밋 `a6804d24bea8562d227a00af1dc25d78387e0aa1`.
+- 미완료: 출처 확인된 실제 장소 카탈로그, 전국 산 색인/검증 경로·고도 연결, LNT 및 다섯 카테고리의 실제 모바일 브라우저 회귀, Android 빌드. 기본 기능 완료 판정 금지. 기존 지도·DEM·그래프·한계령 예외·35m 비공식 연결 정책 및 별도 전국 데이터 정리 자동 작업 불변.

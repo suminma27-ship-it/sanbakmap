@@ -1,0 +1,77 @@
+{
+  "schema": "sanbak-v282-quantization-evidence-and-replay-blockers",
+  "date": "2026-11-16",
+  "scope": "Executed deterministic cross-source assertions on GitHub main published JSON; not independent SHP/ZIP/DEM byte inspection",
+  "repositoryHeadAtInspection": "b49cf47ebed0bc841c249cdd983d749965a28236",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v277-prioritized-source-feature-verification-queue-20261115.json",
+      "gitBlobSHA1": "8800dc3ea756ce33176058d4df61307967a4e7fc"
+    }
+  ],
+  "checks": {
+    "all_sites_including_low_elevation": true,
+    "edge_endpoints_conserved": true,
+    "all_graph_nodes_covered": true,
+    "risk_partition_exact": true,
+    "high_risk_partition": true,
+    "node_spread_thresholds_nested": true,
+    "max_drift_below_nearest_decimeter_bound": true,
+    "nearby_distinct_nodes_subset": true,
+    "nearby_component_subset": true,
+    "source_identity": true,
+    "graph_preview_identity": true,
+    "35m_candidate_partition": true,
+    "preview_is_not_approved": true,
+    "no_graph_mutation": true,
+    "hangyeryeong_exception_outside_35m": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "sourceEndpointOccurrences": 134370,
+    "quantizationMaxDriftBoundMeters": 0.07071067811865477,
+    "reportedDriftMeters": 0.070569,
+    "spreadRiskOver5cm": 114,
+    "spreadRiskOver10cm": 2,
+    "nearCrossCellPairsWithin2cm": 4,
+    "nearCrossCellPairsAcrossComponents": 1,
+    "previewCandidatePairs": 144990,
+    "previewProvisionalUnapproved": 36084
+  },
+  "evidenceGate": {
+    "quantizationFeatureReplay": "BLOCKED_missing_original_feature_identifiers_and_exact_coordinates",
+    "nearPairGroundTruth": "BLOCKED_missing_original_geometry_and_access_evidence",
+    "sourceArchiveByteIdentity": "BLOCKED_missing_original_archive_bytes",
+    "demReproduction": "BLOCKED_missing_original_dem_bytes",
+    "v69Regression": "NOT_EXECUTED_missing_route_and_elevation_fixtures",
+    "deployedNationwideCoverage": "NOT_EXECUTED_missing_deployment_artifact_comparison"
+  },
+  "nextAcceptanceCriteria": [
+    "Recover source original archive and verify SHA-256 against 7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a before coordinate replay",
+    "Generate deterministic per-feature EPSG:5179 endpoint mapping for 114 nodes above 5cm, including two above 10cm, and four cross-cell near pairs; retain all source records",
+    "Separate plan-only 35m candidate evidence from legally approved trails; do not approve proximity edges; preserve user-confirmed Hangyeryeong exception",
+    "Run v69 route and DEM elevation fixtures and 2902-site deployment artifact audit, including sites below 200m"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

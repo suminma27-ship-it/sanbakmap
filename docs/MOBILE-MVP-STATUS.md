@@ -448,3 +448,13 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/catalog-compatibility-ids.test.mjs`: 전각/ASCII 및 조합형/완성형 ID 중복 회귀 2건 추가. Node 22.16.0에서 동일 정규화 판정 독립 단언 3건 통과. 전체 저장소 테스트와 웹 패키징은 로컬 `github.com` DNS 실패로 직접 실행 불가; 새 테스트의 CI 통과 여부는 별도 확인 필요.
 - 코드 커밋 `c8ead1422481bd18ae7bed62f3db1df430cb27fc`, 테스트 커밋 `29b157bbcbb5510c11e5aa6c4bc3e70a121ceb23`.
 - 미완료: 실제 출처 검증 장소 데이터, 전국 산 색인/검증 경로·고도 연동, 모바일 브라우저/Android 실기기 실행. 다섯 카테고리/LNT 정책, 기존 지도·원본 그래프·DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업은 불변. 기본 기능 완료로 판정하지 않음.
+
+
+## 2026-11-15 모바일 개발 실행: 검색 호환 문자 정규화
+
+- 최신 main 커밋 및 `mobile/src/catalog.mjs`, `catalog.html`, `entry.html`, `package.json`, `tests/catalog.test.mjs`, `scripts/prepare-web.mjs`, `catalog.json`(빈 배열), `src/map-guard.mjs` 확인.
+- 검색/지역 필터의 NFC 정규화를 NFKC로 변경해 전각 숫자·전각 공백이 원본 일반 문자와 동등하게 검색되도록 수정. 실제 장소를 생성하지 않으며 ID 중복 NFKC 정책과 일치시킴.
+- `mobile/tests/catalog.test.mjs`에 전각 숫자/지역 공백 일치와 다른 숫자 불일치 회귀 사례 추가.
+- 독립 JS 동등 정규화 단언 3/3 통과. GitHub 전체 `npm test`, 패키징, 브라우저/Android 실기기 실행은 이번 실행에서 미검증이며 새 커밋의 CI 성공도 아직 확인하지 않음.
+- 코드 커밋 `26386017346fd9cd1fe2a41fa4dd8e183b74ecc5`, 테스트 커밋 `7330ea4096ac68b6aa747b04e27b2d1bb4cc5604`.
+- 남은 완료 기준: 출처 확인된 실재 5종 장소 데이터와 지역별 탐색/상세, 전국 산 색인·경로/거리/고도 연동, LNT 및 지도 진입의 브라우저 실행, 전체 자동 회귀·웹 패키징 검증. Android 빌드/현장 통행 검증은 별도 한계로 기록. 기존 지도·원본 그래프/DEM·한계령 예외 및 전국 데이터 정리 자동 작업 불변.

@@ -63,3 +63,12 @@ test('Null Island sentinel is never published as a Korean place',()=>{
  assert.deepEqual(result.records.map(r=>r.id),['real']);
  assert.deepEqual(result.rejected.map(r=>r.index),[0]);
 });
+
+test('unverified restricted and prohibited valley claims remain unknown',()=>{
+ for(const status of ['restricted','prohibited','allowed']){
+  for(const item of [{status},{status,source:'TODO',checkedAt:'2026-11-14'},{status,source:'관리기관 안내',checkedAt:'2099-01-01'}]){
+   assert.deepEqual(normalizeRecord({...base,activity:{entry:item}}).activity.entry,{status:'unknown',source:'',checkedAt:''});
+  }
+  assert.equal(normalizeRecord({...base,activity:{entry:{status,source:'관리기관 안내',checkedAt:'2026-11-14'}}}).activity.entry.status,status);
+ }
+});

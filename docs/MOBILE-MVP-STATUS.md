@@ -509,3 +509,13 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 장소 ID의 NFKC·대소문자 정규화 후에도 연속 공백 차이로 동일 장소가 중복 등록될 수 있는 결함 수정. 공백 연속을 단일 공백으로 통일해 중복 거부하며 원래 표시 ID는 보존. 새 회귀 테스트 1건 추가.
 - 독립 JS 정규화 단언 3건 통과. GitHub 커넥터를 통해 소스와 테스트를 커밋했으나 **전체 `cd mobile && npm test`, `npm run check:web`, 브라우저/Android 실기기 실행은 이 실행에서 검증하지 못함**. 새 회귀 테스트의 CI 결과도 미확인. 코드 커밋 `8d9aefcf3017ee6a988ff395eda9f129a25f540b`, 테스트 커밋 `a6804d24bea8562d227a00af1dc25d78387e0aa1`.
 - 미완료: 출처 확인된 실제 장소 카탈로그, 전국 산 색인/검증 경로·고도 연결, LNT 및 다섯 카테고리의 실제 모바일 브라우저 회귀, Android 빌드. 기본 기능 완료 판정 금지. 기존 지도·DEM·그래프·한계령 예외·35m 비공식 연결 정책 및 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-16 모바일 자동 개발 실행 11
+
+- 최신 `main`의 `mobile/src/catalog.mjs`, `catalog.html`, `entry.html`, `scripts/prepare-web.mjs`, `tests/catalog.test.mjs`, `tests/valley-evidence.test.mjs`, `src/map-guard.mjs`와 최근 커밋 확인.
+- 장소/활동 허가 출처로 `example.com`, `example.org`, `example.net`, `localhost` 등의 문서용 URL을 수용하던 결함을 수정. 이런 출처만 있으면 출시 카탈로그 행은 거부되고 계곡 허용 주장은 `unknown`으로 강등됨. 실제 관리기관 도메인 및 일반 기관 출처 표기는 유지.
+- 로컬 Node.js 7건의 출처 판별 독립 검사를 통과. 회귀 테스트 파일 `mobile/tests/provenance-placeholder.test.mjs`에 출처, 출시 필터, 계곡 허용 상태 검사 3건 추가. **전체 `npm test`와 `prepare:web`, 브라우저/Android 검증은 이번 실행에서 수행하지 못했으므로 통합 통과로 판정하지 않음.**
+- 기능 커밋 `6e302f0532eefbab5eb0163f0d5b2de755062b63`, 회귀 테스트 커밋 `70da83c8cc01e424b6ba7d5e910f1546e32c6e6a`.
+- 기본 기능 **미완료**: 실재 출처가 확인된 5개 유형의 장소 데이터, 전국 산 색인·검증 경로/거리/고도 연동, 지역 검색·상세 및 LNT 게이트 브라우저 검증, 전체 자동 회귀/모바일 웹 실행 증거 필요. Android 실기기 패키징은 후속 검증.
+- 기존 산 지도/원본 그래프·DEM, 한계령 승인 예외, 비공식 35m 후보 승인 정책 및 별도 전국 데이터 정리 작업은 변경하지 않음.

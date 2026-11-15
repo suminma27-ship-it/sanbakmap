@@ -88,3 +88,12 @@ test('published IDs reject case and full-width equivalent duplicates',()=>{
  assert.deepEqual(result.rejected.map(r=>r.index),[1,2]);
  assert.ok(result.rejected.every(r=>/Duplicate place id/.test(r.reason)));
 });
+
+
+test('published IDs reject whitespace and compatibility-equivalent duplicates',()=>{
+ const row={id:'Route  A',name:'검증용 산',category:'mountain',lat:37,lon:127,source:'지자체 원문'};
+ const result=normalizeCatalog([row,{...row,id:'route a'},{...row,id:'ＲＯＵＴＥ　Ａ'},{...row,id:'Route B'}],{requireSource:true});
+ assert.deepEqual(result.records.map(r=>r.id),['Route  A','Route B']);
+ assert.deepEqual(result.rejected.map(r=>r.index),[1,2]);
+ assert.ok(result.rejected.every(r=>/Duplicate place id/.test(r.reason)));
+});

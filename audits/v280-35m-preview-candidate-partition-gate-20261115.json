@@ -1,0 +1,70 @@
+{
+  "schema": "sanbak-v280-35m-preview-candidate-partition-component-gate",
+  "date": "2026-11-15",
+  "scope": "Published v129/v140/v279 metadata arithmetic only; no original SHP/ZIP/DEM byte inspection or individual route/legal access verification",
+  "baseCommit": "064aa98fbde04f14987180729c3d61f6c5c07ad9",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v279-cross-version-source-transformation-invariants-20261115.json",
+      "gitBlobSHA1": "faf398e474892254e92f2cd5e30a7d16c4772876"
+    }
+  ],
+  "checks": {
+    "candidatePartition": true,
+    "candidateNested": true,
+    "provisionalNotApproved": true,
+    "previewNotPublic": true,
+    "previewOriginalUnchanged": true,
+    "baselineComponents": true,
+    "componentReduction": true,
+    "componentReductionBound": true,
+    "mountainCoverage": true,
+    "graphEdgeCoverage": true,
+    "splitNotCandidatePartition": true,
+    "hangyeryeongOutsideThreshold": true,
+    "noApprovedPhysicalLinks": true,
+    "sourceIdentity": true,
+    "overlayIdentity": true
+  },
+  "passed": 15,
+  "total": 15,
+  "observed": {
+    "candidatePairs": 144990,
+    "alreadySameNode": 108906,
+    "provisionalEdgesAdded": 36084,
+    "splitEdgesAdded": 20838,
+    "orphanPartsAdded": 1,
+    "componentsBefore": 3571,
+    "componentsAfter": 3282,
+    "componentReduction": 289,
+    "mountainsWithComponentReductions": 166
+  },
+  "interpretation": "144990 candidate pairs partition into 108906 already-same-node and 36084 provisional edges. 20838 split edges are a separate construction count and MUST NOT be added to candidate pair denominator. Preview reduces components by 289 across 166 sites, not evidence of legal or physical passage. 35m proximity is unapproved; Hangyeryeong 48.73m user-confirmed exception is separate.",
+  "blockingEvidence": [
+    "Original source ZIP/SHP and individual candidate IDs unavailable for geometry/legal verification",
+    "v140 114 nodes >5cm require source feature replay",
+    "v69 per-route regression and deployed 2902-site coverage unverified"
+  ],
+  "nextAcceptanceCriteria": [
+    "Acquire original SHP and v129 preview archive bytes; independently SHA256 each and inspect member manifests",
+    "Reconcile 36084 provisional candidate edge identifiers with official trail permissions; do not auto approve",
+    "Run v69 route/elevation fixtures, 114 high-risk node feature replay, and deployed 2902-site coverage checks"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

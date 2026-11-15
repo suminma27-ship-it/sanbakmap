@@ -1,0 +1,70 @@
+{
+  "schema": "sanbak-v286-35m-preview-component-reduction-upper-bound-gate",
+  "date": "2026-11-16",
+  "scope": "Independent arithmetic and graph-theoretic necessary-condition audit of published GitHub metadata, not a feature-level replay",
+  "headAtInspection": "b7663b961a284abeb06343ccf6b7213fa2581dbb",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v280-35m-preview-candidate-partition-gate-20261115.json",
+      "gitBlobSHA1": "150055b3d01b09533b69b4162e405d7ad355b5ad"
+    },
+    {
+      "path": "audits/v285-provenance-risk-partition-replay-20261116.json",
+      "gitBlobSHA1": "083606edbf9e60c55d998235fc2b08ad7b130471"
+    }
+  ],
+  "checks": {
+    "candidate_partition": true,
+    "component_delta": true,
+    "component_reduction_leq_edges": true,
+    "no_site_overflow": true,
+    "v140_components_agree": true,
+    "v140_sites_agree": true,
+    "v140_edges_agree": true,
+    "v285_35m_not_approved": true,
+    "v280_35m_not_approved": true,
+    "v280_no_graph_mutation": true,
+    "v140_no_graph_mutation": true,
+    "hangyeryeong_separate": true
+  },
+  "passed": 12,
+  "total": 12,
+  "derived": {
+    "provisionalEdges": 36084,
+    "previewComponentReduction": 289,
+    "provisionalEdgesNotRequiredForNetComponentReduction": 35795,
+    "netReductionFractionOfProvisionalEdges": 0.008009089901341315,
+    "componentsBefore": 3571,
+    "componentsAfter": 3282,
+    "sitesWithReduction": 166
+  },
+  "interpretation": "At most 289 provisional links can be credited with net component reduction under the published before/after counts; 35,795 additional provisional links do not account for further net component reduction. This is NOT a classification of individual links as redundant or unsafe: original split/orphan operations, addition order, duplicate links, cycles and per-site graph membership need feature-level replay. No 35m link is approved for physical/legal traversal.",
+  "blockers": [
+    "Original SHP and v129 preview bytes and per-edge provenance unavailable; cannot identify the specific 289 component-bridging links or independently verify component counts",
+    "Official access evidence absent for provisional candidates",
+    "v69 regression and nationwide 2902-site deployment not independently verified"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recompute components from immutable original graph and preview edge list, record component ID before/after for each provisional edge with stable source IDs",
+    "Confirm split/orphan operations preserve graph connectivity before attributing reductions",
+    "Require official passage evidence before accepting any connection; preserve Hangyeryeong exception",
+    "Run source ZIP/DEM byte hash and v69 regression"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

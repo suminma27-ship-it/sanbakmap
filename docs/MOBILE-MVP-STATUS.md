@@ -439,3 +439,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 이전에 결과 미확인이던 [CI 43690640700](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43690640700)은 성공으로 종료됨. 이어 최신 모바일 회귀 [CI 43695380034](https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43695380034) (`f679b53a895026faabc64714cf9fb011559cb58e`, 2026-11-15 08:37 UTC)도 `success`로 종료됨. 해당 실행의 `mobile-web` job에서 `Run mobile unit and UI contract tests`, `Verify source tree for packaging`, `Package static mobile web entry`, `Verify packaged LNT gate and map` 네 단계가 모두 `success`임을 GitHub Actions job API로 개별 확인. 이전의 '전체 npm test/패키징 미검증' 표기는 이 SHA에 대해서는 해소됨.
 - 컨테이너의 직접 `git ls-remote`는 `Could not resolve host: github.com`으로 여전히 실패해 별도 로컬 재현/실제 모바일 브라우저·Android 실행은 불가. CI 성공은 테스트와 정적 패키징의 증거이지 모바일 웹 실기기 동작의 증거가 아님.
 - 남은 합격 기준: 실제 관리기관/공식 출처로 확인된 산·섬·계곡·암벽·트레킹 최소 장소 데이터(현재 catalog.json 비어 있음), 전국 산 색인과 검증된 경로·거리·고도 연동, 모바일 브라우저에서 LNT 수락/거부/딥링크·지역/상세·지도 표시 검증, Android 패키징·실행. **MVP 미완료**. 원본 지도/UI·그래프·DEM·한계령 예외·35m 미승인 후보 및 별도 전국 데이터 정리 작업/스케줄 변경 없음.
+
+
+## 2026-11-15 모바일 카탈로그 식별자 중복 방어
+
+- 최신 main 및 `mobile/` 카탈로그·LNT 진입점·패키저·테스트 구조를 확인. 실제 출처 카탈로그 `mobile/catalog.json`은 여전히 빈 배열.
+- `mobile/src/catalog.mjs`: 중복 장소 ID 판정을 NFC에서 NFKC로 강화. 전각 영숫자/하이픈 등 호환 동등 ID가 서로 다른 장소로 중복 게시되는 것을 방지. 원본 ID 표시는 그대로 유지하고 정상 레코드를 임의 병합하거나 삭제하지 않음.
+- `mobile/tests/catalog-compatibility-ids.test.mjs`: 전각/ASCII 및 조합형/완성형 ID 중복 회귀 2건 추가. Node 22.16.0에서 동일 정규화 판정 독립 단언 3건 통과. 전체 저장소 테스트와 웹 패키징은 로컬 `github.com` DNS 실패로 직접 실행 불가; 새 테스트의 CI 통과 여부는 별도 확인 필요.
+- 코드 커밋 `c8ead1422481bd18ae7bed62f3db1df430cb27fc`, 테스트 커밋 `29b157bbcbb5510c11e5aa6c4bc3e70a121ceb23`.
+- 미완료: 실제 출처 검증 장소 데이터, 전국 산 색인/검증 경로·고도 연동, 모바일 브라우저/Android 실기기 실행. 다섯 카테고리/LNT 정책, 기존 지도·원본 그래프·DEM·한계령 예외·35m 후보 정책 및 별도 전국 데이터 정리 자동 작업은 불변. 기본 기능 완료로 판정하지 않음.

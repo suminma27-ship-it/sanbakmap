@@ -1,0 +1,75 @@
+{
+  "schema": "sanbak-v285-provenance-and-risk-partition-replay-gate",
+  "date": "2026-11-16",
+  "headAtInspection": "b9092f152b7ad1d08619786cf71dc67bed308107",
+  "scope": "Re-executed independent metadata invariants from GitHub files; not original source-byte or feature-level replay",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v277-prioritized-source-feature-verification-queue-20261115.json",
+      "gitBlobSHA1": "8800dc3ea756ce33176058d4df61307967a4e7fc"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v284-risk-denominator-evidence-separation-20261116.json",
+      "gitBlobSHA1": "817ff4ae6dad375f5d43a97f01c90263aef7f7ac"
+    }
+  ],
+  "checks": {
+    "head_parent_recorded": true,
+    "source_sha_matches": true,
+    "graph_nodes_match": true,
+    "edges_match": true,
+    "sites_match": true,
+    "endpoints_twice_edges": true,
+    "spread_queue_complete": true,
+    "spread_above_5cm": true,
+    "spread_above_1cm": true,
+    "spread_above_1mm": true,
+    "near_pairs_nested": true,
+    "single_drift_bound": true,
+    "source_hash_provenance": true,
+    "no_mutation": true,
+    "prior_audit_unfinished": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "distinctSourceEndpointNodes": 1722,
+    "spreadAbove10cm": 2,
+    "spread5to10cm": 112,
+    "spread1to5cm": 254,
+    "spread1mmTo1cm": 102,
+    "spreadAtMost1mm": 1252,
+    "sourceZipDeclaredSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "sourceZipByteHashRecomputed": false,
+    "highRiskNodeCount": 114,
+    "allPotentialConflationMountainCount": 332
+  },
+  "interpretation": "332 mountain codes with any potential same-cell conflation are NOT 332 high-risk mountain codes; 114 is the count of nodes with >5cm spread, not number of mountains. Source SHA256 is a published declaration repeated across files, not independently computed this run.",
+  "blockers": [
+    "Original 16 EPSG:5179 SHP members and audit ZIP bytes unavailable for independent SHA-256 and feature-ID replay",
+    "No evidence to approve 35m proximity candidates",
+    "v69 route/elevation regression and deployed nationwide 2902-site coverage unverified"
+  ],
+  "nextAcceptanceCriteria": [
+    "Obtain source archive bytes and verify SHA-256, then reproduce two >10cm cases with feature IDs and original coordinates",
+    "Resolve 114 >5cm nodes with evidence; do not infer passability from proximity",
+    "Execute v69 and nationwide deployed regression"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

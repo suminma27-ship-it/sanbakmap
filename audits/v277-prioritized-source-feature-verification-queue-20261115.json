@@ -1,0 +1,92 @@
+{
+  "schema": "sanbak-v277-prioritized-source-feature-verification-queue",
+  "date": "2026-11-15",
+  "scope": "Cross-file metadata invariant execution and deterministic risk queue; not original SHP/DEM/ZIP byte validation",
+  "repositoryHeadAtInspection": "aa41663e2347037d2312cf1544ae01f90d52bfff",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    }
+  ],
+  "checks": {
+    "sourceHashIdentity": true,
+    "graphIdentity": true,
+    "allMountains": true,
+    "edgeIdentity": true,
+    "endpointIdentity": true,
+    "sourceNodeCoverage": true,
+    "spreadMonotone": true,
+    "nearPairSubset": true,
+    "candidatePartition": true,
+    "componentPreview": true,
+    "quantizationBound": true,
+    "zeroApproval": true,
+    "below200Preserved": true
+  },
+  "passed": 13,
+  "total": 13,
+  "derivedPriorityQueue": [
+    {
+      "priority": 1,
+      "spread": "greater than 10cm",
+      "nodes": 2
+    },
+    {
+      "priority": 2,
+      "spread": "greater than 5cm up to 10cm",
+      "nodes": 112
+    },
+    {
+      "priority": 3,
+      "spread": "greater than 1cm up to 5cm",
+      "nodes": 254
+    },
+    {
+      "priority": 4,
+      "spread": "greater than 1mm up to 1cm",
+      "nodes": 102
+    },
+    {
+      "priority": 5,
+      "spread": "distinct exact source endpoints, spread up to 1mm",
+      "nodes": 1252
+    }
+  ],
+  "derivedTotals": {
+    "distinctEndpointNodes": 1722,
+    "highRiskAbove5cm": 114,
+    "sourceEndpointOccurrences": 134370,
+    "sourceGraphEdges": 67185,
+    "previewComponentReductionNotApproved": 289
+  },
+  "blockingEvidence": [
+    "Original source EPSG:5179 feature IDs and exact coordinates absent from reviewed summaries; cannot decide whether any of 114 nodes are erroneous joins",
+    "Original SHP/DEM/topology ZIP bytes unavailable for independent member SHA-256 and coordinate replay in this execution",
+    "No official passage evidence for <=35m provisional edges; none approved",
+    "v69 route/elevation and 2902-site deployed artifact regression not executed"
+  ],
+  "nextAcceptanceCriteria": [
+    "Recover source SHP/ZIP bytes and produce per-member SHA-256 manifest plus deterministic EPSG:5179 feature-to-node mapping",
+    "Review the two >10cm cases first, then remaining 112 >5cm cases, recording source feature IDs, coordinates, distances, and reasoned decision without mutating geometry",
+    "Reconcile v140 topology SHA-256 with v102/v129 archive roles using actual bytes",
+    "Run v69 and nationwide deployment regressions; require official access evidence before approving any candidate"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

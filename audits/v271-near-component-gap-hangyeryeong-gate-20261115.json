@@ -1,0 +1,71 @@
+{
+  "schema": "sanbak-v271-near-component-gap-and-hangyeryeong-exception-gate",
+  "date": "2026-11-15",
+  "scope": "Executed cross-file checks against published GitHub audit metadata; no source SHP/DEM/ZIP byte-level access",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v270-overlay-count-semantics-regression-20261115.json",
+      "gitBlobSHA1": "5292b5f3a44b0d86364c2adc8311d19ea1d09e65"
+    }
+  ],
+  "checks": {
+    "source_identity": true,
+    "overlay_identity": true,
+    "near_pair_subset": true,
+    "example_below_2cm": true,
+    "example_positive_gap": true,
+    "example_nodes_distinct": true,
+    "example_unapproved": true,
+    "hangyeryeong_outside_35m": true,
+    "no_approval": true,
+    "no_mutation": true,
+    "all_mountains": true,
+    "all_edges": true,
+    "no_low_altitude_filter": true,
+    "previous_audit_pass": true,
+    "no_source_byte_claim": true
+  },
+  "passed": 15,
+  "total": 15,
+  "derived": {
+    "example": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "thresholdMeters": 0.02,
+    "hangyeryeongUserConfirmedOriginalGapMeters": 48.73,
+    "automaticCandidateThresholdMeters": 35,
+    "hangyeryeongExcessOverCandidateThresholdMeters": 13.73
+  },
+  "interpretation": "The distinct-component 1.16cm gap is only a source-grounded review candidate, not permission to connect. The user-confirmed Hangyeryeong 48.73m exception lies outside the 35m proximity overlay and must remain separately preserved. No geometry or access status was changed.",
+  "limitations": [
+    "Source SHP/DEM/v102/v129/3D/audit ZIP bytes and feature-level coordinates not independently available",
+    "No v69 runtime regression, nationwide deployment validation, or official passage verification"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "nextAcceptanceCriteria": [
+    "Acquire original bytes and verify SHA256/member manifest identities",
+    "Review example code 301101201 nodes 81/80 with source feature IDs and exact endpoints, without auto joining",
+    "Review 114 spread >5cm nodes and remaining near-node pairs",
+    "Run v69 regression, 2902-place coverage and deployment checks"
+  ],
+  "completion": false
+}

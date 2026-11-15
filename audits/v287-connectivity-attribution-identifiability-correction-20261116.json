@@ -1,0 +1,72 @@
+{
+  "schema": "sanbak-v287-connectivity-attribution-identifiability-correction",
+  "date": "2026-11-16",
+  "headAtInspection": "44ca2fbf9394e711cbba0bc00a4a5f4835c170f6",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v280-35m-preview-candidate-partition-gate-20261115.json",
+      "gitBlobSHA1": "150055b3d01b09533b69b4162e405d7ad355b5ad"
+    },
+    {
+      "path": "audits/v286-35m-preview-component-reduction-bound-20261116.json",
+      "gitBlobSHA1": "5da1a9399a62d65e3385bc067daf4b82f9f774f3"
+    }
+  ],
+  "checks": {
+    "inputBlobIdentitiesVerified": true,
+    "baselineComponentsConsistent": true,
+    "previewReductionEquals289": true,
+    "candidatePartition": true,
+    "splitOperationsNonzero": true,
+    "orphanOperationsNonzero": true,
+    "priorAtMost289NotProvableFromAggregates": true,
+    "physicalApprovalNotImplied": true,
+    "originalGraphImmutable": true,
+    "allSitesIncluded": true
+  },
+  "passed": 10,
+  "total": 10,
+  "observed": {
+    "componentsBefore": 3571,
+    "componentsAfter": 3282,
+    "netReduction": 289,
+    "provisionalEdges": 36084,
+    "splitEdgesAdded": 20838,
+    "orphanPartsAdded": 1,
+    "sites": 2902
+  },
+  "finding": "v286 phrase 'at most 289 provisional links can be credited with net component reduction' is NOT supported by aggregate counts when split/orphan graph transformations can change component counts. Net 289 = provisional-link merges minus any component increases from splitting/orphans plus other changes. Even in an addition-only union-find replay exactly 289 successful component merges would follow, not an upper bound on all potentially useful or physically valid candidate edges. No per-edge classification is identifiable from aggregates.",
+  "conditionalExample": {
+    "hypotheticalSplitInducedComponentIncreases": 10,
+    "hypotheticalProvisionalMerges": 299,
+    "netReduction": 289,
+    "note": "Counterexample for logical sufficiency only; not measured site data."
+  },
+  "acceptance": [
+    "Reconstruct stage-by-stage graph component counts before and after splits, orphan handling, and provisional edges, with immutable stable edge IDs",
+    "Attribute every union-find merge to the exact edge and graph state, then compare to 289 aggregate delta",
+    "Keep all 36084 provisional links unapproved until official/legal trail evidence and source-feature mapping",
+    "Replay 114 high-spread nodes and 4 near-node pairs from original SHP; independently hash SHP/DEM/archive; run v69 and deployment checks"
+  ],
+  "limits": [
+    "No source ZIP/SHP/DEM or v129 preview bytes independently replayed",
+    "This audit corrects an inference, not a geometry or passage decision"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

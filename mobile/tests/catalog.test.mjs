@@ -72,3 +72,10 @@ test('unverified restricted and prohibited valley claims remain unknown',()=>{
   assert.equal(normalizeRecord({...base,activity:{entry:{status,source:'관리기관 안내',checkedAt:'2026-11-14'}}}).activity.entry.status,status);
  }
 });
+
+
+test('search matches compatibility-equivalent names and regions',()=>{
+ const records=[normalizeRecord({id:'compat-1',name:'백운산 1코스',category:'mountain',lat:37,lon:127,region:'강원특별자치도 원주시'})];
+ assert.deepEqual(filterRecords(records,{search:'백운산 １코스',region:'강원특별자치도　원주시'}).map(r=>r.id),['compat-1']);
+ assert.deepEqual(filterRecords(records,{search:'백운산 ２코스'}),[]);
+});

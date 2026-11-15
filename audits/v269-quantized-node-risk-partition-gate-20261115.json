@@ -1,0 +1,71 @@
+{
+  "schema": "sanbak-v269-quantized-node-risk-partition-gate",
+  "date": "2026-11-15",
+  "scope": "Executed JS assertions against published v129/v140/v268 GitHub audit JSON; not raw source geometry",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v268-artifact-identity-risk-priority-gate-20261115.json",
+      "gitBlobSHA1": "90c6ee8c3438e7ab8c95ca85a5be8398c31ad282"
+    }
+  ],
+  "checks": {
+    "endpointDoubleEdges": true,
+    "allNodesCovered": true,
+    "quantizedHierarchy": true,
+    "nearbyHierarchy": true,
+    "acrossComponentSubset": true,
+    "mountainSubset": true,
+    "conflationMountainSubset": true,
+    "sourceHash": true,
+    "graphHash": true,
+    "coverage": true,
+    "componentBaseline": true,
+    "candidatePartition": true,
+    "planOnly": true,
+    "physicalApproval": true,
+    "gridBound": true,
+    "below200Retained": true
+  },
+  "passed": 16,
+  "total": 16,
+  "derived": {
+    "distinctExactEndpointNodes": 1722,
+    "spreadAtMost1mm": 1252,
+    "spreadOver1mmAtMost1cm": 102,
+    "spreadOver1cmAtMost5cm": 254,
+    "spreadOver5cmAtMost10cm": 112,
+    "spreadOver10cm": 2,
+    "partitionSum": 1722,
+    "potentialConflationMountains": 332,
+    "nearDifferentGraphNodePairsAtMost2cm": 4,
+    "nearAcrossComponents": 1
+  },
+  "interpretation": "Disjoint risk bands reconcile all 1722 nodes with distinct source endpoints; risk bands are metadata-derived, not evidence of invalid traversable joins. 114 nodes above 5cm prioritized for feature-level review; all 1722 remain unadjudicated.",
+  "limitations": [
+    "Raw original SHP, v102/v129 archives, 3D/DEM and audit ZIP bytes not independently accessed or hashed",
+    "No feature-ID endpoint-level inspection, v69 runtime regression, nationwide deployment test or physical access validation"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "physicalConnectionsApproved": 0,
+    "deletedOrMerged": 0
+  },
+  "nextAcceptanceCriteria": [
+    "Obtain original archive bytes, independently SHA256 hash and compare ZIP member manifests",
+    "Inspect feature IDs and raw coordinates for two >10cm and 112 5-10cm nodes, then remaining bands; never automatically merge",
+    "Check four near-node pairs and 35m candidate passage status against official/field evidence",
+    "Reproduce v69 regression and verify all 2902 locations and deployed map"
+  ],
+  "completion": false
+}

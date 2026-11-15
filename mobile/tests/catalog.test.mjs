@@ -54,3 +54,12 @@ test('place checkedAt requires both a valid past date and a nonblank source',()=
  assert.equal(normalizeRecord({...row,source:'관리기관'}).checkedAt,'2020-01-01');
  assert.equal(normalizeRecord({...row,source:'관리기관',checkedAt:'2099-01-01'}).checkedAt,'');
 });
+
+
+test('Null Island sentinel is never published as a Korean place',()=>{
+ for(const coordinates of [{lat:0,lon:0},{lat:'0',lon:'0'},{lat:-0,lon:0}])assert.throws(()=>normalizeRecord({...base,...coordinates}),/Null Island/);
+ const rows=[{...base,id:'sentinel',lat:0,lon:0},{...base,id:'real',source:'지자체 원문'}];
+ const result=normalizeCatalog(rows,{requireSource:true});
+ assert.deepEqual(result.records.map(r=>r.id),['real']);
+ assert.deepEqual(result.rejected.map(r=>r.index),[0]);
+});

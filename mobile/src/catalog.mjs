@@ -46,10 +46,10 @@ export function normalizeRecord(raw){
       if(!ACCESS_STATES.includes(status))throw new TypeError('Invalid activity status: '+key);
       const source=typeof item?.source==='string'?item.source.trim():'';
       const checkedAt=typeof item?.checkedAt==='string'?item.checkedAt.trim():'';
-      // An allowed claim requires a nonblank source and a real ISO calendar date.
+      // Any claimed access status requires a non-placeholder source and a valid check date.
       const parsedDate=new Date(checkedAt);
       const validDate=/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)&&!Number.isNaN(parsedDate.getTime())&&parsedDate.toISOString().slice(0,10)===checkedAt&&checkedAt<=new Date().toISOString().slice(0,10);
-      output.activity[key]=(status==='allowed'&&!(hasEvidenceSource(source)&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
+      output.activity[key]=(status!=='unknown'&&!(hasEvidenceSource(source)&&validDate))?{status:'unknown',source:'',checkedAt:''}:{status,source,checkedAt:validDate?checkedAt:''};
     }
   }
   return output;

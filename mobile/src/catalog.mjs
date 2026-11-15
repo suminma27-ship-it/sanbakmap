@@ -80,7 +80,7 @@ export function normalizeCatalog(rows,{requireSource=false}={}){
       // Published places require provenance; import/test callers may opt out.
       if(requireSource&&!hasEvidenceSource(record.source))throw new TypeError('Missing place source');
       // Compatibility-equivalent identifiers (including full-width forms) must not publish the same place twice.
-      const canonicalId=record.id.normalize('NFKC').toLocaleLowerCase('ko-KR');
+      const canonicalId=record.id.normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko-KR');
       if(ids.has(canonicalId))throw new TypeError('Duplicate place id');
       ids.add(canonicalId);
       records.push(record);

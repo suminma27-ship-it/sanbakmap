@@ -1,0 +1,73 @@
+{
+  "schema": "sanbak-v274-published-topology-manifest-lineage-gate",
+  "date": "2026-11-15",
+  "scope": "Read-only GitHub main tree and published JSON metadata checks; no source ZIP/SHP/DEM byte rehash or physical access validation",
+  "repositoryHeadAtInspection": "c5727499704c377dc5e75fc6847941f2e26a4be8",
+  "inputs": [
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v273-source-artifact-lineage-identity-gate-20261115.json",
+      "gitBlobSHA1": "2499960f12ccdeb2956153b4536c3ebb4318d1ab"
+    }
+  ],
+  "checks": {
+    "manifestSourceEqualsV129": true,
+    "manifestSourceEqualsV140": true,
+    "manifestGzipEqualsV129Topology": true,
+    "manifestGzipDiffersV140Topology": true,
+    "manifestCountsMatch": true,
+    "manifestComponentsMatch": true,
+    "endpointArithmetic": true,
+    "overlayCountPartition": true,
+    "quantizationHighRisk": true,
+    "manifestPartsPresent": true,
+    "treeComplete": true,
+    "previousIncomplete": true,
+    "unapproved": true
+  },
+  "passed": 13,
+  "total": 13,
+  "findings": {
+    "manifestGzipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyInputSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "manifestRawSHA256": "3633233ade850742d5995558b1fe64a4a880ff2de72fc86359de3c56b4c5a3da",
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "publishedPackParts": 16,
+    "mountains": 2902,
+    "nodes": 59301,
+    "edges": 67185,
+    "sourceEndpoints": 134370,
+    "highRiskNodesAbove5cm": 114,
+    "repositoryZipFiles": [
+      "data/nationwide-elevation-pack/nationwide-dem-v109.zip"
+    ],
+    "originalSHPAndComparedTopologyZIPBytesAvailableInRepository": false
+  },
+  "interpretation": "Published v102 topology manifest gzip SHA256 is identical to v129 topology ZIP SHA256, while v140 topology input SHA256 differs. This establishes published hash role alignment, not byte-level equality or logical content equivalence; inspect actual archive members before drawing conclusions. Repository tree includes 16 topology pack scripts but not original SHP or both compared ZIP archives. DEM v109 ZIP is not the original full DEM source.",
+  "nextAcceptanceCriteria": [
+    "Acquire original source and both topology ZIP archives; independently hash bytes and compare decompressed member inventories and geometry/CRS",
+    "Inspect 114 >5cm source spread nodes and 4 <=2cm cross-node pairs by original feature IDs; do not auto-connect",
+    "Verify 35m candidates against authoritative or field passage evidence, preserve user-confirmed Hangyeryeong exception",
+    "Run v69 regressions and nationwide 2902 coverage and deployed artifacts tests"
+  ],
+  "mutations": {
+    "originalGraph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

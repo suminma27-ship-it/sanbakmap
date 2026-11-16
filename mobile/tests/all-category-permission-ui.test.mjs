@@ -9,7 +9,9 @@ test('detail renders all four permission states for all five categories',()=>{
   assert.equal(CATEGORIES.length,5);
   assert.deepEqual(VALLEY_ACTIVITIES,['entry','swimming','cooking','camping']);
   assert.match(html,/for\(const key of VALLEY_ACTIVITIES\)/);
-  assert.match(html,/r\.category==='valley'\?r\.activity\[key\]:\{status:'unknown',source:'',checkedAt:''\}/);
+  assert.match(html,/if\(r\.category==='valley'\)\{for\(const key of VALLEY_ACTIVITIES\)/);
+  assert.match(html,/else\{for\(const key of VALLEY_ACTIVITIES\)/);
+  assert.match(html,/labels\[key\]\+': 미확인 \(관리기관 확인 필요\)'/);
   for(const category of CATEGORIES){
     const r=normalizeRecord({id:category.id,name:'검증용',category:category.id,lat:37,lon:127});
     if(category.id==='valley')assert.ok(VALLEY_ACTIVITIES.every(k=>r.activity[k].status==='unknown'));

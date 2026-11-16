@@ -1,0 +1,58 @@
+{
+  "schema": "sanbak-v303-quantization-geometric-envelope-review",
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v145-source-endpoint-priority.json",
+      "gitBlobSHA1": "7d326a794710cc8f120dbe402a45180faf4e3a66"
+    },
+    {
+      "path": "audits/v302-quantization-provisional-edge-priority-gate-20261117.json",
+      "gitBlobSHA1": "58474c84e3856aec0ec93e2271e046fe93834c2a"
+    }
+  ],
+  "coordinateModel": "EPSG:5179 planar metres, independent nearest-grid rounding of x/y at 0.1m; theoretical bounds conditional on this model",
+  "gridSizeM": 0.1,
+  "maxSingleEndpointDriftM": 0.07071067811865475,
+  "maxSameCellPairSeparationM": 0.14142135623730953,
+  "observedPublishedMaxDriftM": 0.070569,
+  "observedNodesWithSameCellEndpointSpreadOver10cm": 2,
+  "interpretation": "A same-grid-node pair can be more than 10cm apart without violating nearest-0.1m-grid rounding. Observed 7.0569cm single-endpoint drift is below the 7.0711cm theoretical bound. This is geometric consistency only, not a source-feature replay or evidence of traversable connections.",
+  "checks": {
+    "quantizationPositive": true,
+    "maxDriftWithinHalfCellDiagonal": true,
+    "maxDriftCloseToBound": true,
+    "spreadOver10cmGeometricallyPossible": true,
+    "sourceOccurrenceCount": true,
+    "v140V145ArchiveProvenance": true,
+    "v145V302PriorityCount": true,
+    "v145V302PriorityIncidence": true,
+    "topFiveDescending": true,
+    "topFiveUnderCellDiagonal": true,
+    "topFiveCrossAudit": true,
+    "noGraphMutation": true
+  },
+  "passed": 12,
+  "total": 12,
+  "reproduce": "Read the three listed blobs. Let q=v140.graphNodeQuantizationMeters; assert v140.maximumOriginalEndpointNodeDriftMeters <= q/Math.sqrt(2); assert v140.quantizedNodesSpreadAbove10cm > 0 and q*Math.sqrt(2)>0.1; compare v140.auditArchiveSHA256 to v145.sourceArchiveSHA256, priority counts and topFive entries to v302; verify originalEdges*2=sourceEndpointOccurrences and no graph mutations. The 12 named checks were executed in JavaScript during this run.",
+  "limitations": [
+    "Original SHP/DEM/archive bytes not independently accessible in this run; no feature geometry reprocessed",
+    "Grid rounding envelope assumes nearest-cell rounding in projected EPSG:5179, not evidence of exact rounding algorithm at every source step",
+    "Priority 57 nodes / 150 provisional incidences remain unapproved; 150 are not unique edges",
+    "v69 route regression, 35m replay and deployment checks outstanding"
+  ],
+  "nextGate": "Recover source ZIP and v140 audit member, verify their SHA-256 bytes, extract exact EPSG:5179 endpoint coordinates and quantized keys for 57 priority nodes, then independently replay graph connectivity; do not approve 35m joins without trail/permission evidence.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

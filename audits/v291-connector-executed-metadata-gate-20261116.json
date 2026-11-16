@@ -1,0 +1,56 @@
+{
+  "schema": "sanbak-v291-connector-executed-metadata-gate",
+  "date": "2026-11-16",
+  "execution": "JavaScript assertions executed in connected tool runtime against fetched GitHub JSON; NOT the Node.js file in a checked-out repository",
+  "headObserved": "a4b7a25f49d7986d8aef406d9e2fd20ca7484cfe",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    }
+  ],
+  "checks": {
+    "input_blob_shas": true,
+    "source_archive_published_hash": true,
+    "overlay_published_hash": true,
+    "sites": true,
+    "edges": true,
+    "endpoints": true,
+    "components": true,
+    "candidate_partition": true,
+    "net_reduction": true,
+    "high_spread": true,
+    "near_pair": true,
+    "counterexample": true,
+    "no_passage": true,
+    "max_quantization_error": true,
+    "risk_nested": true
+  },
+  "passed": 15,
+  "total": 15,
+  "sourceBytesVerified": false,
+  "completion": false,
+  "acceptance": [
+    "Run repository Node script in a checked-out runner",
+    "Obtain and independently hash original SHP/DEM/ZIP bytes",
+    "Replay 114 risky nodes and four near pairs with feature IDs",
+    "Stage-wise 35m connectivity and v69 regression",
+    "2902-site deployed coverage verification"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "sanbak-v297-topology-artifact-hash-divergence-gate",
+  "date": "2026-11-16",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v296-quantization-risk-queue-monotonicity-20261116.json",
+      "gitBlobSHA1": "b21b21cc56967ee22ae8f6883728c00b04814f6c"
+    }
+  ],
+  "execution": "Nine JavaScript assertions executed against fresh connector-fetched GitHub JSON; not raw artifact byte verification",
+  "checks": {
+    "sourceHashAgreement": true,
+    "graphHashAgreement": true,
+    "topologyHashDisagreement": true,
+    "sourceEndpoints": true,
+    "siteCoverage": true,
+    "graphCount": true,
+    "quantizationReviewOnly": true,
+    "previewOnly": true,
+    "distinctTopologyArtifactsNotAssumedIdentical": true
+  },
+  "passed": 9,
+  "total": 9,
+  "hashComparison": {
+    "sourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "graphSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "v140TopologySHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936"
+  },
+  "finding": "The v140 and v129 published topology hashes differ despite identical source and graph hashes. Artifact naming/bytes/manifest must establish whether these are distinct topology outputs, versions, or a provenance inconsistency; do not equate them or declare an error solely from the mismatch.",
+  "nextAcceptance": [
+    "Locate both topology artifacts and manifests; independently hash raw bytes and compare lineage, versions and semantic contents",
+    "Run checked-in Node.js tests against exact GitHub files in an accessible runtime",
+    "Replay 114 high-spread nodes and 4 near-pairs with source feature IDs, without approving physical links",
+    "Reconstruct split/orphan/35m preview stages, compare v69, verify 2902 sites and deployment"
+  ],
+  "limitations": [
+    "github.com DNS resolution failed in local container; no full repository clone or checked-in Node.js execution",
+    "Original SHP, DEM and audit ZIP bytes not independently inspected",
+    "No physical trail or legal access certified"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -1,0 +1,113 @@
+{
+  "schema": "sanbak-v302-quantization-provisional-edge-intersection-review",
+  "date": "2026-11-17",
+  "baseCommit": "a9ff628537b94b5c31023ba77d8ffcdd3cd4ec60",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v145-source-endpoint-priority.json",
+      "gitBlobSHA1": "7d326a794710cc8f120dbe402a45180faf4e3a66"
+    }
+  ],
+  "checks": {
+    "sameArchive": true,
+    "prioritySubset": true,
+    "priorityMountainsSubset": true,
+    "incidencesMatch": true,
+    "topFiveCount": true,
+    "topFiveAllAbove5cm": true,
+    "topFiveHaveIncidences": true,
+    "topFiveUnique": true,
+    "thresholdsMonotonic": true,
+    "noGraphMutation": true
+  },
+  "passed": 10,
+  "total": 10,
+  "triage": {
+    "quantizedNodesSpreadAbove5cm": 114,
+    "affectedMountains": 95,
+    "priorityNodesWithProvisionalEdges": 57,
+    "priorityMountains": 50,
+    "provisionalEdgeIncidencesNotUniqueEdges": 150,
+    "nonPriorityNodesAbove5cm": 57,
+    "topFive": [
+      {
+        "mountainCode": "281700201",
+        "graphNodeId": 8,
+        "maxSourceEndpointSpreadM": 0.099127,
+        "provisionalEdgeIncidences": 4,
+        "originalEdgeIds": [
+          4,
+          34,
+          71,
+          72
+        ]
+      },
+      {
+        "mountainCode": "451102904",
+        "graphNodeId": 67,
+        "maxSourceEndpointSpreadM": 0.097507,
+        "provisionalEdgeIncidences": 3,
+        "originalEdgeIds": [
+          42,
+          55,
+          158,
+          159
+        ]
+      },
+      {
+        "mountainCode": "457401201",
+        "graphNodeId": 33,
+        "maxSourceEndpointSpreadM": 0.094074,
+        "provisionalEdgeIncidences": 1,
+        "originalEdgeIds": [
+          17,
+          122,
+          123
+        ]
+      },
+      {
+        "mountainCode": "467100701",
+        "graphNodeId": 4,
+        "maxSourceEndpointSpreadM": 0.092035,
+        "provisionalEdgeIncidences": 1,
+        "originalEdgeIds": [
+          2,
+          8,
+          12,
+          13,
+          14
+        ]
+      },
+      {
+        "mountainCode": "113500101",
+        "graphNodeId": 62,
+        "maxSourceEndpointSpreadM": 0.088999,
+        "provisionalEdgeIncidences": 1,
+        "originalEdgeIds": [
+          56,
+          96,
+          180,
+          181
+        ]
+      }
+    ]
+  },
+  "nextGate": "Recover raw archive and inspect each source feature endpoint and provisional edge incidence for the 57 priority nodes; no graph edit until verified. Independently verify original SHP/DEM bytes, replay 35m and v69, nationwide coverage.",
+  "limitations": [
+    "Metadata-only cross-file triage; no raw SHP, archive bytes or original feature geometry verified",
+    "150 are incidences, not unique edges; 57 are review priorities, not confirmed false connections"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

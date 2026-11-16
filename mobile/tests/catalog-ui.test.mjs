@@ -7,3 +7,5 @@ test('gate requires consent before loading catalog',async()=>{const html=await r
 test('mobile packager includes entry, catalog and existing map',async()=>{const code=await read('scripts/prepare-web.mjs');for(const token of ["'entry.html'","'catalog.html'","'catalog.json'","'map.html'","path.join(mobile,'src')"])assert.ok(code.includes(token),token)});
 
 test('catalog clears stale region choices after fetch failure',async()=>{const html=await read('catalog.html');const catchBranch=html.split("catch(error){if(request!==loadSequence)return;console.warn('Catalog load failed',error);")[1]?.split('}render()}')[0];assert.ok(catchBranch,'fetch failure handler');for(const token of ["records=[]","rejectedCount=0","loadError='자료 로딩 실패'","region.replaceChildren(new Option('전국',''))","region.value=''"])assert.ok(catchBranch.includes(token),token)});
+
+test('non-valley details explicitly include all four unknown activity states',async()=>{const html=await read('catalog.html');assert.ok(html.includes('출입·물놀이·취사·야영 이용 허용 여부: 미확인 (관리기관 확인 필요)'));assert.ok(html.includes("if(r.category==='valley')"));assert.ok(html.includes('VALLEY_ACTIVITIES'));});

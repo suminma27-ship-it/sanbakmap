@@ -1,0 +1,77 @@
+{
+  "schema": "sanbak-v300-source-metadata-cross-invariants",
+  "date": "2026-11-16",
+  "baseCommit": "8ed4d1b227c432182ae5dbb1b5f6cf174138ec5d",
+  "scope": "Connector-fetched published metadata, not independent source ZIP/SHP/DEM bytes",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v299-35m-preview-count-partition-gate-20261116.json",
+      "gitBlobSHA1": "a8cffe7397c49b5797841038d6b3f0b1435f047e"
+    }
+  ],
+  "checks": {
+    "endpoint_twice_edges": true,
+    "coverage_graph_nodes": true,
+    "source_hash": true,
+    "graph_hash": true,
+    "all_sites_including_low_elevation": true,
+    "quantization_error_bound": true,
+    "risk_monotonicity": true,
+    "near_pair_monotonicity": true,
+    "component_cross_pairs": true,
+    "candidate_partition": true,
+    "component_reduction": true,
+    "unapproved": true,
+    "notable_pair_distance": true,
+    "hangyeryeong_outside_35m": true
+  },
+  "passed": 14,
+  "total": 14,
+  "findings": {
+    "sourceEndpointOccurrences": 134370,
+    "graphEdges": 67185,
+    "reviewOnlyQuantizedNodesOver5cm": 114,
+    "nearNodePairsAtMost2cm": 4,
+    "distinctComponentPair": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    },
+    "hangyeryeongOriginalGapMeters": 48.73,
+    "previewThresholdMeters": 35
+  },
+  "limitations": [
+    "Original bytes unavailable; SHA256 fields are published claims, not independently recomputed",
+    "No feature-level decision or physical passage verification",
+    "No v69 regression or 2902-site deployed verification"
+  ],
+  "nextAcceptance": [
+    "Retrieve original ZIP/SHP/DEM bytes and recompute SHA256",
+    "Identify feature IDs and geometry for 114 high-spread nodes and 4 near pairs",
+    "Replay 35m candidates and v69 route/elevation regression",
+    "Verify all 2902 sites, official trail permissions and deployment"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

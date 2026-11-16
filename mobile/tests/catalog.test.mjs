@@ -97,3 +97,13 @@ test('published IDs reject whitespace and compatibility-equivalent duplicates',(
  assert.deepEqual(result.rejected.map(r=>r.index),[1,2]);
  assert.ok(result.rejected.every(r=>/Duplicate place id/.test(r.reason)));
 });
+
+test('published provenance rejects malformed HTTP hosts and credential URLs',()=>{
+ const row={id:'source-check',name:'검증용 장소',category:'valley',lat:37,lon:127};
+ for(const source of ['https://.','https://foo','https://user:pass@go.kr/a','https://go.kr:bad']){
+  assert.equal(normalizeCatalog([{...row,source}],{requireSource:true}).records.length,0,source);
+ }
+ for(const source of ['https://www.knps.or.kr/portal/main.do','https://www.data.go.kr/data/123']){
+  assert.equal(normalizeCatalog([{...row,source}],{requireSource:true}).records.length,1,source);
+ }
+});

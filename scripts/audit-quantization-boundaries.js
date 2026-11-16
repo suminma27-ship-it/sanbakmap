@@ -25,6 +25,6 @@ check('observed maximum drift obeys theoretical bound',published.maximumOriginal
 check('114 high-spread nodes remain review-only',published.quantizedNodesSpreadAbove5cm===114 && published.newVerifiedPhysicalConnections===0);
 check('four near-pairs remain review-only',published.nearbyDifferentGraphNodePairsAtMost2cm===4 && published.originalTopologyChanged===false);
 const sourceBytes=fs.readFileSync('audits/v140-original-coordinate-quantization-summary.json');
-const gitBlobSHA1=crypto.createHash('sha1').update(Buffer.from('blob '+sourceBytes.length+'\\0')).update(sourceBytes).digest('hex');
+const gitBlobSHA1=crypto.createHash('sha1').update(Buffer.from('blob '+sourceBytes.length+'\0')).update(sourceBytes).digest('hex');
 check('input git blob identity',gitBlobSHA1==='72f78e835c13cac887738a179000b2ef5899bbb3');
 console.log(JSON.stringify({status:'pass',checks,sourceGitBlobSHA1:gitBlobSHA1,scope:'synthetic coordinate boundary + published metadata; no real feature approval',completion:false},null,2));

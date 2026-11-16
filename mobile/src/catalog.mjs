@@ -17,7 +17,7 @@ export function hasEvidenceSource(value){
   if(/^https?:\/\//i.test(normalized)){
     try{
       const url=new URL(normalized);
-      if(!['http:','https:'].includes(url.protocol)||!url.hostname.includes('.')||url.hostname.startsWith('.')||url.hostname.endsWith('.')||url.username||url.password||/\\s/.test(normalized))return false;
+      if(!['http:','https:'].includes(url.protocol)||!url.hostname.includes('.')||url.hostname.startsWith('.')||url.hostname.endsWith('.')||url.username||url.password||/\s/.test(normalized))return false;
     }catch{return false;}
   }
   return marker!==''&&!(/^[a-z][a-z0-9+.-]*:/i.test(normalized)&&!/^https?:\/\//i.test(normalized))&&!/^(?:https?:\/\/)?(?:www\.)?(?:example\.(?:com|org|net)|localhost)(?:[\/:?#]|$)/i.test(normalized)&&!/^(?:todo|tbd|pending|미확인|확인중|검토\s*중|조사\s*중|추후\s*확인|확인\s*예정|출처\s*미상|자료\s*없음|출처\s*없음|미정)(?:[:：\-–—\s]|$)/i.test(normalized)&&!['미확인','확인안됨','확인되지않음','확인중','검토중','조사중','자료없음','출처미상','미정','추후확인','확인예정','출처없음','없음','unknown','na','null','tbd','todo','pending','notverified','unverified'].includes(marker);

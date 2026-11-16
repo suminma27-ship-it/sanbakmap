@@ -1,0 +1,55 @@
+{
+  "schema": "sanbak-v296-quantization-risk-queue-monotonicity",
+  "date": "2026-11-16",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v295-executed-quantization-regression-20261116.json",
+      "gitBlobSHA1": "ec0626dd2383444e0cf4fb0339121f37f99a1ce0"
+    }
+  ],
+  "checks": {
+    "monotonicSpread": true,
+    "nearPairsNested": true,
+    "acrossComponentBound": true,
+    "siteBounds": true,
+    "endpointCount": true,
+    "sourceIdentity": true,
+    "graphIdentity": true,
+    "previewOnly": true
+  },
+  "passed": 8,
+  "total": 8,
+  "derived": {
+    "spreadAbove5cmAmongDistinctExactEndpointNodes": 0.06620209059233449,
+    "mountainsPotentialConflationFraction": 0.11440385940730531,
+    "acrossComponentNearPairFraction": 0.25
+  },
+  "finding": "Published quantization risk buckets obey nested threshold constraints; this is metadata consistency, not independent source feature validation.",
+  "nextAcceptance": [
+    "Acquire original SHP/DEM/audit ZIP bytes and verify SHA-256 independently",
+    "Replay 114 nodes above 5cm and 4 near-pairs by source feature IDs",
+    "Reconstruct 35m split/orphan/preview stages and v69 regression",
+    "Verify all 2902 sites and deployment"
+  ],
+  "limitations": [
+    "No independent original bytes or feature-level evidence",
+    "No Node.js repository script execution in this run: container github.com DNS resolution failed"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -20,3 +20,11 @@ test('whitespace and compatibility forms normalize without inventing places',()=
  assert.ok(regions.includes('경기도 안산시 상록구'));
  assert.equal(regions.filter(r=>r==='경기도').length,1);
 });
+
+test('invalid province cannot create a fabricated top-level region',()=>{
+ const choices=nationwideCategoryRegions([{category:'valley',region:'가상도 가상시'},{category:'valley',region:'경기도 안산시'}],'valley');
+ assert.ok(!choices.includes('가상도'));
+ assert.ok(!choices.includes('가상도 가상시'));
+ assert.ok(choices.includes('경기도 안산시'));
+ assert.equal(choices.filter(r=>NATIONAL_REGIONS.includes(r)).length,17);
+});

@@ -1,0 +1,61 @@
+{
+  "schema": "sanbak-v301-v102-quantized-contact-implementation-gate",
+  "date": "2026-11-17",
+  "baseCommit": "04097709d1b95c2d9604af5d1203e87f27b5cd0d",
+  "inputs": [
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v145-source-endpoint-priority.json",
+      "gitBlobSHA1": "7d326a794710cc8f120dbe402a45180faf4e3a66"
+    }
+  ],
+  "checks": {
+    "quantizedKey": true,
+    "nodeMapUsesQuantizedKey": true,
+    "interiorContactUses015mTolerance": true,
+    "sourceCommentClaimsExact": true,
+    "syntheticDistinctCoordsShareKey": true
+  },
+  "passed": 5,
+  "total": 5,
+  "syntheticCounterexample": {
+    "latitudeDegrees": 37,
+    "longitudeDegrees": 127,
+    "sourceCoordinateSeparationMeters": 0.06,
+    "coordinateA": [
+      127.00000020246534,
+      37
+    ],
+    "coordinateB": [
+      127.00000087734982,
+      37
+    ],
+    "sharedKey": "112908214:41142150",
+    "syntheticNotObservedSourceIncident": true
+  },
+  "finding": "v102 code comment says 'Only exact shared original vertices are joined', but node identity is keyed by rounded 0.1m local metric cells. Thus distinct original coordinates may share a node; interior contact also uses <=0.15m tolerance after cell lookup. Neither is proof of exact coordinate equality or verified passage.",
+  "risk": "Review-only implementation semantics discrepancy; do not change graph or infer physical connections. Cross-check the 114 >5cm nodes and 4 <=2cm cross-cell pairs against original SHP and exact source IDs before any modification.",
+  "nextAcceptance": [
+    "Recover original source SHP and audit archive bytes and verify SHA256 independently",
+    "Extract exact source feature IDs/vertices for 114 high-spread nodes and 4 near pairs",
+    "Test source-exact node identity versus v102 quantized identity on these real records",
+    "Replay 35m candidate graph and v69 route/elevation regression, preserve Hangyeryeong exception",
+    "Verify all 2902 sites and deployed artifacts"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

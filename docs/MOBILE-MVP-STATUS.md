@@ -587,3 +587,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - Node 독립 URL 검증 6/6 통과. 신규 테스트는 저장소에 추가했으나 전체 `npm test`, `check:web`, `prepare:web`, 브라우저·Android 실행 성공은 이번 실행에서 확인하지 못했으므로 MVP 완료 아님.
 - 출시 카탈로그는 여전히 `[]`. 실제 출처 장소 데이터, 지역 검색/상세 통합 검증, 전국 산 경로·거리·고도 연동, 모바일 웹/Android 패키징 검증 필요.
 - 원본 지도 UI/그래프/DEM, 한계령 승인 예외, 35m 미승인 연결 후보 및 별도 전국 데이터 정리 자동 작업 불변.
+
+
+## 2026-11-17 모바일 자동 개발 실행 — 환경 장애 기록
+
+- GitHub `main` 최신 커밋 `5dbbc685e98b2675c028b1026cd22792b096ed36`(v301 전국 데이터 감사)을 GitHub 커넥터로 확인. `mobile/` 디렉터리, `mobile/package.json`, `mobile/src/catalog.mjs`, `mobile/src/lnt-gate.mjs`, `mobile/entry.html`, `mobile/catalog.html`, `mobile/scripts/prepare-web.mjs`, 기존 회귀 테스트 목록 및 지도 패키징 구조 확인.
+- 로컬 Node.js `v22.16.0` 확인. `git ls-remote https://github.com/suminma27-ship-it/sanbakmap.git HEAD` 실행 실패: `Could not resolve host: github.com`. 따라서 저장소 전체 체크아웃, `npm test`, `npm run check:web`, `npm run prepare:web`, 모바일 브라우저 실행은 수행하지 못함. GitHub Actions 목록 조회도 GitHub 연결 도구 URL 허용 제한(HTTP 400)으로 실패.
+- 이번 실행의 코드 변경 없음. 실제 장소 카탈로그 `mobile/catalog.json`은 3바이트의 빈 JSON 배열 상태. 원본 지도/DEM/그래프, 한계령 사용자 확인 예외, 미승인 35m 후보, 별도 전국 데이터 정리 자동 작업 및 스케줄은 수정하지 않음.
+- **MVP 미완료:** 출처 검증된 산·섬·계곡·암벽·트레킹 실제 목록 및 지역 검색·상세, LNT 게이트 브라우저 동작, 기존 산 지도 진입과 검증 경로·거리·고도 통합, 전체 자동 회귀/모바일 웹 실행, Android 패키징 검증이 필요. 환경 복구 후 전체 테스트·웹 패키징부터 재개.

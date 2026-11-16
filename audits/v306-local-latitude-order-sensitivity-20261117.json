@@ -1,0 +1,69 @@
+{
+  "schema": "sanbak-v306-local-first-part-latitude-order-sensitivity",
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    },
+    {
+      "path": "audits/v305-v102-first-part-order-dependence-gate-20261117.json",
+      "gitBlobSHA1": "2167b7efe7664a616b28cd955fada7178f84642a"
+    }
+  ],
+  "finding": "A much smaller first-part latitude change (0.001 degree, approximately 111 m) can reverse the rounded-node membership of the same two full-precision source endpoints. This strengthens v305's distant 33/39-degree synthetic witness with a locally plausible within-mountain scale; it does not establish a real nationwide occurrence.",
+  "reproduction": {
+    "preciseEndpoints": [
+      [
+        127.5,
+        37.5
+      ],
+      [
+        127.5000007,
+        37.5
+      ]
+    ],
+    "separationMeters": 0.06175189192387688,
+    "firstPartLatitudes": [
+      37.500014,
+      37.501014
+    ],
+    "firstPartLatitudeSeparationMeters": 111.19508023468508,
+    "keysAtFirstLatitude": [
+      "112602999:41698125",
+      "112602999:41698125"
+    ],
+    "keysAtSecondLatitude": [
+      "112601490:41698125",
+      "112601491:41698125"
+    ],
+    "mergedAtFirstLatitude": true,
+    "mergedAtSecondLatitude": false,
+    "precondition": "The two original endpoints belong to different source parts and the group has a first part at either specified latitude. Node IDs themselves are not comparable across runs; compare partition of stable source endpoint identifiers."
+  },
+  "checks": {
+    "sourceFirstPartLatitude": true,
+    "sourceQuantization": true,
+    "sourceNodeMapKey": true,
+    "distinctCoordinates": true,
+    "separationBelow15cm": true,
+    "localLatitudeDifferenceBelow200m": true,
+    "mergedAtFirstLatitude": true,
+    "separateAtSecondLatitude": true,
+    "priorSourceShaMatches": true,
+    "noDataMutation": true
+  },
+  "passed": 10,
+  "total": 10,
+  "scope": "Static source inspection plus independent exact formula numerical reproduction; no original SHP/DEM/ZIP bytes inspected.",
+  "nextGate": "Obtain source feature bytes; run v102 twice per group with original and reversed source-part order; compare equivalence classes of stable source endpoint identifiers, not node IDs. Prioritize 57 provisional-edge-intersecting nodes; record source IDs and precision distances. Never authorize adjacency without external access evidence.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

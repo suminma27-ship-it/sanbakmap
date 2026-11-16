@@ -1,0 +1,95 @@
+{
+  "schema": "sanbak-v309-executable-v102-runtime-regression",
+  "date": "2026-11-17",
+  "source": {
+    "path": "core/nationwide-topology-v102.js",
+    "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+  },
+  "method": "Execute fetched unchanged v102 source in isolated JavaScript function and invoke exported build() with two synthetic fixtures; assert returned graph structure, not merely inspect formulas.",
+  "fixtures": {
+    "shortSelfLoop": {
+      "coords": [
+        [
+          127.5,
+          37.5
+        ],
+        [
+          127.50000007,
+          37.5
+        ]
+      ],
+      "sourceDistanceM": 0.006175189067023808,
+      "result": {
+        "nodes": 1,
+        "edges": 1,
+        "from": 0,
+        "to": 0,
+        "lengthM": 0.01
+      }
+    },
+    "shortGap": {
+      "coords": {
+        "a": [
+          127.5,
+          37.5
+        ],
+        "b": [
+          127.50000097,
+          37.5
+        ],
+        "c": [
+          127.5,
+          37.50001
+        ],
+        "d": [
+          127.50000097,
+          37.50001
+        ]
+      },
+      "sourceGapM": 0.0855704788625282,
+      "result": {
+        "nodes": 4,
+        "edges": 2,
+        "components": 2,
+        "nearEndsReviewOnly": 2,
+        "nearExamples": [
+          [
+            0,
+            1,
+            1.12
+          ],
+          [
+            0,
+            1,
+            1.12
+          ]
+        ]
+      }
+    }
+  },
+  "checks": {
+    "positiveSourceLength": true,
+    "quantizedSelfLoop": true,
+    "loopNotRoutable": true,
+    "gapBelow15cm": true,
+    "distinctGapNodes": true,
+    "gapComponentsSeparated": true,
+    "gapReviewCounterMissesShortPair": true,
+    "noProximityEdges": true,
+    "unverifiedTopology": true
+  },
+  "passed": 9,
+  "total": 9,
+  "interpretation": "Actual v102 runtime outputs confirm synthetic positive-length self-loop and sub-15cm disconnected-endpoint review blind spot. Neither establishes a nationwide source-feature error or authorizes a connection.",
+  "inputAvailability": "Original forestry SHP, v129, DEM and audit ZIP bytes not retrieved; Library semantic search returned unrelated report.html only. Independent original-file SHA-256 and nationwide feature replay remain blocked.",
+  "nextGate": "Obtain exact original feature bytes; hash SHA-256; replay same invariants across all 2902 places, preserve feature/source IDs; compare 57 high-priority nodes, 35m candidate review, v69 regression, coverage and deployment. No automatic edits.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -8,6 +8,7 @@ test('valley activity evidence appears only on valley details',()=>{
  assert.doesNotMatch(html,/r\.category==='valley'\?r\.activity\[key\]/);
 });
 test('other categories do not claim valley-specific rules',()=>{
- assert.match(html,/else\{const note=document\.createElement\('p'\)/);
- assert.match(html,/이용 허용 여부: 미확인 \(관리기관 확인 필요\)/);
+ assert.match(html,/else\{for\(const key of VALLEY_ACTIVITIES\)\{const note=document\.createElement\('p'\)/);
+ assert.match(html,/labels\[key\]\+': 미확인 \(관리기관 확인 필요\)'/);
+ assert.doesNotMatch(html,/출입·물놀이·취사·야영 이용 허용 여부: 미확인/);
 });

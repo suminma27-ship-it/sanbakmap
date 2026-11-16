@@ -1,0 +1,63 @@
+{
+  "schema": "sanbak-v292-independent-quantization-invariant-gate",
+  "date": "2026-11-16",
+  "headObserved": "3935c5c7b7c8c9cd97e071cd7924c5b0776bd650",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    }
+  ],
+  "method": "Executed JavaScript assertions on GitHub connector-fetched published JSON; source SHP/DEM/ZIP bytes not available",
+  "checks": {
+    "max_endpoint_drift_within_rounding_bound": true,
+    "spread_over_10cm_possible_in_cell": true,
+    "spread_threshold_nested": true,
+    "near_pairs_nested": true,
+    "across_components_subset": true,
+    "covered_nodes": true,
+    "endpoint_count": true,
+    "original_count": true,
+    "baseline": true,
+    "preview_delta": true,
+    "partition": true,
+    "split_not_provisional": true,
+    "source_hash_identity": true,
+    "graph_hash_identity": true,
+    "passage_not_approved": true,
+    "hangyeryeong_outside_threshold": true,
+    "quantized_node_spread_10cm_not_necessarily_error": true,
+    "component_counterexample": true
+  },
+  "passed": 18,
+  "total": 18,
+  "geometryBoundsMeters": {
+    "singleEndpointMax": 0.07071067811865477,
+    "sameCellPairMax": 0.14142135623730953,
+    "observedMaxDrift": 0.070569
+  },
+  "finding": "The published maximum drift fits 0.1m nearest-grid rounding; two >10cm node-spread cases are geometrically possible inside a 0.1m cell and are not alone proof of an incorrect join. Source feature coordinates and topology required for adjudication.",
+  "pending": [
+    "Independently obtain and hash original SHP, DEM, v102/v129/3D and audit ZIP bytes",
+    "Map all 114 high-spread nodes and four near pairs to original feature IDs and graph components",
+    "Replay 35m candidates stage-by-stage without passage approval",
+    "v69 regression, nationwide 2902-site coverage and deployed artifact validation"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

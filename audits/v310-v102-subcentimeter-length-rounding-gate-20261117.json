@@ -1,0 +1,60 @@
+{
+  "schema": "sanbak-v310-v102-subcentimeter-length-rounding-gate",
+  "date": "2026-11-17",
+  "baseMain": "8ed716f6684f3b3205def1643a73433eab7e5b74",
+  "source": {
+    "path": "core/nationwide-topology-v102.js",
+    "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+  },
+  "method": "Read unchanged v102 source; evaluate its explicit L>0.001 emission gate and Math.round(L*100)/100 length serialization with deterministic positive-length fixtures; check source assertions. No nationwide source-feature replay.",
+  "fixtures": [
+    {
+      "sourceLengthM": 0.0011,
+      "emitted": true,
+      "storedLengthM": 0
+    },
+    {
+      "sourceLengthM": 0.0025,
+      "emitted": true,
+      "storedLengthM": 0
+    },
+    {
+      "sourceLengthM": 0.0049,
+      "emitted": true,
+      "storedLengthM": 0
+    },
+    {
+      "sourceLengthM": 0.0051,
+      "emitted": true,
+      "storedLengthM": 0.01
+    },
+    {
+      "sourceLengthM": 0.0062,
+      "emitted": true,
+      "storedLengthM": 0.01
+    }
+  ],
+  "checks": {
+    "sourceBlobMatches": true,
+    "thresholdPresent": true,
+    "roundingPresent": true,
+    "zeroLengthEdgesPossible": true,
+    "positiveLengthPreservedAboveHalfCentimeter": true,
+    "unverifiedEdges": true
+  },
+  "passed": 6,
+  "total": 6,
+  "finding": "An edge whose source length is strictly above 1mm but below 5mm can be emitted with serialized length_m=0. This is a code-path risk, not a confirmed occurrence in any nationwide source feature. Do not remove or merge such edges automatically.",
+  "nextGate": "On exact original SHP/graph bytes, preserve original feature IDs and count emitted edges with source L in (0.001,0.005), rounded zero length, and quantized from==to; record source SHA-256 and compare v69 and 35m review-only candidates. Audit all 2902 places including <=200m, 67185 original edges, DEM and official routes. No automatic passage approval.",
+  "originalBytesVerified": false,
+  "coverageVerified": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

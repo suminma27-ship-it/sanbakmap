@@ -642,3 +642,13 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `mobile/tests/catalog-ui.test.mjs`에 출처 링크 계약 회귀 테스트 추가. 수정 원문 정적 단언 6/6 통과. **전체 `npm test`, 웹 패키징, 브라우저/Android 실행은 이번 실행에서 미검증**이므로 MVP 완료 아님.
 - 남은 기준: 실재 출처의 5개 카테고리 데이터, 지역 검색·상세 및 LNT 브라우저 검증, 전국 산 지도/경로/거리/고도 연동, 전체 자동 회귀와 모바일 웹 실행, Android 검증.
 - 원본 지도 UI·그래프·DEM·한계령 예외·35m 후보 및 별도 전국 데이터 정리 작업/스케줄 불변.
+
+
+## 2026-11-17 모바일 개발 실행 — 출처 URL 형식 검증
+
+- `main` 최신 이력과 `mobile/src/catalog.mjs`, `mobile/catalog.html`, `mobile/entry.html`, `mobile/catalog.json`, `mobile/package.json`, 기존 테스트 및 루트 `index.html` 존재를 확인. 실제 출시 카탈로그는 `[]` 유지.
+- 출처 문자열의 `https://.` 같은 비정상 호스트 및 `https://foo`처럼 도메인 점이 없는 URL을 `URL` 파서와 호스트·계정 검증으로 거부. 공식 기관 HTTPS 주소는 유지. 출처 내용의 진위/이용 허가를 자동 보증하는 기능은 아님.
+- `mobile/tests/catalog.test.mjs`에 악성·잘못된 URL 4개 거부, 관리기관 URL 2개 수용 회귀 사례 추가.
+- Node.js v22.16.0 독립 검증 스크립트에서 URL 형식 8개 검사 통과. 로컬 `git ls-remote`는 `Could not resolve host: github.com`으로 실패해 전체 저장소 `npm test`, `check:web`, `prepare:web`, 브라우저/Android 검증은 이번 변경 기준 미실행. GitHub Actions 통과도 아직 확인되지 않음.
+- 코드 커밋 `794b2b905d9bb0bb49b8a509e5ba4c7f748cd78b`, 정규식 수정 `05bde62583bfefde754cd4dc890f2371d12f00b1`, 회귀 테스트 `b47ee535e6775be3dfec62678b18644c3daff78b`.
+- 남은 완료 게이트: 출처 확인된 4개 비산 카테고리 최소 장소, 5개 카테고리 실제 목록·상세/지역검색, LNT 수락·거부와 딥링크, 기존 산 지도/거리/고도 통합, 전체 회귀·모바일 웹 브라우저 실행 및 Android 패키징. 원본 지도·그래프·DEM, 한계령 예외, 35m 후보 미승인 정책 및 별도 전국 데이터 정리 자동 작업 불변.

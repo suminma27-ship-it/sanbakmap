@@ -1,0 +1,60 @@
+{
+  "schema": "sanbak-v307-positive-length-quantized-self-loop-review",
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    },
+    {
+      "path": "audits/v306-local-latitude-order-sensitivity-20261117.json",
+      "gitBlobSHA1": "f63108e5483b74bbc1197137880e48811b679624"
+    }
+  ],
+  "finding": "v102 filters segments by positive source length (>0.001 m) but independently maps each endpoint to a 0.1m quantized node key; thus a nonzero source segment can produce from===to (self-loop) without an explicit guard. This is a synthetic implementation witness, not evidence of a nationwide incident.",
+  "reproduction": {
+    "firstPartLatitude": 37.5,
+    "sourcePartCoordinates": [
+      [
+        127.5,
+        37.5
+      ],
+      [
+        127.5000007,
+        37.5
+      ]
+    ],
+    "sourceLengthMeters": 0.061751891923876874,
+    "quantizedKeys": [
+      "112603020:41698125",
+      "112603020:41698125"
+    ],
+    "predictedEdge": {
+      "fromEqualsTo": true,
+      "lengthGreaterThanFilter": true,
+      "accessVerified": false,
+      "routable": false
+    }
+  },
+  "checks": {
+    "nodeMapUsesQuantizedKey": true,
+    "nonzeroLengthOnlyFilter": true,
+    "noSelfLoopGuard": true,
+    "sameKey": true,
+    "positiveEdgeLength": true,
+    "sourceHashMatches": true
+  },
+  "passed": 6,
+  "total": 6,
+  "scope": "Static source inspection and independent numeric reproduction; no original source feature bytes available in this run.",
+  "nextGate": "With original SHP/ZIP feature bytes, run the exact v102 build over all 2,902 groups and enumerate edges where from===to, preserving sourceId/startVertex/endVertex, raw endpoint coordinates, source length and stable endpoint IDs; independently compare original exact-coordinate partitions. Review only: do not remove, merge or approve edges. Also prioritize 57 provisional-edge-linked quantization risk nodes; independently hash source SHP/DEM/ZIP, then 35m candidates, v69 regression and deployment.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

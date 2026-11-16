@@ -1,0 +1,98 @@
+{
+  "schema": "sanbak-v293-quantization-boundary-counterexample-gate",
+  "date": "2026-11-16",
+  "headAtInspection": "faf5deffac3aa5d8453338819b3a75dcd32cbc0d",
+  "inputs": [
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    }
+  ],
+  "method": "Executed deterministic JavaScript checks against connector-fetched GitHub JSON plus constructed EPSG:5179 metre-coordinate rounding boundary counterexamples; synthetic examples are not observed source features",
+  "checks": {
+    "sourceHash": true,
+    "graphHash": true,
+    "sites": true,
+    "edges": true,
+    "endpointOccurrences": true,
+    "baseline": true,
+    "componentDelta": true,
+    "candidates": true,
+    "quantizedMax": true,
+    "reviewQueue": true,
+    "nearPairs": true,
+    "unapproved": true,
+    "syntheticFarSameCell": true,
+    "syntheticNearDifferentCell": true,
+    "noApprovalInference": true
+  },
+  "passed": 15,
+  "total": 15,
+  "syntheticCases": {
+    "sameNodeFarApart": {
+      "endpointA": [
+        -0.049,
+        -0.049
+      ],
+      "endpointB": [
+        0.049,
+        0.049
+      ],
+      "distanceMeters": 0.13859292911256332,
+      "quantizedNode": [
+        0,
+        0
+      ],
+      "meaning": "Two endpoints over 10cm apart can quantize to the same node; not evidence of an observed wrong connection"
+    },
+    "differentNodesNearApart": {
+      "endpointA": [
+        0.049,
+        0.049
+      ],
+      "endpointB": [
+        0.05,
+        0.05
+      ],
+      "distanceMeters": 0.0014142135623730952,
+      "quantizedNodes": [
+        [
+          0,
+          0
+        ],
+        [
+          0.1,
+          0.1
+        ]
+      ],
+      "meaning": "Two endpoints ~1.414mm apart can quantize to different nodes; proximity does not establish legal or physical passage"
+    }
+  },
+  "finding": "Quantization can both conflate spatially distinct endpoints and separate near-coincident endpoints. Published aggregate counts cannot identify topology errors; prioritize original feature-to-node lineage and per-edge component replay.",
+  "acceptance": [
+    "For each of 114 >5cm nodes and four <=2cm cross-node pairs, obtain original SHP feature IDs, unrounded EPSG:5179 endpoints, quantized IDs and graph component membership",
+    "Verify candidate links <=35m against official trail evidence; no physical connection approved from distance alone",
+    "Independently hash source SHP, v102/v129, 3D DEM, audit ZIP; run v69 regression and deployed nationwide coverage tests"
+  ],
+  "limitations": [
+    "Original SHP/DEM/ZIP bytes not accessible in this run; Git blob identities only",
+    "Synthetic counterexamples do not classify any real endpoint"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

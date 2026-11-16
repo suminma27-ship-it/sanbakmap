@@ -1,0 +1,82 @@
+{
+  "schema": "sanbak-v298-topology-lineage-prior-artifact-reconciliation",
+  "date": "2026-11-16",
+  "baseCommit": "39fdc56fcf555d2d74f433cc2e6b2afb2b14415a",
+  "scope": "Read-only GitHub-published JSON and manifest lineage reconciliation; no original SHP/DEM/archive byte access",
+  "inputs": [
+    {
+      "path": "audits/v297-topology-artifact-hash-divergence-gate-20261116.json",
+      "gitBlobSHA1": "8a264ca48de17e61f08767af1ca24238d9306098"
+    },
+    {
+      "path": "audits/v281-topology-artifact-identity-non-equivalence-gate-20261115.json",
+      "gitBlobSHA1": "8a48cb84329e2b0bc2e10d15045120eed6303a10"
+    },
+    {
+      "path": "audits/v274-published-topology-manifest-lineage-gate-20261115.json",
+      "gitBlobSHA1": "4a04bcc529b3864d9e954869569cb1ee57a4bf19"
+    },
+    {
+      "path": "data/nationwide-topology/manifest.json",
+      "gitBlobSHA1": "e5b78474c16a71f828946d08e15eb8229a138566"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    }
+  ],
+  "execution": "Ten JavaScript assertions executed on connector-fetched JSON in this run",
+  "checks": {
+    "sourceHashTriple": true,
+    "topologyPublishedPair": true,
+    "topologyDifferentFromV140": true,
+    "overlayIdentity": true,
+    "graphCount": true,
+    "coverage": true,
+    "components": true,
+    "alreadyDocumented": true,
+    "priorFindingRepeated": true,
+    "noApproval": true
+  },
+  "passed": 10,
+  "total": 10,
+  "hashRoles": {
+    "sourceZipSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "publishedV102GzipAndV129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "v140TopologyInputSHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129OverlayAndV140GraphInputSHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+  },
+  "finding": "v297's differing topology hashes are not a newly discovered discrepancy: v274 and v281 already explicitly recorded the published v102/v129 topology gzip versus v140 topology input as distinct artifact roles. v297 did not establish a new data corruption finding. Preserve this distinction to avoid redundant audits or misleading incident escalation.",
+  "coverage": {
+    "mountains": 2902,
+    "edges": 67185,
+    "componentsBefore": 3571,
+    "previewComponentsAfter": 3282,
+    "previewReduction": 289,
+    "verifiedPassage": false
+  },
+  "nextAcceptance": [
+    "Obtain original SHP, v102/v129 topology archive, v140 topology input, original DEM and audit ZIP bytes; verify independent SHA256 and member-level provenance, do not equate hash mismatch with corruption",
+    "Use source feature IDs to inspect 114 >5cm conflation candidates and 4 <=2cm near-pairs; classify as review only",
+    "Replay 35m preview split/orphan/provisional stages without approving links, retain Hangyeryeong exception",
+    "Run v69 route/elevation regression and verify 2902-site deployment and official trail source coverage"
+  ],
+  "limitations": [
+    "Original source bytes unavailable in this run; no independent SHA256 of SHP, DEM or ZIP",
+    "No on-ground or legal passage verification",
+    "No new source-feature-level adjudication"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

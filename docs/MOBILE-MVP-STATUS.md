@@ -595,3 +595,13 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 로컬 Node.js `v22.16.0` 확인. `git ls-remote https://github.com/suminma27-ship-it/sanbakmap.git HEAD` 실행 실패: `Could not resolve host: github.com`. 따라서 저장소 전체 체크아웃, `npm test`, `npm run check:web`, `npm run prepare:web`, 모바일 브라우저 실행은 수행하지 못함. GitHub Actions 목록 조회도 GitHub 연결 도구 URL 허용 제한(HTTP 400)으로 실패.
 - 이번 실행의 코드 변경 없음. 실제 장소 카탈로그 `mobile/catalog.json`은 3바이트의 빈 JSON 배열 상태. 원본 지도/DEM/그래프, 한계령 사용자 확인 예외, 미승인 35m 후보, 별도 전국 데이터 정리 자동 작업 및 스케줄은 수정하지 않음.
 - **MVP 미완료:** 출처 검증된 산·섬·계곡·암벽·트레킹 실제 목록 및 지역 검색·상세, LNT 게이트 브라우저 동작, 기존 산 지도 진입과 검증 경로·거리·고도 통합, 전체 자동 회귀/모바일 웹 실행, Android 패키징 검증이 필요. 환경 복구 후 전체 테스트·웹 패키징부터 재개.
+
+
+## 2026-11-17 모바일 CI 실패 원인 수정 및 전체 자동 회귀 검증 (01:40 KST)
+
+- GitHub Actions `Mobile MVP regression`의 실제 실패 로그를 확인: 이전 실행 `43817677144`에서 119건 중 109건 통과·10건 실패. 주요 원인은 출처 URL 호스트 검사 정규식의 `\\s` 오기(정상 `knps.or.kr`·`forest.go.kr` 출처 오차단)와 기존 상세 UI 개편 이후 미갱신 정적 테스트 2건.
+- `mobile/src/catalog.mjs` 정규식을 `\\s` 공백 클래스에 맞게 수정해 정상 HTTPS 관리기관 도메인을 인정하면서 호스트 누락·인증정보·공백 포함 URL은 계속 차단. `mobile/tests/all-category-permission-ui.test.mjs`, `mobile/tests/category-detail.test.mjs`를 실제 네 활동별 미확인 표시 구조와 동기화.
+- 코드/테스트 커밋: `f7fb6f2f975fbf03c12652ba0eae96232f8fe3ba`, `17d6c4b0353339a6899440c84223844e49703e51`, `46550a109647ebe8a7120abdb63de76ed9165d18`.
+- **GitHub Actions 실행 `43910100419` 성공**: Node 회귀 **119/119 통과**, `check:web`, `prepare:web`, 패키징된 LNT 진입·카탈로그·지도 검사 전부 성공. 실행 증거: https://github.com/suminma27-ship-it/sanbakmap/actions/runs/43910100419
+- 로컬 컨테이너에서는 여전히 `git ls-remote`가 `Could not resolve host: github.com`으로 실패하지만, 이번에는 GitHub Actions 원격 전체 테스트/웹 패키징 성공을 직접 확인함. **실제 브라우저 화면 동작과 Android APK 실빌드는 아직 미검증**.
+- 남은 MVP 합격 기준: 실제 출처가 있는 섬·계곡·암벽·트레킹 장소 데이터 및 산 색인 등록, 다섯 카테고리·지역·상세 브라우저 검증, 기존 산 지도에서 검증된 경로·거리·고도 연동, 모바일 웹 실제 실행 확인. 원본 지도/DEM/그래프, 한계령 예외, 미승인 35m 후보, 별도 전국 데이터 정리 작업·스케줄은 변경하지 않음. 자동 개발 계속.

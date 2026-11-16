@@ -1,0 +1,72 @@
+{
+  "schema": "sanbak-v305-v102-input-order-dependence-gate",
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    },
+    {
+      "path": "audits/v304-v102-grid-model-reconciliation-20261117.json",
+      "gitBlobSHA1": "82a56bf0ee47858a1f3514b137b7c3f8bb8c2d9d"
+    }
+  ],
+  "finding": "v102 node key depends on the latitude of the first source part, not only on the pair of source coordinates. The same pair of distinct precise endpoints can be merged or separated depending on source part ordering. This is a synthetic regression witness, not a nationwide observed fault.",
+  "reproduction": {
+    "points": [
+      [
+        127.5,
+        37.5
+      ],
+      [
+        127.50000084,
+        37.5
+      ]
+    ],
+    "separationMeters": 0.0741022700579245,
+    "firstLatitude33": {
+      "keys": [
+        "119035030:41698125",
+        "119035031:41698125"
+      ],
+      "merged": false
+    },
+    "firstLatitude39": {
+      "keys": [
+        "110302658:41698125",
+        "110302658:41698125"
+      ],
+      "merged": true
+    },
+    "precondition": "A source part at 33 or 39 degrees latitude is first, while the compared endpoints remain at 37.5 degrees. Both parts must be in the same build(lines) group."
+  },
+  "checks": {
+    "sourceCodeGridUsesFirstPartLatitude": true,
+    "sourceCodeNodeMapUsesRoundedKey": true,
+    "sourceCodeDoesNotSortParts": true,
+    "distinctPreciseEndpoints": true,
+    "sameUnder39": true,
+    "separateUnder33": true,
+    "separationLessThan15cm": true,
+    "separationPositive": true,
+    "reviewOnly": true,
+    "noGraphMutation": true
+  },
+  "passed": 10,
+  "total": 10,
+  "limitations": [
+    "No raw SHP/DEM/ZIP bytes available in this execution environment; no nationwide occurrence verified",
+    "A different first-part latitude may change node IDs even without changing membership; compare membership not raw key strings",
+    "No actual route continuity or access is established"
+  ],
+  "nextGate": "Run v102 build twice on identical full-precision source parts in reversed order for each of 2902 groups; compare partition of source vertex identifiers and edge endpoints. Independently compare precise-coordinate equality and EPSG:5179 audit membership, prioritizing 57 provisional-edge-intersecting nodes. Do not approve joins or alter graph.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

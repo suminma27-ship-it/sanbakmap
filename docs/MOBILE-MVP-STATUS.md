@@ -578,3 +578,12 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - 수정 함수의 독립 실행 7개 입력 검증 통과. `mobile/tests/source-url-shape.test.mjs`에 출시 카탈로그 제외·계곡 허용 상태 `unknown` 강등 회귀 테스트 추가. 코드 커밋 `561323403a5faba0b44c1b8ecbce70386c53cb56`, 테스트 커밋 `863f0cd9219512167f4a77592fcd4f19fc6fba2e`.
 - **전체 `npm test`, `check:web`, `prepare:web`, 브라우저/Android 실행 미검증**: 로컬 Git 원격 접근이 `Could not resolve host: github.com`으로 실패. 독립 함수 검사만 통과했으며 신규 테스트의 실제 CI 결과는 미확인.
 - 남은 합격 기준: 출처 확인된 실재 장소 데이터, 전국 산 색인·검증 경로/거리/고도 연동, LNT 및 다섯 카테고리의 모바일 웹 브라우저 실행, 전체 회귀/패키징과 Android 확인. 기존 지도/원본 그래프/DEM/한계령 예외/비공식 35m 정책과 별도 전국 데이터 정리 자동 작업 불변. MVP 미완료.
+
+
+## 2026-11-16 모바일 출처 URL 공백 방어
+
+- 최신 main과 `mobile/src/catalog.mjs`, `catalog.html`, `entry.html`, `catalog.json`, `scripts/prepare-web.mjs`, 기존 테스트·원본 `index.html` 존재를 확인.
+- HTTP(S) URL의 호스트 뒤 경로에 문자 그대로 공백이 있어도 장소/계곡 활동 출처로 인정되던 문제 수정. 인코딩된 `%20` 및 일반 관리기관 문서명은 유지. 코드 `9171c7459e96a5034be25b80069e7906256b7a66`, 회귀 테스트 `a2f30491fcc5c0b6cb68f4d81043a12e9cacb0ba`.
+- Node 독립 URL 검증 6/6 통과. 신규 테스트는 저장소에 추가했으나 전체 `npm test`, `check:web`, `prepare:web`, 브라우저·Android 실행 성공은 이번 실행에서 확인하지 못했으므로 MVP 완료 아님.
+- 출시 카탈로그는 여전히 `[]`. 실제 출처 장소 데이터, 지역 검색/상세 통합 검증, 전국 산 경로·거리·고도 연동, 모바일 웹/Android 패키징 검증 필요.
+- 원본 지도 UI/그래프/DEM, 한계령 승인 예외, 35m 미승인 연결 후보 및 별도 전국 데이터 정리 자동 작업 불변.

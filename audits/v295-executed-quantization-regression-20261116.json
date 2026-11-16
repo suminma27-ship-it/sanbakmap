@@ -1,0 +1,69 @@
+{
+  "schema": "sanbak-v295-executed-connector-quantization-regression",
+  "date": "2026-11-16",
+  "inputs": [
+    {
+      "path": "audits/v140-original-coordinate-quantization-summary.json",
+      "gitBlobSHA1": "72f78e835c13cac887738a179000b2ef5899bbb3"
+    },
+    {
+      "path": "audits/v129-exact-original-overlay-summary.json",
+      "gitBlobSHA1": "4a19d137b0773542dc99f9682293a624ebbd9c8f"
+    },
+    {
+      "path": "audits/v287-connectivity-attribution-identifiability-correction-20261116.json",
+      "gitBlobSHA1": "15c7548a6b0deabdbd7e9bebc7b36daf04fc6ff8"
+    },
+    {
+      "path": "scripts/audit-quantization-boundaries.js",
+      "gitBlobSHA1": "d75d3d31f36d6abc2545f673e94ddc1b1abd96da"
+    }
+  ],
+  "execution": "Independent JavaScript assertions executed against freshly fetched GitHub contents in connector runtime; NOT execution of repository Node.js file",
+  "checks": {
+    "collapse-distance": true,
+    "collapse-cell": true,
+    "collapse-drift": true,
+    "split-distance": true,
+    "split-cell": true,
+    "split-drift": true,
+    "crs": true,
+    "step": true,
+    "drift-bound": true,
+    "risk-114": true,
+    "near-4": true,
+    "no-approval": true,
+    "sites": true,
+    "edges": true,
+    "components": true,
+    "candidates": true,
+    "correction": true,
+    "source-hash-metadata": true,
+    "script-present": true
+  },
+  "passed": 19,
+  "total": 19,
+  "findings": [
+    "Synthetic quantization collapse and split counterexamples pass",
+    "Published v140 114-node and 4-pair review queue remains unapproved",
+    "v129 35m candidates are provisional; stage-wise component attribution is not reproducible from aggregate metadata"
+  ],
+  "nextAcceptance": [
+    "Obtain raw source SHP and DEM bytes for independent SHA-256 and per-feature lineage",
+    "Run checked-in Node.js regression in a repository runtime",
+    "Reconstruct split/orphan/35m stages by stable feature IDs; verify v69 and nationwide deployment"
+  ],
+  "limitations": [
+    "Original source ZIP/SHP/DEM bytes not independently available",
+    "No observed real-world node or legal passage certified"
+  ],
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedEdges": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

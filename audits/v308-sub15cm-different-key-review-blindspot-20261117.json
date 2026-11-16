@@ -1,0 +1,53 @@
+{
+  "schema": "sanbak-v308-sub15cm-gap-review-blindspot",
+  "date": "2026-11-17",
+  "inputs": [
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    },
+    {
+      "path": "audits/v307-v102-positive-length-self-loop-gate-20261117.json",
+      "gitBlobSHA1": "05b3ddd8a721489aba6ea54c7df6bd686882c5d6"
+    }
+  ],
+  "finding": "The v102 nearEndsReviewOnly counter excludes distinct quantized endpoint keys with actual separation <=0.15m. A synthetic 8.56cm pair has different node keys yet is omitted from the near-gap review counter. This is an audit visibility blind spot, not evidence of a real trail gap or permission to connect.",
+  "reproduction": {
+    "firstPartLatitude": 37.5,
+    "endpointA": [
+      127.5,
+      37.5
+    ],
+    "endpointB": [
+      127.50000097,
+      37.5
+    ],
+    "meters": 0.0855704788625282,
+    "keyA": "112603020:41698125",
+    "keyB": "112603021:41698125",
+    "differentPartsAssumed": true,
+    "nearEndsReviewOnlyIncrement": false
+  },
+  "checks": {
+    "sourceHashMatches": true,
+    "quantizedKeysDifferent": true,
+    "positiveGap": true,
+    "within15cm": true,
+    "reviewConditionExcludesGap": true,
+    "sameKeyExclusion": true,
+    "noProximityEdges": true
+  },
+  "passed": 7,
+  "total": 7,
+  "scope": "Independent numerical reproduction and source-condition inspection; no nationwide SHP feature-level validation.",
+  "nextGate": "On original feature bytes, enumerate different-key endpoint pairs at (0,0.15]m separately from existing (0.15,2]m review counter, retaining mountain/source IDs and exact coordinates. Cross-check against 57 provisional-linked quantization risk nodes. Review only; no connection approval. Then source hashes, 35m candidates, v69 regression and deployment.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "sanbak-v312-duplicate-sourceid-provenance-gate",
+  "date": "2026-11-17",
+  "baseMain": "a35675858d574eae6d1aba86f72ebe2b498a5157",
+  "input": {
+    "path": "core/nationwide-topology-v102.js",
+    "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+  },
+  "method": "Static inspection of v102 build source ID handling and edge provenance; deterministic counterexample with two distinct original parts sharing the same sourceId. No original SHP bytes or nationwide feature execution.",
+  "fixture": {
+    "parts": [
+      {
+        "sourceId": "same-id",
+        "coords": [
+          [
+            127.5,
+            37.5
+          ],
+          [
+            127.50001,
+            37.5
+          ]
+        ]
+      },
+      {
+        "sourceId": "same-id",
+        "coords": [
+          [
+            127.6,
+            37.5
+          ],
+          [
+            127.60001,
+            37.5
+          ]
+        ]
+      }
+    ],
+    "expectedDistinctPartCount": 2,
+    "expectedDistinctSourceIdCount": 1,
+    "expectedEdgeSourceIds": [
+      "same-id",
+      "same-id"
+    ]
+  },
+  "checks": {
+    "sourceIdFallbackPresent": true,
+    "noUniqueSourceIdGuard": true,
+    "edgeCarriesSourceId": true,
+    "edgeCarriesVertexSpan": true,
+    "unverifiedRoutingGuard": true,
+    "noProximityApproval": true
+  },
+  "passed": 6,
+  "total": 6,
+  "finding": "v102 accepts duplicate nonempty sourceId values for distinct input parts. Edges preserve sourceId and vertex indices but not part index; sourceId/startVertex/endVertex alone therefore need not uniquely identify the original feature. Provenance-based per-feature audit or deduplication must not assume uniqueness. This does not establish any duplicate in the national originals.",
+  "nextGate": "When original SHP/v129 inputs are accessible, compute SHA-256, count duplicate/missing source IDs per 2902 locations and 67185 original edges, preserve part ordinal plus original record key for review, and reconcile with 57 prioritized nodes, 0-15cm gaps, 35m candidates, v69, DEM and official provenance. Do not alter source geometry or approve adjacency.",
+  "originalBytesVerified": false,
+  "coverageVerified": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

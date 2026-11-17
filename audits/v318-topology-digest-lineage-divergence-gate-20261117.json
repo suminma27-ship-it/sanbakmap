@@ -1,0 +1,43 @@
+{
+  "schema": "sanbak-v318-topology-digest-lineage-divergence-gate",
+  "date": "2026-11-17",
+  "baseMain": "d8a8913b9528724b84b55842b5b5669476c6296f",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v317-cross-version-precision-overlay-evidence-gate-20261117.json": "622876d173977c4dfc0af4bf849f4da562ef8f8b"
+  },
+  "checks": {
+    "sameSourceDigest": true,
+    "sameOverlayDigest": true,
+    "topologyDigestDiffers": true,
+    "componentsBaselineMatches": true,
+    "componentReductionIs289": true,
+    "splitAndProvisionalDistinct": true,
+    "sourceEndpointCount": true,
+    "notApproved": true,
+    "priorChain": true
+  },
+  "passed": 9,
+  "total": 9,
+  "observations": {
+    "v140TopologySHA256": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129TopologyZipSHA256": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936",
+    "sharedSourceSHA256": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "sharedOverlaySHA256": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb",
+    "componentReduction": 289,
+    "provisionalEdges": 36084,
+    "splitEdges": 20838
+  },
+  "interpretation": "v140 and v129 declare different topology ZIP SHA-256 despite identical source and overlay digest declarations. They may represent distinct topology artifacts; do not assume corruption or equivalence without original bytes, artifact names and build lineage. Component reductions in plan-only overlay are not physical passage verification. No original data independently rehashed.",
+  "nextAction": "Locate both topology archives and their manifests/build commands, independently SHA-256 each, reconcile artifact identity and provenance, then rerun source precision-vs-0.1m nationwide and review-only 35m/v69 checks. Preserve all original geometry and Hangyeryeong exception.",
+  "completion": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

@@ -67,9 +67,21 @@ function build(lines,opts={}){
   }
  }
  const nodeMap=new Map(),nodes=[],edges=[];
+ // Diagnostic only: detect distinct original junction coordinates collapsed
+ // into the same 0.1m cell. Preserve legacy topology without approving access.
+ let quantizedNodeConflations=0,maximumConflationMeters=0;
+ const conflationExamples=[];
  function node(coord){
   const k=key(coord);
   if(!nodeMap.has(k)){nodeMap.set(k,nodes.length);nodes.push([coord[0],coord[1]]);}
+  else {
+   const existing=nodes[nodeMap.get(k)],gap=meters(existing,coord);
+   if(gap>0){
+    quantizedNodeConflations++;
+    maximumConflationMeters=Math.max(maximumConflationMeters,gap);
+    if(conflationExamples.length<8)conflationExamples.push({node:nodeMap.get(k),gapMeters:+gap.toFixed(6)});
+   }
+  }
   return nodeMap.get(k);
  }
  for(let i=0;i<parts.length;i++){
@@ -108,7 +120,8 @@ function build(lines,opts={}){
     sharedEndCells:sharedEnds,endpointInteriorMatches:interiorMatches,
     junctionDegree3plus:degree.filter(x=>x>=3).length,
     nearEndsReviewOnly:nearUnconnected,nearExamples,
-    proximityEdgesCreated:0,physicalJunctionVerified:false,currentAccessVerified:false}};
+    proximityEdgesCreated:0,physicalJunctionVerified:false,currentAccessVerified:false,
+    quantizedNodeConflations,maximumConflationMeters,conflationExamples}};
 }
 root.SanbakTopologyV102=Object.freeze({version:102,historicKnps,build,meters});
 })(typeof window!=='undefined'?window:globalThis);

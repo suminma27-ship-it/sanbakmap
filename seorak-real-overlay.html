@@ -330,11 +330,11 @@ function refresh(){
  desc.textContent=next.size?'파란색 구간을 누르면 현재 끝점에 이어서 추가돼.':
  '이 끝점에서 확인된 다음 구간이 없어. 취소하거나 방향을 뒤집어봐.';
  $('details').append(title,desc);
- let offset=0,missing=0,count=0,runs=[],current=[];
+ let offset=0,missing=0,count=0,runs=[],currentRun=[];
  for(const item of route){
   let sub=null;
   try{sub=profileOf(item.segment,item.reverse)}catch(err){console.warn('Invalid DEM source segment',err)}
-  if(!sub){missing++;if(current.length>1)runs.push(current);current=[];}
+  if(!sub){missing++;if(currentRun.length>1)runs.push(currentRun);current=[];}
   else{
    const points=sub.map(p=>({distance:p.distance+offset,elevation:p.elevation}));
    count+=points.length;

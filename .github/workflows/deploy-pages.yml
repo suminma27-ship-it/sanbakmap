@@ -77,6 +77,7 @@ jobs:
           test -f mountain-trails.html
           test -f seorak-standalone-s3.html
           test -f core/mountain-line-profile.js
+          test -s vendor/leaflet.css
           mkdir -p site
           cp seorak-real-overlay.html mountain-trails.html seorak-standalone-s3.html site/
           test -s site/seorak-real-overlay.html
@@ -91,6 +92,8 @@ jobs:
           mkdir -p site/core site/data
           cp core/trail-visibility.js site/core/trail-visibility.js
           cp core/mountain-line-profile.js site/core/mountain-line-profile.js
+          mkdir -p site/vendor
+          cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/knps-seorak-2018.geojson site/data/knps-seorak-2018.geojson
           mkdir -p site/data/nationwide site/data/nationwide-topology
           if [ "${NATIONWIDE_CACHE_VALID:-0}" != "1" ]; then

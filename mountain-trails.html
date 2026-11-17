@@ -105,7 +105,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 </div>
 </main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="./national_data.js"></script>
+<!-- Mountain catalog is loaded from the verified nationwide index, not the empty legacy national_data.js. -->
 <script src="./core/nationwide-source-loader.js"></script>
 <script src="./core/mountain-line-profile.js"></script>
 <script>
@@ -337,26 +337,37 @@ async function selectMountain(code){
 }
 async function init(){
  makeMap();noProfile('산을 선택해 줘');
- if(!core||!prof||!Array.isArray(window.SANBAK_NATIONAL_INDEX)){
-  status('전국 산 목록/원본 선형 스크립트를 읽지 못했어.');return;
+ if(!core||!prof){
+  status('등산로/고도그래프 프로그램을 불러오지 못했어.');return;
  }
  try{
-  state.catalog=core.catalog(window.SANBAK_NATIONAL_INDEX);
-  const options=[...new Set(state.catalog.map(x=>x.code.slice(0,2)))].sort();
-  for(const code of options){const o=document.createElement('option');o.value=code;o.textContent=regionName[code]||code;$('region').append(o)}
+  // This published index contains the 2,902 mountain codes with institutional
+  // line geometry. The historical national_data.js is empty and cannot initialize a catalog.
+  const rawIndex=await getJSON('./data/nationwide/index.json');
+  state.index=core.index(rawIndex);
+  state.catalog=Object.entries(state.index.mountains)
+   .map(([code,m])=>({code,name:String(m.name||code).replace(/_/g,' '),segments:m.count||0}))
+   .sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  if(state.catalog.length!==2902)throw Error('전국 기관 수록 산 목록 2,902건 검증 실패');
+  const regions=[...new Set(state.catalog.map(x=>x.code.slice(0,2)))].sort();
+  for(const code of regions){
+   const o=document.createElement('option');o.value=code;
+   o.textContent=regionName[code]||code;$('region').append(o);
+  }
   $('search').disabled=false;$('region').disabled=false;
   $('search').oninput=filterMountains;$('region').onchange=filterMountains;filterMountains();
-  const [a,b,c]=await Promise.allSettled([
-   getJSON('./data/nationwide/index.json'),
+  const [published,pilots]=await Promise.allSettled([
    getJSON('./data/nationwide-elevation/online-v110.json'),
    getJSON('./data/nationwide-elevation/index.json')
   ]);
-  if(a.status!=='fulfilled')throw Error('전국 등산로 목록을 불러오지 못했어');
-  state.index=core.index(a.value);
-  state.online=b.status==='fulfilled'?b.value:null;
-  state.pilot=c.status==='fulfilled'?c.value:null;
+  state.online=published.status==='fulfilled'?published.value:null;
+  state.pilot=pilots.status==='fulfilled'?pilots.value:null;
   await selectMountain('428302602');
- }catch(err){status(err.message);noProfile('기관 자료 초기화 실패');console.error(err)}
+ }catch(err){
+  status('산 목록 초기화 실패: '+err.message);
+  noProfile('자료를 불러오지 못했어');
+  console.error(err);
+ }
 }
 init();
 })();

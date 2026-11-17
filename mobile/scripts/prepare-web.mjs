@@ -13,7 +13,7 @@ const source = path.resolve(mobile, '..');
 const target = path.resolve(mobile, 'www');
 const extensions = new Set(['.html','.js','.css','.json','.webmanifest','.png','.jpg','.jpeg','.svg','.ico']);
 const dirs = ['core','data'];
-const mobileAssets = ['entry.html','catalog.html'];
+const mobileAssets = ['entry.html','catalog.html','plans.html'];
 const checkOnly = process.argv.includes('--check');
 
 async function verifyTree(dir) {
@@ -64,6 +64,7 @@ async function main() {
   await writeFile(path.join(target,'map.html'),guardMapHtml(mapHtml));
   await cp(path.join(mobile,'entry.html'),path.join(target,'index.html'));
   await cp(path.join(mobile,'catalog.html'),path.join(target,'catalog.html'));
+  await cp(path.join(mobile,'plans.html'),path.join(target,'plans.html'));
   await cp(path.join(mobile,'catalog.json'),path.join(target,'data','catalog.json'));
   await cp(path.join(mobile,'src'),path.join(target,'src'),{recursive:true});
   console.log('Prepared gated mobile entry and LNT-guarded map copy (original index unchanged). Online services still need internet.');

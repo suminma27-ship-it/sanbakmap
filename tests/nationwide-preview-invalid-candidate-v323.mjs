@@ -14,8 +14,8 @@ const encode=pts=>{
   for(let i=0;i<2;i++){
    let d=nums[i]-prev[i];prev[i]=nums[i];
    let x=d<0?~(d<<1):d<<1;
-   while(x>=32){result+=String.fromChar((32|(x&31))+63);x>>=5}
-   result+=String.fromChar(x+63);
+   while(x>=32){result+=String.fromCharCode((32|(x&31))+63);x>>=5}
+   result+=String.fromCharCode(x+63);
   }
  }
  return result;

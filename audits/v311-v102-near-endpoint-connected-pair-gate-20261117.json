@@ -1,0 +1,61 @@
+{
+  "schema": "sanbak-v311-near-endpoint-connected-pair-count-gate",
+  "date": "2026-11-17",
+  "baseMain": "ceb60dcbb62df8a1be0f344a9452c7860adac315",
+  "input": {
+    "path": "core/nationwide-topology-v102.js",
+    "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+  },
+  "method": "Inspect v102 endpoint pair loop after union-find; evaluate deterministic synthetic two-edge connected chain using the exact spherical-distance expression and node grid separation. This is a source-logic audit, not an execution of original SHP.",
+  "fixture": {
+    "lines": [
+      [
+        [
+          127.5,
+          37.5
+        ],
+        [
+          127.50001,
+          37.5
+        ]
+      ],
+      [
+        [
+          127.50001,
+          37.5
+        ],
+        [
+          127.50002,
+          37.5
+        ]
+      ]
+    ],
+    "edgeLengthM": 0.8821698832722523,
+    "outerEndpointDistanceM": 1.7643397665445046,
+    "expectedConnectedComponents": 1,
+    "expectedNearEndsReviewOnly": 3,
+    "expectedActualDisconnectedEndpointPairs": 0
+  },
+  "checks": {
+    "endpointPairLoopRunsAfterUnionFind": true,
+    "skipsSamePartAndSameQuantizedKeyOnly": true,
+    "doesNotCheckComponentMembership": true,
+    "threeDistinctKeyCrossPartPairsBetween015And2m": true,
+    "sourceRetainsProximityEdgesCreatedZero": true
+  },
+  "passed": 5,
+  "total": 5,
+  "finding": "nearEndsReviewOnly is a distance-qualified cross-part endpoint pair count, not a count of disconnected pairs. A connected 2-edge chain can yield 3 review pairs despite a single graph component. Do not use this counter alone as evidence of disconnected trails or as a 35m link approval signal.",
+  "nextGate": "On original SHP/v129 bytes, compute original-file SHA-256 and endpoint pair component IDs; report cross-part near pairs grouped by same-component vs different-component and source IDs, then compare 0-15cm review gaps, 57 prioritized nodes, 35m review candidates and v69. Include all 2902 places/67185 edges, <=200m places, DEM, official trail provenance, tests and deployment.",
+  "originalBytesVerified": false,
+  "coverageVerified": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

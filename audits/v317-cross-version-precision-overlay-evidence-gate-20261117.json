@@ -1,0 +1,57 @@
+{
+  "schema": "sanbak-v317-cross-version-precision-overlay-evidence-gate",
+  "date": "2026-11-17",
+  "baseMain": "b0ae2af210f609179e2f52ce9648e705c45cdb70",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v316-explicit-completion-gates-20261117.json": "6af11cb8f41ae793367876b709ef221b941557e9"
+  },
+  "checks": {
+    "endpointOccurrencesTwiceEdges": true,
+    "allGraphNodesSourceCovered": true,
+    "placesMatch": true,
+    "edgeCountMatch": true,
+    "spreadMonotonic": true,
+    "nearPairsMonotonic": true,
+    "proximityPartition": true,
+    "proximityTotals": true,
+    "sourceDigestMatch": true,
+    "overlayDigestMatch": true,
+    "rawStillBlocked": true
+  },
+  "passed": 11,
+  "total": 11,
+  "observations": {
+    "historicPrecisionAudit": {
+      "sourceEndpointOccurrences": 134370,
+      "edges": 67185,
+      "nodes": 59301,
+      "distinctExactEndpointConflationCells": 1722,
+      "spreadAbove5cm": 114,
+      "nearbyDifferentGraphNodePairsAtMost2cm": 4,
+      "acrossComponents": 1
+    },
+    "historic35mPreview": {
+      "candidatePairs": 144990,
+      "alreadySameNode": 108906,
+      "provisionalEdgesAdded": 36084,
+      "verifiedPassage": false
+    },
+    "crossVersionSHA256": {
+      "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+      "overlay": "a672b42904c270c7b8442ae7dd29b64d3efea4ee0a555bd8d60d972222c9b7cb"
+    }
+  },
+  "interpretation": "Existing v140 historic nationwide precision audit and v129 preview show matching source/overlay SHA-256 declarations and internally consistent counts. This verifies consistency of committed summaries, NOT independent SHA-256 of original bytes or current physical route access. v140 potential conflation is not proof of a traversable connection.",
+  "nextAction": "Recover exact original SHP/DEM/ZIP and audit archive bytes; independently hash them against recorded SHA-256, rerun per-feature precision-vs-0.1m comparison and 57 flagged nodes, review-only 35m candidates and v69 regression. Do not approve any provisional connections.",
+  "completion": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

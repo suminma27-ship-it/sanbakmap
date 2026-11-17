@@ -25,7 +25,9 @@ export function validateSourceGraph(graph,code){
    Number.isSafeInteger(edge[0])&&edge[0]>=0&&edge[0]<nodes.length&&
    Number.isSafeInteger(edge[1])&&edge[1]>=0&&edge[1]<nodes.length&&
    Number.isSafeInteger(edge[3])&&edge[3]>=0&&edge[3]<parts.length&&
-   Number.isFinite(edge[2])&&edge[2]>=0,
+   Number.isFinite(edge[2])&&edge[2]>=0&&
+   Number.isSafeInteger(edge[4])&&edge[4]>=0&&
+   Number.isSafeInteger(edge[5])&&edge[5]>edge[4],
    'Invalid source edge indices or length '+code);
  }
  return true;

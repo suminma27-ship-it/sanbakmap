@@ -14,6 +14,18 @@ for(const edge of bad){
 }
 assert.throws(()=>validateSourceGraph({...good,edges:[[0,1,1,0,0]]},'synthetic'),/Invalid source edge/);
 assert.deepEqual(good.edges,[[0,1,1,0,0,1]]);
+// Source vertex spans are integral, nonnegative, and strictly increasing.
+const malformedSpans=[
+ [0,1,1,0,-1,1],[0,1,1,0,0,0],[0,1,1,0,2,1],
+ [0,1,1,0,.5,1],[0,1,1,0,0,1.5],[0,1,1,0,NaN,1],
+ [0,1,1,0,0,NaN],[0,1,1,0,Infinity,2],[0,1,1,0,0,Infinity],
+ [0,1,1,0,null,1],[0,1,1,0,0,'2']
+];
+for(const edge of malformedSpans){
+ assert.throws(()=>validateSourceGraph({...good,edges:[edge]},'synthetic'),
+  /Invalid source edge/,JSON.stringify(edge));
+}
+
 
 // A malformed source vertex must fail before any derived graph can be written.
 for(const node of [[NaN,0],[0,Infinity],[0,-Infinity],[0],[null,0],['1',0],null]){

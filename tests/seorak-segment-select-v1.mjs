@@ -19,7 +19,7 @@ assert(page.includes('profileOf(item.segment,item.reverse)'),'선택 코스 고�
 
 const ctx={};vm.runInNewContext(source,ctx);
 const seg=ctx.SanbakSeorakSegments;
-assert.equal(seg.version,2);
+assert.equal(seg.version,3);
 
 const original=JSON.parse(fs.readFileSync('data/knps-seorak-2018.geojson','utf8'));
 const result=seg.build(original,{maxMeters:650,joinMeters:1});
@@ -66,6 +66,26 @@ for(const candidate of [straight,toMadeung]){
 }
 assert(!seg.canJoin(before.end,'knps2018:99:0',toMadeung.start,toMadeung.sourceId,1),
  '알려지지 않은 접합에 임의 예외 적용 금지');
+
+// Historic KNPS trail 5 internal vertex 96 (west approach) and KNPS trail 1
+// internal vertex 10 (Dinosaur Ridge) differ by ~5.83m. Both source lines
+// are visible in the map, so the exact-site documented seam must offer both choices.
+const atMadeung=result.segments.find(s=>s.sourceId==='knps2018:21:0'&&s.vertexEnd===96);
+const continueWest=result.segments.find(s=>s.sourceId==='knps2018:21:0'&&s.vertexStart===96);
+const toDinosaur=result.segments.find(s=>s.sourceId==='knps2018:9:0'&&s.vertexStart===10);
+const northRidge=result.segments.find(s=>s.sourceId==='knps2018:9:0'&&s.vertexEnd===10);
+assert(atMadeung&&continueWest&&toDinosaur&&northRidge,
+ '마등령 원본 선형 내부 접합점에서 분할되어야 한다');
+const measured=seg.distance(atMadeung.end,toDinosaur.start);
+assert(measured>5.7&&measured<6.0,'마등령 실제 원본 5.83m 측량 오차');
+for(const candidate of [continueWest,toDinosaur,northRidge]){
+ const next=seg.append([{segment:atMadeung,reverse:false}],candidate,{joinMeters:1});
+ assert(next.ok,'마등령 공룡/오세암/북쪽 방향 선택 누락');
+}
+assert(seg.canJoin(atMadeung.end,atMadeung.sourceId,toDinosaur.start,toDinosaur.sourceId,1),
+ '마등령→공룡능선 원본 접합 후보 누락');
+assert(!seg.canJoin(atMadeung.end,'knps2018:99:0',toDinosaur.start,toDinosaur.sourceId,1),
+ '기록 없는 산길에 5.83m 예외 적용하면 안 됨');
 
 const unconnected=result.segments.find(s=>s.sourceId==='knps2018:14:0');
 assert.equal(seg.append(joined.route,unconnected,{joinMeters:1}).reason,'not_connected');

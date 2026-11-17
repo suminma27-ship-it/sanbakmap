@@ -16,7 +16,7 @@ assert.equal(script.length,1,'Expected one inline app script');
 
 class FakeNode {
  constructor(tag='div') {
-  this.tag=tag;this.children=[];this.attributes={};this.style={};
+  this.tag=tag;this.children=[];this.attributes={};this.style={};this.dataset={};
   this.value='';this.disabled=false;this.hidden=false;this.textContent='';
  }
  append(...nodes){for(const n of nodes){n.parentNode=this;this.children.push(n)}}

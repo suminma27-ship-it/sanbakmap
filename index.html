@@ -274,6 +274,12 @@ footer{margin:18px 4px;color:#72847a;font-size:11px;line-height:1.7}
 </style></head>
 <body>
 <header><strong>▲ 산박지도 <small style="font-size:12px;opacity:.75;font-weight:500">v69</small></strong><span>국립공원 산행 계획 · 거리 · 고도그래프 · 나만의 루트</span><a href="./national.html" style="display:inline-block;margin-top:9px;color:white;text-decoration:underline;font-size:13px">전국 등산로 원본 조회</a> <a href="./national-parks-trails.html" style="display:inline-block;margin:9px 0 0 13px;color:white;text-decoration:underline;font-size:13px">국립공원 OSM 등산로 지도</a> <a href="./yeongnam-osm.html" style="display:inline-block;margin-top:9px;margin-left:14px;color:white;text-decoration:underline;font-size:13px">영남알프스 OSM 새 지도</a></header>
+<div role="region" aria-label="현재 개발 화면 안내" style="max-width:1120px;margin:12px auto 0;padding:12px 14px;border:2px solid #176548;border-radius:12px;background:#e9f4eb;color:#183e29;font-size:14px;line-height:1.6">
+ <strong>새 단순 등산로 지도 · 고도그래프 보기</strong>
+ <span style="display:block">아래 화면(v69)은 이전 경로 연결 방식이야. 새 방식은 산 선택 → 원본 등산로 표시 → 선택한 선형의 고도그래프 확인으로 분리했어.</span>
+ <a href="./mountain-trails.html?v=20261118a" style="display:inline-block;margin-top:8px;padding:10px 14px;background:#176548;color:white;font-weight:700;text-decoration:none;border-radius:9px">새 등산로·고도그래프 화면 열기</a>
+ <span style="display:block;margin-top:4px;font-size:12px">설악산 5개 계획 코스의 전체 경로 그래프는 아직 검증 전이며, 원본 선형별 그래프부터 확인할 수 있어.</span>
+</div>
 <main>
 <div class="card topcard"><div class="field"><label for="parkSelect">국립공원 선택 (전국 24개)</label><select id="parkSelect"></select></div><div class="field"><label for="courseSelect">등산 코스 선택</label><select id="courseSelect"></select></div><div class="field poi-search-field"><label for="poiSearch">주요지점 찾기 · 지도 위치 이동</label><div class="poi-search-controls"><input type="search" id="poiSearch" list="poiSearchHints" placeholder="예: 대청봉, 소청봉, 백운대" autocomplete="off" aria-label="주요지점 이름 검색"/><datalist id="poiSearchHints"></datalist><button class="action" type="button" id="poiSearchGo">찾기</button><button class="action" type="button" id="poiSearchAdd" aria-label="검색한 지점을 선택한 위치에 경유지로 추가" disabled>경유지 추가</button></div><div id="poiInsertBar" class="poi-insert-bar" hidden><label for="poiInsertAt">추가할 위치</label><select id="poiInsertAt" aria-label="검색한 지점을 삽입할 경유지 순서"><option value="">맨 뒤에 추가</option></select></div></div></div>
 <div id="status" class="mutebanner">산행 전 계획용 참고 지도입니다. 주요지점 표시는 공식 안내와 기존 공간자료를 참고한 계획용 위치로, 현장 좌표와 다를 수 있습니다. 현재 통제 여부는 별도로 확인하세요.</div>

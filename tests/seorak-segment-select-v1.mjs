@@ -6,6 +6,15 @@ const source=fs.readFileSync('core/seorak-segment-select.js','utf8');
 const page=fs.readFileSync('seorak-real-overlay.html','utf8');
 assert(page.includes(source),'실제 데모에 동일한 구간 선택 엔진이 포함되어 있어야 한다');
 assert(page.includes('id="undo"')&&page.includes('id="reverse"'),'코스 조작 버튼 누락');
+
+const inlineScripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
+ .map(x=>x[1]).filter(s=>s.trim());
+assert.equal(inlineScripts.length,2,'등산로 엔진과 지도 UI 스크립트가 있어야 한다');
+for(const [idx,script] of inlineScripts.entries()){
+ assert.doesNotThrow(()=>new vm.Script(script,{filename:'seorak-real-overlay:inline-'+idx+'.js'}),
+  '실제 HTML 스크립트 문법 오류');
+}
+
 assert(page.includes('profileOf(item.segment,item.reverse)'),'선택 코스 고도 연동 누락');
 
 const ctx={};vm.runInNewContext(source,ctx);

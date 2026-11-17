@@ -62,6 +62,9 @@ async function main() {
   for (const dir of dirs) await cp(path.join(source,dir),path.join(target,dir),{recursive:true});
   const mapHtml = await readFile(path.join(target,'index.html'),'utf8');
   await writeFile(path.join(target,'map.html'),guardMapHtml(mapHtml));
+  // Gate the simplified mountain map as well; keep its repository source untouched.
+  const mountainHtml = await readFile(path.join(target,'mountain-trails.html'),'utf8');
+  await writeFile(path.join(target,'mountain-trails.html'),guardMapHtml(mountainHtml));
   await cp(path.join(mobile,'entry.html'),path.join(target,'index.html'));
   await cp(path.join(mobile,'catalog.html'),path.join(target,'catalog.html'));
   await cp(path.join(mobile,'plans.html'),path.join(target,'plans.html'));

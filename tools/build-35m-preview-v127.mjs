@@ -16,21 +16,40 @@ const decode=globalThis.SanbakNationwideAgency.decodeLine,
 const check=(test,msg)=>{if(!test)throw Error(msg)};
 const len=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 const name=(file,row,part)=>String(file).split(/[\\/]/).at(-1)+'|'+row+'|'+part;
-function sourceParts(graph,sourceFiles,displayRows){
- const map=new Map();
- for(const row of displayRows||[]){
-  const [file,num,,,,polys]=row;
-  if(!Array.isArray(polys))continue;
-  for(let i=0;i<polys.length;i++)map.set(name(file,num,i),polys[i]);
+function sourceParts(graph,sourceFiles,displayRows,requiredParts){
+ // Decode only original source parts referenced by candidate connections.
+ // No original graph/DEM changes; all 35m audit candidates retained.
+ const wanted=new Map();
+ for(const id of requiredParts){
+  const ref=graph.source_parts[id];
+  if(!ref)continue;
+  const [file,row,part]=ref;
+  const basename=String(sourceFiles[file]).split(/[\\/]/).at(-1);
+  const key=basename+'|'+row;
+  if(!wanted.has(key))wanted.set(key,new Set());
+  wanted.get(key).add(part);
  }
  const out=new Map();
+ if(!wanted.size)return out;
+ const map=new Map();
+ for(const row of displayRows||[]){
+  const [file,num]=row;
+  const basename=String(file).split(/[\\/]/).at(-1),indices=wanted.get(basename+'|'+num);
+  if(!indices)continue;
+  const polys=row[5];
+  if(!Array.isArray(polys))continue;
+  for(const part of indices)
+   if(part>=0&&part<polys.length)map.set(basename+'|'+num+'|'+part,polys[part]);
+ }
  const edgeByPart=new Map();
  for(let i=0;i<graph.edges.length;i++){
   const e=graph.edges[i];
+  if(!requiredParts.has(e[3]))continue;
   if(!edgeByPart.has(e[3]))edgeByPart.set(e[3],[]);
   edgeByPart.get(e[3]).push({id:i,start:e[4],end:e[5],meters:e[2],from:e[0],to:e[1]});
  }
- for(let id=0;id<graph.source_parts.length;id++){
+ for(const id of [...requiredParts].sort((a,b)=>a-b)){
+  if(!graph.source_parts[id])continue;
   const [file,row,part]=graph.source_parts[id];
   const encoded=map.get(name(sourceFiles[file],row,part));
   if(!encoded)continue;
@@ -68,7 +87,11 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
   graph.summary.physical_junction_verified===false,'Unsigned original source graph');
  check(Array.isArray(sourceFiles)&&Array.isArray(graph.nodes)&&Array.isArray(graph.edges),
   'Original source entries missing');
- const source=sourceParts(graph,sourceFiles,displayRows);
+ const requiredParts=new Set();
+ for(const c of candidates)if(Array.isArray(c?.sourceParts))
+  for(const id of c.sourceParts)
+   if(Number.isInteger(id)&&id>=0&&id<graph.source_parts.length)requiredParts.add(id);
+ const source=sourceParts(graph,sourceFiles,displayRows,requiredParts);
  const nodes=graph.nodes.map(x=>x.slice()),edges=graph.edges.map(x=>x.slice()),added=[],cuts=new Map(),
   ref=new Map(),links=[];
  let attempted=0,discarded=0,alreadySame=0;const rejected=[];

@@ -13,11 +13,11 @@ header{background:#123c2b;color:#fff;padding:16px;display:flex;gap:12px;flex-wra
 </style></head><body>
 <header><a href="./index.html"><strong>▲ 산박지도</strong> <small>국립공원 지도 돌아가기</small></a><span>전국 등산로 원본 조회</span><a href="./nationwide-official.html" style="font-weight:700;text-decoration:underline">전국 기관 등산로 v101</a><a href="./nationwide-plan.html" style="font-weight:700;text-decoration:underline">전국 코스 선형 v124</a><a href="./nationwide-topology.html" style="font-size:12px;text-decoration:underline">전국 연결망 검토 v103</a><a href="./nationwide-full.html" style="font-size:12px;text-decoration:underline">전체 자료 검토용 v100</a><a href="./yeongnam-osm.html" style="color:#fff;font-size:13px;text-decoration:underline">영남알프스 OSM 등산지도 v69</a></header>
 <main><h1>전국 등산로 자료</h1><p class="sub">전국 2,932개 산코드를 ZIP 없이 검색하고, 보유 공간자료를 기반으로 만든 등산로 단순화 미리보기를 확인할 수 있어.</p>
-<div class="warning"><b>2016년 중심 과거 자료</b> · 기본 지도는 단순화 미리보기야. 실제 탐방로와 차이가 있을 수 있어. <a href="./ganwol-review.html">간월산 GPX·원본 정확도 비교</a>에서 누락 후보를 확인할 수 있어. 미검증 접점은 길찾기에서 기본적으로 제외해.</div>
+<div class="warning"><b>2016년 중심 과거 자료</b> · 기본 지도는 단순화 미리보기야. 실제 탐방로와 차이가 있을 수 있어. <a href="./ganwol-review.html">간월산 GPX·원본 정확도 비교</a>에서 누락 후보를 확인할 수 있어. 10m 이내 미검증 접점은 계획용 경로에 포함하지만, 실제 길과 통행 가능 여부는 확인되지 않았어.</div>
 <div class="card upload"><label for="file"><b>상세 원본 ZIP 열기 (선택 사항)</b></label><input id="file" type="file" accept=".zip,application/zip"/><span id="message" role="status">전국 검색과 선형 미리보기는 자동으로 불러와. ZIP은 상세 원본 확인 시에만 선택하면 돼.</span></div>
 <div class="layout"><aside class="card"><div class="filters"><input type="search" id="search" placeholder="산 이름 또는 산코드" disabled/><select id="region" disabled><option>전국 전체</option></select><div class="sub" id="count">전국 산 목록을 자동으로 불러오는 중…</div></div><div class="results" id="results"></div></aside>
 <section class="card"><div class="head"><div><h2 id="selected">불러오는 중…</h2><div class="sub" id="detail">WGS84 원본 공간자료</div></div><div class="actions"><a id="ganwolAuditLink" href="./ganwol-review.html" hidden>GPX 대조</a><button id="zoomIn" disabled>＋</button><button id="zoomOut" disabled>－</button><button id="fit" disabled>전체</button><a id="download" aria-disabled="true">GeoJSON</a></div></div>
-<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p><div id="connectivityCandidates" class="candidate-list" role="group" aria-label="접점 확인 후보"></div><p id="connectivityStatus" class="diagnostic-status" role="status" aria-live="polite"></p><a id="planningDownload" hidden aria-disabled="true">계획용 연결 GeoJSON 저장</a></details><section id="routePlanner" class="route-planner" hidden aria-label="전국 등산로 코스 만들기"><div class="planner-controls"><strong>코스 만들기 · 출발 / 도착</strong><div class="planner-buttons"><button id="plannerToggle" type="button" aria-pressed="false">코스 선택 시작</button><button id="plannerReset" type="button">초기화</button></div></div><p id="plannerStatus" role="status" aria-live="polite">상세 원본을 불러온 다음 지도에서 두 지점을 선택해.</p><label class="sub"><input type="checkbox" id="allowUnverified"/> 미검증 계획용 접점 허용 (기본 꺼짐 · 실제 길 여부 미확인)</label></section><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script src="./national_routes.js"></script><script>
+<div id="stats">등산로 · 주요지점 · 안전지점</div><details class="diagnostics" id="connectivity" hidden><summary>원본 좌표 연결 진단</summary><p id="connectivityText">정확히 같은 좌표로 이어진 선만 연결된 것으로 계산해.</p><div id="connectivityCandidates" class="candidate-list" role="group" aria-label="접점 확인 후보"></div><p id="connectivityStatus" class="diagnostic-status" role="status" aria-live="polite"></p><a id="planningDownload" hidden aria-disabled="true">계획용 연결 GeoJSON 저장</a></details><section id="routePlanner" class="route-planner" hidden aria-label="전국 등산로 코스 만들기"><div class="planner-controls"><strong>코스 만들기 · 출발 / 도착</strong><div class="planner-buttons"><button id="plannerToggle" type="button" aria-pressed="false">코스 선택 시작</button><button id="plannerReset" type="button">초기화</button></div></div><p id="plannerStatus" role="status" aria-live="polite">상세 원본을 불러온 다음 지도에서 두 지점을 선택해.</p><label class="sub"><input type="checkbox" id="allowUnverified" checked/> 10m 이내 미검증 계획용 접점 사용 (기본 켜짐 · 실제 길 여부 미확인)</label></section><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="등산로 원본 지도"></svg><div class="foot"><label><input type="checkbox" id="spots" checked/> 주요지점</label>　<label><input type="checkbox" id="safety" checked/> 안전지점</label><p>기본 지도는 원본 GeoJSON을 단순화한 미리보기야. 상세 원본 ZIP을 선택하면 해당 산코드 파일만 읽고, 주요지점·안전지점을 표시할 수 있어. 현재 통제·연결 여부는 검증되지 않았어.</p></div></section></div></main><script src="./national_data.js"></script><script src="./national_routes.js"></script><script>
 'use strict';
 const el=id=>document.getElementById(id),decoder=new TextDecoder('utf-8');
 let archive=null,index=[],selected='',lines=[],spots=[],cam={z:1,x:0,y:0},blobUrl=null,previewPaths=null,displayMode='preview',connectivity=null,selectionGeneration=0,selectedCandidate=-1,planningConnectors=[],planningBlobUrl=null,sourcePaths=[],routeGraph=null,routeMode=false,routeStops=[],routeResult=null;
@@ -120,7 +120,7 @@ function diagnoseConnectivity(paths){
  }
  const components=new Set();for(let i=0;i<parent.length;i++)components.add(root(i));
  for(const [k,n] of degree)if(n.near.size===1)endpoints.push({p:n.p,root:root(nodes.get(k))});
- const cell=30,buckets=new Map(),gaps=[];
+ const cell=10,maxGapMeters=10,buckets=new Map(),gaps=[];
  const lat=nodes.size?[...degree.values()].reduce((sum,x)=>sum+x.p[1],0)/nodes.size:37;
  const cos=Math.cos(lat*Math.PI/180);
  const dist=(a,b)=>111195*Math.hypot((a[0]-b[0])*Math.cos((a[1]+b[1])*Math.PI/360),a[1]-b[1]);
@@ -131,7 +131,7 @@ function diagnoseConnectivity(paths){
    for(const w of list){
     if(v.root===w.root)continue;
     const meters=dist(v.p,w.p);
-    if(meters>.01&&meters<=30)gaps.push({a:w.p,b:v.p,meters});
+    if(meters>.01&&meters<=maxGapMeters)gaps.push({a:w.p,b:v.p,meters});
    }
   }
   const k=x+','+y;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(v);
@@ -151,7 +151,7 @@ function renderCandidateList(){
  if(!connectivity)return;
  if(!connectivity.candidates.length){
   const p=document.createElement('p');
-  p.textContent='30m 이내에 있는 서로 다른 연결 요소의 선 끝 후보는 없어. 다른 위치의 단절이 없다는 뜻은 아니야.';
+  p.textContent='10m 이내에 있는 서로 다른 연결 요소의 선 끝 후보는 없어. 다른 위치의 단절이 없다는 뜻은 아니야.';
   wrap.append(p);return;
  }
  connectivity.candidates.forEach((c,i)=>{
@@ -167,7 +167,7 @@ function showConnectivity(result){
  connectivity=result;selectedCandidate=-1;
  el('connectivity').hidden=false;
  el('connectivityText').textContent='공유 좌표 기준 연결 요소 '+result.components.toLocaleString('ko-KR')+
-  '개 · 선 끝 '+result.dangling.toLocaleString('ko-KR')+'개 · 30m 이내 다른 요소의 가까운 선 끝 '+
+  '개 · 선 끝 '+result.dangling.toLocaleString('ko-KR')+'개 · 10m 이내 다른 요소의 가까운 선 끝 '+
   result.candidateTotal.toLocaleString('ko-KR')+'쌍을 계획용 직선으로 모두 표시했어. '+
   '원본 좌표는 유지하며 실제 길의 존재나 통행 가능 여부는 미확인 상태야.';
  el('connectivityStatus').textContent='';

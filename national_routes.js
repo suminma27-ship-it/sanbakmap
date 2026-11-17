@@ -21,9 +21,12 @@ function build(paths,connectors){
   for(let i=1;i<path.length;i++)edge(path[i-1],path[i],false);
  }
  for(const f of connectors||[]){
-  if(f?.properties?.feature_kind!=='planning_connector')continue;
+  if(f?.properties?.feature_kind!=='planning_connector'||f?.properties?.verified!==false)continue;
   const xy=f.geometry?.coordinates;
-  if(Array.isArray(xy)&&xy.length===2)edge(xy[0],xy[1],true);
+  if(Array.isArray(xy)&&xy.length===2&&Array.isArray(xy[0])&&Array.isArray(xy[1])&&
+     Number.isFinite(xy[0][0])&&Number.isFinite(xy[0][1])&&
+     Number.isFinite(xy[1][0])&&Number.isFinite(xy[1][1])&&
+     km(xy[0],xy[1])*1000<=10+1e-6)edge(xy[0],xy[1],true);
  }
  return {nodes,adj};
 }

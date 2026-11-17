@@ -15,5 +15,5 @@ const raw=[a,b,c],snapshot=JSON.stringify(raw),result=diagnose(raw);
 assert.equal(result.components,3);assert(result.candidateTotal>=2);
 assert.equal(result.candidates.length,result.candidateTotal,'All candidate links must be available, not capped at eight');
 assert.equal(JSON.stringify(raw),snapshot,'Source geometry must not be mutated');
-for(const candidate of result.candidates){assert(candidate.meters>0&&candidate.meters<=30)}
-console.log('PASS: v64 nationwide planning links and unmodified source geometry');
+for(const candidate of result.candidates){assert(candidate.meters>0&&candidate.meters<=10)}
+console.log('PASS: v64 nationwide planning links <=10m and unmodified source geometry');

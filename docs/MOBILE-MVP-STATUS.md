@@ -677,3 +677,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - `prepare-web.mjs`에서 plans.html 패키징, `plans-ui.test.mjs` 정적 회귀 추가.
 - GitHub 커밋 `97b6ec5`, `335deda`, `90cbdc9`, `faba27f` 반영; 전체 CI/브라우저/Android 실기기 실행 결과는 아직 미확인.
 - 남은 조건: 실제 지도 경유지 저장·복원 연동 및 그래프 재검증, LNT 직접접근 실동작, 모바일 웹/Android 실행, 다섯 카테고리 실제 장소 검증.
+
+## 2026-11-18 저장 코스 계획일 수정 연결
+- `mobile/src/plan-storage.mjs`에 `updatePlanDate()` 추가: 저장된 코스의 날짜만 검증해 변경하고 원본 지문·산코드·경유지 순서·미검증 안전 플래그는 보존.
+- `mobile/plans.html`의 저장 코스별 날짜 입력/저장 버튼을 실제 저장 API에 연결. 잘못된 날짜는 오류 표시하고 기존 저장 내용을 유지.
+- `mobile/tests/plan-storage.test.mjs`에 날짜 수정, 원본 불변, 잘못된 날짜·인덱스 거부, 날짜 비우기 회귀 추가.
+- GitHub main 커밋: `911882f`, `4e4a1f8`, `581df34`. 독립 Node 22 동일 날짜수정 로직 단언 8개 통과.
+- GitHub clone DNS 실패로 저장소 전체 `npm test`/웹 패키징 및 브라우저·Android 실행 미검증. 지도 경유지 직접 저장/복원 연결도 미완료.
+- 기존 지도·DEM·한계령 예외·35m 후보, 전국 데이터 정리 작업, 빈 카탈로그와 LNT 매접속 정책 불변.

@@ -57,7 +57,7 @@ async function scenario(withLeaflet){
  if(L)window.L=L.stub;
  const fetch=async path=>{
   const relative=path.replace(/^\.\//,'');
-  if(!/^data\/[a-z0-9-/]+\.json$/.test(relative))throw Error('Unknown source '+path);
+  if(!/^data\/[a-z0-9-/]+\.(json|geojson)$/.test(relative))throw Error('Unknown source '+path);
   const data=JSON.parse(fs.readFileSync(relative,'utf8'));
   return {ok:true,json:async()=>data};
  };

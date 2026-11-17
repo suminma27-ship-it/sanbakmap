@@ -1,0 +1,46 @@
+{
+  "schema": "sanbak-v316-verifiable-completion-gates",
+  "date": "2026-11-17",
+  "baseMain": "0abaf14b695f5f643156a3bb147bd13f0b37bfb5",
+  "inputGitBlobSHA1": {
+    "audits/v313-forest-archive-catalog-reconciliation-20261117.json": "d302a9c5f983e50045d60136b19853eed87800f1",
+    "audits/v314-cross-dataset-denominator-provenance-gate-20261117.json": "ab347cb8a47ae90d9ea5c51cae52825a51934a75",
+    "audits/v315-audit-chain-integrity-gate-20261117.json": "aa3f2d552b6ce63c354ae7c982bd577f92d24154",
+    "core/nationwide-topology-v102.js": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+  },
+  "checks": {
+    "sourceChainHashesMatch": true,
+    "v315AssertionsAllTrue": true,
+    "sourceCodeUnchanged": true,
+    "originalSHPBytesAvailable": false,
+    "originalDEMBytesAvailable": false,
+    "rawSHA256Verified": false,
+    "all2902Covered": false,
+    "all67185EdgesReconciled": false,
+    "precisionVsQuantizedNationwide": false,
+    "flagged57Reviewed": false,
+    "proximity35mReviewed": false,
+    "v69RegressionPassed": false,
+    "deploymentVerified": false
+  },
+  "verifiedChecks": 3,
+  "verifiedChecksTotal": 3,
+  "completionGatesPassed": 0,
+  "completionGatesTotal": 10,
+  "completion": false,
+  "scope": {
+    "places": 2902,
+    "graphEdges": 67185,
+    "includeBelow200m": true
+  },
+  "nextAction": "Acquire exact original SHP/ZIP/DEM bytes and SHA-256; reconcile 59402 DATA002 catalog line features versus 57070 ArcGIS lines and 67185 graph edges using stable feature IDs and multipart lineage. Only then run nationwide full precision versus 0.1m node audit, 57 flagged nodes, 35m review-only candidates, v69 regression, and coverage/deployment tests.",
+  "limitations": "Git metadata and inventory are available; original feature and DEM bytes are not verified. Counts use different units and cannot prove missing features or completion.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

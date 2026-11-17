@@ -1,0 +1,60 @@
+{
+  "schema": "sanbak-v315-audit-chain-integrity-and-scope-gate",
+  "date": "2026-11-17",
+  "baseMain": "8260c5a7d62cbde741d3b845bc0962be5c3cdb6a",
+  "inputs": [
+    {
+      "path": "audits/v313-forest-archive-catalog-reconciliation-20261117.json",
+      "gitBlobSHA1": "d302a9c5f983e50045d60136b19853eed87800f1"
+    },
+    {
+      "path": "audits/v314-cross-dataset-denominator-provenance-gate-20261117.json",
+      "gitBlobSHA1": "ab347cb8a47ae90d9ea5c51cae52825a51934a75"
+    },
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    }
+  ],
+  "method": "Read actual GitHub main files and independently recompute inventory totals and v313-v314-v102 provenance chain. This is metadata-chain verification, not a geometry audit.",
+  "computed": {
+    "catalogFiles": 63,
+    "catalogFeatures": 164012,
+    "shapeRows": 63,
+    "lineVsArcGISDifference": 2332,
+    "pointVsArcGISAbsoluteDifference": 180,
+    "graphVsCatalogDifference": 7783
+  },
+  "checks": {
+    "v313BlobMatchesV314": true,
+    "v102BlobMatchesV314": true,
+    "v102BlobMatchesV313": true,
+    "inventoryCSVHashConsistent": true,
+    "files63": true,
+    "features164012": true,
+    "shapeRows63": true,
+    "lineCountMatches": true,
+    "pointCountMatches": true,
+    "lineDifference": true,
+    "pointDifference": true,
+    "graphDifference": true,
+    "noOriginalBytes": true,
+    "noCoverageClaim": true,
+    "noMutation": true
+  },
+  "passed": 15,
+  "total": 15,
+  "originalBytesVerified": false,
+  "nationwidePrecisionAuditComplete": false,
+  "coverageVerified": false,
+  "completion": false,
+  "nextGate": "Obtain exact original SHP/ZIP/DEM bytes and hashes. Reconcile source IDs and feature-to-edge mapping before nationwide 0.1m quantization audit; run 57 flagged-node, 35m review-only, v69 regression, 2902 coverage and deployment gates. Never approve connections without access/field verification.",
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

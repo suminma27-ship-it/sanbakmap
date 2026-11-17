@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],generation:0,loading:false,course:null};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null};
 let map=null,group=null;
 
 const SEORAK_PLANS=Object.freeze([
@@ -180,8 +180,56 @@ function graph(points,total){
  const path=reduced.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(2)+' '+y(p.elevationMeters).toFixed(2)).join(' ');
  node(svg,'path',{d:path,stroke:'#22805b','stroke-width':3,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'});
 }
+const SVG_NS='http://www.w3.org/2000/svg';
+function drawFallback(){
+ // Geographic original-line-only preview; no invented map background or connections.
+ if(map)return;
+ const host=$('map');host.replaceChildren();state.fallbackPaths=[];
+ const svg=document.createElementNS(SVG_NS,'svg');
+ svg.setAttribute('viewBox','0 0 1000 610');svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+ svg.style.width='100%';svg.style.height='100%';svg.style.minHeight='330px';
+ const bg=document.createElementNS(SVG_NS,'rect');bg.setAttribute('width','1000');
+ bg.setAttribute('height','610');bg.setAttribute('fill','#eaf1e9');svg.append(bg);
+ const title=document.createElementNS(SVG_NS,'text');title.setAttribute('x','25');title.setAttribute('y','35');
+ title.setAttribute('fill','#547263');title.setAttribute('font-size','17');
+ title.textContent='원본 등산로 좌표 미리보기 · 배경지도 연결 안 됨';svg.append(title);
+ const lines=state.lines;if(!lines.length){host.append(svg);return}
+ let left=Infinity,right=-Infinity,bottom=Infinity,top=-Infinity;
+ for(const line of lines)for(const [lon,lat] of line.coords){
+  left=Math.min(left,lon);right=Math.max(right,lon);
+  bottom=Math.min(bottom,lat);top=Math.max(top,lat);
+ }
+ const midLat=(bottom+top)/2,cos=Math.cos(midLat*Math.PI/180);
+ const dx=Math.max((right-left)*cos,.0001),dy=Math.max(top-bottom,.0001);
+ const scale=Math.min(900/dx,510/dy),cx=(left+right)/2,cy=(top+bottom)/2;
+ for(const line of lines){
+  const path=document.createElementNS(SVG_NS,'path');
+  path.setAttribute('d',line.coords.map((p,i)=>{
+   const x=500+(p[0]-cx)*cos*scale,y=325-(p[1]-cy)*scale;
+   return(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
+  }).join(' '));
+  path.setAttribute('fill','none');path.setAttribute('stroke-linecap','round');
+  path.setAttribute('stroke-linejoin','round');path.style.cursor='pointer';
+  path.setAttribute('tabindex','0');path.setAttribute('role','button');
+  path.setAttribute('aria-label',(line.recordName||'등산로')+' 고도그래프 선택');
+  path.addEventListener('click',()=>selectLine(line));
+  path.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectLine(line)}});
+  svg.append(path);state.fallbackPaths.push({line,path});
+ }
+ host.append(svg);refreshFallbackStyles();
+}
+function refreshFallbackStyles(){
+ for(const {line,path} of state.fallbackPaths){
+  const on=state.selected?.id===line.id;
+  path.setAttribute('stroke',on?'#145d3e':'#9aac9d');
+  path.setAttribute('stroke-width',on?'6':'2.5');
+  path.setAttribute('opacity',on?'1':'.68');
+  if(on)path.parentNode.append(path);
+ }
+}
+
 function makeMap(){
- if(!window.L){$('map').style.display='none';$('mapFallback').style.display='block';status('지도 라이브러리 로딩 실패');return}
+ if(!window.L){$('mapFallback').style.display='block';$('mapFallback').textContent='지도 배경을 불러오지 못해 원본 좌표 기반 등산로만 표시하고 있어.';$('fit').onclick=()=>drawFallback();return}
  map=L.map('map',{preferCanvas:true}).setView([38.14,128.46],11);
  const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
@@ -221,6 +269,7 @@ function setLayerSelection(){
   layer.setStyle(selected?{color:'#145d3e',weight:7,opacity:1}:{color:'#9aac9d',weight:3,opacity:.67});
   if(selected)layer.bringToFront();
  });
+ refreshFallbackStyles();
  const root=$('lineList');root.replaceChildren();
  const max=state.lines.length>500?500:state.lines.length;
  for(let i=0;i<max;i++){
@@ -278,7 +327,8 @@ async function selectMountain(code){
  const generation=++state.generation;
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.profiles.clear();
  displayPlans();
- if(group)group.clearLayers();state.layers=[];
+ if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
+ if(!map)$('map').replaceChildren();
  put('name',item.name);put('provider','자료 확인 중…');put('lineCount','등산로 불러오는 중');put('elevCount','고도표본 확인 중');
  put('distance','거리 —');put('elevation','고도 —');put('profileTitle','고도그래프');put('profileMessage','원본 선형을 불러오는 중');
  noProfile('원본 선형 확인 중…');put('sourceInfo','');$('lineList').replaceChildren();
@@ -313,6 +363,7 @@ async function selectMountain(code){
    l.addTo(group);state.layers.push({line,layer:l});
   }
   if(map&&group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[28,28],maxZoom:13});
+  if(!map)drawFallback();
   if(!lines.length){
    status('이 산은 배포된 상세 등산로 원본이 없어. 허구의 길을 만들지 않았어.');
    noProfile('원본 등산로 선형 없음');setLayerSelection();return;

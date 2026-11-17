@@ -19,7 +19,7 @@ class FakeNode {
   this.tag=tag;this.children=[];this.attributes={};this.style={};this.dataset={};
   this.value='';this.disabled=false;this.hidden=false;this.textContent='';
  }
- append(...nodes){for(const n of nodes){n.parentNode=this;this.children.push(n)}}
+ append(...nodes){for(const n of nodes){if(n.parentNode){const i=n.parentNode.children.indexOf(n);if(i>=0)n.parentNode.children.splice(i,1)}n.parentNode=this;this.children.push(n)}}
  replaceChildren(...nodes){this.children=[];this.append(...nodes)}
  setAttribute(name,value){this.attributes[name]=String(value)}
  getAttribute(name){return this.attributes[name]}

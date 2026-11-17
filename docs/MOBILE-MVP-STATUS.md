@@ -685,3 +685,10 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - GitHub main 커밋: `911882f`, `4e4a1f8`, `581df34`. 독립 Node 22 동일 날짜수정 로직 단언 8개 통과.
 - GitHub clone DNS 실패로 저장소 전체 `npm test`/웹 패키징 및 브라우저·Android 실행 미검증. 지도 경유지 직접 저장/복원 연결도 미완료.
 - 기존 지도·DEM·한계령 예외·35m 후보, 전국 데이터 정리 작업, 빈 카탈로그와 LNT 매접속 정책 불변.
+
+## 2026-11-18 저장 코스 원본 경로 복원 안전성 보강
+- `mobile/src/plan-storage.mjs`: 복원 시 모든 경유지 사이 leg/edgeIds 존재를 검사하고 원본 edge 범위 밖의 ID를 거부.
+- `provisionalGap` 및 `unverified` 표기 edge는 경로 상태가 `geometry_preview_only`여도 복원 거부.
+- `mobile/tests/plan-storage.test.mjs`: 누락 구간, 잘못된 edge ID, 미확인 접합 회귀 추가.
+- GitHub Actions mobile-web 실행 44138933088: 저장 코스 7개 테스트 모두 통과, 전체 138개 중 135개 통과·3개 실패(카탈로그 재시도 1, LNT iframe 2); 웹 패키징 단계 미실행.
+- 지도 UI 저장·불러오기 실제 연결, 전체 모바일 회귀 통과, 웹/Android 실행, 공식 장소 5종 탐색 검증은 여전히 미완료.

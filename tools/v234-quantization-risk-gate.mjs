@@ -26,6 +26,7 @@ export function checkSummary(summary,manifest){
   return {passed:errors.length===0,checks:15,errors,quantizationRiskNodesAbove5cm:summary.quantizedNodesSpreadAbove5cm,nearPairsAtMost2cm:summary.nearbyDifferentGraphNodePairsAtMost2cm,sourceGeometryReplay:false,authorizedConnections:0};
 }
 export function classifyExactEndpointPair(a,b,q=.1){
+  if(!Number.isFinite(q)||q<=0)throw Error('invalid quantization grid');
   if(![a?.x,a?.y,b?.x,b?.y].every(Number.isFinite))throw Error('non-finite endpoint');
   const d=Math.hypot(a.x-b.x,a.y-b.y);
   const cell=v=>Math.round(v/q);
@@ -42,7 +43,10 @@ export function selfTest(){
   assert.deepEqual([classifyExactEndpointPair({x:0.01,y:0.01},{x:0.02,y:0.02}).sameQuantizedCell,classifyExactEndpointPair({x:.049,y:0},{x:.051,y:0}).sameQuantizedCell],[true,false]);
   assert.equal(classifyExactEndpointPair({x:0,y:0},{x:0,y:0}).requiresReview,false);
   assert.throws(()=>classifyExactEndpointPair({x:NaN,y:0},{x:0,y:0}));
-  return {passed:8,total:8};
+  for(const q of [0,-0.1,NaN,Infinity,-Infinity,'0.1',null]){
+    assert.throws(()=>classifyExactEndpointPair({x:0,y:0},{x:0,y:0},q),/invalid quantization grid/);
+  }
+  return {passed:15,total:15};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   const tests=selfTest();

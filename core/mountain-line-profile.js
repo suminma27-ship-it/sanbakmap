@@ -57,10 +57,14 @@ function profile(line,packed){
  const out=[];let total=0,endVertex=0;
  for(const [id,proof] of selected){
   const [from,to,metres,sourceId,start,end]=proof;
+  // The 3m-simplified forest display has fewer vertices than the original
+  // source polyline. Forest provenance is checked by source record index and
+  // aggregate source length; KNPS original coordinates retain exact vertex IDs.
+  const originalVertexLimit=line.sourceKind==='knps'?line.coords.length:Infinity;
   if(!Number.isFinite(metres)||metres<=0||
    !Number.isInteger(start)||!Number.isInteger(end)||start!==endVertex||
-   end<=start||end>=line.coords.length)
-   return absent('고도표본과 원본 선형의 정점 순서가 다르거나 일부 누락됐어');
+   end<=start||end>=originalVertexLimit)
+   return absent('고도표본 원본 구간 순서가 맞지 않거나 일부 누락됐어');
   const expected=Math.ceil(metres/90)+1;
   let heights;
   try{heights=decode(packed.samples[id],expected)}
@@ -77,7 +81,7 @@ function profile(line,packed){
   }
   total+=metres;endVertex=end;
  }
- if(endVertex!==line.coords.length-1||out.length<2)
+ if((line.sourceKind==='knps'&&endVertex!==line.coords.length-1)||out.length<2)
   return absent('원본 선형 끝까지 고도표본이 연속되지 않아');
  const geoLength=lengthOf(line.coords);
  // Forest line geometry is 3m-simplified; still reject gross ID mismatches.

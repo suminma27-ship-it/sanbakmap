@@ -9,6 +9,22 @@ import {gunzipSync,gzipSync} from 'node:zlib';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const guard=(ok,why)=>{if(!ok)throw new Error(why)};
+// Reject malformed graph indices before writing derived nationwide artifacts.
+// A fractional, NaN or Infinity index can pass ordinary range comparisons.
+export function validateSourceGraph(graph,code){
+ const nodes=graph?.nodes,edges=graph?.edges,parts=graph?.source_parts;
+ guard(Array.isArray(nodes)&&Array.isArray(edges)&&Array.isArray(parts),
+  'Invalid source graph arrays '+code);
+ for(const edge of edges){
+  guard(Array.isArray(edge)&&edge.length===6&&
+   Number.isSafeInteger(edge[0])&&edge[0]>=0&&edge[0]<nodes.length&&
+   Number.isSafeInteger(edge[1])&&edge[1]>=0&&edge[1]<nodes.length&&
+   Number.isSafeInteger(edge[3])&&edge[3]>=0&&edge[3]<parts.length&&
+   Number.isFinite(edge[2])&&edge[2]>=0,
+   'Invalid source edge indices or length '+code);
+ }
+ return true;
+}
 const DATA=join(root,'data','nationwide-topology');
 const details=join(root,'data','nationwide','index.json');
 export async function rebuild({outputDir=join(root,'site','data','nationwide-topology'),dryRun=false}={}){
@@ -55,12 +71,7 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
       'Invalid connectivity status '+code);
    guard(sm.parts===graph.source_parts.length&&sm.nodes===graph.nodes.length&&sm.edges===graph.edges.length,
       'Source graph dimensions mismatch '+code);
-   for(const edge of graph.edges){
-    guard(Array.isArray(edge)&&edge.length===6&&
-      edge[0]>=0&&edge[0]<graph.nodes.length&&edge[1]>=0&&edge[1]<graph.nodes.length&&
-      edge[3]>=0&&edge[3]<graph.source_parts.length&&edge[2]>=0,
-      'Invalid source edge indices '+code);
-   }
+   validateSourceGraph(graph,code);
    output.mountains[code]={bucket,parts:sm.parts,nodes:sm.nodes,edges:sm.edges,
      components:sm.geometric_components,nearUnconnected:sm.near_end_pairs_unconnected};
    mountainTotal++;nodeTotal+=sm.nodes;edgeTotal+=sm.edges;partTotal+=sm.parts;

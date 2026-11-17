@@ -40,13 +40,39 @@ h2{font-size:18px;margin:0}h3{font-size:14px;margin:0 0 8px}.muted{color:#677d6e
 #profile{width:100%;height:215px;border-radius:10px;background:#f9fbf9;border:1px solid #e1ebe2;display:block}
 #sourceInfo{font-size:11px;line-height:1.6;color:#677a6e}
 @media(max-width:780px){.layout{grid-template-columns:1fr}#results{max-height:145px}#map{height:50vh;min-height:330px}.content{padding:12px}.lines{max-height:165px}h1{font-size:20px}}
+
+/* Minimal source-trail map: subdued visible trails, one forest-green selection. */
+header{background:#fff;color:#173d2a;border-bottom:1px solid #dfe9df}
+header a{color:#173d2a}header strong{letter-spacing:-.02em}
+#map{height:min(56vh,570px);min-height:380px}
+.course-examples{display:grid;gap:7px}
+.course-example{display:flex;align-items:flex-start;gap:9px;width:100%;padding:12px;text-align:left;
+ border:1px solid #dbe7dd;border-radius:10px;background:#fff;color:#234332}
+.course-example[aria-pressed="true"]{border-color:#25734a;background:#edf8ef}
+.course-example .number{display:grid;place-items:center;flex:0 0 29px;height:29px;border-radius:7px;
+ background:#e4eee5;color:#245a39;font-size:13px;font-weight:850}
+.course-example[aria-pressed="true"] .number{background:#1c6842;color:#fff}
+.course-example .route-label{font-size:12px;line-height:1.45;font-weight:700}
+.course-examples-hint{font-size:11px;line-height:1.5;color:#63786a}
+.course-example:focus-visible{outline:2px solid #2d9862;outline-offset:2px}
+.lines{max-height:155px}
+#profile{height:210px}
+.sheethead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+.sheethead h3{margin:0}
+@media(max-width:780px){
+ main{padding:10px 8px 20px}.layout{gap:8px;margin-top:9px}
+ #map{height:52vh;min-height:320px}.content{padding:12px}
+ .panel{border-radius:12px}
+ .course-examples{gap:5px}
+ .course-example{padding:9px 10px}
+}
 </style>
 </head>
 <body>
 <header><a href="./index.html"><strong>▲ 산박지도</strong></a><span style="font-size:12px">산 선택 · 원본 등산로 · 고도그래프</span></header>
 <main>
 <h1>전국 산 등산로 지도</h1>
-<p class="intro">산을 선택하면 기관 수록 등산로를 지도 위에 표시해. 등산로 한 줄을 누르면 해당 <b>원본 선형의 고도그래프</b>를 보여줘. 구간 연결·자동 코스 생성은 사용하지 않아.</p>
+<p class="intro">일반지도 위에 산의 등산로를 연하게 표시하고, <b>선택한 원본 등산로만 진한 녹색</b>으로 강조해. 선택한 선형의 고도그래프는 아래에서 확인할 수 있어.</p>
 <div class="note">표시 자료는 주로 2016~2018년 기관 수록 등산로야. 2026년 현재 개방·통행 허용을 의미하지 않아. 고도표본이 있는 선형만 그래프를 제공하며, 다른 등산로를 이어 붙이거나 누락된 고도를 추정하지 않아.</div>
 <div class="layout">
 <aside class="panel">
@@ -65,7 +91,12 @@ h2{font-size:18px;margin:0}h3{font-size:14px;margin:0 0 8px}.muted{color:#677d6e
 <div class="content">
 <div id="status" role="status">산과 등산로 데이터 준비 중…</div>
 <div class="chips"><span id="lineCount" class="chip">등산로 미선택</span><span id="elevCount" class="chip">DEM 확인 중</span></div>
-<div><h3>원본 등산로 선택</h3><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
+<section id="seorakCourses" hidden aria-label="설악산 5개 코스 선택 구상">
+<div class="sheethead"><h3>설악산 5개 코스 · 계획안</h3><span class="chip">경로 검증 전</span></div>
+<div id="courseExamples" class="course-examples"></div>
+<p class="course-examples-hint">위의 5개 코스는 요청한 경유지 순서만 보관한 목록이야. 전체 경로 GPX가 검증되기 전에는 코스 전체를 굵은 선으로 그리거나 전체 고도그래프를 만들지 않아. 지도에서 실제 원본 등산로를 선택하면 그 선형만 진하게 표시되고 고도그래프가 나와.</p>
+</section>
+<div><h3>실제 원본 등산로 선택 <span class="muted">· 지도에서 선을 눌러도 돼</span></h3><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
 <div class="profileHeader"><div><h3 id="profileTitle">고도그래프</h3><div id="profileMessage" class="muted">등산로를 선택해 줘.</div></div><div class="stats"><span id="distance">거리 —</span><span id="elevation">고도 —</span></div></div>
 <svg id="profile" viewBox="0 0 720 215" preserveAspectRatio="none" aria-label="선택한 원본 선형의 거리별 DEM 고도그래프"></svg>
 <div id="sourceInfo">기관 수록 원본 선형을 그대로 사용하며 최신 탐방로 지정·개방 여부는 확인되지 않았어.</div>
@@ -82,8 +113,44 @@ h2{font-size:18px;margin:0}h3{font-size:14px;margin:0 0 8px}.muted{color:#677d6e
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],generation:0,loading:false};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],generation:0,loading:false,course:null};
 let map=null,group=null;
+
+const SEORAK_PLANS=Object.freeze([
+ {id:'s1',name:'코스1',via:['소공원','비선대','마등령','공룡능선','희운각','대청봉']},
+ {id:'s2',name:'코스2',via:['소공원','비선대','희운각','대청봉']},
+ {id:'s3',name:'코스3',via:['오색약수','대청봉']},
+ {id:'s4',name:'코스4',via:['장수대','귀때기청봉','대청봉']},
+ {id:'s5',name:'코스5',via:['서북능선','귀때기청봉','대청봉']}
+]);
+function displayPlans(){
+ const isSeorak=state.code==='428302602',panel=$('seorakCourses');
+ panel.hidden=!isSeorak;if(!isSeorak)return;
+ const holder=$('courseExamples');holder.replaceChildren();
+ for(const [i,plan] of SEORAK_PLANS.entries()){
+  const b=document.createElement('button');b.type='button';b.className='course-example';
+  b.dataset.course=plan.id;b.setAttribute('aria-pressed',String(state.course===plan.id));
+  const n=document.createElement('span');n.className='number';n.textContent=i+1;
+  const t=document.createElement('span');t.className='route-label';
+  t.textContent=plan.name+': '+plan.via.join(' → ');
+  b.append(n,t);b.onclick=()=>selectPlan(plan);holder.append(b);
+ }
+}
+function selectPlan(plan){
+ // A plan has waypoint NAMES, not verified complete geometry. Never present one
+ // KNPS raw line as though it covers the multi-branch named plan.
+ if(state.code!=='428302602')return;
+ state.course=plan.id;state.selected=null;
+ setLayerSelection();
+ put('profileTitle',plan.name+' · '+plan.via.join(' → '));
+ put('profileMessage','경유지 순서만 등록됨 · 코스 전체 연속 경로 및 DEM 미검증');
+ put('distance','거리 —');put('elevation','고도 —');
+ put('sourceInfo','이 계획안의 전체 경로 선형은 아직 검증되지 않았어. 화면의 회색 선은 실제 공단 원본 자료이며 코스 연결을 의미하지 않아.');
+ noProfile('코스 전체 고도그래프 미확인');
+ status(plan.name+'의 경유지 목록을 선택했어. 전체 코스 경로는 그리지 않았어. 개별 등산로 선을 누르면 그 선형의 실제 고도그래프를 볼 수 있어.');
+ displayPlans();
+}
+
 function status(msg){$('status').textContent=msg}
 function put(id,txt){$(id).textContent=txt}
 function noProfile(message){
@@ -149,8 +216,11 @@ function filterMountains(){
  }
 }
 function setLayerSelection(){
- state.layers.forEach(({line,layer})=>layer.setStyle(line.id===state.selected?.id?
-   {color:'#e79d12',weight:7,opacity:1}:{color:'#17885d',weight:4,opacity:.87}));
+ state.layers.forEach(({line,layer})=>{
+  const selected=line.id===state.selected?.id;
+  layer.setStyle(selected?{color:'#145d3e',weight:7,opacity:1}:{color:'#9aac9d',weight:3,opacity:.67});
+  if(selected)layer.bringToFront();
+ });
  const root=$('lineList');root.replaceChildren();
  const max=state.lines.length>500?500:state.lines.length;
  for(let i=0;i<max;i++){
@@ -171,7 +241,7 @@ function profileFor(line){
  return state.profiles.get(line.id);
 }
 function selectLine(line){
- state.selected=line;setLayerSelection();
+ state.course=null;state.selected=line;setLayerSelection();displayPlans();
  put('profileTitle',line.recordName||'선택한 원본 등산로');
  const result=profileFor(line);
  if(result.status!=='ready'){
@@ -206,7 +276,8 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
- state.code=code;state.lines=[];state.selected=null;state.packed=null;state.profiles.clear();
+ state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.profiles.clear();
+ displayPlans();
  if(group)group.clearLayers();state.layers=[];
  put('name',item.name);put('provider','자료 확인 중…');put('lineCount','등산로 불러오는 중');put('elevCount','고도표본 확인 중');
  put('distance','거리 —');put('elevation','고도 —');put('profileTitle','고도그래프');put('profileMessage','원본 선형을 불러오는 중');
@@ -237,7 +308,7 @@ async function selectMountain(code){
   put('elevCount',packed?'원본 DEM 표본 확보':'고도표본 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
-   const l=L.polyline(coords,{color:'#17885d',weight:4,opacity:.88});
+   const l=L.polyline(coords,{color:'#9aac9d',weight:3,opacity:.67});
    l.on('click',()=>selectLine(line));l.bindTooltip((line.recordName||'원본 등산로')+' · 클릭해서 고도 보기',{sticky:true});
    l.addTo(group);state.layers.push({line,layer:l});
   }

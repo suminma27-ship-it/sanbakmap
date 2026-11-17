@@ -64,15 +64,22 @@ export function scanDisplayContacts(parts,{maxMeters=35,maxShown=15}={}){
   const box=[Math.min(A[0],B[0]),Math.min(A[1],B[1]),Math.max(A[0],B[0]),Math.max(A[1],B[1])];
   const look=keys(box,maxMeters);
   if(!look){skippedLong++;continue}
-  const seen=new Set();
+  // A scan stamp avoids a new Set allocation for each source segment.
+  // Stamps are local spatial-index metadata; the source is never modified.
+  const scanStamp=segments.length+1;
   for(const name of look)for(const ix of cells.get(name)||[]){
-   if(seen.has(ix))continue;seen.add(ix);
-   const s=segments[ix];if(s.part===part.part)continue;
+   const s=segments[ix];
+   if(s.scanStamp===scanStamp)continue;
+   s.scanStamp=scanStamp;
+   if(s.part===part.part)continue;
    if(s.box[0]>box[2]+maxMeters||s.box[2]<box[0]-maxMeters||
     s.box[1]>box[3]+maxMeters||s.box[3]<box[1]-maxMeters)continue;
+   const id=pair(part.part,s.part),old=candidates.get(id);
+   // A previously measured 0.00m pair cannot pass the strict improvement
+   // test again: all subsequent distances are nonnegative.
+   if(old?.gapMeters===0)continue;
    const p=closest(A,B,s.A,s.B);
    if(!p||p.d>maxMeters)continue;
-   const id=pair(part.part,s.part),old=candidates.get(id);
    if(!old||p.d<old.gapMeters-.001){
     const forward=part.part<s.part;
     candidates.set(id,{

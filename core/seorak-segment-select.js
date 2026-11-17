@@ -1,6 +1,6 @@
 /* Sanbakmap Seoraksan source-line selector.
  * Splits ONLY at original vertices. A nearby gap never creates a new trail.
- * ≤1 m source contacts plus one evidence-specific 1.35 m bifurcation are preview-only,
+ * ≤1 m source contacts plus two exact-site small-seam junctions are preview-only,
  * not as proof of official legal passage or current opening.
  */
 (function(root){
@@ -11,25 +11,38 @@ const distance=(a,b)=>{
  const h=Math.sin(dy/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dx/2)**2;
  return 2*R*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
 };
-/* Explicit historic-source bifurcation confirmed against original vertices.
- * KNPS 2018 trail no.4 internal vertex 55 and trail no.5 start 0 are 1.35 m apart.
- * This is only a map-selection preview join, NOT a current-access verification.
- * All other source contacts retain the default <=1m strict rule. */
-const BISEONDAE_CONTACT=Object.freeze({
- a:'knps2018:18:0',aPoint:[128.4664658864698,38.162912892740344],
- b:'knps2018:21:0',bPoint:[128.46645049144692,38.16291369487476],
- maxGapMeters:2.1,anchorRadiusMeters:4
-});
+/* Explicit historical-source vertex contact evidence. General auto-join remains <=1m.
+ * These recorded tiny coordinate mismatches support planning preview selection ONLY;
+ * they do not prove present trail opening or add synthetic walking geometry.
+ */
+const CONTACTS=Object.freeze([
+ Object.freeze({
+  name:'비선대',
+  a:'knps2018:18:0',aVertex:55,aPoint:[128.4664658864698,38.162912892740344],
+  b:'knps2018:21:0',bVertex:0,bPoint:[128.46645049144692,38.16291369487476],
+  maxGapMeters:2.1,anchorRadiusMeters:0.5
+ }),
+ Object.freeze({
+  name:'마등령삼거리·공룡능선',
+  a:'knps2018:21:0',aVertex:96,aPoint:[128.43802972622154,38.158034283732164],
+  b:'knps2018:9:0',bVertex:10,bPoint:[128.43796314599828,38.15803749440619],
+  maxGapMeters:7,anchorRadiusMeters:0.5
+ })
+]);
 function canJoin(a,sourceA,b,sourceB,joinMeters=1){
- if(!Array.isArray(a)||!Array.isArray(b))return false;
+ if(!Array.isArray(a)||!Array.isArray(b)||typeof sourceA!=='string'||typeof sourceB!=='string')return false;
  const gap=distance(a,b);
  if(gap<=joinMeters)return true;
- if(gap>BISEONDAE_CONTACT.maxGapMeters)return false;
- const c=BISEONDAE_CONTACT;
- return (sourceA===c.a&&sourceB===c.b&&
-  distance(a,c.aPoint)<=c.anchorRadiusMeters&&distance(b,c.bPoint)<=c.anchorRadiusMeters)||
+ return CONTACTS.some(c=>gap<=c.maxGapMeters&&(
+  (sourceA===c.a&&sourceB===c.b&&
+   distance(a,c.aPoint)<=c.anchorRadiusMeters&&distance(b,c.bPoint)<=c.anchorRadiusMeters)||
   (sourceA===c.b&&sourceB===c.a&&
-  distance(a,c.bPoint)<=c.anchorRadiusMeters&&distance(b,c.aPoint)<=c.anchorRadiusMeters);
+   distance(a,c.bPoint)<=c.anchorRadiusMeters&&distance(b,c.aPoint)<=c.anchorRadiusMeters)));
+}
+function isRecordedCut(part,i){
+ return CONTACTS.some(c=>
+  ((part.sourceId===c.a&&i===c.aVertex&&distance(part.coords[i],c.aPoint)<.15)||
+   (part.sourceId===c.b&&i===c.bVertex&&distance(part.coords[i],c.bPoint)<.15)));
 }
 function build(geo,{maxMeters=650,joinMeters=1}={}){
  if(geo?.type!=='FeatureCollection'||!Array.isArray(geo.features)||
@@ -51,8 +64,7 @@ function build(geo,{maxMeters=650,joinMeters=1}={}){
      properties:f.properties,meters:prefix.at(-1)});
   });
  });
- // Source endpoints can be touching another polyline's internal vertex.
- // General <=1m source contacts and only the known 1.35m Biseondae bifurcation.
+ // Historical source endpoint contacts and exact-site internal-vertex contacts.
  const tips=parts.flatMap(part=>[
   {sourceId:part.sourceId,p:part.coords[0]},
   {sourceId:part.sourceId,p:part.coords.at(-1)}
@@ -61,6 +73,7 @@ function build(geo,{maxMeters=650,joinMeters=1}={}){
  for(const part of parts){
   const cuts=new Set([0,part.coords.length-1]);let last=0;
   for(let i=1;i<part.coords.length-1;i++){
+   if(isRecordedCut(part,i)){cuts.add(i);last=i;continue}
    if(part.prefix[i]-part.prefix[last]>=maxMeters){cuts.add(i);last=i;continue}
    if(tips.some(t=>t.sourceId!==part.sourceId&&canJoin(part.coords[i],part.sourceId,t.p,t.sourceId,joinMeters))){
      cuts.add(i);last=i;
@@ -106,5 +119,5 @@ function append(route,segment,{joinMeters=1}={}){
 }
 const reverse=route=>route.slice().reverse().map(item=>({segment:item.segment,reverse:!item.reverse}));
 const total=route=>route.reduce((m,x)=>m+x.segment.meters,0);
-root.SanbakSeorakSegments=Object.freeze({version:2,distance,canJoin,build,append,reverse,total,startOf,endOf});
+root.SanbakSeorakSegments=Object.freeze({version:3,distance,canJoin,build,append,reverse,total,startOf,endOf});
 })(typeof window!=='undefined'?window:globalThis);

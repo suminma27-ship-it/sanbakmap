@@ -15,6 +15,11 @@ export function validateSourceGraph(graph,code){
  const nodes=graph?.nodes,edges=graph?.edges,parts=graph?.source_parts;
  guard(Array.isArray(nodes)&&Array.isArray(edges)&&Array.isArray(parts),
   'Invalid source graph arrays '+code);
+ for(const node of nodes){
+  guard(Array.isArray(node)&&node.length>=2&&
+   Number.isFinite(node[0])&&Number.isFinite(node[1]),
+   'Invalid source node coordinates '+code);
+ }
  for(const edge of edges){
   guard(Array.isArray(edge)&&edge.length===6&&
    Number.isSafeInteger(edge[0])&&edge[0]>=0&&edge[0]<nodes.length&&
@@ -54,7 +59,6 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
   mountains:{}};
  let mountainTotal=0,nodeTotal=0,edgeTotal=0,partTotal=0,componentTotal=0,nearTotal=0;
  const writes=[];
- if(!dryRun)await mkdir(outputDir,{recursive:true});
  for(let i=0;i<32;i++){
   const bucket=String(i).padStart(2,'0'),data=chunks[bucket];
   guard(data?.schema==='sanbak-geometric-topology-v1'&&data?.crs==='EPSG:5179'&&
@@ -77,15 +81,19 @@ export async function rebuild({outputDir=join(root,'site','data','nationwide-top
    mountainTotal++;nodeTotal+=sm.nodes;edgeTotal+=sm.edges;partTotal+=sm.parts;
    componentTotal+=sm.geometric_components;nearTotal+=sm.near_end_pairs_unconnected;
   }
-  if(!dryRun)writes.push(writeFile(join(outputDir,'bucket-'+bucket+'.json.gz'),
-    gzipSync(Buffer.from(JSON.stringify(data),'utf8'),{level:9,mtime:0})));
+  if(!dryRun)writes.push({bucket,data});
  }
  guard(mountainTotal===manifest.mountain_codes&&nodeTotal===manifest.graph_nodes&&
    edgeTotal===manifest.graph_edges&&partTotal===manifest.source_line_parts&&
    componentTotal===manifest.geometric_components_sum&&nearTotal===manifest.near_end_pairs_unconnected,
    'Nationwide geometry totals do not match signed manifest');
  if(!dryRun){
-  await Promise.all(writes);
+  // Finish validating all 32 buckets before creating any output files.
+  await mkdir(outputDir,{recursive:true});
+  for(const {bucket,data} of writes){
+   await writeFile(join(outputDir,'bucket-'+bucket+'.json.gz'),
+    gzipSync(Buffer.from(JSON.stringify(data),'utf8'),{level:9,mtime:0}));
+  }
   await writeFile(join(outputDir,'index.json'),JSON.stringify(output)+'\n');
  }
  return {mountains:mountainTotal,parts:partTotal,nodes:nodeTotal,edges:edgeTotal,components:componentTotal,

@@ -48,13 +48,13 @@
     <p class="hint" id="elevInfo">원본 고도자료를 연결하면 DEM 해상도·표본 간격을 함께 표시해.</p>
   </div>
   <div class="section">
-    <div class="notice"><b>자료 구분</b><br>표시된 선은 국립공원공단 <b>2018-12-31 시설 수록 탐방로</b>에서 직접 분할했어. 현재 개방·통행 허용 여부는 미확인이야. 2018 원본에서 실제로 끊어진 곳은 연결하지 않고, 10m·35m 근접한 선도 임의로 붙이지 않아. 설악산 전체 소공원→대청봉 두 코스의 완결성은 아직 확인되지 않았어.</div>
+    <div class="notice"><b>자료 구분</b><br>표시된 선은 국립공원공단 <b>2018-12-31 시설 수록 탐방로</b>에서 직접 분할했어. 현재 개방·통행 허용 여부는 미확인이야. 기본적으로 1m 이내 원본 좌표만 이어. 비선대의 마등령 갈림길은 두 원본 선형이 약 1.35m 떨어진 것을 확인해 해당 지점에만 예외를 적용했어. 10m·35m 근접 선을 일괄 연결하지 않아. 설악산 전체 소공원→대청봉 두 코스의 완결성은 아직 확인되지 않았어.</div>
     <p class="hint">지도/위성 배경: 공개 지도 타일 서비스(인터넷 필요). 등산로: 산박지도 저장소의 2018년 국립공원공단 GeoJSON. 고도: 저장소 DEM 구간별 90m 표본(있는 경우만 표시).</p>
   </div>
 </aside>
 <main class="maparea">
   <div id="map"></div>
-  <div class="overlay-header"><b>설악산 실제 탐방로 오버레이</b><br><span style="color:#63806b">원본 선형을 약 650m 선택 구간으로 분할 · 맞닿는 구간만 추가</span></div>
+  <div class="overlay-header"><b>설악산 실제 탐방로 오버레이</b><br><span style="color:#63806b">원본 선형 약 650m 분할 · 비선대 1.35m 좌표 이격 예외 적용</span></div>
   <div class="legend"><div><i class="legend-line"></i>원본 탐방로 분할 구간</div><div style="margin-top:5px"><i class="legend-line" style="border-color:#168de4"></i>이어 선택 가능한 구간</div><div style="margin-top:5px"><i class="legend-line selected"></i>선택된 코스</div></div>
   <div class="map-fallback" id="fallback">지도 스크립트를 불러오지 못했어.<br>인터넷 연결을 확인한 뒤 다시 열어줘.</div>
 </main>
@@ -63,7 +63,7 @@
 <script>
 /* Sanbakmap Seoraksan source-line selector.
  * Splits ONLY at original vertices. A nearby gap never creates a new trail.
- * ≤1 m source endpoint contacts are accepted for drawing a planning preview,
+ * ≤1 m source contacts plus one evidence-specific 1.35 m bifurcation are preview-only,
  * not as proof of official legal passage or current opening.
  */
 (function(root){
@@ -74,6 +74,26 @@ const distance=(a,b)=>{
  const h=Math.sin(dy/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dx/2)**2;
  return 2*R*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
 };
+/* Explicit historic-source bifurcation confirmed against original vertices.
+ * KNPS 2018 trail no.4 internal vertex 55 and trail no.5 start 0 are 1.35 m apart.
+ * This is only a map-selection preview join, NOT a current-access verification.
+ * All other source contacts retain the default <=1m strict rule. */
+const BISEONDAE_CONTACT=Object.freeze({
+ a:'knps2018:18:0',aPoint:[128.4664658864698,38.162912892740344],
+ b:'knps2018:21:0',bPoint:[128.46645049144692,38.16291369487476],
+ maxGapMeters:2.1,anchorRadiusMeters:4
+});
+function canJoin(a,sourceA,b,sourceB,joinMeters=1){
+ if(!Array.isArray(a)||!Array.isArray(b))return false;
+ const gap=distance(a,b);
+ if(gap<=joinMeters)return true;
+ if(gap>BISEONDAE_CONTACT.maxGapMeters)return false;
+ const c=BISEONDAE_CONTACT;
+ return (sourceA===c.a&&sourceB===c.b&&
+  distance(a,c.aPoint)<=c.anchorRadiusMeters&&distance(b,c.bPoint)<=c.anchorRadiusMeters)||
+  (sourceA===c.b&&sourceB===c.a&&
+  distance(a,c.bPoint)<=c.anchorRadiusMeters&&distance(b,c.aPoint)<=c.anchorRadiusMeters);
+}
 function build(geo,{maxMeters=650,joinMeters=1}={}){
  if(geo?.type!=='FeatureCollection'||!Array.isArray(geo.features)||
     !Number.isFinite(maxMeters)||maxMeters<50||maxMeters>3000||
@@ -95,7 +115,7 @@ function build(geo,{maxMeters=650,joinMeters=1}={}){
   });
  });
  // Source endpoints can be touching another polyline's internal vertex.
- // Only <=1m shared original coordinates are recognized, not 10/35m speculative gaps.
+ // General <=1m source contacts and only the known 1.35m Biseondae bifurcation.
  const tips=parts.flatMap(part=>[
   {sourceId:part.sourceId,p:part.coords[0]},
   {sourceId:part.sourceId,p:part.coords.at(-1)}
@@ -105,7 +125,7 @@ function build(geo,{maxMeters=650,joinMeters=1}={}){
   const cuts=new Set([0,part.coords.length-1]);let last=0;
   for(let i=1;i<part.coords.length-1;i++){
    if(part.prefix[i]-part.prefix[last]>=maxMeters){cuts.add(i);last=i;continue}
-   if(tips.some(t=>t.sourceId!==part.sourceId&&distance(part.coords[i],t.p)<=joinMeters)){
+   if(tips.some(t=>t.sourceId!==part.sourceId&&canJoin(part.coords[i],part.sourceId,t.p,t.sourceId,joinMeters))){
      cuts.add(i);last=i;
    }
   }
@@ -130,18 +150,18 @@ function append(route,segment,{joinMeters=1}={}){
   return {ok:false,route,reason:'duplicate'};
  if(!route.length)return {ok:true,route:[{segment,reverse:false}],reason:'first'};
  const last=endOf(route.at(-1));
- if(distance(last,segment.start)<=joinMeters)
+ if(canJoin(last,route.at(-1).segment.sourceId,segment.start,segment.sourceId,joinMeters))
   return {ok:true,route:[...route,{segment,reverse:false}],reason:'joined'};
- if(distance(last,segment.end)<=joinMeters)
+ if(canJoin(last,route.at(-1).segment.sourceId,segment.end,segment.sourceId,joinMeters))
   return {ok:true,route:[...route,{segment,reverse:true}],reason:'joined_reversed'};
  // When the first selected piece was pointing the wrong direction,
  // auto-reverse it only if this second segment shares its original start.
  if(route.length===1){
   const start=startOf(route[0]);
-  if(distance(start,segment.start)<=joinMeters)
+  if(canJoin(start,route[0].segment.sourceId,segment.start,segment.sourceId,joinMeters))
    return {ok:true,route:[{segment:route[0].segment,reverse:!route[0].reverse},
      {segment,reverse:false}],reason:'auto_reversed_first'};
-  if(distance(start,segment.end)<=joinMeters)
+  if(canJoin(start,route[0].segment.sourceId,segment.end,segment.sourceId,joinMeters))
    return {ok:true,route:[{segment:route[0].segment,reverse:!route[0].reverse},
      {segment,reverse:true}],reason:'auto_reversed_first'};
  }
@@ -149,7 +169,7 @@ function append(route,segment,{joinMeters=1}={}){
 }
 const reverse=route=>route.slice().reverse().map(item=>({segment:item.segment,reverse:!item.reverse}));
 const total=route=>route.reduce((m,x)=>m+x.segment.meters,0);
-root.SanbakSeorakSegments=Object.freeze({version:1,distance,build,append,reverse,total,startOf,endOf});
+root.SanbakSeorakSegments=Object.freeze({version:2,distance,canJoin,build,append,reverse,total,startOf,endOf});
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
@@ -290,7 +310,7 @@ function candidates(){
  if(!route.length)return new Set();
  const tail=core.endOf(route.at(-1));
  return new Set(parsed.segments.filter(s=>!route.some(x=>x.segment.id===s.id)&&
-  (core.distance(tail,s.start)<=parsed.joinMeters||core.distance(tail,s.end)<=parsed.joinMeters))
+  (core.canJoin(tail,route.at(-1).segment.sourceId,s.start,s.sourceId,parsed.joinMeters)||core.canJoin(tail,route.at(-1).segment.sourceId,s.end,s.sourceId,parsed.joinMeters)))
   .map(s=>s.id));
 }
 function refresh(){

@@ -49,6 +49,20 @@ function sourceParts(graph,sourceFiles,displayRows){
  }
  return out;
 }
+// Lower-bound search: first edge whose cumulative end reaches the anchor.
+// Keeps the original boundary behavior, including repeated zero-length spans.
+// O(log E) instead of O(E) for each candidate anchor on a long source part.
+export function locateSourceEdgeIndex(cumulative,meters){
+ const count=cumulative.length-1;
+ if(count<=1)return 0;
+ let lo=0,hi=count-1;
+ while(lo<hi){
+  const mid=lo+((hi-lo)>>1);
+  if(meters>cumulative[mid+1])lo=mid+1;
+  else hi=mid;
+ }
+ return lo;
+}
 export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  check(graph?.summary?.navigable===false&&graph.summary.access_verified===false&&
   graph.summary.physical_junction_verified===false,'Unsigned original source graph');
@@ -81,7 +95,7 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
   let sDisplay=p.lengthAt[segment]+t*(p.lengthAt[segment+1]-p.lengthAt[segment]);
   if(p.reversed)sDisplay=p.displayLength-sDisplay;
   const s=Math.min(p.originalLength,Math.max(0,sDisplay/p.displayLength*p.originalLength));
-  let i=0;while(i<p.edges.length-1&&s>p.cum[i+1])i++;
+  const i=locateSourceEdgeIndex(p.cum,s);
   const e=p.edges[i],relative=Math.max(0,Math.min(e.meters,s-p.cum[i]));
   if(relative<=.08)return {node:e.from,edge:e.id,at:0};
   if(e.meters-relative<=.08)return {node:e.to,edge:e.id,at:e.meters};

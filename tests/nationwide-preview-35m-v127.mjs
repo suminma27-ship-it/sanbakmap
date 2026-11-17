@@ -39,3 +39,23 @@ assert.equal(provisional.status,'geometry_preview_only');
 assert.equal(provisional.distanceMeters,24);
 assert.equal(provisional.usableForNavigation,false);
 console.log('PASS v127: provisional-only 35m link, original graph unchanged, connectivity rebuild and provenance retained');
+
+
+import {locateSourceEdgeIndex} from '../tools/build-35m-preview-v127.mjs';
+// Regression: original linear scan semantics, including exact boundaries,
+// zero-length source spans and anchors at the start/end of a source part.
+const linear=(cum,s)=>{let i=0;while(i<cum.length-2&&s>cum[i+1])i++;return i};
+for(const count of [1,2,3,10,100,1000,10000]){
+ const cum=[0];
+ for(let i=0;i<count;i++)cum.push(cum.at(-1)+(i%7===0?0:i%11+0.25));
+ for(let i=0;i<cum.length;i++){
+  for(const s of [cum[i],cum[i]+1e-9,cum[i]-1e-9])
+   assert.equal(locateSourceEdgeIndex(cum,s),linear(cum,s),
+    'Boundary mismatch for '+count+' edges at '+s);
+ }
+ for(let i=0;i<200;i++){
+  const s=cum.at(-1)*(i/199);
+  assert.equal(locateSourceEdgeIndex(cum,s),linear(cum,s));
+ }
+}
+console.log('PASS preview anchor lookup: binary search matches original on 10000-edge parts');

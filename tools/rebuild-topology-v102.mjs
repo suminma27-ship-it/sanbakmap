@@ -16,8 +16,8 @@ export function validateSourceGraph(graph,code){
  guard(Array.isArray(nodes)&&Array.isArray(edges)&&Array.isArray(parts),
   'Invalid source graph arrays '+code);
  for(const node of nodes){
-  guard(Array.isArray(node)&&node.length>=2&&
-   Number.isFinite(node[0])&&Number.isFinite(node[1]),
+  guard(Array.isArray(node)&&node.length===2&&
+   Number.isSafeInteger(node[0])&&Number.isSafeInteger(node[1]),
    'Invalid source node coordinates '+code);
  }
  for(const edge of edges){

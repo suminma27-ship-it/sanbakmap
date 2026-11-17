@@ -32,5 +32,17 @@ for(const node of [[NaN,0],[0,Infinity],[0,-Infinity],[0],[null,0],['1',0],null]
  assert.throws(()=>validateSourceGraph({...good,nodes:[[0,0],node]},'synthetic'),
   /Invalid source node coordinates/);
 }
+// Stored EPSG:5179 nodes are integer decimeters. Fractional or unsafe
+// values silently violate the original 0.1m topology identity model.
+const invalidDecimeterNodes=[
+ [0.1,0],[-0.5,1],[1,1.5],[Number.MAX_SAFE_INTEGER+1,0],
+ [0,Number.MIN_SAFE_INTEGER-1],[0,0,0]
+];
+for(const node of invalidDecimeterNodes){
+ assert.throws(()=>validateSourceGraph({...good,nodes:[[0,0],node]},'synthetic'),
+  /Invalid source node coordinates/);
+}
+assert.equal(validateSourceGraph({...good,nodes:[[-100000,200000],[1,0]]},'synthetic'),true);
 assert.equal(validateSourceGraph(good,'synthetic'),true);
+console.log('PASS: reject 6 non-decimeter graph node shapes/coordinates');
 console.log('PASS: reject 13 malformed graph edges before nationwide artifact write');

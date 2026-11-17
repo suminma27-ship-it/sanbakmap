@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 const html=fs.readFileSync('seorak-standalone-s3.html','utf8');
 assert(html.includes('새 테스트 페이지 S3 · 11/18'));
-assert(html.includes('원본 등산로 좌표 미리보기'));
+assert(html.includes('실제 설악산 등산로 지도'));
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
  .map(x=>x[1]).filter(Boolean);
 assert.equal(scripts.length,2);

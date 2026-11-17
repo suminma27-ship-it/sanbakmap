@@ -652,3 +652,11 @@ LNT 동의 게이트를 독립 모바일 진입점에 구현하고 테스트한 
 - Node.js v22.16.0 독립 검증 스크립트에서 URL 형식 8개 검사 통과. 로컬 `git ls-remote`는 `Could not resolve host: github.com`으로 실패해 전체 저장소 `npm test`, `check:web`, `prepare:web`, 브라우저/Android 검증은 이번 변경 기준 미실행. GitHub Actions 통과도 아직 확인되지 않음.
 - 코드 커밋 `794b2b905d9bb0bb49b8a509e5ba4c7f748cd78b`, 정규식 수정 `05bde62583bfefde754cd4dc890f2371d12f00b1`, 회귀 테스트 `b47ee535e6775be3dfec62678b18644c3daff78b`.
 - 남은 완료 게이트: 출처 확인된 4개 비산 카테고리 최소 장소, 5개 카테고리 실제 목록·상세/지역검색, LNT 수락·거부와 딥링크, 기존 산 지도/거리/고도 통합, 전체 회귀·모바일 웹 브라우저 실행 및 Android 패키징. 원본 지도·그래프·DEM, 한계령 예외, 35m 후보 미승인 정책 및 별도 전국 데이터 정리 자동 작업 불변.
+
+## 2026-11-17 모바일 지도 → 장소 목록 복귀 기능 (19:36 KST)
+
+- GitHub main의 `mobile/entry.html`, `catalog.html`, `src/catalog.mjs`, `src/map-guard.mjs`, `scripts/prepare-web.mjs`, 테스트, 빈 `catalog.json`을 확인. `map.html`은 소스 파일이 아니라 패키징 시 생성되는 LNT 보호 지도 복사본임.
+- 모바일 카탈로그에서 기존 산 지도로 진입한 뒤 목록으로 돌아오는 앱 내 조작이 없던 문제를 해결. 패키징 지도에만 접근성 이름이 있는 '← 장소 목록' 버튼을 삽입하고, 동의된 부모 iframe의 `catalog.html`로 복귀하도록 구성. 원본 `index.html`·지도 UI 소스·원본 그래프/DEM·한계령 예외·35m 연결 정책은 변경하지 않음.
+- 내장 스크립트 JavaScript 구문, head 삽입, head 누락 거부를 독립 실행 검사로 확인. `mobile/tests/map-return.test.mjs`에 LNT 우회 방어·복귀 연결·중복 삽입 방지 회귀 추가. **저장소 전체 `npm test`, 웹 패키징, 브라우저/Android 실제 실행은 이번 실행에서 확인하지 못함.** 독립 검사를 전체 통과로 해석하지 않음.
+- 기능 커밋 `24a1b9819ff41c2642f966d0049bd96a83e3ed44`, 회귀 테스트 커밋 `18196f871defa11061d4352e74139ea2a038e100`.
+- 남은 합격 조건: 출처가 실제로 확인된 장소 데이터(현재 카탈로그 빈 배열), 전국 산 색인 및 검증된 경로·거리·고도 연동, 5개 카테고리 실데이터 지역/상세, LNT 브라우저·모바일 웹 통합 실행, 전체 CI 회귀/패키징, Android 빌드. MVP 미완료. 별도 전국 데이터 정리 자동 작업은 변경하지 않음.

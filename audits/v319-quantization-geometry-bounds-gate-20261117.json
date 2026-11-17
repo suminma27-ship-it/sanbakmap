@@ -1,0 +1,64 @@
+{
+  "schema": "sanbak-v319-quantization-geometry-bounds-and-component-risk-gate",
+  "date": "2026-11-17",
+  "baseMain": "f2fb496f22b7e2b3a66c01e90a80f229b51c836a",
+  "inputGitBlobSHA1": {
+    "audits/v140-original-coordinate-quantization-summary.json": "72f78e835c13cac887738a179000b2ef5899bbb3",
+    "audits/v129-exact-original-overlay-summary.json": "4a19d137b0773542dc99f9682293a624ebbd9c8f",
+    "audits/v318-topology-digest-lineage-divergence-gate-20261117.json": "7baea3b69ad206bec5b1b730967a1d933c878c95"
+  },
+  "inputDeclaredSHA256": {
+    "source": "7426dbf4bbf07ad31524a16eabe9dfad8f358a75ac519dcf3f09c4ebc178b76a",
+    "v140Topology": "1b99616f1f40a1b9e5202f05d7de9a001d438b172e66969ab6ebee87f7042183",
+    "v129Topology": "6b2bd6d8dcbf47644c641292856ec22d621a96ab744e082b9635bea4b169c936"
+  },
+  "checks": {
+    "sourceEndpointAccounting": true,
+    "allNodesSourceCovered": true,
+    "maxDriftWithinRoundingCell": true,
+    "spreadMonotonic": true,
+    "withinCellSpreadPossible": true,
+    "crossComponentExampleWithin2cm": true,
+    "distinctComponentExampleNotApproved": true,
+    "sameBaselineComponents": true,
+    "sameNationwideScope": true,
+    "sourceDigestMatches": true,
+    "topologyDigestsDifferent": true,
+    "noApproval": true,
+    "noGeometryMutation": true
+  },
+  "passed": 13,
+  "total": 13,
+  "derivedMeters": {
+    "quantization": 0.1,
+    "roundingHalfCellAxis": 0.05,
+    "theoreticalMaxNodeDrift": 0.07071067811865477,
+    "reportedMaxNodeDrift": 0.070569,
+    "driftMargin": 0.00014167811865475888,
+    "theoreticalMaxTwoEndpointsSameCell": 0.14142135623730953
+  },
+  "risk": {
+    "sameQuantizedNodeWithDistinctExactEndpoints": 1722,
+    "spreadOver5cm": 114,
+    "spreadOver10cm": 2,
+    "nearbyAcrossComponents": 1,
+    "example": {
+      "code": "301101201",
+      "nodeA": 81,
+      "nodeB": 80,
+      "rawSourceEndpointGapMeters": 0.0116,
+      "status": "requires_source_grounded_review_not_permanent_connection"
+    }
+  },
+  "interpretation": "The recorded maximum source-to-quantized-node drift is within the theoretical 0.1m grid half-cell diagonal; this consistency check does not validate individual source coordinates. Two same-cell source endpoints can be >10cm apart (cell diagonal ~14.14cm), so conflation requires per-feature review. The 1.16cm across-component example is review-only and must not be connected without authoritative evidence. Historic ZIP digests differ; independently hash original bytes before claiming equivalence.",
+  "nextAction": "Recover original SHP, v102/v129 graph, v140 audit ZIP, 3D height and DEM bytes; verify SHA-256; enumerate all 114 >5cm spread cells, 2 >10cm cells, and the 1.16cm cross-component example by source feature and graph node; classify without merging, then 35m/v69 nationwide regression.",
+  "completion": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  }
+}

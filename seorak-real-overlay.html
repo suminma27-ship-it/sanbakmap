@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
 *{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#e8ece6;color:#16251d}button,select{font:inherit}#layout{display:grid;grid-template-columns:360px minmax(0,1fr);height:100dvh}.panel{z-index:600;background:#fff;padding:20px;overflow:auto;border-right:1px solid #d9e2d7;box-shadow:6px 0 22px #163b2112}.brand{font-size:11px;letter-spacing:.13em;font-weight:800;color:#417a57}.title{font-size:25px;font-weight:850;letter-spacing:-.06em;margin:5px 0}.subtitle{color:#5b7062;font-size:13px;line-height:1.7;margin:8px 0 16px}.status{padding:12px;border-radius:11px;background:#eff6ee;color:#285440;font-size:13px;line-height:1.55}.status.error{background:#fff0ed;color:#9c352b}.section{margin-top:18px;padding-top:15px;border-top:1px solid #e8eee7}h3{margin:0 0 10px;font-size:14px}.hint{font-size:12px;color:#718376;line-height:1.55}.tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.btn{border:1px solid #d7e4d9;border-radius:9px;background:white;color:#274536;font-size:12px;font-weight:700;padding:9px 11px;cursor:pointer}.btn:hover{background:#edf7ee}.btn.primary{color:white;background:#237a50;border-color:#237a50}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#f0f6f0;border-radius:99px;font-size:11px;color:#356949;font-weight:750}.details{min-height:90px;padding:12px;background:#f6f9f5;border:1px solid #e5eee4;border-radius:12px}.details .name{font-weight:800;font-size:16px;margin-bottom:5px}.meta{color:#667a6b;font-size:12px;line-height:1.75}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.stat{background:#edf4ed;border-radius:10px;padding:12px}.stat small{color:#6a806e;font-size:11px}.stat strong{display:block;font-size:19px;margin-top:4px}#profile{width:100%;height:auto;background:#f7faf8;border:1px solid #e4ebe5;border-radius:10px;display:block}#map{width:100%;height:100%;z-index:1}.maparea{position:relative;min-height:0}.overlay-header{position:absolute;top:16px;left:16px;z-index:400;background:#fffefaeb;padding:9px 13px;border:1px solid #d7e6d6;border-radius:11px;box-shadow:0 7px 23px #213e2522;font-size:12px;max-width:min(350px,calc(100% - 30px))}.legend{position:absolute;bottom:25px;left:14px;z-index:400;background:#ffffffed;border-radius:10px;border:1px solid #d8e5dd;padding:11px 13px;font-size:11px}.legend-line{width:26px;border-top:4px solid #0baa7c;display:inline-block;vertical-align:middle;margin-right:7px}.legend .selected{border-color:#ffb31b;border-top-width:6px}.leaflet-container{background:#dde6dd}.leaflet-control-layers-expanded{font-size:12px}.notice{background:#fff8e7;border:1px solid #e9dab0;padding:10px 12px;border-radius:10px;font-size:11px;color:#776137;line-height:1.6}.elevation-label{font-size:11px;fill:#657968}.point-mark{background:#fff;border:2px solid #254e3b;color:#204c36;border-radius:99px;font-weight:bold;padding:5px 8px;white-space:nowrap;font-size:11px;box-shadow:0 2px 12px #223a2544}.map-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#dfe8dc;color:#284d36;padding:30px;text-align:center;line-height:1.7;z-index:900}@media(max-width:780px){#layout{display:flex;flex-direction:column;height:100dvh}.maparea{order:0;height:58dvh;min-height:280px;flex-shrink:0}.panel{order:1;box-shadow:0 -4px 20px #213e2511;border-right:none;border-top:1px solid #d9e2d7;overflow:auto;flex:1;padding:16px}.overlay-header{top:10px;left:10px}.legend{bottom:12px;left:10px}.title{font-size:21px}}
+
+#selectedList li{padding:2px 0}#undo,#reverse{margin-top:2px}
+.line-upcoming{cursor:pointer}.map-prompt{color:#517867}
 </style>
 </head>
 <body>
@@ -13,7 +16,7 @@
 <aside class="panel">
   <div class="brand">SANBAKMAP · SEORAKSAN</div>
   <h1 class="title">실제 지도 + 등산로 레이어</h1>
-  <p class="subtitle">지형지도 위에 <b>국립공원공단의 실제 좌표 선형</b>을 덧씌웠어. 초록색 등산로를 눌러 해당 구간을 선택하고, 원본 DEM 고도그래프를 확인해봐.</p>
+  <p class="subtitle">지형지도 위에 <b>국립공원공단의 실제 좌표 선형</b>을 덧씌웠어. 초록색 등산로를 눌러 첫 구간을 선택한 뒤, <b>파란색으로 나타나는 연결 후보</b>를 차례로 선택해 코스를 만들어봐. 연결이 확인되지 않은 선은 이어 붙이지 않아.</p>
   <div class="status" id="status" role="status">지도와 국립공원공단 원본 등산로 불러오는 중…</div>
   <div class="section">
     <h3>지도 조작</h3>
@@ -25,144 +28,380 @@
     <p class="hint">오른쪽 지도 우측 상단의 레이어 버튼에서 <b>지형 / 일반지도 / 위성</b> 배경을 전환할 수 있어. 확대·축소하고 실제 탐방로를 눌러봐.</p>
   </div>
   <div class="section">
-    <h3>선택한 원본 구간 <span class="pill" id="sourceCount">대기 중</span></h3>
-    <div class="details" id="details"><div class="name">등산로를 선택해봐</div><div class="meta">지도 위 초록색 원본 탐방로를 클릭하면 해당 구간과 원본 식별자가 표시돼.</div></div>
+    <h3>구간 이어 선택 <span class="pill" id="sourceCount">대기 중</span></h3>
+    <div class="details" id="details"><div class="name">등산로에서 첫 구간을 선택해줘</div><div class="meta">노선의 짧은 구간을 선택한 뒤 파란색으로 표시된 다음 구간을 추가할 수 있어.</div></div>
+    <div class="tools">
+      <button class="btn" id="undo">마지막 구간 취소</button>
+      <button class="btn" id="reverse">선택 순서 뒤집기</button>
+    </div>
+    <ol id="selectedList" style="margin:12px 0 2px;padding-left:22px;font-size:12px;line-height:1.55;color:#355044"><li>선택 없음</li></ol>
     <div class="stats">
-      <div class="stat"><small>구간 거리</small><strong id="distance">—</strong></div>
-      <div class="stat"><small>고도 표본</small><strong id="samples">—</strong></div>
+      <div class="stat"><small>선택 구간 합계</small><strong id="distance">—</strong></div>
+      <div class="stat"><small>DEM 고도 표본</small><strong id="samples">—</strong></div>
     </div>
   </div>
   <div class="section">
-    <h3>선택한 등산로의 고도그래프</h3>
+    <h3>선택한 전체 구간 고도그래프</h3>
     <svg id="profile" viewBox="0 0 340 186" aria-label="원본 고도표본 기반 고도그래프">
       <text x="170" y="96" text-anchor="middle" fill="#718376" font-size="13">실제 선형을 선택해줘</text>
     </svg>
     <p class="hint" id="elevInfo">원본 고도자료를 연결하면 DEM 해상도·표본 간격을 함께 표시해.</p>
   </div>
   <div class="section">
-    <div class="notice"><b>자료 구분</b><br>표시되는 녹색 선은 국립공원공단 <b>2018-12-31 시설 수록 탐방로</b> 원본이야. 현재 개방·통행 허용 여부를 뜻하지 않아. 두 대표 코스를 완성된 하나의 경로로 연결하지 않았고, 원본에 없는 구간은 만들어 표시하지 않았어.</div>
+    <div class="notice"><b>자료 구분</b><br>표시된 선은 국립공원공단 <b>2018-12-31 시설 수록 탐방로</b>에서 직접 분할했어. 현재 개방·통행 허용 여부는 미확인이야. 2018 원본에서 실제로 끊어진 곳은 연결하지 않고, 10m·35m 근접한 선도 임의로 붙이지 않아. 설악산 전체 소공원→대청봉 두 코스의 완결성은 아직 확인되지 않았어.</div>
     <p class="hint">지도/위성 배경: 공개 지도 타일 서비스(인터넷 필요). 등산로: 산박지도 저장소의 2018년 국립공원공단 GeoJSON. 고도: 저장소 DEM 구간별 90m 표본(있는 경우만 표시).</p>
   </div>
 </aside>
 <main class="maparea">
   <div id="map"></div>
-  <div class="overlay-header"><b>설악산 실제 탐방로 오버레이</b><br><span style="color:#63806b">원본 좌표 · 선택 구간 강조 · DEM 고도표본</span></div>
-  <div class="legend"><div><i class="legend-line"></i>2018 원본 탐방로</div><div style="margin-top:5px"><i class="legend-line selected"></i>선택한 구간</div></div>
+  <div class="overlay-header"><b>설악산 실제 탐방로 오버레이</b><br><span style="color:#63806b">원본 선형을 약 650m 선택 구간으로 분할 · 맞닿는 구간만 추가</span></div>
+  <div class="legend"><div><i class="legend-line"></i>원본 탐방로 분할 구간</div><div style="margin-top:5px"><i class="legend-line" style="border-color:#168de4"></i>이어 선택 가능한 구간</div><div style="margin-top:5px"><i class="legend-line selected"></i>선택된 코스</div></div>
   <div class="map-fallback" id="fallback">지도 스크립트를 불러오지 못했어.<br>인터넷 연결을 확인한 뒤 다시 열어줘.</div>
 </main>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+/* Sanbakmap Seoraksan source-line selector.
+ * Splits ONLY at original vertices. A nearby gap never creates a new trail.
+ * ≤1 m source endpoint contacts are accepted for drawing a planning preview,
+ * not as proof of official legal passage or current opening.
+ */
+(function(root){
+'use strict';
+const R=6371008.8, RAD=Math.PI/180;
+const distance=(a,b)=>{
+ const lat1=a[1]*RAD,lat2=b[1]*RAD,dy=(b[1]-a[1])*RAD,dx=(b[0]-a[0])*RAD;
+ const h=Math.sin(dy/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dx/2)**2;
+ return 2*R*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
+};
+function build(geo,{maxMeters=650,joinMeters=1}={}){
+ if(geo?.type!=='FeatureCollection'||!Array.isArray(geo.features)||
+    !Number.isFinite(maxMeters)||maxMeters<50||maxMeters>3000||
+    !Number.isFinite(joinMeters)||joinMeters<0||joinMeters>1)throw Error('설악산 원본/분할 정책 확인 실패');
+ const parts=[];
+ geo.features.forEach((f,i)=>{
+  if(f.properties?.facility_type!=='탐방로')return;
+  const pieces=f.geometry?.type==='LineString'?[f.geometry.coordinates]:
+   f.geometry?.type==='MultiLineString'?f.geometry.coordinates:[];
+  pieces.forEach((coords,j)=>{
+   if(!Array.isArray(coords)||coords.length<2||
+      !coords.every(p=>Array.isArray(p)&&p.length>=2&&Number.isFinite(p[0])&&
+       Number.isFinite(p[1])&&p[0]>=124&&p[0]<=132&&p[1]>=32&&p[1]<=40))
+       throw Error('원본 탐방로 좌표 오류');
+   const prefix=[0];
+   for(let v=1;v<coords.length;v++)prefix.push(prefix.at(-1)+distance(coords[v-1],coords[v]));
+   parts.push({sourceId:'knps2018:'+i+':'+j,featureIndex:i,partIndex:j,coords,prefix,
+     properties:f.properties,meters:prefix.at(-1)});
+  });
+ });
+ // Source endpoints can be touching another polyline's internal vertex.
+ // Only <=1m shared original coordinates are recognized, not 10/35m speculative gaps.
+ const tips=parts.flatMap(part=>[
+  {sourceId:part.sourceId,p:part.coords[0]},
+  {sourceId:part.sourceId,p:part.coords.at(-1)}
+ ]);
+ const segments=[];
+ for(const part of parts){
+  const cuts=new Set([0,part.coords.length-1]);let last=0;
+  for(let i=1;i<part.coords.length-1;i++){
+   if(part.prefix[i]-part.prefix[last]>=maxMeters){cuts.add(i);last=i;continue}
+   if(tips.some(t=>t.sourceId!==part.sourceId&&distance(part.coords[i],t.p)<=joinMeters)){
+     cuts.add(i);last=i;
+   }
+  }
+  const idx=[...cuts].sort((a,b)=>a-b);
+  for(let n=1;n<idx.length;n++){
+   const from=idx[n-1],to=idx[n],meters=part.prefix[to]-part.prefix[from];
+   if(meters<.05)continue;
+   const coords=part.coords.slice(from,to+1);
+   segments.push({id:part.sourceId+':'+from+'-'+to,sourceId:part.sourceId,
+    featureIndex:part.featureIndex,partIndex:part.partIndex,
+    vertexStart:from,vertexEnd:to,coords,meters,
+    start:coords[0],end:coords.at(-1),parent:part});
+  }
+ }
+ return {parts,segments,source:geo.metadata?.source_file_date||'unknown',joinMeters};
+}
+const endOf=item=>item.reverse?item.segment.start:item.segment.end;
+const startOf=item=>item.reverse?item.segment.end:item.segment.start;
+function append(route,segment,{joinMeters=1}={}){
+ if(!Array.isArray(route)||!segment?.coords)return {ok:false,route,reason:'invalid'};
+ if(route.some(item=>item.segment.id===segment.id))
+  return {ok:false,route,reason:'duplicate'};
+ if(!route.length)return {ok:true,route:[{segment,reverse:false}],reason:'first'};
+ const last=endOf(route.at(-1));
+ if(distance(last,segment.start)<=joinMeters)
+  return {ok:true,route:[...route,{segment,reverse:false}],reason:'joined'};
+ if(distance(last,segment.end)<=joinMeters)
+  return {ok:true,route:[...route,{segment,reverse:true}],reason:'joined_reversed'};
+ // When the first selected piece was pointing the wrong direction,
+ // auto-reverse it only if this second segment shares its original start.
+ if(route.length===1){
+  const start=startOf(route[0]);
+  if(distance(start,segment.start)<=joinMeters)
+   return {ok:true,route:[{segment:route[0].segment,reverse:!route[0].reverse},
+     {segment,reverse:false}],reason:'auto_reversed_first'};
+  if(distance(start,segment.end)<=joinMeters)
+   return {ok:true,route:[{segment:route[0].segment,reverse:!route[0].reverse},
+     {segment,reverse:true}],reason:'auto_reversed_first'};
+ }
+ return {ok:false,route,reason:'not_connected'};
+}
+const reverse=route=>route.slice().reverse().map(item=>({segment:item.segment,reverse:!item.reverse}));
+const total=route=>route.reduce((m,x)=>m+x.segment.meters,0);
+root.SanbakSeorakSegments=Object.freeze({version:1,distance,build,append,reverse,total,startOf,endOf});
+})(typeof window!=='undefined'?window:globalThis);
+
+</script>
+<script>
 (()=>{
-  'use strict';
-  const $=s=>document.getElementById(s);
-  if(!window.L){$('fallback').style.display='flex';$('status').textContent='지도 라이브러리 로딩 실패';$('status').className='status error';return;}
-  const BASE=location.protocol==='file:'||!location.hostname.endsWith('github.io')?
-    'https://raw.githubusercontent.com/suminma27-ship-it/sanbakmap/main/':'./';
-  const endpoints={trails:BASE+'data/knps-seorak-2018.geojson',dem:BASE+'data/nationwide-elevation/seorak-knps-v108.json'};
-  const map=L.map('map',{zoomControl:true,preferCanvas:true}).setView([38.1432,128.4579],13);
-  const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{
-    maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
-  const standard=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:19,attribution:'© OpenStreetMap contributors'});
-  const esriTopo=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{
-    maxZoom:18,attribution:'Tiles © Esri — sources: Esri, HERE, Garmin, OpenStreetMap'});
-  const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-    maxZoom:18,attribution:'Imagery © Esri, Maxar, Earthstar Geographics'});
-  esriTopo.addTo(map);
-  let geo=null,dem=null,allGroup=L.featureGroup().addTo(map),selected=null,parts=[];
-  L.control.layers({'지형지도':esriTopo,'등고선지도':topo,'일반 지도':standard,'위성사진':satellite},{'공단 2018 탐방로':allGroup},{collapsed:false,position:'topright'}).addTo(map);
-  const baseStyle={color:'#06a87a',weight:3.7,opacity:.96,lineCap:'round',lineJoin:'round'};
-  function selectedReset(){if(selected){selected.setStyle(baseStyle);selected=null;} $('distance').textContent='—';$('samples').textContent='—';$('elevInfo').textContent='원본 등산로를 클릭하면 DEM 자료를 확인해.';$('details').innerHTML='<div class="name">등산로를 선택해봐</div><div class="meta">원본 구간 하나를 선택해 실제 지형과 고도를 대조할 수 있어.</div>';svgMessage('원본 등산로를 선택해줘');}
-  function svgMessage(message){const svg=$('profile');svg.replaceChildren();const ns='http://www.w3.org/2000/svg';const t=document.createElementNS(ns,'text');t.setAttribute('x','170');t.setAttribute('y','96');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#718376');t.setAttribute('font-size','13');t.textContent=message;svg.append(t);}
-  function addSVG(svg,tag,attrs,text){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(text!=null)e.textContent=String(text);svg.append(e);return e;}
-  function heights(encoded,expected){
-    if(typeof encoded!=='string'||!/^[a-zA-Z0-9_-]+$/.test(encoded))throw Error('표본 데이터 형식 불일치');
-    const raw=atob(encoded.replace(/-/g,'+').replace(/_/g,'/')+'='.repeat((4-encoded.length%4)%4));
-    const b=Uint8Array.from(raw,c=>c.charCodeAt(0));let pos=0,previous=0;const out=[];
-    while(pos<b.length){let n=0,shift=0,done=false;
-      for(let k=0;k<5;k++){if(pos>=b.length)throw Error('표본 잘림');const v=b[pos++];n+=(v&127)*2**shift;if(!(v&128)){done=true;break;}shift+=7;}
-      if(!done||n>0xffffffff)throw Error('표본 범위 오류');
-      previous+=n%2?-(Math.floor(n/2)+1):Math.floor(n/2);out.push(previous/10);
-      if(out.length>expected)throw Error('표본 개수 초과');
-    }if(out.length!==expected)throw Error('표본 개수 불일치');return out;
+'use strict';
+const $=id=>document.getElementById(id);
+if(!window.L||!window.SanbakSeorakSegments){
+ $('fallback').style.display='flex';$('status').textContent='지도/구간선택 스크립트를 불러오지 못했어';
+ $('status').className='status error';return;
+}
+const core=window.SanbakSeorakSegments;
+const BASE=location.protocol==='file:'||!location.hostname.endsWith('github.io')?
+ 'https://raw.githubusercontent.com/suminma27-ship-it/sanbakmap/main/':'./';
+const map=L.map('map',{zoomControl:true,preferCanvas:true}).setView([38.144,128.458],13);
+const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+ {maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
+const standard=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+ {maxZoom:19,attribution:'© OpenStreetMap contributors'});
+const terrain=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+ {maxZoom:18,attribution:'Tiles © Esri · HERE · Garmin · OSM'});
+const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+ {maxZoom:18,attribution:'Imagery © Esri · Maxar'});
+terrain.addTo(map);
+const trailsGroup=L.featureGroup().addTo(map);
+L.control.layers({'지형지도':terrain,'등고선지도':topo,'일반 지도':standard,'위성사진':satellite},
+ {'공단 과거 탐방로 분할 구간':trailsGroup},{collapsed:false,position:'topright'}).addTo(map);
+const styles={
+ idle:{color:'#078b69',weight:5,opacity:.85},
+ next:{color:'#168de4',weight:7,opacity:1},
+ selected:{color:'#f0a518',weight:8,opacity:1}
+};
+let parsed=null,dem=null,route=[],drawn=[],active={},markerStart=null,markerEnd=null,selectedParts=0;
+const status=(message,isError=false)=>{$('status').textContent=message;$('status').className='status'+(isError?' error':'')};
+function svgMsg(message){
+ const svg=$('profile');svg.replaceChildren();
+ const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+ t.setAttribute('x','170');t.setAttribute('y','96');t.setAttribute('text-anchor','middle');
+ t.setAttribute('font-size','12');t.setAttribute('fill','#718376');t.textContent=message;svg.append(t);
+}
+function svgEl(svg,type,attrs,text){
+ const e=document.createElementNS('http://www.w3.org/2000/svg',type);
+ Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));
+ if(text!==undefined)e.textContent=String(text);
+ svg.append(e);return e;
+}
+function decode(encoded,expected){
+ if(typeof encoded!=='string'||!/^[A-Za-z0-9_-]+$/.test(encoded))throw Error('DEM 압축 문법 오류');
+ const raw=atob(encoded.replace(/-/g,'+').replace(/_/g,'/')+'='.repeat((4-encoded.length%4)%4));
+ const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)),out=[];
+ let previous=0,pos=0;
+ while(pos<bytes.length){
+  let n=0,shift=0,done=false;
+  for(let k=0;k<5;k++){
+   if(pos>=bytes.length)throw Error('잘린 DEM 압축값');
+   const v=bytes[pos++];n+=(v&127)*2**shift;if(!(v&128)){done=true;break}shift+=7;
   }
-  function edgeProfile(sourceId,vertexCount){
-    if(!dem||dem.schema!=='sanbak-original-edge-dem-packed-v108'||dem.mountainCode!=='428302602'||dem.sourceKind!=='knps'||dem.spacingMeters!==90)throw Error('설악산 원본 DEM 자료 미확인');
-    const related=Object.entries(dem.edgeIdentities).filter(([id,proof])=>Array.isArray(proof)&&proof[3]===sourceId).sort((a,b)=>a[1][4]-b[1][4]);
-    if(!related.length)throw Error('대응 DEM 표본 없음');
-    let samples=[],total=0,lastVertex=null;
-    for(const [id,proof] of related){const len=proof[2],start=proof[4],end=proof[5];
-      if(!(len>0)||!Number.isInteger(start)||!Number.isInteger(end)||start>=end||end>=vertexCount)throw Error('원본 선형·DEM 식별자 불일치');
-      if(lastVertex!==null&&start!==lastVertex)throw Error('원본 간 구간이 분리되어 있음');
-      lastVertex=end;
-      const hs=heights(dem.samples[id],Math.ceil(len/90)+1);
-      hs.forEach((h,i)=>{if(samples.length&&i===0)return;samples.push({distance:total+Math.min(i*90,len),elevation:h});});
-      total+=len;
-    }
-    if(samples.length<2)return null;
-    return {samples,total};
+  if(!done||n>0xffffffff)throw Error('DEM 고도값 범위 오류');
+  previous+=n%2?-(Math.floor(n/2)+1):Math.floor(n/2);
+  if(previous<-5000||previous>90000)throw Error('DEM 고도값 무효');
+  out.push(previous/10);
+  if(out.length>expected)throw Error('DEM 표본 길이 초과');
+ }
+ if(out.length!==expected)throw Error('DEM 표본 수 불일치');
+ return out;
+}
+function elevationAt(heights,meters,len){
+ const step=90;
+ if(meters<=0)return heights[0];
+ if(meters>=len)return heights.at(-1);
+ const i=Math.min(heights.length-2,Math.floor(meters/step));
+ const low=i*step,high=i+1===heights.length-1?len:(i+1)*step;
+ const t=Math.max(0,Math.min(1,(meters-low)/(high-low)));
+ return heights[i]*(1-t)+heights[i+1]*t;
+}
+// Query the DEM packed by original source edge. Sampling inside an edge is interpolation
+// between existing original DEM samples, not an invented pathway or point source.
+function profileOf(segment,reversed){
+ const parent=segment.parent;
+ if(!dem||dem.schema!=='sanbak-original-edge-dem-packed-v108'||dem.spacingMeters!==90||
+  dem.mountainCode!=='428302602'||dem.sourceKind!=='knps')return null;
+ const {prefix}=parent,left=prefix[segment.vertexStart],right=prefix[segment.vertexEnd];
+ const edges=Object.entries(dem.edgeIdentities).filter(([id,p])=>Array.isArray(p)&&
+  p.length===6&&p[3]===segment.sourceId).sort((a,b)=>a[1][4]-b[1][4]);
+ const points=[];let covered=left;
+ for(const [id,p] of edges){
+  const [from,to,len,sourceId,start,end]=p;
+  if(!Number.isInteger(start)||!Number.isInteger(end)||start<0||start>=end||
+   end>=parent.coords.length||!Number.isFinite(len)||len<=0)continue;
+  const e0=prefix[start],e1=prefix[end],l=Math.max(left,e0),r=Math.min(right,e1);
+  if(r-l<=.02)continue;
+  if(l>covered+1) return null; // No elevation bridge over missing source coverage.
+  const hs=decode(dem.samples[id],Math.ceil(len/90)+1);
+  const dAt=m=>(m-e0)/(e1-e0)*len;
+  const meters=[l];
+  for(let k=1;k<hs.length-1;k++){
+   const d=k*90;
+   if(d>dAt(l)+.1&&d<dAt(r)-.1)meters.push(e0+(d/len)*(e1-e0));
   }
-  function renderProfile(points,total){
-    const svg=$('profile');svg.replaceChildren();
-    const w=340,h=186,pad={top:15,left:51,right:10,bottom:28},cw=w-pad.left-pad.right,ch=h-pad.top-pad.bottom;
-    const elevations=points.map(p=>p.elevation),lo=Math.floor((Math.min(...elevations)-30)/100)*100,hi=Math.ceil((Math.max(...elevations)+30)/100)*100;
-    const x=d=>pad.left+cw*(d/total),y=e=>pad.top+ch*(hi-e)/(hi-lo||1);
-    for(let i=0;i<=4;i++){
-      const val=lo+(hi-lo)*i/4;
-      addSVG(svg,'line',{x1:pad.left,y1:y(val),x2:w-pad.right,y2:y(val),stroke:'#dee9e0','stroke-width':1});
-      addSVG(svg,'text',{x:pad.left-7,y:y(val)+4,'text-anchor':'end',fill:'#657968','font-size':10},Math.round(val)+'m');
-    }
-    const d=points.map((p,i)=>(i?'L':'M')+x(p.distance).toFixed(2)+' '+y(p.elevation).toFixed(2)).join(' ');
-    const fill=d+' L '+x(total)+' '+(h-pad.bottom)+' L '+x(0)+' '+(h-pad.bottom)+' Z';
-    addSVG(svg,'path',{d:fill,fill:'#d8eee1'});
-    addSVG(svg,'path',{d,fill:'none',stroke:'#157449','stroke-width':2.8,'stroke-linejoin':'round'});
-    for(let i=0;i<=4;i++){const m=total*i/4;addSVG(svg,'text',{x:x(m),y:h-6,'text-anchor':'middle',fill:'#657968','font-size':10},(m/1000).toFixed(1)+'km');}
+  meters.push(r);
+  for(const m of meters){
+   const h=elevationAt(hs,dAt(m),len);
+   if(points.length&&Math.abs(points.at(-1).distance-(m-left))<.1){
+    if(Math.abs(points.at(-1).elevation-h)>20)return null;
+    continue;
+   }
+   points.push({distance:m-left,elevation:h});
   }
-  function activate(item){
-    if(selected)selected.setStyle(baseStyle);
-    selected=item.line;selected.setStyle({color:'#ffb31b',weight:8,opacity:1});selected.bringToFront();
-    const p=item.properties,sourceId=item.sourceId;
-    $('details').innerHTML='';let nm=document.createElement('div');nm.className='name';nm.textContent=p.facility_label||'공단 탐방로';let mt=document.createElement('div');mt.className='meta';mt.textContent='공단 시설 ID '+(p.original_facility_id||'미상')+' · 자료일 2018-12-31 · 원본 선형 '+sourceId;$('details').append(nm,mt);
-    map.fitBounds(selected.getBounds().pad(.22),{maxZoom:14,animate:true});
-    try{const prof=edgeProfile(sourceId,item.coords.length);if(!prof){svgMessage('이 구간의 DEM 표본이 없어');return;}
-      $('distance').textContent=(prof.total/1000).toFixed(2)+' km';$('samples').textContent=prof.samples.length+'개';
-      const h=prof.samples.map(p=>p.elevation),up=prof.samples.slice(1).reduce((a,p,i)=>a+Math.max(0,p.elevation-prof.samples[i].elevation),0);
-      $('elevInfo').textContent='국립공원공단 원본 선형 대응 DEM 90m 표본 · '+Math.round(Math.min(...h))+'~'+Math.round(Math.max(...h))+'m · 표본 기준 누적 상승 약 '+Math.round(up)+'m · 수직기준 미기재';
-      renderProfile(prof.samples,prof.total);
-    }catch(err){$('distance').textContent='—';$('samples').textContent='없음';svgMessage('이 구간은 확인된 고도자료가 없어');$('elevInfo').textContent=String(err.message);}
+  covered=Math.max(covered,r);
+ }
+ if(covered<right-1||points.length<2)return null;
+ if(!reversed)return points;
+ return points.slice().reverse().map(p=>({distance:segment.meters-p.distance,elevation:p.elevation}));
+}
+function chart(runs,total){
+ const svg=$('profile');svg.replaceChildren();
+ const points=runs.flat();
+ if(points.length<2){svgMsg('선택 구간에 대응하는 DEM 표본이 없어');return}
+ const W=340,H=186,LX=48,RX=331,TY=13,BY=157;
+ const values=points.map(p=>p.elevation);
+ const low=Math.floor((Math.min(...values)-35)/100)*100;
+ const high=Math.ceil((Math.max(...values)+35)/100)*100;
+ const x=d=>LX+(d/total)*(RX-LX);
+ const y=h=>BY-(h-low)/(high-low||1)*(BY-TY);
+ for(let i=0;i<=4;i++){
+  const v=low+(high-low)*i/4;
+  svgEl(svg,'line',{x1:LX,x2:RX,y1:y(v),y2:y(v),stroke:'#e3e9e4'});
+  svgEl(svg,'text',{x:LX-5,y:y(v)+4,'text-anchor':'end',fill:'#5f7165','font-size':11},Math.round(v)+'m');
+  svgEl(svg,'text',{x:x(total*i/4),y:H-7,'text-anchor':'middle',fill:'#5f7165','font-size':11},(total*i/4000).toFixed(1)+'km');
+ }
+ for(const run of runs){
+  if(run.length<2)continue;
+  const path=run.map((p,i)=>(i?'L':'M')+x(p.distance).toFixed(2)+' '+y(p.elevation).toFixed(2)).join(' ');
+  svgEl(svg,'path',{d:path,stroke:'#1675aa','stroke-width':2.9,'stroke-linejoin':'round',fill:'none'});
+ }
+}
+function candidates(){
+ if(!route.length)return new Set();
+ const tail=core.endOf(route.at(-1));
+ return new Set(parsed.segments.filter(s=>!route.some(x=>x.segment.id===s.id)&&
+  (core.distance(tail,s.start)<=parsed.joinMeters||core.distance(tail,s.end)<=parsed.joinMeters))
+  .map(s=>s.id));
+}
+function refresh(){
+ const current=new Set(route.map(x=>x.segment.id)),next=candidates();
+ for(const item of drawn){
+  const style=current.has(item.seg.id)?styles.selected:next.has(item.seg.id)?styles.next:styles.idle;
+  item.line.setStyle(style);
+ }
+ if(markerStart)map.removeLayer(markerStart);
+ if(markerEnd)map.removeLayer(markerEnd);
+ markerStart=markerEnd=null;
+ const distance=core.total(route);
+ $('distance').textContent=route.length?(distance/1000).toFixed(2)+'km':'—';
+ const list=$('selectedList');list.replaceChildren();
+ if(!route.length){
+  const li=document.createElement('li');li.textContent='선택 없음';list.append(li);
+  $('samples').textContent='—';$('details').replaceChildren();
+  const title=document.createElement('div');title.className='name';title.textContent='등산로에서 첫 구간을 선택해줘';
+  const hint=document.createElement('div');hint.className='meta';hint.textContent='첫 클릭은 출발 구간, 이후에는 파란색 연결 후보를 선택해.';
+  $('details').append(title,hint);
+  $('elevInfo').textContent='실제 DEM 고도가 확인된 선택 구간만 그래프로 표시해.';
+  svgMsg('등산로에서 첫 구간을 선택해줘');
+  return;
+ }
+ route.forEach((item,i)=>{
+  const li=document.createElement('li');
+  li.textContent=(i+1)+'. '+(item.segment.parent.properties.facility_label||'탐방로')+
+   ' · '+(item.segment.meters/1000).toFixed(2)+'km'+(item.reverse?' (역방향)':'');
+  list.append(li);
+ });
+ const first=core.startOf(route[0]),last=core.endOf(route.at(-1));
+ markerStart=L.circleMarker([first[1],first[0]],{radius:7,color:'#1e526b',fillColor:'#fff',fillOpacity:1,weight:3,interactive:false}).addTo(map);
+ markerEnd=L.circleMarker([last[1],last[0]],{radius:8,color:'#b25e00',fillColor:'#fff4c0',fillOpacity:1,weight:3,interactive:false}).addTo(map);
+ $('details').replaceChildren();
+ const title=document.createElement('div');title.className='name';title.textContent='구간 '+route.length+'개 · 다음 후보 '+next.size+'개';
+ const desc=document.createElement('div');desc.className='meta';
+ desc.textContent=next.size?'파란색 구간을 누르면 현재 끝점에 이어서 추가돼.':
+ '이 끝점에서 확인된 다음 구간이 없어. 취소하거나 방향을 뒤집어봐.';
+ $('details').append(title,desc);
+ let offset=0,missing=0,count=0,runs=[],current=[];
+ for(const item of route){
+  let sub=null;
+  try{sub=profileOf(item.segment,item.reverse)}catch(err){console.warn('Invalid DEM source segment',err)}
+  if(!sub){missing++;if(current.length>1)runs.push(current);current=[];}
+  else{
+   const points=sub.map(p=>({distance:p.distance+offset,elevation:p.elevation}));
+   count+=points.length;
+   if(current.length&&Math.abs(current.at(-1).distance-points[0].distance)<1&&
+      Math.abs(current.at(-1).elevation-points[0].elevation)<=20){
+     current.push(...points.slice(1));
+   }else{
+     if(current.length>1)runs.push(current);
+     current=points;
+   }
   }
-  async function load(){
-    try{
-      const [resGeo,resDem]=await Promise.all([fetch(endpoints.trails),fetch(endpoints.dem)]);
-      if(!resGeo.ok)throw Error('등산로 원본 HTTP '+resGeo.status);
-      geo=await resGeo.json();if(!resDem.ok)throw Error('DEM 자료 HTTP '+resDem.status);dem=await resDem.json();
-      if(geo.type!=='FeatureCollection'||geo.metadata?.source_file_date!=='2018-12-31'||geo.metadata?.trail_features!==19||geo.features?.length!==24)throw Error('공단 원본 메타데이터 확인 실패');
-      if(dem.graphArchiveSHA256!==geo.metadata.source_zip_sha256)throw Error('DEM과 공단 원본 출처가 일치하지 않아');
-      let count=0;
-      geo.features.forEach((feature,i)=>{
-        if(feature.properties?.facility_type!=='탐방로')return;
-        const g=feature.geometry;
-        const pieces=g.type==='LineString'?[g.coordinates]:g.type==='MultiLineString'?g.coordinates:[];
-        pieces.forEach((coords,j)=>{
-          if(!Array.isArray(coords)||coords.length<2||!coords.every(p=>Array.isArray(p)&&p[0]>124&&p[0]<132&&p[1]>32&&p[1]<40))return;
-          const sourceId='knps2018:'+i+':'+j;
-          const latlng=coords.map(p=>[p[1],p[0]]);
-          const line=L.polyline(latlng,baseStyle).addTo(allGroup);
-          const item={line,sourceId,properties:feature.properties,coords};parts.push(item);count++;
-          line.bindTooltip((feature.properties.facility_label||'탐방로')+' · 선택해서 고도 보기',{sticky:true});
-          line.on('click',()=>activate(item));
-        });
-      });
-      $('sourceCount').textContent=count+'개 원본 선형 부분';
-      $('status').textContent='공단 탐방로 19개(선형 부분 '+count+'개)를 실제 지도에 표시했어. 선을 클릭하면 실제 원본 DEM 고도표본을 볼 수 있어.';
-      $('fitAll').onclick=()=>map.fitBounds(allGroup.getBounds(),{padding:[25,25]});
-      $('fitEast').onclick=()=>map.setView([38.154,128.473],14);
-      $('clear').onclick=selectedReset;
-      if(count) {map.setView([38.154,128.473],13); const near=parts.find(x=>x.sourceId==='knps2018:18:0');if(near)activate(near);}
-    }catch(err){$('status').textContent='자료를 불러오지 못했어: '+err.message+' · 인터넷 연결을 확인해줘.';$('status').className='status error';console.error(err);}
+  offset+=item.segment.meters;
+ }
+ if(current.length>1)runs.push(current);
+ $('samples').textContent=count?count+'개':'없음';
+ $('elevInfo').textContent=missing?
+  '원본 DEM 표본 미확인 구간 '+missing+'개 · 그 구간은 고도선을 연결하지 않았어.':
+  '공단 2018 원본 등산로 + 90m DEM 표본(구간 경계는 DEM 값 사이 보간) · 수직기준 미기재';
+ chart(runs,distance);
+}
+function clickSegment(seg){
+ const result=core.append(route,seg,{joinMeters:parsed.joinMeters});
+ if(!result.ok){
+  const message=result.reason==='duplicate'?'이미 선택된 구간이야. 뒤로 가려면 마지막 구간 취소를 눌러줘.':
+   '현재 선택 끝점과 연결되지 않은 선형이야. 파란색으로 표시된 구간만 이어 선택할 수 있어.';
+  status(message,true);return;
+ }
+ route=result.route;refresh();
+ status(result.reason==='auto_reversed_first'?
+  '첫 구간 방향을 자동으로 뒤집어서 연결했어. 원본 좌표가 실제로 맞닿는 구간만 선택 중이야.':
+  '구간 '+route.length+'개 선택됨 · 다음 구간은 지도에서 파란색으로 표시돼.');
+}
+$('undo').onclick=()=>{if(!route.length)return;route.pop();refresh();status('마지막 구간을 취소했어.')};
+$('reverse').onclick=()=>{if(!route.length)return;route=core.reverse(route);refresh();status('선택 코스 방향을 반대로 바꿨어.')};
+$('clear').onclick=()=>{route=[];refresh();status('선택한 코스를 초기화했어.')};
+$('fitAll').onclick=()=>parsed&&map.fitBounds(trailsGroup.getBounds(),{padding:[30,30]});
+$('fitEast').onclick=()=>map.setView([38.155,128.473],14);
+async function load(){
+ try{
+  const [rg,rd]=await Promise.all([
+   fetch(BASE+'data/knps-seorak-2018.geojson'),
+   fetch(BASE+'data/nationwide-elevation/seorak-knps-v108.json')]);
+  if(!rg.ok||!rd.ok)throw Error('자료 HTTP '+rg.status+'/'+rd.status);
+  const geo=await rg.json();dem=await rd.json();
+  if(geo.metadata?.source_file_date!=='2018-12-31'||geo.metadata?.trail_features!==19||
+    geo.features?.length!==24||dem.graphArchiveSHA256!==geo.metadata.source_zip_sha256)
+    throw Error('공단 원본/DEM 출처 검증 실패');
+  parsed=core.build(geo,{maxMeters:650,joinMeters:1});
+  for(const seg of parsed.segments){
+   const latlng=seg.coords.map(p=>[p[1],p[0]]);
+   const line=L.polyline(latlng,styles.idle).addTo(trailsGroup);
+   line.bindTooltip((seg.parent.properties.facility_label||'탐방로')+
+    ' · '+(seg.meters/1000).toFixed(2)+'km · 구간 선택',{sticky:true});
+   line.on('click',()=>clickSegment(seg));
+   // Increase touch target without adding visual route geometry.
+   const hit=L.polyline(latlng,{weight:16,opacity:0.01,color:'#fff',interactive:true}).addTo(trailsGroup);
+   hit.on('click',()=>clickSegment(seg));
+   drawn.push({seg,line,hit});
   }
-  load();
+  $('sourceCount').textContent=parsed.segments.length+'개 선택 구간';
+  status('실제 공단 탐방로 '+parsed.parts.length+'개 선형 부분을 '+parsed.segments.length+
+   '개 선택 구간으로 분할했어. 초록색 구간부터 선택하고 파란색으로 이어가봐.');
+  map.setView([38.155,128.473],13);
+  refresh();
+ }catch(err){status('지도 등산로/고도자료 오류: '+err.message,true);console.error(err)}
+}
+load();
 })();
 </script>
 </body>

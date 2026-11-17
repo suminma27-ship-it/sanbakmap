@@ -46,3 +46,26 @@ export function deletePlan(storage,index) {
   if(!Number.isInteger(index)||index<0||index>=all.length)throw Error('잘못된 코스 번호');
   all.splice(index,1);storage.setItem(PLAN_KEY,JSON.stringify(all));return all;
 }
+
+/** Portable JSON plans are data only; importing never restores routes or grants access. */
+export const PLAN_EXPORT_FORMAT = 'sanbakmap-route-plans';
+export function exportPlans(storage) {
+  const plans = readPlans(storage);
+  return JSON.stringify({format:PLAN_EXPORT_FORMAT,version:1,plans},null,2);
+}
+export function importPlans(storage,json) {
+  if(typeof json!=='string'||json.length>200000)throw Error('코스 파일 크기 오류');
+  let file;
+  try{file=JSON.parse(json)}catch{throw Error('JSON 파일 형식 오류')}
+  if(!file||Array.isArray(file)||file.format!==PLAN_EXPORT_FORMAT||file.version!==1||!Array.isArray(file.plans)||file.plans.length>100)throw Error('지원하지 않는 코스 내보내기 파일');
+  const incoming=file.plans.map(validatePlan);
+  const existing=readPlans(storage);
+  const key=p=>JSON.stringify([p.mountainCode,p.graphKind,p.sourceFingerprint,p.waypoints,p.planDate,p.name]);
+  const known=new Set(existing.map(key));
+  const additions=[];
+  for(const plan of incoming){const k=key(plan);if(!known.has(k)){known.add(k);additions.push(plan)}}
+  if(existing.length+additions.length>100)throw Error('저장 가능한 코스는 최대 100개');
+  // Single atomic write: malformed input never partially modifies storage.
+  if(additions.length)storage.setItem(PLAN_KEY,JSON.stringify([...existing,...additions]));
+  return {imported:additions.length,skipped:incoming.length-additions.length};
+}

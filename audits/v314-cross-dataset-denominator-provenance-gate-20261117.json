@@ -1,0 +1,56 @@
+{
+  "schema": "sanbak-v314-cross-dataset-denominator-and-provenance-gate",
+  "date": "2026-11-17",
+  "baseMain": "11ffdd5be680cd17ca8354f3365bf83b8684e05b",
+  "inputs": [
+    {
+      "path": "audits/v313-forest-archive-catalog-reconciliation-20261117.json",
+      "gitBlobSHA1": "d302a9c5f983e50045d60136b19853eed87800f1",
+      "inventoryCSV_SHA256": "840dc57e0cf895c1d459c2eb6cc831accfa5a8ad9ae4e41c1a102e5e580cdb47"
+    },
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    }
+  ],
+  "computed": {
+    "catalogFiles": 63,
+    "catalogFeatureTotal": 164012,
+    "catalogDATA002LineFeatures": 59402,
+    "previouslyReportedArcGISLineFeatures": 57070,
+    "reportedGraphEdges": 67185,
+    "catalogDATA001PointFeatures": 101075,
+    "previouslyReportedArcGISPoints": 101255,
+    "unreconciledLineCountDifference": 2332,
+    "unreconciledPointCountDifference": 180,
+    "graphEdgeVsCatalogLineDifference": 7783
+  },
+  "checks": {
+    "catalog63": true,
+    "geometryRows63": true,
+    "lineRows30": true,
+    "data002Count": true,
+    "data001Count": true,
+    "notGraphEdges": true,
+    "notPriorLineCount": true,
+    "notPriorPoints": true,
+    "allData002HaveId": true,
+    "sourceCodeUnchanged": true,
+    "catalogNotRaw": true
+  },
+  "passed": 11,
+  "total": 11,
+  "finding": "The 63-row archive inventory is internally consistent, but DATA002=59,402 differs from previously reported 57,070 ArcGIS line features, and DATA001=101,075 differs from previously reported 101,255 points. These are provenance/denominator discrepancies, not proven missing features; 67,185 graph edges are a distinct unit. Do not use count equality as a nationwide completion gate without mapping archive, ArcGIS, v129 and graph source identities.",
+  "nextGate": "Retrieve exact raw ZIP/SHP/DEM bytes and SHA-256, archive member manifest, CRS and feature IDs; build keyed per-source reconciliation with multipart splitting, filtering and dedup evidence, covering all 2,902 places including <=200m. Then execute v102 precision-vs-grid audit on real features, 57 flagged nodes, 35m review-only candidates, v69 regression and deployment checks.",
+  "originalBytesVerified": false,
+  "coverageVerified": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

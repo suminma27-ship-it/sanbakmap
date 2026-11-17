@@ -13,6 +13,26 @@ const page=readFileSync('mountain-trails.html','utf8');
 assert(page.includes('./core/mountain-line-profile.js'));
 assert(page.includes("forestDEM(code,entry.bucket)"));
 assert(!page.includes('SanbakSeorakSegments'),'신규 화면은 구간 연결 엔진을 불러오지 않음');
+
+assert(page.includes('id="seorakCourses"')&&page.includes('id="courseExamples"'),'코스 목록 UI 누락');
+const expectedPlans=[
+ ['코스1','소공원','비선대','마등령','공룡능선','희운각','대청봉'],
+ ['코스2','소공원','비선대','희운각','대청봉'],
+ ['코스3','오색약수','대청봉'],
+ ['코스4','장수대','귀때기청봉','대청봉'],
+ ['코스5','서북능선','귀때기청봉','대청봉']
+];
+for(const route of expectedPlans){
+ const fragment="name:'"+route[0]+"',via:["+route.slice(1).map(x=>"'"+x+"'").join(',')+"]";
+ assert(page.includes(fragment),'설악산 이름/순서가 사용자 요구와 달라: '+route[0]);
+}
+assert(page.includes("noProfile('코스 전체 고도그래프 미확인')"),
+ '확인되지 않은 전체 코스의 고도그래프를 지어내면 안 됨');
+assert(page.includes("layer.setStyle(selected?{color:'#145d3e'"),
+ '단일 선택 원본만 진한 녹색으로 강조해야 함');
+assert(page.includes("{color:'#9aac9d',weight:3,opacity:.67}"),
+ '선택되지 않은 원본 등산로는 연하게 표시해야 함');
+
 const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
 assert.equal(scripts.length,1);
 for(const s of scripts)new vm.Script(s,{filename:'mountain-trails:inline.js'});

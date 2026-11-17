@@ -71,7 +71,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <body>
 <header><a href="./index.html"><strong>▲ 산박지도</strong></a><span style="font-size:12px">산 선택 · 원본 등산로 · 고도그래프</span></header>
 <main>
-<h1>전국 산 등산로 지도</h1>
+<h1>전국 산 등산로 지도 <small style="font-size:12px;color:#49715a;font-weight:600">원본 조회판 · 11/18 수정</small></h1>
 <p class="intro">일반지도 위에 산의 등산로를 연하게 표시하고, <b>선택한 원본 등산로만 진한 녹색</b>으로 강조해. 선택한 선형의 고도그래프는 아래에서 확인할 수 있어.</p>
 <div class="note">표시 자료는 주로 2016~2018년 기관 수록 등산로야. 2026년 현재 개방·통행 허용을 의미하지 않아. 고도표본이 있는 선형만 그래프를 제공하며, 다른 등산로를 이어 붙이거나 누락된 고도를 추정하지 않아.</div>
 <div class="layout">
@@ -229,17 +229,42 @@ function refreshFallbackStyles(){
 }
 
 function makeMap(){
- if(!window.L){$('mapFallback').style.display='block';$('mapFallback').textContent='지도 배경을 불러오지 못해 원본 좌표 기반 등산로만 표시하고 있어.';$('fit').onclick=()=>drawFallback();return}
- map=L.map('map',{preferCanvas:true}).setView([38.14,128.46],11);
- const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
- const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-  {maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
- const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  {maxZoom:17,attribution:'Imagery © Esri · Maxar'});
- group=L.featureGroup().addTo(map);
- L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);
- $('fit').onclick=()=>{if(group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[20,20],maxZoom:14});};
+ // Leaflet JS without its stylesheet yields an apparently blank/broken map.
+ // In that case fall back to the original coordinate SVG, and keep DEM usable.
+ let cssReady=true;
+ if(window.L && typeof window.getComputedStyle==='function' && document.body){
+  const probe=document.createElement('div');
+  probe.className='leaflet-container';
+  document.body.append(probe);
+  cssReady=window.getComputedStyle(probe).position==='relative';
+  probe.remove();
+ }
+ const fallback=(reason)=>{
+  map=null;group=null;
+  $('map').replaceChildren();
+  $('mapFallback').style.display='block';
+  $('mapFallback').textContent=reason+' 원본 좌표 지도와 고도그래프는 계속 사용할 수 있어.';
+  $('fit').onclick=()=>drawFallback();
+ };
+ if(!window.L||!cssReady){
+  fallback(!window.L?'배경지도 스크립트 연결 실패.':'배경지도 스타일 연결 실패.');
+  return;
+ }
+ try{
+  map=L.map('map',{preferCanvas:true}).setView([38.14,128.46],11);
+  const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+   {maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
+  const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+   {maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
+  const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+   {maxZoom:17,attribution:'Imagery © Esri · Maxar'});
+  group=L.featureGroup().addTo(map);
+  L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);
+  $('fit').onclick=()=>{if(group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[20,20],maxZoom:14});};
+ }catch(err){
+  console.warn('배경지도 초기화 실패, 원본 좌표 지도 전환',err);
+  fallback('배경지도 초기화 실패.');
+ }
 }
 async function getJSON(path){
  const response=await fetch(path,{cache:'force-cache'});

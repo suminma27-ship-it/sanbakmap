@@ -26,7 +26,17 @@ export function restorePlan(plan,{mountainCode,graphKind,graph,model}) {
   if(p.mountainCode!==mountainCode||p.graphKind!==graphKind||p.sourceFingerprint!==graphFingerprint(graph)) throw Error('저장 당시 원본과 현재 연결망이 달라 복원 불가');
   if(!model || p.waypoints.some(n=>n>=model.nodeCount||model.degreeOf(n)<=0)) throw Error('유효하지 않은 원본 노드');
   const route=model.plan(p.waypoints);
-  if(route.status!=='geometry_preview_only') throw Error('원본 연결망에서 경로를 확인할 수 없음');
+  if(route.status!=='geometry_preview_only' || !Array.isArray(route.legs) ||
+     route.legs.length!==p.waypoints.length-1 ||
+     route.legs.some(leg=>!Array.isArray(leg.edgeIds)||!leg.edgeIds.length))
+    throw Error('원본 연결망에서 모든 경유지 구간을 확인할 수 없음');
+  // A route may report geometry_preview_only while using inferred contacts.
+  // Never restore it as a verified source-geometry route.
+  const edgeIds=route.legs.flatMap(leg=>leg.edgeIds);
+  if(edgeIds.some(id=>!Number.isSafeInteger(id)||id<0||id>=graph.edges.length||
+      !graph.edges[id]||graph.edges[id].provisionalGap===true||
+      graph.edges[id].unverified===true))
+    throw Error('미확인 접합 또는 원본에 없는 경로가 포함되어 복원 불가');
   return [...p.waypoints];
 }
 export function readPlans(storage) {

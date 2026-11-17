@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>산박지도 | 산 선택 · 등산로 · 고도그래프</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+:root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#20392a;background:#f3f6f1}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+header{background:#123f2a;color:white;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:13px max(14px,calc((100% - 1450px)/2))}
+header a{color:white;text-decoration:none;font-size:13px}header strong{font-size:17px}
+main{max-width:1450px;margin:0 auto;padding:15px 13px 32px}
+h1{font-size:23px;letter-spacing:-.04em;margin:0 0 5px}p{margin:5px 0;line-height:1.55}
+.intro{font-size:13px;color:#5e7865;margin-bottom:12px}.note{padding:11px 13px;background:#e8f1e8;border:1px solid #d2e2d5;border-radius:10px;font-size:12px;line-height:1.55}
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:12px;margin-top:12px}
+.panel{background:white;border:1px solid #dae5db;border-radius:12px;overflow:hidden}
+.filter{padding:13px;display:grid;gap:9px}.filter label{font-size:12px;font-weight:750}
+input,select{width:100%;min-height:40px;padding:9px;border:1px solid #cadaaf;border-radius:8px;background:#fff;color:#1f3729}
+#results{max-height:660px;overflow:auto;border-top:1px solid #e8eee7}
+.mountain{border:0;border-bottom:1px solid #e8eee7;text-align:left;display:grid;gap:3px;padding:10px 12px;width:100%;background:#fff}
+.mountain:hover,.mountain.active{background:#eaf3ea}.mountain small{color:#667d6c;font-size:11px}
+h2{font-size:18px;margin:0}h3{font-size:14px;margin:0 0 8px}.muted{color:#677d6e;font-size:12px}
+.head{padding:12px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.btn{padding:8px 11px;border:1px solid #c8daca;border-radius:8px;color:#205538;background:white;font-weight:750;font-size:12px;min-height:36px}
+.btn:hover{background:#edf5ed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #329465;outline-offset:2px}
+#map{height:min(56vh,570px);min-height:350px;background:#edf2e9}
+#mapFallback{display:none;padding:25px;text-align:center;min-height:200px;background:#e6eee4}
+.leaflet-control-layers{font-size:12px}
+.content{padding:12px 15px;border-top:1px solid #e3eae3;display:grid;gap:10px}
+#status{font-size:12px;line-height:1.55;color:#315944;min-height:18px}
+.summary{font-size:12px;color:#607567}
+.chips{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.chip{font-size:11px;background:#edf4ec;color:#2c633c;border-radius:99px;padding:5px 9px}
+.lines{max-height:170px;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:7px}
+.line{padding:9px;text-align:left;border:1px solid #d4e1d5;border-radius:8px;background:white;min-height:42px;font-size:12px}
+.line.active{background:#e7f5e8;border-color:#268455;color:#145437;font-weight:800}
+.line small{font-size:10px;display:block;color:#667f6c;margin-top:4px}
+.profileHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.stats span{border-radius:7px;background:#f0f5f0;padding:6px 10px;font-size:12px}
+#profile{width:100%;height:215px;border-radius:10px;background:#f9fbf9;border:1px solid #e1ebe2;display:block}
+#sourceInfo{font-size:11px;line-height:1.6;color:#677a6e}
+@media(max-width:780px){.layout{grid-template-columns:1fr}#results{max-height:145px}#map{height:50vh;min-height:330px}.content{padding:12px}.lines{max-height:165px}h1{font-size:20px}}
+</style>
+</head>
+<body>
+<header><a href="./index.html"><strong>▲ 산박지도</strong></a><span style="font-size:12px">산 선택 · 원본 등산로 · 고도그래프</span></header>
+<main>
+<h1>전국 산 등산로 지도</h1>
+<p class="intro">산을 선택하면 기관 수록 등산로를 지도 위에 표시해. 등산로 한 줄을 누르면 해당 <b>원본 선형의 고도그래프</b>를 보여줘. 구간 연결·자동 코스 생성은 사용하지 않아.</p>
+<div class="note">표시 자료는 주로 2016~2018년 기관 수록 등산로야. 2026년 현재 개방·통행 허용을 의미하지 않아. 고도표본이 있는 선형만 그래프를 제공하며, 다른 등산로를 이어 붙이거나 누락된 고도를 추정하지 않아.</div>
+<div class="layout">
+<aside class="panel">
+<div class="filter">
+<label for="search">산 이름·산코드 검색</label>
+<input id="search" type="search" placeholder="설악산, 오대산, 지리산…" autocomplete="off" disabled>
+<label for="region">지역</label><select id="region" disabled><option value="">전국 전체</option></select>
+<div id="count" class="muted">전국 산 목록 불러오는 중…</div>
+</div>
+<div id="results" role="group" aria-label="산 목록"></div>
+</aside>
+<section class="panel" aria-label="선택한 산 등산로 지도">
+<div class="head"><div><h2 id="name">산을 선택해 줘</h2><div id="provider" class="muted">기관 원본 등산로를 조회해</div></div><button class="btn" id="fit" type="button">전체 보기</button></div>
+<div id="map" role="application" aria-label="기관 등산로 오버레이 지도"></div>
+<div id="mapFallback" role="status">배경지도 라이브러리를 불러오지 못했어. 인터넷 연결을 확인해 줘.</div>
+<div class="content">
+<div id="status" role="status">산과 등산로 데이터 준비 중…</div>
+<div class="chips"><span id="lineCount" class="chip">등산로 미선택</span><span id="elevCount" class="chip">DEM 확인 중</span></div>
+<div><h3>원본 등산로 선택</h3><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
+<div class="profileHeader"><div><h3 id="profileTitle">고도그래프</h3><div id="profileMessage" class="muted">등산로를 선택해 줘.</div></div><div class="stats"><span id="distance">거리 —</span><span id="elevation">고도 —</span></div></div>
+<svg id="profile" viewBox="0 0 720 215" preserveAspectRatio="none" aria-label="선택한 원본 선형의 거리별 DEM 고도그래프"></svg>
+<div id="sourceInfo">기관 수록 원본 선형을 그대로 사용하며 최신 탐방로 지정·개방 여부는 확인되지 않았어.</div>
+</div>
+</section>
+</div>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="./national_data.js"></script>
+<script src="./core/nationwide-source-loader.js"></script>
+<script src="./core/mountain-line-profile.js"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
+const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],generation:0,loading:false};
+let map=null,group=null;
+function status(msg){$('status').textContent=msg}
+function put(id,txt){$(id).textContent=txt}
+function noProfile(message){
+ const svg=$('profile');svg.replaceChildren();
+ const node=document.createElementNS('http://www.w3.org/2000/svg','text');
+ node.setAttribute('x','360');node.setAttribute('y','108');node.setAttribute('text-anchor','middle');
+ node.setAttribute('font-size','16');node.setAttribute('fill','#6a7d70');node.textContent=message;svg.append(node);
+}
+function node(svg,type,attrs,text){
+ const el=document.createElementNS('http://www.w3.org/2000/svg',type);
+ for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));
+ if(text!==undefined)el.textContent=String(text);svg.append(el);return el;
+}
+function graph(points,total){
+ const svg=$('profile');svg.replaceChildren();
+ if(points.length<2||total<=0){noProfile('고도표본 없음');return}
+ const heights=points.map(p=>p.elevationMeters),min=Math.min(...heights),max=Math.max(...heights);
+ const lo=Math.floor((min-25)/100)*100,hi=Math.ceil((max+25)/100)*100;
+ const L=55,R=704,T=16,B=183,x=d=>L+(R-L)*d/total,y=h=>B-(h-lo)/(hi-lo||1)*(B-T);
+ for(let i=0;i<=4;i++){
+  const h=lo+(hi-lo)*i/4;
+  node(svg,'line',{x1:L,x2:R,y1:y(h),y2:y(h),stroke:'#e0e9e0','stroke-width':1});
+  node(svg,'text',{x:L-8,y:y(h)+4,'text-anchor':'end',fill:'#5f7466','font-size':12},Math.round(h)+'m');
+  node(svg,'text',{x:x(total*i/4),y:208,'text-anchor':'middle',fill:'#5f7466','font-size':12},(total*i/4000).toFixed(1)+'km');
+ }
+ const stride=Math.max(1,Math.ceil(points.length/800)),reduced=points.filter((p,i)=>i%stride===0||i===points.length-1);
+ const path=reduced.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(2)+' '+y(p.elevationMeters).toFixed(2)).join(' ');
+ node(svg,'path',{d:path,stroke:'#22805b','stroke-width':3,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'});
+}
+function makeMap(){
+ if(!window.L){$('map').style.display='none';$('mapFallback').style.display='block';status('지도 라이브러리 로딩 실패');return}
+ map=L.map('map',{preferCanvas:true}).setView([38.14,128.46],11);
+ const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
+ const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+  {maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
+ const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {maxZoom:17,attribution:'Imagery © Esri · Maxar'});
+ group=L.featureGroup().addTo(map);
+ L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);
+ $('fit').onclick=()=>{if(group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[20,20],maxZoom:14});};
+}
+async function getJSON(path){
+ const response=await fetch(path,{cache:'force-cache'});
+ if(!response.ok)throw Error('HTTP '+response.status+' '+path);
+ return response.json();
+}
+function bucketPromise(cache,id,path){
+ if(!cache.has(id))cache.set(id,getJSON(path).catch(err=>{cache.delete(id);throw err}));
+ return cache.get(id);
+}
+function filterMountains(){
+ const q=$('search').value.trim().toLowerCase(),region=$('region').value;
+ const found=state.catalog.filter(item=>(!region||item.code.slice(0,2)===region)&&
+ (!q||(item.name+' '+item.code).toLowerCase().includes(q)));
+ put('count',found.length.toLocaleString('ko-KR')+'개 산 · 목록 최대 85개 표시');
+ const root=$('results');root.replaceChildren();
+ for(const item of found.slice(0,85)){
+  const b=document.createElement('button');b.type='button';b.className='mountain'+(item.code===state.code?' active':'');
+  const t=document.createElement('strong');t.textContent=item.name;
+  const s=document.createElement('small');s.textContent=(regionName[item.code.slice(0,2)]||'지역 미확인')+' · '+item.code;
+  b.append(t,s);b.onclick=()=>selectMountain(item.code);root.append(b);
+ }
+}
+function setLayerSelection(){
+ state.layers.forEach(({line,layer})=>layer.setStyle(line.id===state.selected?.id?
+   {color:'#e79d12',weight:7,opacity:1}:{color:'#17885d',weight:4,opacity:.87}));
+ const root=$('lineList');root.replaceChildren();
+ const max=state.lines.length>500?500:state.lines.length;
+ for(let i=0;i<max;i++){
+  const line=state.lines[i],b=document.createElement('button');b.type='button';
+  b.className='line'+(line.id===state.selected?.id?' active':'');
+  b.textContent=line.recordName||'원본 등산로 '+(i+1);
+  const small=document.createElement('small');
+  small.textContent=(i+1)+'번 · 선형 길이 약 '+(prof.lengthOf(line.coords)/1000).toFixed(2)+'km'+
+    (line.closed?' · 원본 폐쇄 표기':'');
+  b.append(small);b.onclick=()=>selectLine(line);root.append(b);
+ }
+ if(state.lines.length>max){
+  const p=document.createElement('p');p.className='muted';p.textContent='목록은 처음 500개만 표시해. 지도에서 나머지 선형을 직접 선택할 수 있어.';root.append(p);
+ }
+}
+function profileFor(line){
+ if(!state.profiles.has(line.id))state.profiles.set(line.id,prof.profile(line,state.packed));
+ return state.profiles.get(line.id);
+}
+function selectLine(line){
+ state.selected=line;setLayerSelection();
+ put('profileTitle',line.recordName||'선택한 원본 등산로');
+ const result=profileFor(line);
+ if(result.status!=='ready'){
+  put('distance','거리 약 '+(prof.lengthOf(line.coords)/1000).toFixed(2)+'km');
+  put('elevation','고도 없음');
+  put('profileMessage',result.note);
+  put('sourceInfo','원본 선형 길이만 표시했어. 확인된 고도표본이 없어 그래프를 만들지 않았어. 복수 원본 간 연결은 하지 않아.');
+  noProfile('검증된 고도그래프 없음');
+  return;
+ }
+ graph(result.points,result.distanceMeters);
+ put('distance','거리 '+(result.distanceMeters/1000).toFixed(2)+'km');
+ put('elevation',Math.round(result.minimumMeters)+'–'+Math.round(result.maximumMeters)+'m');
+ put('profileMessage','선택한 한 개 원본 선형 · 90m 간격 고도표본 · '+result.points.length+'개');
+ put('sourceInfo','고도자료: '+(state.packed.dem?.name||'원본 DEM')+
+  ' · 수직기준: '+result.verticalDatum+
+  ' · 원본 DEM 해상도 '+(result.rasterResolutionVerified?'검증된 자료':'미확인')+
+  ' · 현재 개방 여부 미검증 · 다른 선형과 연결하지 않음.');
+}
+async function forestDEM(code,bucket){
+ const published=state.online?.mountains?.[code];
+ if(published&&published.bucket===bucket){
+  const data=await bucketPromise(state.demBuckets,bucket,'./data/nationwide-elevation/bucket-'+bucket+'.json');
+  if(data.schema!=='sanbak-dem-bucket-v109'||data.bucket!==bucket)
+   throw Error('고도 버킷 형식이 맞지 않아');
+  return data.mountains[code]||null;
+ }
+ const pilot=state.pilot?.mountains?.[code+':forest'];
+ if(pilot)return getJSON(pilot.path);
+ return null;
+}
+async function selectMountain(code){
+ const item=state.catalog.find(x=>x.code===code);if(!item)return;
+ const generation=++state.generation;
+ state.code=code;state.lines=[];state.selected=null;state.packed=null;state.profiles.clear();
+ if(group)group.clearLayers();state.layers=[];
+ put('name',item.name);put('provider','자료 확인 중…');put('lineCount','등산로 불러오는 중');put('elevCount','고도표본 확인 중');
+ put('distance','거리 —');put('elevation','고도 —');put('profileTitle','고도그래프');put('profileMessage','원본 선형을 불러오는 중');
+ noProfile('원본 선형 확인 중…');put('sourceInfo','');$('lineList').replaceChildren();
+ status(item.name+' 등산로 및 DEM 확인 중…');filterMountains();
+ let lines=[],packed=null,label='';
+ try{
+  if(code==='428302602'){
+   const [geo,p]=await Promise.all([
+    getJSON('./data/knps-seorak-2018.geojson'),
+    getJSON('./data/nationwide-elevation/seorak-knps-v108.json').catch(()=>null)
+   ]);
+   lines=prof.parkLines(geo,code);packed=p;label='국립공원공단 2018 원본 탐방로';
+  }else{
+   const entry=state.index?.mountains?.[code];
+   if(entry){
+    const raw=await bucketPromise(state.buckets,entry.bucket,'./data/nationwide/bucket-'+entry.bucket+'.json');
+    lines=prof.forestLines(raw,code,core.decodeLine);
+    label='산림청 수록 등산로 2016~2019';
+    packed=await forestDEM(code,entry.bucket).catch(err=>{
+     console.warn('이 산 고도자료를 읽지 못했어',err);return null;
+    });
+   }else label='기관 수록 상세 등산로 미확보';
+  }
+  if(generation!==state.generation)return;
+  state.lines=lines;state.packed=packed;
+  put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
+  put('elevCount',packed?'원본 DEM 표본 확보':'고도표본 미확보');
+  if(group)for(const line of lines){
+   const coords=line.coords.map(p=>[p[1],p[0]]);
+   const l=L.polyline(coords,{color:'#17885d',weight:4,opacity:.88});
+   l.on('click',()=>selectLine(line));l.bindTooltip((line.recordName||'원본 등산로')+' · 클릭해서 고도 보기',{sticky:true});
+   l.addTo(group);state.layers.push({line,layer:l});
+  }
+  if(map&&group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[28,28],maxZoom:13});
+  if(!lines.length){
+   status('이 산은 배포된 상세 등산로 원본이 없어. 허구의 길을 만들지 않았어.');
+   noProfile('원본 등산로 선형 없음');setLayerSelection();return;
+  }
+  // The initial chart is one existing line only, not a mountain-wide route.
+  let first=null;
+  if(packed){
+   for(const line of lines){
+    const p=profileFor(line);
+    if(p.status==='ready'&&(!first||p.distanceMeters>first.profile.distanceMeters))
+     first={line,profile:p};
+   }
+  }
+  selectLine(first?.line||lines[0]);
+  status(lines.length+'개 원본 선형 표시 완료 · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
+   ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
+ }catch(err){
+  if(generation!==state.generation)return;
+  status('자료를 불러오지 못했어: '+err.message);put('lineCount','자료 조회 오류');
+  put('elevCount','미확인');noProfile('자료 조회 실패');console.error(err);
+ }
+}
+async function init(){
+ makeMap();noProfile('산을 선택해 줘');
+ if(!core||!prof||!Array.isArray(window.SANBAK_NATIONAL_INDEX)){
+  status('전국 산 목록/원본 선형 스크립트를 읽지 못했어.');return;
+ }
+ try{
+  state.catalog=core.catalog(window.SANBAK_NATIONAL_INDEX);
+  const options=[...new Set(state.catalog.map(x=>x.code.slice(0,2)))].sort();
+  for(const code of options){const o=document.createElement('option');o.value=code;o.textContent=regionName[code]||code;$('region').append(o)}
+  $('search').disabled=false;$('region').disabled=false;
+  $('search').oninput=filterMountains;$('region').onchange=filterMountains;filterMountains();
+  const [a,b,c]=await Promise.allSettled([
+   getJSON('./data/nationwide/index.json'),
+   getJSON('./data/nationwide-elevation/online-v110.json'),
+   getJSON('./data/nationwide-elevation/index.json')
+  ]);
+  if(a.status!=='fulfilled')throw Error('전국 등산로 목록을 불러오지 못했어');
+  state.index=core.index(a.value);
+  state.online=b.status==='fulfilled'?b.value:null;
+  state.pilot=c.status==='fulfilled'?c.value:null;
+  await selectMountain('428302602');
+ }catch(err){status(err.message);noProfile('기관 자료 초기화 실패');console.error(err)}
+}
+init();
+})();
+</script>
+</body></html>

@@ -133,9 +133,15 @@ export function materializeMountain(graph,sourceFiles,displayRows,candidates){
  }
  for(const c of candidates){
   attempted++;
-  if(!c?.proposedOnly||c.passageVerified!==false||c.gapMeters>35||
-   c.gapMeters<0||c.sourceParts?.length!==2||c.sourceSegments?.length!==2||
-   c.anchorsEPSG5179?.length!==2){discarded++;rejected.push({reason:'bad_candidate',parts:c?.sourceParts,meters:c?.gapMeters});continue}
+  if(!c?.proposedOnly||c.passageVerified!==false||
+   !Number.isFinite(c.gapMeters)||c.gapMeters>35||c.gapMeters<0||
+   !Array.isArray(c.sourceParts)||c.sourceParts.length!==2||
+   !c.sourceParts.every(id=>Number.isInteger(id)&&id>=0&&id<graph.source_parts.length)||
+   !Array.isArray(c.sourceSegments)||c.sourceSegments.length!==2||
+   !c.sourceSegments.every(i=>Number.isInteger(i)&&i>=0)||
+   !Array.isArray(c.anchorsEPSG5179)||c.anchorsEPSG5179.length!==2||
+   !c.anchorsEPSG5179.every(p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite))){
+    discarded++;rejected.push({reason:'bad_candidate',parts:c?.sourceParts,meters:c?.gapMeters});continue}
   const a=locate(c.sourceParts[0],c.sourceSegments[0],c.anchorsEPSG5179[0]);
   const b=locate(c.sourceParts[1],c.sourceSegments[1],c.anchorsEPSG5179[1]);
   if(!a||!b){discarded++;rejected.push({reason:'unmapped_source_anchor',parts:c.sourceParts,segments:c.sourceSegments,meters:c.gapMeters,a:!!a,b:!!b});continue}

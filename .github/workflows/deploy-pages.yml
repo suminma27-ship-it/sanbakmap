@@ -43,6 +43,24 @@ jobs:
             exit 1
           fi
 
+      - name: Restore national derived GIS cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            site/data/nationwide
+            site/data/nationwide-topology
+          key: nationwide-v320-${{ runner.os }}-${{ hashFiles('data/nationwide-full/**', 'data/nationwide/**', 'data/nationwide-topology/**', 'tools/rebuild-nationwide-shards.mjs', 'tools/rebuild-topology-v102.mjs', 'tools/review-topology-v103.mjs', 'tools/audit-nationwide-contact-v125.mjs', 'tools/build-35m-preview-v127.mjs', 'tools/cache-national-build-v320.mjs', 'core/nationwide-source-loader.js', 'core/nationwide-map-v106.js', 'core/nationwide-graph-review-v103.js') }}
+
+      - name: Validate cache before reusing GIS outputs
+        run: |
+          set -euo pipefail
+          if node tools/cache-national-build-v320.mjs --verify --site site; then
+            echo "NATIONWIDE_CACHE_VALID=1" >> "$GITHUB_ENV"
+          else
+            echo "NATIONWIDE_CACHE_VALID=0" >> "$GITHUB_ENV"
+            echo "Cache unavailable or invalid: regenerate nationwide data."
+          fi
+
       - name: Package website
         run: |
           set -euo pipefail
@@ -64,12 +82,17 @@ jobs:
           mkdir -p site/core site/data
           cp core/trail-visibility.js site/core/trail-visibility.js
           cp data/knps-seorak-2018.geojson site/data/knps-seorak-2018.geojson
-          mkdir -p site/data/nationwide
-          cp data/nationwide/*.json site/data/nationwide/
-          node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
-          node tools/rebuild-topology-v102.mjs --output-dir site/data/nationwide-topology
-          node tools/review-topology-v103.mjs --source-dir site/data/nationwide-topology --output-dir site/data/nationwide-topology
-          node tools/audit-nationwide-contact-v125.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
+          mkdir -p site/data/nationwide site/data/nationwide-topology
+          if [ "${NATIONWIDE_CACHE_VALID:-0}" != "1" ]; then
+            cp data/nationwide/*.json site/data/nationwide/
+            node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
+            node tools/rebuild-topology-v102.mjs --output-dir site/data/nationwide-topology
+            node tools/review-topology-v103.mjs --source-dir site/data/nationwide-topology --output-dir site/data/nationwide-topology
+            node tools/audit-nationwide-contact-v125.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
+            node tools/build-35m-preview-v127.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
+            node tools/cache-national-build-v320.mjs --write --site site
+          fi
+          node tools/cache-national-build-v320.mjs --verify --site site
           test -f site/data/nationwide-topology/review-v103.json
           test -f site/data/nationwide-topology/contacts-v125-index.json
           node --input-type=module -e "
@@ -81,7 +104,6 @@ jobs:
             console.log('PASS v126 all <=35m candidates preserved; v69 cross-check rule audited:',doc.totals);
           "
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'contacts-v125-bucket-*.json.gz' -type f | wc -l)" -eq 32
-          node tools/build-35m-preview-v127.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
           test -f site/data/nationwide-topology/preview-35m-v127-index.json
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'preview-35m-v127-bucket-*.json.gz' -type f | wc -l)" -eq 32
           test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32

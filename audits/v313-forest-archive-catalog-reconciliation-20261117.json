@@ -1,0 +1,75 @@
+{
+  "schema": "sanbak-v313-forest-archive-catalog-reconciliation",
+  "date": "2026-11-17",
+  "baseMain": "e0e30f8909f88ba4421eab3ceeb85985f364c3fc",
+  "inputs": [
+    {
+      "name": "닭_zip_산림공간자료_63개_목록.csv",
+      "sizeBytes": 14855,
+      "sha256": "840dc57e0cf895c1d459c2eb6cc831accfa5a8ad9ae4e41c1a102e5e580cdb47",
+      "kind": "previously provided archive inventory, NOT original SHP/ZIP bytes"
+    },
+    {
+      "path": "core/nationwide-topology-v102.js",
+      "gitBlobSHA1": "dbd8b22626c0ad0edba51475e3245c845889ba05"
+    }
+  ],
+  "inventory": {
+    "rows": 63,
+    "byType": {
+      "DATA001 등산로": {
+        "files": 16,
+        "features": 101075
+      },
+      "DATA002 등산로": {
+        "files": 16,
+        "features": 59402
+      },
+      "DATA019 임도망도": {
+        "files": 14,
+        "features": 3322
+      },
+      "DATA029 휴양림": {
+        "files": 15,
+        "features": 192
+      },
+      "DATA050 트레일": {
+        "files": 2,
+        "features": 21
+      }
+    },
+    "shapeCounts": {
+      "LineString": 30,
+      "Point": 29,
+      "MultiPoint": 2,
+      "3D LineString": 2
+    },
+    "missingCRS": 0,
+    "duplicateInternalZipNames": 0,
+    "data002FilesWithPMNTN_SN": 16
+  },
+  "checks": {
+    "rowCount63": true,
+    "typeFileCountsSum63": true,
+    "trailLineFeatureCount59402": true,
+    "all16Data002HavePMNTN_SN": true,
+    "noMissingCRS": true,
+    "noDuplicateZipNames": true,
+    "threeDimensionalTrailRows2": true
+  },
+  "passed": 7,
+  "total": 7,
+  "finding": "Available original-archive inventory enumerates 59,402 DATA002 line features in 16 ZIPs, not 67,185 graph edges. These represent different units and datasets and must NOT be reconciled by subtraction or assumed equivalent. The catalog lists 21 DATA050 3D trail features, but does not contain original geometry or DEM pixels. Source IDs and mountain coverage cannot be proven from inventory alone.",
+  "nextGate": "Acquire original archive bytes and SHA-256 each ZIP/SHP/DEM; reconcile DATA002 feature IDs and part ordinals to v129 67,185 graph edges and 2,902 mountain/park entries without excluding low elevation; run v102 quantization order/self-loop/near-end audits against actual features, prioritize 57 nodes, then 35m review-only candidates, v69 regression, deployment and official access verification.",
+  "originalBytesVerified": false,
+  "coverageVerified": false,
+  "mutations": {
+    "graph": false,
+    "dem": false,
+    "ui": false,
+    "hangyeryeong": false,
+    "approvedConnections": 0,
+    "deletedOrMerged": 0
+  },
+  "completion": false
+}

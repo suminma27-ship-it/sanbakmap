@@ -47,6 +47,17 @@ export function deletePlan(storage,index) {
   all.splice(index,1);storage.setItem(PLAN_KEY,JSON.stringify(all));return all;
 }
 
+
+/** Change only the planned date; never alter graph lineage, waypoints or access flags. */
+export function updatePlanDate(storage,index,date) {
+  const all=readPlans(storage);
+  if(!Number.isInteger(index)||index<0||index>=all.length)throw Error('잘못된 코스 번호');
+  const updated=validatePlan({...all[index],planDate:date});
+  all[index]=updated;
+  storage.setItem(PLAN_KEY,JSON.stringify(all));
+  return updated;
+}
+
 /** Portable JSON plans are data only; importing never restores routes or grants access. */
 export const PLAN_EXPORT_FORMAT = 'sanbakmap-route-plans';
 export function exportPlans(storage) {

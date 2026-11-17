@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>산박지도 | 설악산 실제 등산로 레이어 샘플</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#e8ece6;color:#16251d}button,select{font:inherit}#layout{display:grid;grid-template-columns:360px minmax(0,1fr);height:100dvh}.panel{z-index:600;background:#fff;padding:20px;overflow:auto;border-right:1px solid #d9e2d7;box-shadow:6px 0 22px #163b2112}.brand{font-size:11px;letter-spacing:.13em;font-weight:800;color:#417a57}.title{font-size:25px;font-weight:850;letter-spacing:-.06em;margin:5px 0}.subtitle{color:#5b7062;font-size:13px;line-height:1.7;margin:8px 0 16px}.status{padding:12px;border-radius:11px;background:#eff6ee;color:#285440;font-size:13px;line-height:1.55}.status.error{background:#fff0ed;color:#9c352b}.section{margin-top:18px;padding-top:15px;border-top:1px solid #e8eee7}h3{margin:0 0 10px;font-size:14px}.hint{font-size:12px;color:#718376;line-height:1.55}.tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.btn{border:1px solid #d7e4d9;border-radius:9px;background:white;color:#274536;font-size:12px;font-weight:700;padding:9px 11px;cursor:pointer}.btn:hover{background:#edf7ee}.btn.primary{color:white;background:#237a50;border-color:#237a50}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#f0f6f0;border-radius:99px;font-size:11px;color:#356949;font-weight:750}.details{min-height:90px;padding:12px;background:#f6f9f5;border:1px solid #e5eee4;border-radius:12px}.details .name{font-weight:800;font-size:16px;margin-bottom:5px}.meta{color:#667a6b;font-size:12px;line-height:1.75}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.stat{background:#edf4ed;border-radius:10px;padding:12px}.stat small{color:#6a806e;font-size:11px}.stat strong{display:block;font-size:19px;margin-top:4px}#profile{width:100%;height:auto;background:#f7faf8;border:1px solid #e4ebe5;border-radius:10px;display:block}#map{width:100%;height:100%;z-index:1}.maparea{position:relative;min-height:0}.overlay-header{position:absolute;top:16px;left:16px;z-index:400;background:#fffefaeb;padding:9px 13px;border:1px solid #d7e6d6;border-radius:11px;box-shadow:0 7px 23px #213e2522;font-size:12px;max-width:min(350px,calc(100% - 30px))}.legend{position:absolute;bottom:25px;left:14px;z-index:400;background:#ffffffed;border-radius:10px;border:1px solid #d8e5dd;padding:11px 13px;font-size:11px}.legend-line{width:26px;border-top:4px solid #0baa7c;display:inline-block;vertical-align:middle;margin-right:7px}.legend .selected{border-color:#ffb31b;border-top-width:6px}.leaflet-container{background:#dde6dd}.leaflet-control-layers-expanded{font-size:12px}.notice{background:#fff8e7;border:1px solid #e9dab0;padding:10px 12px;border-radius:10px;font-size:11px;color:#776137;line-height:1.6}.elevation-label{font-size:11px;fill:#657968}.point-mark{background:#fff;border:2px solid #254e3b;color:#204c36;border-radius:99px;font-weight:bold;padding:5px 8px;white-space:nowrap;font-size:11px;box-shadow:0 2px 12px #223a2544}.map-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#dfe8dc;color:#284d36;padding:30px;text-align:center;line-height:1.7;z-index:900}@media(max-width:780px){#layout{display:flex;flex-direction:column;height:100dvh}.maparea{order:0;height:58dvh;min-height:280px;flex-shrink:0}.panel{order:1;box-shadow:0 -4px 20px #213e2511;border-right:none;border-top:1px solid #d9e2d7;overflow:auto;flex:1;padding:16px}.overlay-header{top:10px;left:10px}.legend{bottom:12px;left:10px}.title{font-size:21px}}
+</style>
+</head>
+<body>
+<div id="layout">
+<aside class="panel">
+  <div class="brand">SANBAKMAP · SEORAKSAN</div>
+  <h1 class="title">실제 지도 + 등산로 레이어</h1>
+  <p class="subtitle">지형지도 위에 <b>국립공원공단의 실제 좌표 선형</b>을 덧씌웠어. 초록색 등산로를 눌러 해당 구간을 선택하고, 원본 DEM 고도그래프를 확인해봐.</p>
+  <div class="status" id="status" role="status">지도와 국립공원공단 원본 등산로 불러오는 중…</div>
+  <div class="section">
+    <h3>지도 조작</h3>
+    <div class="tools">
+      <button class="btn primary" id="fitAll">전체 원본 등산로</button>
+      <button class="btn" id="fitEast">설악동·비선대 주변</button>
+      <button class="btn" id="clear">선택 해제</button>
+    </div>
+    <p class="hint">오른쪽 지도 우측 상단의 레이어 버튼에서 <b>지형 / 일반지도 / 위성</b> 배경을 전환할 수 있어. 확대·축소하고 실제 탐방로를 눌러봐.</p>
+  </div>
+  <div class="section">
+    <h3>선택한 원본 구간 <span class="pill" id="sourceCount">대기 중</span></h3>
+    <div class="details" id="details"><div class="name">등산로를 선택해봐</div><div class="meta">지도 위 초록색 원본 탐방로를 클릭하면 해당 구간과 원본 식별자가 표시돼.</div></div>
+    <div class="stats">
+      <div class="stat"><small>구간 거리</small><strong id="distance">—</strong></div>
+      <div class="stat"><small>고도 표본</small><strong id="samples">—</strong></div>
+    </div>
+  </div>
+  <div class="section">
+    <h3>선택한 등산로의 고도그래프</h3>
+    <svg id="profile" viewBox="0 0 340 186" aria-label="원본 고도표본 기반 고도그래프">
+      <text x="170" y="96" text-anchor="middle" fill="#718376" font-size="13">실제 선형을 선택해줘</text>
+    </svg>
+    <p class="hint" id="elevInfo">원본 고도자료를 연결하면 DEM 해상도·표본 간격을 함께 표시해.</p>
+  </div>
+  <div class="section">
+    <div class="notice"><b>자료 구분</b><br>표시되는 녹색 선은 국립공원공단 <b>2018-12-31 시설 수록 탐방로</b> 원본이야. 현재 개방·통행 허용 여부를 뜻하지 않아. 두 대표 코스를 완성된 하나의 경로로 연결하지 않았고, 원본에 없는 구간은 만들어 표시하지 않았어.</div>
+    <p class="hint">지도/위성 배경: 공개 지도 타일 서비스(인터넷 필요). 등산로: 산박지도 저장소의 2018년 국립공원공단 GeoJSON. 고도: 저장소 DEM 구간별 90m 표본(있는 경우만 표시).</p>
+  </div>
+</aside>
+<main class="maparea">
+  <div id="map"></div>
+  <div class="overlay-header"><b>설악산 실제 탐방로 오버레이</b><br><span style="color:#63806b">원본 좌표 · 선택 구간 강조 · DEM 고도표본</span></div>
+  <div class="legend"><div><i class="legend-line"></i>2018 원본 탐방로</div><div style="margin-top:5px"><i class="legend-line selected"></i>선택한 구간</div></div>
+  <div class="map-fallback" id="fallback">지도 스크립트를 불러오지 못했어.<br>인터넷 연결을 확인한 뒤 다시 열어줘.</div>
+</main>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(()=>{
+  'use strict';
+  const $=s=>document.getElementById(s);
+  if(!window.L){$('fallback').style.display='flex';$('status').textContent='지도 라이브러리 로딩 실패';$('status').className='status error';return;}
+  const BASE=location.protocol==='file:'||!location.hostname.endsWith('github.io')?
+    'https://raw.githubusercontent.com/suminma27-ship-it/sanbakmap/main/':'./';
+  const endpoints={trails:BASE+'data/knps-seorak-2018.geojson',dem:BASE+'data/nationwide-elevation/seorak-knps-v108.json'};
+  const map=L.map('map',{zoomControl:true,preferCanvas:true}).setView([38.1432,128.4579],13);
+  const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{
+    maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
+  const standard=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19,attribution:'© OpenStreetMap contributors'});
+  const esriTopo=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{
+    maxZoom:18,attribution:'Tiles © Esri — sources: Esri, HERE, Garmin, OpenStreetMap'});
+  const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+    maxZoom:18,attribution:'Imagery © Esri, Maxar, Earthstar Geographics'});
+  esriTopo.addTo(map);
+  let geo=null,dem=null,allGroup=L.featureGroup().addTo(map),selected=null,parts=[];
+  L.control.layers({'지형지도':esriTopo,'등고선지도':topo,'일반 지도':standard,'위성사진':satellite},{'공단 2018 탐방로':allGroup},{collapsed:false,position:'topright'}).addTo(map);
+  const baseStyle={color:'#06a87a',weight:3.7,opacity:.96,lineCap:'round',lineJoin:'round'};
+  function selectedReset(){if(selected){selected.setStyle(baseStyle);selected=null;} $('distance').textContent='—';$('samples').textContent='—';$('elevInfo').textContent='원본 등산로를 클릭하면 DEM 자료를 확인해.';$('details').innerHTML='<div class="name">등산로를 선택해봐</div><div class="meta">원본 구간 하나를 선택해 실제 지형과 고도를 대조할 수 있어.</div>';svgMessage('원본 등산로를 선택해줘');}
+  function svgMessage(message){const svg=$('profile');svg.replaceChildren();const ns='http://www.w3.org/2000/svg';const t=document.createElementNS(ns,'text');t.setAttribute('x','170');t.setAttribute('y','96');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#718376');t.setAttribute('font-size','13');t.textContent=message;svg.append(t);}
+  function addSVG(svg,tag,attrs,text){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(text!=null)e.textContent=String(text);svg.append(e);return e;}
+  function heights(encoded,expected){
+    if(typeof encoded!=='string'||!/^[a-zA-Z0-9_-]+$/.test(encoded))throw Error('표본 데이터 형식 불일치');
+    const raw=atob(encoded.replace(/-/g,'+').replace(/_/g,'/')+'='.repeat((4-encoded.length%4)%4));
+    const b=Uint8Array.from(raw,c=>c.charCodeAt(0));let pos=0,previous=0;const out=[];
+    while(pos<b.length){let n=0,shift=0,done=false;
+      for(let k=0;k<5;k++){if(pos>=b.length)throw Error('표본 잘림');const v=b[pos++];n+=(v&127)*2**shift;if(!(v&128)){done=true;break;}shift+=7;}
+      if(!done||n>0xffffffff)throw Error('표본 범위 오류');
+      previous+=n%2?-(Math.floor(n/2)+1):Math.floor(n/2);out.push(previous/10);
+      if(out.length>expected)throw Error('표본 개수 초과');
+    }if(out.length!==expected)throw Error('표본 개수 불일치');return out;
+  }
+  function edgeProfile(sourceId,vertexCount){
+    if(!dem||dem.schema!=='sanbak-original-edge-dem-packed-v108'||dem.mountainCode!=='428302602'||dem.sourceKind!=='knps'||dem.spacingMeters!==90)throw Error('설악산 원본 DEM 자료 미확인');
+    const related=Object.entries(dem.edgeIdentities).filter(([id,proof])=>Array.isArray(proof)&&proof[3]===sourceId).sort((a,b)=>a[1][4]-b[1][4]);
+    if(!related.length)throw Error('대응 DEM 표본 없음');
+    let samples=[],total=0,lastVertex=null;
+    for(const [id,proof] of related){const len=proof[2],start=proof[4],end=proof[5];
+      if(!(len>0)||!Number.isInteger(start)||!Number.isInteger(end)||start>=end||end>=vertexCount)throw Error('원본 선형·DEM 식별자 불일치');
+      if(lastVertex!==null&&start!==lastVertex)throw Error('원본 간 구간이 분리되어 있음');
+      lastVertex=end;
+      const hs=heights(dem.samples[id],Math.ceil(len/90)+1);
+      hs.forEach((h,i)=>{if(samples.length&&i===0)return;samples.push({distance:total+Math.min(i*90,len),elevation:h});});
+      total+=len;
+    }
+    if(samples.length<2)return null;
+    return {samples,total};
+  }
+  function renderProfile(points,total){
+    const svg=$('profile');svg.replaceChildren();
+    const w=340,h=186,pad={top:15,left:51,right:10,bottom:28},cw=w-pad.left-pad.right,ch=h-pad.top-pad.bottom;
+    const elevations=points.map(p=>p.elevation),lo=Math.floor((Math.min(...elevations)-30)/100)*100,hi=Math.ceil((Math.max(...elevations)+30)/100)*100;
+    const x=d=>pad.left+cw*(d/total),y=e=>pad.top+ch*(hi-e)/(hi-lo||1);
+    for(let i=0;i<=4;i++){
+      const val=lo+(hi-lo)*i/4;
+      addSVG(svg,'line',{x1:pad.left,y1:y(val),x2:w-pad.right,y2:y(val),stroke:'#dee9e0','stroke-width':1});
+      addSVG(svg,'text',{x:pad.left-7,y:y(val)+4,'text-anchor':'end',fill:'#657968','font-size':10},Math.round(val)+'m');
+    }
+    const d=points.map((p,i)=>(i?'L':'M')+x(p.distance).toFixed(2)+' '+y(p.elevation).toFixed(2)).join(' ');
+    const fill=d+' L '+x(total)+' '+(h-pad.bottom)+' L '+x(0)+' '+(h-pad.bottom)+' Z';
+    addSVG(svg,'path',{d:fill,fill:'#d8eee1'});
+    addSVG(svg,'path',{d,fill:'none',stroke:'#157449','stroke-width':2.8,'stroke-linejoin':'round'});
+    for(let i=0;i<=4;i++){const m=total*i/4;addSVG(svg,'text',{x:x(m),y:h-6,'text-anchor':'middle',fill:'#657968','font-size':10},(m/1000).toFixed(1)+'km');}
+  }
+  function activate(item){
+    if(selected)selected.setStyle(baseStyle);
+    selected=item.line;selected.setStyle({color:'#ffb31b',weight:8,opacity:1});selected.bringToFront();
+    const p=item.properties,sourceId=item.sourceId;
+    $('details').innerHTML='';let nm=document.createElement('div');nm.className='name';nm.textContent=p.facility_label||'공단 탐방로';let mt=document.createElement('div');mt.className='meta';mt.textContent='공단 시설 ID '+(p.original_facility_id||'미상')+' · 자료일 2018-12-31 · 원본 선형 '+sourceId;$('details').append(nm,mt);
+    map.fitBounds(selected.getBounds().pad(.22),{maxZoom:14,animate:true});
+    try{const prof=edgeProfile(sourceId,item.coords.length);if(!prof){svgMessage('이 구간의 DEM 표본이 없어');return;}
+      $('distance').textContent=(prof.total/1000).toFixed(2)+' km';$('samples').textContent=prof.samples.length+'개';
+      const h=prof.samples.map(p=>p.elevation),up=prof.samples.slice(1).reduce((a,p,i)=>a+Math.max(0,p.elevation-prof.samples[i].elevation),0);
+      $('elevInfo').textContent='국립공원공단 원본 선형 대응 DEM 90m 표본 · '+Math.round(Math.min(...h))+'~'+Math.round(Math.max(...h))+'m · 표본 기준 누적 상승 약 '+Math.round(up)+'m · 수직기준 미기재';
+      renderProfile(prof.samples,prof.total);
+    }catch(err){$('distance').textContent='—';$('samples').textContent='없음';svgMessage('이 구간은 확인된 고도자료가 없어');$('elevInfo').textContent=String(err.message);}
+  }
+  async function load(){
+    try{
+      const [resGeo,resDem]=await Promise.all([fetch(endpoints.trails),fetch(endpoints.dem)]);
+      if(!resGeo.ok)throw Error('등산로 원본 HTTP '+resGeo.status);
+      geo=await resGeo.json();if(!resDem.ok)throw Error('DEM 자료 HTTP '+resDem.status);dem=await resDem.json();
+      if(geo.type!=='FeatureCollection'||geo.metadata?.source_file_date!=='2018-12-31'||geo.metadata?.trail_features!==19||geo.features?.length!==24)throw Error('공단 원본 메타데이터 확인 실패');
+      if(dem.graphArchiveSHA256!==geo.metadata.source_zip_sha256)throw Error('DEM과 공단 원본 출처가 일치하지 않아');
+      let count=0;
+      geo.features.forEach((feature,i)=>{
+        if(feature.properties?.facility_type!=='탐방로')return;
+        const g=feature.geometry;
+        const pieces=g.type==='LineString'?[g.coordinates]:g.type==='MultiLineString'?g.coordinates:[];
+        pieces.forEach((coords,j)=>{
+          if(!Array.isArray(coords)||coords.length<2||!coords.every(p=>Array.isArray(p)&&p[0]>124&&p[0]<132&&p[1]>32&&p[1]<40))return;
+          const sourceId='knps2018:'+i+':'+j;
+          const latlng=coords.map(p=>[p[1],p[0]]);
+          const line=L.polyline(latlng,baseStyle).addTo(allGroup);
+          const item={line,sourceId,properties:feature.properties,coords};parts.push(item);count++;
+          line.bindTooltip((feature.properties.facility_label||'탐방로')+' · 선택해서 고도 보기',{sticky:true});
+          line.on('click',()=>activate(item));
+        });
+      });
+      $('sourceCount').textContent=count+'개 원본 선형 부분';
+      $('status').textContent='공단 탐방로 19개(선형 부분 '+count+'개)를 실제 지도에 표시했어. 선을 클릭하면 실제 원본 DEM 고도표본을 볼 수 있어.';
+      $('fitAll').onclick=()=>map.fitBounds(allGroup.getBounds(),{padding:[25,25]});
+      $('fitEast').onclick=()=>map.setView([38.154,128.473],14);
+      $('clear').onclick=selectedReset;
+      if(count) {map.setView([38.154,128.473],13); const near=parts.find(x=>x.sourceId==='knps2018:18:0');if(near)activate(near);}
+    }catch(err){$('status').textContent='자료를 불러오지 못했어: '+err.message+' · 인터넷 연결을 확인해줘.';$('status').className='status error';console.error(err);}
+  }
+  load();
+})();
+</script>
+</body>
+</html>

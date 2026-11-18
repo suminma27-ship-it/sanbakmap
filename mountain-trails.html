@@ -260,6 +260,22 @@ function makeMap(){
    {maxZoom:17,maxNativeZoom:17,attribution:'© OpenTopoMap · © OpenStreetMap contributors'});
   const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
    {maxZoom:17,attribution:'Imagery © Esri · Maxar'});
+  // Tile failures must not hide independent institutional trail vectors.
+  // Ignore events from inactive basemaps after the user switches layers.
+  let activeBase=osm;
+  let tileFailed=false;
+  const tileWarning='배경지도 타일을 불러오지 못했어. 기관 원본 등산로 선형은 계속 표시돼.';
+  const warnTiles=()=>{tileFailed=true;$('mapFallback').textContent=tileWarning;$('mapFallback').style.display='block';};
+  const recoverTiles=()=>{if(!tileFailed)return;tileFailed=false;$('mapFallback').style.display='none';$('mapFallback').textContent='';};
+  for(const layer of [osm,topo,satellite]){
+   layer.on('tileerror',()=>{if(layer===activeBase)warnTiles();});
+   layer.on('tileload',()=>{if(layer===activeBase)recoverTiles();});
+  }
+  map.on('baselayerchange',event=>{
+   activeBase=event.layer;
+   // An old layer's error is not evidence that the newly selected layer failed.
+   recoverTiles();
+  });
   group=L.featureGroup().addTo(map);
   L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);
   $('fit').onclick=()=>{if(group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[20,20],maxZoom:14});};

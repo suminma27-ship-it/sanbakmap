@@ -264,7 +264,7 @@ function makeMap(){
   // Ignore events from inactive basemaps after the user switches layers.
   let activeBase=osm;
   // Do not clear an error after just one successful tile.
-  const tileStatus=new Map([osm,topo,satellite].map(layer=>[layer,{failed:0,complete:false}]));
+  const tileStatus=new Map([osm,topo,satellite].map(layer=>[layer,{failed:0,complete:false,pending:false,timeout:null}]));
   const tileWarning='배경지도 일부 또는 전체 타일을 불러오지 못했어. 기관 원본 등산로 선형은 계속 표시돼.';
   const showTileWarning=failed=>{
    $('mapFallback').style.display=failed?'block':'none';
@@ -273,8 +273,16 @@ function makeMap(){
   for(const layer of [osm,topo,satellite]){
    layer.on('loading',()=>{
     const status=tileStatus.get(layer);
+    clearTimeout(status.timeout);
     status.failed=0;
     status.complete=false;
+    status.pending=true;
+    // Some blocked tile requests never fire tileerror or load. Detect a stalled
+    // active basemap without hiding the independent institutional vector lines.
+    status.timeout=setTimeout(()=>{
+     status.timeout=null;
+     if(status.pending&&layer===activeBase)showTileWarning(true);
+    },12000);
     // Keep an existing warning until the whole new cycle succeeds.
    });
    layer.on('tileerror',()=>{
@@ -283,6 +291,9 @@ function makeMap(){
    });
    layer.on('load',()=>{
     const status=tileStatus.get(layer);
+    clearTimeout(status.timeout);
+    status.timeout=null;
+    status.pending=false;
     status.complete=true;
     if(layer===activeBase)showTileWarning(status.failed>0);
    });
@@ -290,7 +301,7 @@ function makeMap(){
   map.on('baselayerchange',event=>{
    activeBase=event.layer;
    const status=tileStatus.get(activeBase);
-   showTileWarning(status.complete&&status.failed>0);
+   showTileWarning((status.complete&&status.failed>0)||(status.pending&&status.timeout===null));
   });
   group=L.featureGroup().addTo(map);
   L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);

@@ -87,9 +87,13 @@ function profile(line,packed){
  // Forest line geometry is 3m-simplified; still reject gross ID mismatches.
  if(Math.abs(geoLength-total)>Math.max(70,total*.07))
   return absent('원본 선형 길이와 고도표본 길이가 일치하지 않아');
+ let minimumMeters=Infinity,maximumMeters=-Infinity;
+ for(const point of out){
+  if(point.elevationMeters<minimumMeters)minimumMeters=point.elevationMeters;
+  if(point.elevationMeters>maximumMeters)maximumMeters=point.elevationMeters;
+ }
  return {status:'ready',points:out,distanceMeters:total,
-  minimumMeters:Math.min(...out.map(x=>x.elevationMeters)),
-  maximumMeters:Math.max(...out.map(x=>x.elevationMeters)),
+  minimumMeters,maximumMeters,
   sourceMethod:packed.dem?.sampleMethod||'원본 DEM 표본',
   rasterResolutionVerified:packed.dem?.sourceRasterResolutionVerified===true||
    (packed.dem?.sampleMethod==='georeferenced-dem-to-original-edge'),

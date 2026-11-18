@@ -204,19 +204,30 @@ function drawFallback(){
  const scale=Math.min(900/dx,510/dy),cx=(left+right)/2,cy=(top+bottom)/2;
  for(const line of lines){
   const path=document.createElementNS(SVG_NS,'path');
-  path.setAttribute('d',line.coords.map((p,i)=>{
-   const x=500+(p[0]-cx)*cos*scale,y=325-(p[1]-cy)*scale;
-   return(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
-  }).join(' '));
+  const projected=line.coords.map(p=>[500+(p[0]-cx)*cos*scale,325-(p[1]-cy)*scale]);
+  path.setAttribute('d',projected.map(([x,y],i)=>(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)).join(' '));
   path.setAttribute('fill','none');path.setAttribute('stroke-linecap','round');
   path.setAttribute('stroke-linejoin','round');path.style.cursor='pointer';
   path.setAttribute('tabindex','0');path.setAttribute('role','button');
   path.setAttribute('aria-label',(line.recordName||'등산로')+' 고도그래프 선택');
   path.addEventListener('click',()=>selectLine(line));
   path.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectLine(line)}});
-  svg.append(path);state.fallbackPaths.push({line,path});
+  const xs=projected.map(p=>p[0]),ys=projected.map(p=>p[1]);
+  const bounds=[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];
+  svg.append(path);state.fallbackPaths.push({line,path,bounds});
  }
  host.append(svg);refreshFallbackStyles();
+ $('fit').onclick=()=>svg.setAttribute('viewBox','0 0 1000 610');
+}
+function focusFallbackLine(line){
+ const selected=state.fallbackPaths.find(item=>item.line.id===line.id);
+ if(!selected)return;
+ const [x0,y0,x1,y1]=selected.bounds;
+ const w=Math.max(60,(x1-x0)*1.35),h=Math.max(60,(y1-y0)*1.35);
+ const aspect=1000/610;
+ const width=Math.max(w,h*aspect),height=width/aspect;
+ const svg=selected.path.parentNode;
+ svg.setAttribute('viewBox',[(x0+x1-width)/2,(y0+y1-height)/2,width,height].map(v=>v.toFixed(2)).join(' '));
 }
 function refreshFallbackStyles(){
  for(const {line,path} of state.fallbackPaths){
@@ -373,6 +384,7 @@ function profileFor(line){
 }
 function selectLine(line){
  state.course=null;state.selected=line;setLayerSelection();displayPlans();
+ if(!map)focusFallbackLine(line);
  // Focus the actual source geometry; never join separate trails or plan waypoints.
  if(map){
   const selectedLayer=state.layers.find(entry=>entry.line.id===line.id)?.layer;

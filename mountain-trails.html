@@ -373,6 +373,12 @@ function profileFor(line){
 }
 function selectLine(line){
  state.course=null;state.selected=line;setLayerSelection();displayPlans();
+ // Focus the actual source geometry; never join separate trails or plan waypoints.
+ if(map){
+  const selectedLayer=state.layers.find(entry=>entry.line.id===line.id)?.layer;
+  if(selectedLayer&&selectedLayer.getBounds().isValid())
+   map.fitBounds(selectedLayer.getBounds(),{padding:[34,34],maxZoom:15});
+ }
  put('profileTitle',line.recordName||'선택한 원본 등산로');
  const result=profileFor(line);
  if(result.status!=='ready'){

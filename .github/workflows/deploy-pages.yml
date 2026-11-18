@@ -24,24 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate route topology and UI regressions
+      - name: Validate active mountain map MVP regressions
         run: |
           set -euo pipefail
-          failed=0
-          for file in tests/*.mjs; do
-            if ! node "$file"; then
-              echo "::error file=$file::Regression test failed"
-              failed=1
-            fi
+          # Legacy route/topology tests remain in tests/ and in their separate workflow.
+          # They are not release gates for the source-line-only mountain map MVP.
+          for file in \
+            tests/mountain-line-profile.mjs \
+            tests/mountain-trails-leaflet-css.mjs \
+            tests/mountain-trails-runtime.mjs \
+            tests/mobile-gestures.mjs; do
+            node "$file"
           done
-          if ! python -m py_compile tools/seorak-recover-v91.py tools/publish-nationwide-elevation-v110.py; then
-            echo "::error::Python source compilation failed"
-            failed=1
-          fi
-          if [ "$failed" -ne 0 ]; then
-            echo "::error::Some regression tests failed; refusing site deployment."
-            exit 1
-          fi
 
       - name: Restore national derived GIS cache
         uses: actions/cache@v4

@@ -263,18 +263,34 @@ function makeMap(){
   // Tile failures must not hide independent institutional trail vectors.
   // Ignore events from inactive basemaps after the user switches layers.
   let activeBase=osm;
-  let tileFailed=false;
-  const tileWarning='배경지도 타일을 불러오지 못했어. 기관 원본 등산로 선형은 계속 표시돼.';
-  const warnTiles=()=>{tileFailed=true;$('mapFallback').textContent=tileWarning;$('mapFallback').style.display='block';};
-  const recoverTiles=()=>{if(!tileFailed)return;tileFailed=false;$('mapFallback').style.display='none';$('mapFallback').textContent='';};
+  // Do not clear an error after just one successful tile.
+  const tileStatus=new Map([osm,topo,satellite].map(layer=>[layer,{failed:0,complete:false}]));
+  const tileWarning='배경지도 일부 또는 전체 타일을 불러오지 못했어. 기관 원본 등산로 선형은 계속 표시돼.';
+  const showTileWarning=failed=>{
+   $('mapFallback').style.display=failed?'block':'none';
+   $('mapFallback').textContent=failed?tileWarning:'';
+  };
   for(const layer of [osm,topo,satellite]){
-   layer.on('tileerror',()=>{if(layer===activeBase)warnTiles();});
-   layer.on('tileload',()=>{if(layer===activeBase)recoverTiles();});
+   layer.on('loading',()=>{
+    const status=tileStatus.get(layer);
+    status.failed=0;
+    status.complete=false;
+    // Keep an existing warning until the whole new cycle succeeds.
+   });
+   layer.on('tileerror',()=>{
+    tileStatus.get(layer).failed++;
+    if(layer===activeBase)showTileWarning(true);
+   });
+   layer.on('load',()=>{
+    const status=tileStatus.get(layer);
+    status.complete=true;
+    if(layer===activeBase)showTileWarning(status.failed>0);
+   });
   }
   map.on('baselayerchange',event=>{
    activeBase=event.layer;
-   // An old layer's error is not evidence that the newly selected layer failed.
-   recoverTiles();
+   const status=tileStatus.get(activeBase);
+   showTileWarning(status.complete&&status.failed>0);
   });
   group=L.featureGroup().addTo(map);
   L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);

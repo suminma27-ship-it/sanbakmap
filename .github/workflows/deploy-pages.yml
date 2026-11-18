@@ -52,7 +52,7 @@ jobs:
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
           cp index.html mountain-trails.html site/
           cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
-          cp vendor/leaflet.css site/vendor/
+          cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/
           cp data/nationwide-elevation/*.json site/data/nationwide-elevation/
           cp data/knps-seorak-2018.geojson site/data/

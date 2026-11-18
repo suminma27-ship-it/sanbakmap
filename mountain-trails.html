@@ -461,9 +461,13 @@ async function selectMountain(code){
   put('elevCount',packed?'원본 DEM 표본 확보':'고도표본 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
+   // A wider invisible hit area makes thin source trails selectable by touch.
+   // Both layers use the same original coordinates, without connecting trails.
+   const hit=L.polyline(coords,{color:'#145d3e',weight:22,opacity:0.01,interactive:true});
+   hit.on('click',()=>selectLine(line));hit.addTo(group);
    const l=L.polyline(coords,{color:'#9aac9d',weight:3,opacity:.67});
    l.on('click',()=>selectLine(line));l.bindTooltip((line.recordName||'원본 등산로')+' · 클릭해서 고도 보기',{sticky:true});
-   l.addTo(group);state.layers.push({line,layer:l});
+   l.addTo(group);state.layers.push({line,layer:l,hit});
   }
   if(map&&group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[28,28],maxZoom:13});
   if(!map)drawFallback();

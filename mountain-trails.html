@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,lineLimit:500};
 let map=null,group=null;
 
 const SEORAK_PLANS=Object.freeze([
@@ -344,7 +344,7 @@ function setLayerSelection(){
  const query=$('lineSearch').value.trim().toLocaleLowerCase('ko');
  const matches=state.lines.map((line,i)=>({line,i})).filter(({line,i})=>
   !query||(line.recordName||'').toLocaleLowerCase('ko').includes(query)||String(i+1)===query);
- const visible=matches.slice(0,500);
+ const visible=matches.slice(0,state.lineLimit);
  for(const {line,i} of visible){
   const b=document.createElement('button');b.type='button';
   b.className='line'+(line.id===state.selected?.id?' active':'');
@@ -357,7 +357,9 @@ function setLayerSelection(){
  if(!matches.length){
   const p=document.createElement('p');p.className='muted';p.textContent='검색 조건에 맞는 원본 선형이 없어.';root.append(p);
  }else if(matches.length>visible.length){
-  const p=document.createElement('p');p.className='muted';p.textContent='검색 결과 '+matches.length+'개 중 500개 표시 중이야. 이름이나 원본 번호로 좁혀 줘.';root.append(p);
+  const b=document.createElement('button');b.type='button';b.className='line';
+  b.textContent='원본 선형 더 보기 ('+visible.length+' / '+matches.length+')';
+  b.onclick=()=>{state.lineLimit+=500;setLayerSelection();};root.append(b);
  }
 }
 function profileFor(line){
@@ -401,7 +403,7 @@ async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.profiles.clear();
- $('lineSearch').value='';
+ $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
  if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
  if(!map)$('map').replaceChildren();
@@ -483,7 +485,8 @@ async function init(){
    o.textContent=regionName[code]||code;$('region').append(o);
   }
   $('search').disabled=false;$('region').disabled=false;
-  $('search').oninput=filterMountains;$('region').onchange=filterMountains;filterMountains();
+  $('lineSearch').oninput=()=>{state.lineLimit=500;setLayerSelection();};
+   $('search').oninput=filterMountains;$('region').onchange=filterMountains;filterMountains();
   const [published,pilots]=await Promise.allSettled([
    getJSON('./data/nationwide-elevation/online-v110.json'),
    getJSON('./data/nationwide-elevation/index.json')

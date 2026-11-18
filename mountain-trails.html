@@ -216,7 +216,16 @@ function drawFallback(){
   let xMin=Infinity,yMin=Infinity,xMax=-Infinity,yMax=-Infinity;
   for(const [x,y] of projected){xMin=Math.min(xMin,x);yMin=Math.min(yMin,y);xMax=Math.max(xMax,x);yMax=Math.max(yMax,y)}
   const bounds=[xMin,yMin,xMax,yMax];
-  svg.append(path);state.fallbackPaths.push({line,path,bounds});
+  // Keep the visible original line thin, but provide a separate generous
+  // transparent touch target in the SVG fallback (same unmodified geometry).
+  const hit=path.cloneNode(false);
+  hit.removeAttribute('tabindex');hit.removeAttribute('role');hit.removeAttribute('aria-label');
+  hit.setAttribute('stroke','#145d3e');hit.setAttribute('stroke-width','22');
+  hit.setAttribute('stroke-opacity','0.01');
+  hit.setAttribute('pointer-events','stroke');
+  hit.setAttribute('aria-hidden','true');
+  hit.addEventListener('click',()=>selectLine(line));
+  svg.append(path,hit);state.fallbackPaths.push({line,path,hit,bounds});
  }
  host.append(svg);refreshFallbackStyles();
  $('fit').onclick=()=>svg.setAttribute('viewBox','0 0 1000 610');
@@ -232,12 +241,12 @@ function focusFallbackLine(line){
  svg.setAttribute('viewBox',[(x0+x1-width)/2,(y0+y1-height)/2,width,height].map(v=>v.toFixed(2)).join(' '));
 }
 function refreshFallbackStyles(){
- for(const {line,path} of state.fallbackPaths){
+ for(const {line,path,hit} of state.fallbackPaths){
   const on=state.selected?.id===line.id;
   path.setAttribute('stroke',on?'#145d3e':'#9aac9d');
   path.setAttribute('stroke-width',on?'6':'2.5');
   path.setAttribute('opacity',on?'1':'.68');
-  if(on)path.parentNode.append(path);
+  if(on)path.parentNode.append(path,hit);
  }
 }
 

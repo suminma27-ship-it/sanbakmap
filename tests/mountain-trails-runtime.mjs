@@ -83,14 +83,18 @@ async function scenario(withLeaflet){
  assert.equal(document.getElementById('courseExamples').children.length,5,
   'All five user-supplied Seorak plans must show');
  if(withLeaflet){
-  assert.equal(L.group.parts.length,21,'21 real lines should be layered over map');
+  assert.equal(L.group.parts.length,42,'21 visible source lines and 21 touch targets should be layered');
+  assert.equal(L.group.parts.filter(x=>x.style?.weight===22).length,21,
+   'Every real line must have a 22px mobile touch target');
   assert(L.group.parts.some(x=>x.style?.color==='#145d3e'),
    'Exactly selected path should have strong color');
  }else{
   const overlay=document.getElementById('map').children.find(x=>x.tag==='svg');
   assert(overlay,'No-CDN fallback should show source geometry');
-  assert(overlay.children.filter(x=>x.tag==='path').length===21,
-   'All 21 source polylines should remain selectable without Leaflet');
+  assert.equal(overlay.children.filter(x=>x.tag==='path').length,42,
+   'All 21 source polylines and 21 fallback touch targets must render');
+  assert.equal(overlay.children.filter(x=>x.tag==='path'&&x.attributes['stroke-width']==='22').length,21,
+   'SVG fallback must keep one 22px touch target per source line');
  }
  // Choosing an unverified route cannot invent a whole-course altitude profile.
  const plan1=document.getElementById('courseExamples').children[0];

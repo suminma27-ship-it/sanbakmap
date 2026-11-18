@@ -503,7 +503,7 @@ async function init(){
   state.catalog=Object.entries(state.index.mountains)
    .map(([code,m])=>({code,name:String(m.name||code).replace(/_/g,' '),segments:m.count||0}))
    .sort((a,b)=>a.name.localeCompare(b.name,'ko'));
-  if(state.catalog.length!==2902)throw Error('전국 기관 수록 산 목록 2,902건 검증 실패');
+  // The agency catalog can grow as verified source records are published.\n  // Reject an empty/broken index, not a legitimate change in record count.\n  if(!state.catalog.length)throw Error('기관 수록 산 목록이 비어 있어');
   const regions=[...new Set(state.catalog.map(x=>x.code.slice(0,2)))].sort();
   for(const code of regions){
    const o=document.createElement('option');o.value=code;

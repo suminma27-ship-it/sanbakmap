@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,lineLimit:500};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,lineLimit:500,mountainLimit:85};
 let map=null,group=null;
 
 const SEORAK_PLANS=Object.freeze([
@@ -324,14 +324,19 @@ function filterMountains(){
  const q=$('search').value.trim().toLowerCase(),region=$('region').value;
  const found=state.catalog.filter(item=>(!region||item.code.slice(0,2)===region)&&
  (!q||(item.name+' '+item.code).toLowerCase().includes(q)));
- put('count',found.length.toLocaleString('ko-KR')+'개 산 · 목록 최대 85개 표시');
+ put('count',found.length.toLocaleString('ko-KR')+'개 산 · '+Math.min(found.length,state.mountainLimit).toLocaleString('ko-KR')+'개 표시');
  const root=$('results');root.replaceChildren();
- for(const item of found.slice(0,85)){
+ for(const item of found.slice(0,state.mountainLimit)){
   const b=document.createElement('button');b.type='button';b.className='mountain'+(item.code===state.code?' active':'');
   const t=document.createElement('strong');t.textContent=item.name;
   const s=document.createElement('small');s.textContent=(regionName[item.code.slice(0,2)]||'지역 미확인')+' · '+item.code;
   b.append(t,s);b.onclick=()=>selectMountain(item.code);root.append(b);
  }
+  if(found.length>state.mountainLimit){
+   const more=document.createElement('button');more.type='button';more.className='mountain';
+   more.textContent='산 더 보기 ('+state.mountainLimit+' / '+found.length+')';
+   more.onclick=()=>{state.mountainLimit+=85;filterMountains();};root.append(more);
+  }
 }
 function setLayerSelection(){
  state.layers.forEach(({line,layer})=>{
@@ -486,7 +491,7 @@ async function init(){
   }
   $('search').disabled=false;$('region').disabled=false;
   $('lineSearch').oninput=()=>{state.lineLimit=500;setLayerSelection();};
-   $('search').oninput=filterMountains;$('region').onchange=filterMountains;filterMountains();
+   $('search').oninput=()=>{state.mountainLimit=85;filterMountains();};$('region').onchange=()=>{state.mountainLimit=85;filterMountains();};filterMountains();
   const [published,pilots]=await Promise.allSettled([
    getJSON('./data/nationwide-elevation/online-v110.json'),
    getJSON('./data/nationwide-elevation/index.json')

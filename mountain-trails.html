@@ -177,7 +177,19 @@ function graph(points,total){
   node(svg,'text',{x:L-8,y:y(h)+4,'text-anchor':'end',fill:'#5f7466','font-size':12},Math.round(h)+'m');
   node(svg,'text',{x:x(total*i/4),y:208,'text-anchor':'middle',fill:'#5f7466','font-size':12},(total*i/4000).toFixed(1)+'km');
  }
- const stride=Math.max(1,Math.ceil(points.length/800)),reduced=points.filter((p,i)=>i%stride===0||i===points.length-1);
+ // Preserve local high and low points when reducing dense DEM samples for SVG.
+ // Uniform stride sampling can erase narrow summits and valleys.
+ const stride=Math.max(1,Math.ceil(points.length/400)),reduced=[];
+ for(let start=0;start<points.length;start+=stride){
+  const end=Math.min(points.length,start+stride);
+  let low=start,high=start;
+  for(let i=start+1;i<end;i++){
+   if(points[i].elevationMeters<points[low].elevationMeters)low=i;
+   if(points[i].elevationMeters>points[high].elevationMeters)high=i;
+  }
+  const indices=[start,low,high,end-1].sort((a,b)=>a-b);
+  for(const i of indices)if(!reduced.length||reduced[reduced.length-1]!==points[i])reduced.push(points[i]);
+ }
  const path=reduced.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(2)+' '+y(p.elevationMeters).toFixed(2)).join(' ');
  node(svg,'path',{d:path,stroke:'#22805b','stroke-width':3,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'});
 }

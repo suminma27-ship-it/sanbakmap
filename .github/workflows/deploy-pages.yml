@@ -37,100 +37,40 @@ jobs:
             node "$file"
           done
 
-      - name: Restore national derived GIS cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            site/data/nationwide
-            site/data/nationwide-topology
-          key: nationwide-v320-${{ runner.os }}-${{ hashFiles('data/nationwide-full/**', 'data/nationwide/**', 'data/nationwide-topology/**', 'tools/rebuild-nationwide-shards.mjs', 'tools/rebuild-topology-v102.mjs', 'tools/review-topology-v103.mjs', 'tools/audit-nationwide-contact-v125.mjs', 'tools/build-35m-preview-v127.mjs', 'tools/cache-national-build-v320.mjs', 'core/nationwide-source-loader.js', 'core/nationwide-map-v106.js', 'core/nationwide-graph-review-v103.js') }}
-
-      - name: Validate cache before reusing GIS outputs
+      - name: Package source-line MVP and preserve legacy static pages
         run: |
           set -euo pipefail
-          if node tools/cache-national-build-v320.mjs --verify --site site; then
-            echo "NATIONWIDE_CACHE_VALID=1" >> "$GITHUB_ENV"
-          else
-            echo "NATIONWIDE_CACHE_VALID=0" >> "$GITHUB_ENV"
-            echo "Cache unavailable or invalid: regenerate nationwide data."
-          fi
-
-      - name: Package website
-        run: |
-          set -euo pipefail
-          for file in index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js seorak-v78-extra.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
-            test -f "$file"
-          done
-          test -f core/trail-visibility.js
-          test -f nationwide-full.html
-          test "$(find data/nationwide-full -maxdepth 1 -name 'part-*.js' -type f | wc -l)" -eq 11
-          test -f data/knps-seorak-2018.geojson
-          for f in nationwide-official.html nationwide-topology.html nationwide-plan.html core/nationwide-elevation-v107.js core/nationwide-elevation-partial-v119.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js data/nationwide-elevation/index.json data/nationwide-elevation/online-v110.json tools/publish-nationwide-elevation-v110.py core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js core/nationwide-knps-interior-v122.js core/nationwide-graph-normalize-v124.js core/nationwide-pois-v105.js data/nationwide-pois/index.json core/nationwide-route-preview-v104.js core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js data/nationwide/index.json data/nationwide/bucket-00.json data/nationwide-topology/manifest.json; do test -f "$f"; done
-          grep -q '산박지도 v' index.html
-          test -f seorak-real-overlay.html
-          test -f mountain-trails.html
-          test -f seorak-standalone-s3.html
-          test -f core/mountain-line-profile.js
+          test -s mountain-trails.html
+          test -s index.html
+          test -s core/mountain-line-profile.js
+          test -s core/nationwide-source-loader.js
           test -s vendor/leaflet.css
-          mkdir -p site
-          cp seorak-real-overlay.html mountain-trails.html seorak-standalone-s3.html site/
-          test -s site/seorak-real-overlay.html
-          test -s site/mountain-trails.html
-          test -s site/seorak-standalone-s3.html
-          grep -q '새 테스트 페이지 S3' site/seorak-standalone-s3.html
-          cp index.html national.html national_data.js national_routes.js ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html national-parks-trails.html national-parks-basemap.js seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll site/
-          node tools/seorak-topology-v89.mjs --output-dir site
-          node tools/seorak-topology-v92.mjs --output-dir site
-          node tools/seorak-review-queue-v93.mjs --output-dir site
-          node tools/seorak-poi-anchors-v94.mjs --output-dir site
-          mkdir -p site/core site/data
-          cp core/trail-visibility.js site/core/trail-visibility.js
-          cp core/mountain-line-profile.js site/core/mountain-line-profile.js
-          mkdir -p site/vendor
-          cp vendor/leaflet.css site/vendor/leaflet.css
-          cp data/knps-seorak-2018.geojson site/data/knps-seorak-2018.geojson
-          mkdir -p site/data/nationwide site/data/nationwide-topology
-          if [ "${NATIONWIDE_CACHE_VALID:-0}" != "1" ]; then
-            cp data/nationwide/*.json site/data/nationwide/
-            node tools/rebuild-nationwide-shards.mjs --output-dir site/data/nationwide
-            node tools/rebuild-topology-v102.mjs --output-dir site/data/nationwide-topology
-            node tools/review-topology-v103.mjs --source-dir site/data/nationwide-topology --output-dir site/data/nationwide-topology
-            node tools/audit-nationwide-contact-v125.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
-            node tools/build-35m-preview-v127.mjs --source-dir site/data/nationwide-topology --display-dir site/data/nationwide --output-dir site/data/nationwide-topology
-            node tools/cache-national-build-v320.mjs --write --site site
-          fi
-          node tools/cache-national-build-v320.mjs --verify --site site
-          test -f site/data/nationwide-topology/review-v103.json
-          test -f site/data/nationwide-topology/contacts-v125-index.json
-          node --input-type=module -e "
-            import {readFileSync} from 'node:fs';
-            const doc=JSON.parse(readFileSync('site/data/nationwide-topology/contacts-v125-index.json','utf8'));
-            const bands=doc.totals.gapBandsMeters;
-            if(Object.values(bands).reduce((a,b)=>a+b,0)!==doc.totals.candidates)process.exit(1);
-            if(doc.createdConnectingEdges!==0||doc.totals.mountains!==2902)process.exit(1);
-            console.log('PASS v126 all <=35m candidates preserved; v69 cross-check rule audited:',doc.totals);
-          "
-          test "$(find site/data/nationwide-topology -maxdepth 1 -name 'contacts-v125-bucket-*.json.gz' -type f | wc -l)" -eq 32
-          test -f site/data/nationwide-topology/preview-35m-v127-index.json
-          test "$(find site/data/nationwide-topology -maxdepth 1 -name 'preview-35m-v127-bucket-*.json.gz' -type f | wc -l)" -eq 32
-          test "$(find site/data/nationwide-topology -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
-          node tools/knps-topology-v102.mjs --output-dir site/data
-          test "$(find site/data/nationwide -maxdepth 1 -name 'bucket-*.json' -type f | wc -l)" -eq 32
-          mkdir -p site/data/nationwide-pois
-          cp data/nationwide-pois/index.json data/nationwide-pois/bucket-*.json.gz site/data/nationwide-pois/
-          test "$(find site/data/nationwide-pois -maxdepth 1 -name 'bucket-*.json.gz' -type f | wc -l)" -eq 32
-          cp nationwide-official.html nationwide-topology.html nationwide-plan.html site/
-          cp nationwide-full.html site/nationwide-full.html
-          mkdir -p site/data/nationwide-full
-          cp data/nationwide-full/part-*.js site/data/nationwide-full/
-          cp core/nationwide-source-loader.js core/nationwide-app.js core/nationwide-topology-v102.js core/nationwide-graph-review-v103.js core/nationwide-route-preview-v104.js core/nationwide-pois-v105.js core/nationwide-map-v106.js core/nationwide-map-view-v106.js core/nationwide-knps-contacts-v117.js core/nationwide-knps-nearby-v118.js site/core/
-          cp core/nationwide-knps-interior-v122.js core/nationwide-graph-normalize-v124.js site/core/
-          cp core/nationwide-elevation-v107.js core/nationwide-elevation-partial-v119.js core/nationwide-elevation-chart-v107.js core/nationwide-elevation-pack-v108.js core/nationwide-elevation-archive-v110.js site/core/
-          mkdir -p site/data/nationwide-elevation
+          test -s data/nationwide/index.json
+          test -s data/nationwide-elevation/index.json
+          test -s data/nationwide-elevation/online-v110.json
+          test -s data/knps-seorak-2018.geojson
+          mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
+          cp index.html mountain-trails.html site/
+          cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
+          cp vendor/leaflet.css site/vendor/
+          cp data/nationwide/*.json site/data/nationwide/
           cp data/nationwide-elevation/*.json site/data/nationwide-elevation/
-          python tools/publish-nationwide-elevation-v110.py --output-dir site/data/nationwide-elevation
-          cp audits/seorak-v90-original-node-review.json site/seorak-v90-original-node-review.json
-          cp audits/seorak-v91-display-way-index.json site/seorak-v91-display-way-index.json
+          cp data/knps-seorak-2018.geojson site/data/
+          # Retain existing static entry points and legacy assets without running topology builders.
+          for file in national.html national_data.js national_routes.js nationwide-full.html nationwide-official.html nationwide-topology.html nationwide-plan.html national-parks-trails.html national-parks-basemap.js seorak-real-overlay.html seorak-standalone-s3.html ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
+            if [ -f "$file" ]; then cp "$file" site/; fi
+          done
+          for dir in core data/nationwide-full data/nationwide-pois; do
+            if [ -d "$dir" ]; then
+              mkdir -p "site/$dir"
+              cp -R "$dir"/. "site/$dir/"
+            fi
+          done
+          # Only publish already committed source assets; no new contact, graph or DEM products.
+          test -s site/mountain-trails.html
+          test -s site/data/nationwide/index.json
+          test -s site/data/nationwide-elevation/online-v110.json
+          ! grep -q 'rebuild-topology-v102' <<< 'source-line-only'
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

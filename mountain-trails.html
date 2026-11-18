@@ -96,7 +96,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <div id="courseExamples" class="course-examples"></div>
 <p class="course-examples-hint">위의 5개 코스는 요청한 경유지 순서만 보관한 목록이야. 전체 경로 GPX가 검증되기 전에는 코스 전체를 굵은 선으로 그리거나 전체 고도그래프를 만들지 않아. 지도에서 실제 원본 등산로를 선택하면 그 선형만 진하게 표시되고 고도그래프가 나와.</p>
 </section>
-<div><h3>실제 원본 등산로 선택 <span class="muted">· 지도에서 선을 눌러도 돼</span></h3><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
+<div><h3>실제 원본 등산로 선택 <span class="muted">· 지도에서 선을 눌러도 돼</span></h3><label for="lineSearch" class="muted">현재 산의 원본 선형 검색</label><input id="lineSearch" type="search" placeholder="원본 등산로 이름 또는 번호 검색" autocomplete="off" aria-controls="lineList"><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
 <div class="profileHeader"><div><h3 id="profileTitle">고도그래프</h3><div id="profileMessage" class="muted">등산로를 선택해 줘.</div></div><div class="stats"><span id="distance">거리 —</span><span id="elevation">고도 —</span></div></div>
 <svg id="profile" viewBox="0 0 720 215" preserveAspectRatio="none" aria-label="선택한 원본 선형의 거리별 DEM 고도그래프"></svg>
 <div id="sourceInfo">기관 수록 원본 선형을 그대로 사용하며 최신 탐방로 지정·개방 여부는 확인되지 않았어.</div>
@@ -341,9 +341,12 @@ function setLayerSelection(){
  });
  refreshFallbackStyles();
  const root=$('lineList');root.replaceChildren();
- const max=state.lines.length>500?500:state.lines.length;
- for(let i=0;i<max;i++){
-  const line=state.lines[i],b=document.createElement('button');b.type='button';
+ const query=$('lineSearch').value.trim().toLocaleLowerCase('ko');
+ const matches=state.lines.map((line,i)=>({line,i})).filter(({line,i})=>
+  !query||(line.recordName||'').toLocaleLowerCase('ko').includes(query)||String(i+1)===query);
+ const visible=matches.slice(0,500);
+ for(const {line,i} of visible){
+  const b=document.createElement('button');b.type='button';
   b.className='line'+(line.id===state.selected?.id?' active':'');
   b.textContent=line.recordName||'원본 등산로 '+(i+1);
   const small=document.createElement('small');
@@ -351,8 +354,10 @@ function setLayerSelection(){
     (line.closed?' · 원본 폐쇄 표기':'');
   b.append(small);b.onclick=()=>selectLine(line);root.append(b);
  }
- if(state.lines.length>max){
-  const p=document.createElement('p');p.className='muted';p.textContent='목록은 처음 500개만 표시해. 지도에서 나머지 선형을 직접 선택할 수 있어.';root.append(p);
+ if(!matches.length){
+  const p=document.createElement('p');p.className='muted';p.textContent='검색 조건에 맞는 원본 선형이 없어.';root.append(p);
+ }else if(matches.length>visible.length){
+  const p=document.createElement('p');p.className='muted';p.textContent='검색 결과 '+matches.length+'개 중 500개 표시 중이야. 이름이나 원본 번호로 좁혀 줘.';root.append(p);
  }
 }
 function profileFor(line){
@@ -396,6 +401,7 @@ async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.profiles.clear();
+ $('lineSearch').value='';
  displayPlans();
  if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
  if(!map)$('map').replaceChildren();
@@ -457,6 +463,7 @@ async function selectMountain(code){
  }
 }
 async function init(){
+ $('lineSearch').addEventListener('input',setLayerSelection);
  makeMap();noProfile('산을 선택해 줘');
  if(!core||!prof){
   status('등산로/고도그래프 프로그램을 불러오지 못했어.');return;

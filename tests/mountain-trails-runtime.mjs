@@ -21,6 +21,8 @@ class FakeNode {
  }
  append(...nodes){for(const n of nodes){if(n.parentNode){const i=n.parentNode.children.indexOf(n);if(i>=0)n.parentNode.children.splice(i,1)}n.parentNode=this;this.children.push(n)}}
  replaceChildren(...nodes){this.children=[];this.append(...nodes)}
+ cloneNode(){const copy=new FakeNode(this.tag);copy.attributes={...this.attributes};copy.style={...this.style};return copy}
+ removeAttribute(name){delete this.attributes[name]}
  setAttribute(name,value){this.attributes[name]=String(value)}
  getAttribute(name){return this.attributes[name]}
  addEventListener(name,callback){(this.listeners??={})[name]=callback}
@@ -43,6 +45,7 @@ function fakeLeaflet(){
   map:()=>obj(),tileLayer:()=>obj(),featureGroup:()=>group,
   control:{layers:()=>obj()},
   polyline:(coords,style)=>({coords,style,
+   getBounds(){return {isValid:()=>true}},
    on(name,callback){this[name]=callback;return this},
    bindTooltip(){return this},
    setStyle(style){this.style=style;return this},

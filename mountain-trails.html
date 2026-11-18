@@ -167,7 +167,8 @@ function node(svg,type,attrs,text){
 function graph(points,total){
  const svg=$('profile');svg.replaceChildren();
  if(points.length<2||total<=0){noProfile('고도표본 없음');return}
- const heights=points.map(p=>p.elevationMeters),min=Math.min(...heights),max=Math.max(...heights);
+ let min=Infinity,max=-Infinity;
+ for(const p of points){min=Math.min(min,p.elevationMeters);max=Math.max(max,p.elevationMeters);}
  const lo=Math.floor((min-25)/100)*100,hi=Math.ceil((max+25)/100)*100;
  const L=55,R=704,T=16,B=183,x=d=>L+(R-L)*d/total,y=h=>B-(h-lo)/(hi-lo||1)*(B-T);
  for(let i=0;i<=4;i++){
@@ -212,8 +213,9 @@ function drawFallback(){
   path.setAttribute('aria-label',(line.recordName||'등산로')+' 고도그래프 선택');
   path.addEventListener('click',()=>selectLine(line));
   path.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectLine(line)}});
-  const xs=projected.map(p=>p[0]),ys=projected.map(p=>p[1]);
-  const bounds=[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];
+  let xMin=Infinity,yMin=Infinity,xMax=-Infinity,yMax=-Infinity;
+  for(const [x,y] of projected){xMin=Math.min(xMin,x);yMin=Math.min(yMin,y);xMax=Math.max(xMax,x);yMax=Math.max(yMax,y)}
+  const bounds=[xMin,yMin,xMax,yMax];
   svg.append(path);state.fallbackPaths.push({line,path,bounds});
  }
  host.append(svg);refreshFallbackStyles();

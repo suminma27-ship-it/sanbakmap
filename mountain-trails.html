@@ -520,14 +520,16 @@ async function selectMountain(code){
      state.demError=null;
      state.profiles.clear();
      put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
-     if(state.selected)selectLine(state.selected,true);
+     if(state.selected)selectLine(state.selected,true,true);
+     selectVerifiedProfileAfterDEM();
     },err=>{
      if(generation!==state.generation)return;
      state.demPending=false;
      state.demError='고도자료 다운로드 실패: '+err.message;
      state.profiles.clear();
      put('elevCount','고도자료 읽기 오류');
-     if(state.selected)selectLine(state.selected,true);
+     if(state.selected)selectLine(state.selected,true,true);
+     selectVerifiedProfileAfterDEM();
      console.warn('이 산 고도자료를 읽지 못했어',err);
     });
     const raw=await rawRequest;

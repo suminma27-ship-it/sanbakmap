@@ -563,8 +563,17 @@ async function selectMountain(code){
   if(generation!==state.generation)return;
   // DEM may finish before the geometry fetch. Never overwrite a settled
   // DEM result with the initial null placeholders after geometry arrives.
+  // Reject unusable geometries before Leaflet bounds, hit areas or SVG fallback.
+  // Preserve the institutional source files; never invent replacement coordinates.
+  const sourceCount=lines.length;
+  lines=lines.filter(line=>Array.isArray(line.coords)&&line.coords.length>=2&&
+   line.coords.every(point=>Array.isArray(point)&&point.length>=2&&
+    Number.isFinite(point[0])&&Number.isFinite(point[1])&&
+    point[0]>=124&&point[0]<=132&&point[1]>=33&&point[1]<=39));
+  const invalidCount=sourceCount-lines.length;
   state.lines=lines;
-  put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
+  put('provider',label);
+  put('lineCount','원본 선형 '+lines.length+'개'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':''));
   put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':state.demPending?'고도자료 확인 중':'고도표본 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
@@ -595,7 +604,7 @@ async function selectMountain(code){
   // DEM can settle before source geometry; choose a verified line after both
   // are available, without overriding a user's explicit selection.
   selectVerifiedProfileAfterDEM();
-  status(lines.length+'개 원본 선형 표시 완료 · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
+  status(lines.length+'개 원본 선형 표시 완료'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':'')+' · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
  }catch(err){
   if(generation!==state.generation)return;

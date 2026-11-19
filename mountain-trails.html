@@ -615,7 +615,7 @@ async function selectMountain(code){
  }
 }
 async function init(){
- $('retry').addEventListener('click',()=>{if(state.code)selectMountain(state.code);});
+ $('retry').addEventListener('click',()=>{if(state.code)selectMountain(state.code);else window.location.reload();});
  $('lineSearch').addEventListener('input',setLayerSelection);
  makeMap();noProfile('산을 선택해 줘');
  if(!core||!prof){
@@ -653,6 +653,8 @@ async function init(){
   });
   await selectMountain('428302602');
  }catch(err){
+  $('retry').hidden=false;
+  $('retry').textContent='산 목록 다시 불러오기';
   status('산 목록 초기화 실패: '+err.message);
   noProfile('자료를 불러오지 못했어');
   console.error(err);

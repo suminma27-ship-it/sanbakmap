@@ -462,16 +462,21 @@ async function selectMountain(code){
   if(code==='428302602'){
    // Keep original trail geometry usable even if the independent DEM
    // request fails, but never mislabel a network failure as absent DEM.
-   const [geo,demResult]=await Promise.all([
-    getJSON('./data/knps-seorak-2018.geojson'),
-    getJSON('./data/nationwide-elevation/seorak-knps-v108.json')
-     .then(value=>({value,error:null}),error=>({value:null,error}))
-   ]);
-   lines=prof.parkLines(geo,code);packed=demResult.value;
-   if(demResult.error){
-    demError='고도자료 다운로드 실패: '+demResult.error.message;
-    console.warn('설악산 고도자료를 읽지 못했어',demResult.error);
-   }
+   // Start DEM independently: the source geometry must render without waiting
+   // for a slow or failed elevation request.
+   const demRequest=getJSON('./data/nationwide-elevation/seorak-knps-v108.json')
+    .then(value=>({value,error:null}),error=>({value:null,error}));
+   const geo=await getJSON('./data/knps-seorak-2018.geojson');
+   lines=prof.parkLines(geo,code);
+   demRequest.then(result=>{
+    if(generation!==state.generation)return;
+    state.packed=result.value;
+    state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
+    state.profiles.clear();
+    put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 미확보');
+    if(state.selected)selectLine(state.selected);
+    if(result.error)console.warn('설악산 고도자료를 읽지 못했어',result.error);
+   });
    label='국립공원공단 2018 원본 탐방로';
   }else{
    const entry=state.index?.mountains?.[code];

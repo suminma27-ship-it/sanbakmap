@@ -504,9 +504,11 @@ async function selectMountain(code){
    }else label='기관 수록 상세 등산로 미확보';
   }
   if(generation!==state.generation)return;
-  state.lines=lines;state.packed=packed;state.demError=demError;
+  // DEM may finish before the geometry fetch. Never overwrite a settled
+  // DEM result with the initial null placeholders after geometry arrives.
+  state.lines=lines;
   put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
-  put('elevCount',state.demError?'고도자료 읽기 오류':packed?'원본 DEM 표본 확보':'고도표본 미확보');
+  put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 확인 중 또는 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
    // A wider invisible hit area makes thin source trails selectable by touch.

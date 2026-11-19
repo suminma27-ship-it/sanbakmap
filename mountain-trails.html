@@ -453,7 +453,12 @@ function selectLine(line, preserveView=false, automatic=false){
   ' · 현재 개방 여부 미검증 · 다른 선형과 연결하지 않음.');
 }
 async function forestDEM(code,bucket){
- await elevationIndexesReady;
+ // Prevent an unresponsive elevation index from leaving the graph loading forever.
+ // Source trail geometry is fetched and rendered independently.
+ await Promise.race([
+  elevationIndexesReady,
+  new Promise((_,reject)=>setTimeout(()=>reject(Error('고도자료 목록 응답 시간 초과 (15초)')),15000))
+ ]);
  const published=state.online?.mountains?.[code];
  if(published&&published.bucket===bucket){
   const data=await bucketPromise(state.demBuckets,bucket,'./data/nationwide-elevation/bucket-'+bucket+'.json');

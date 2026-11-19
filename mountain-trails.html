@@ -347,7 +347,9 @@ function makeMap(){
  }
 }
 async function getJSON(path){
- const response=await fetch(path,{cache:'force-cache'});
+ // Revalidate changing manifests on every visit; keep source geometry buckets cached.
+ const manifest=path.endsWith('/index.json')||path.endsWith('/online-v110.json');
+ const response=await fetch(path,{cache:manifest?'no-cache':'force-cache'});
  if(!response.ok)throw Error('HTTP '+response.status+' '+path);
  return response.json();
 }

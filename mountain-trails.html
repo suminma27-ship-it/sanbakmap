@@ -386,7 +386,11 @@ function setLayerSelection(){
  const query=$('lineSearch').value.trim().toLocaleLowerCase('ko');
  const matches=state.lines.map((line,i)=>({line,i})).filter(({line,i})=>
   !query||(line.recordName||'').toLocaleLowerCase('ko').includes(query)||String(i+1)===query);
+ // Keep a map-tapped source line visible in the list even beyond the first page.
+ // Do not silently replace it with another line or fabricate a joined route.
  const visible=matches.slice(0,state.lineLimit);
+ const selectedEntry=matches.find(({line})=>line.id===state.selected?.id);
+ if(selectedEntry&&!visible.some(({line})=>line.id===selectedEntry.line.id))visible.unshift(selectedEntry);
  for(const {line,i} of visible){
   const b=document.createElement('button');b.type='button';
   b.className='line'+(line.id===state.selected?.id?' active':'');

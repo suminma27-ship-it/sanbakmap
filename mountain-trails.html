@@ -420,9 +420,9 @@ function selectLine(line, preserveView=false){
  if(result.status!=='ready'){
   put('distance','거리 약 '+(prof.lengthOf(line.coords)/1000).toFixed(2)+'km');
   put('elevation','고도 없음');
-  put('profileMessage',state.demError||result.note);
+  put('profileMessage',state.demPending?'고도자료 확인 중…':(state.demError||result.note));
   put('sourceInfo',(state.demError?'고도자료를 읽지 못했어. 자료가 없다고 판단하지 않아. ':'원본 선형 길이만 표시했어. 확인된 고도표본이 없어 그래프를 만들지 않았어. ')+'복수 원본 간 연결은 하지 않아.');
-  noProfile('해당 원본 등산로의 검증된 고도그래프 없음');
+  noProfile(state.demPending?'고도자료 확인 중…':'해당 원본 등산로의 검증된 고도그래프 없음');
   return;
  }
  graph(result.points,result.distanceMeters);
@@ -450,7 +450,7 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
- state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.demError=null;state.profiles.clear();
+ state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
  if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
@@ -466,6 +466,7 @@ async function selectMountain(code){
    // request fails, but never mislabel a network failure as absent DEM.
    // Start DEM independently: the source geometry must render without waiting
    // for a slow or failed elevation request.
+   state.demPending=true;
    const demRequest=getJSON('./data/nationwide-elevation/seorak-knps-v108.json')
     .then(value=>({value,error:null}),error=>({value:null,error}));
    const geo=await getJSON('./data/knps-seorak-2018.geojson');
@@ -473,6 +474,7 @@ async function selectMountain(code){
    demRequest.then(result=>{
     if(generation!==state.generation)return;
     state.packed=result.value;
+    state.demPending=false;
     state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
     state.profiles.clear();
     put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 미확보');
@@ -485,17 +487,20 @@ async function selectMountain(code){
    if(entry){
     // Fetch geometry and elevation independently, in parallel.
     const rawRequest=bucketPromise(state.buckets,entry.bucket,'./data/nationwide/bucket-'+entry.bucket+'.json');
+    state.demPending=true;
     const demRequest=forestDEM(code,entry.bucket);
     // Ignore late DEM responses after the user switches mountains.
     demRequest.then(value=>{
      if(generation!==state.generation)return;
      state.packed=value;
+     state.demPending=false;
      state.demError=null;
      state.profiles.clear();
      put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
      if(state.selected)selectLine(state.selected,true);
     },err=>{
      if(generation!==state.generation)return;
+     state.demPending=false;
      state.demError='고도자료 다운로드 실패: '+err.message;
      state.profiles.clear();
      put('elevCount','고도자료 읽기 오류');
@@ -512,7 +517,7 @@ async function selectMountain(code){
   // DEM result with the initial null placeholders after geometry arrives.
   state.lines=lines;
   put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
-  put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 확인 중 또는 미확보');
+  put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':state.demPending?'고도자료 확인 중':'고도표본 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
    // A wider invisible hit area makes thin source trails selectable by touch.

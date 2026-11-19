@@ -66,6 +66,7 @@ async function scenario(withLeaflet){
   return {ok:true,json:async()=>data};
  };
  const context=vm.createContext({window,document,fetch,console,atob,
+  AbortController,setTimeout,clearTimeout,
   L:L?.stub,Option:class extends FakeNode{constructor(t,v){super('option');this.textContent=t;this.value=v}}});
  vm.runInContext(source,context,{filename:'nationwide-source-loader.js'});
  vm.runInContext(elev,context,{filename:'mountain-line-profile.js'});

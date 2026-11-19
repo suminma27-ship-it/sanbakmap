@@ -405,11 +405,11 @@ function profileFor(line){
  if(!state.profiles.has(line.id))state.profiles.set(line.id,prof.profile(line,state.packed));
  return state.profiles.get(line.id);
 }
-function selectLine(line){
+function selectLine(line, preserveView=false){
  state.course=null;state.selected=line;setLayerSelection();displayPlans();
  if(!map)focusFallbackLine(line);
  // Focus the actual source geometry; never join separate trails or plan waypoints.
- if(map){
+ if(map&&!preserveView){
   const selectedLayer=state.layers.find(entry=>entry.line.id===line.id)?.layer;
   if(selectedLayer&&selectedLayer.getBounds().isValid())
    map.fitBounds(selectedLayer.getBounds(),{padding:[34,34],maxZoom:15});
@@ -474,7 +474,7 @@ async function selectMountain(code){
     state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
     state.profiles.clear();
     put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 미확보');
-    if(state.selected)selectLine(state.selected);
+    if(state.selected)selectLine(state.selected,true);
     if(result.error)console.warn('설악산 고도자료를 읽지 못했어',result.error);
    });
    label='국립공원공단 2018 원본 탐방로';
@@ -492,13 +492,13 @@ async function selectMountain(code){
      state.demError=null;
      state.profiles.clear();
      put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
-     if(state.selected)selectLine(state.selected);
+     if(state.selected)selectLine(state.selected,true);
     },err=>{
      if(generation!==state.generation)return;
      state.demError='고도자료 다운로드 실패: '+err.message;
      state.profiles.clear();
      put('elevCount','고도자료 읽기 오류');
-     if(state.selected)selectLine(state.selected);
+     if(state.selected)selectLine(state.selected,true);
      console.warn('이 산 고도자료를 읽지 못했어',err);
     });
    }else label='기관 수록 상세 등산로 미확보';

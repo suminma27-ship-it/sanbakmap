@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,demError:null,lineLimit:500,mountainLimit:85};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,manualLineSelection:false,demError:null,lineLimit:500,mountainLimit:85};
 let map=null,group=null;
 let elevationIndexesReady=Promise.resolve();
 
@@ -141,7 +141,7 @@ function selectPlan(plan){
  // A plan has waypoint NAMES, not verified complete geometry. Never present one
  // KNPS raw line as though it covers the multi-branch named plan.
  if(state.code!=='428302602')return;
- state.course=plan.id;state.selected=null;
+ state.course=plan.id;state.selected=null;state.manualLineSelection=true;
  setLayerSelection();
  put('profileTitle',plan.name+' · '+plan.via.join(' → '));
  put('profileMessage','경유지 순서만 등록됨 · 코스 전체 연속 경로 및 DEM 미검증');
@@ -402,11 +402,29 @@ function setLayerSelection(){
   b.onclick=()=>{state.lineLimit+=500;setLayerSelection();};root.append(b);
  }
 }
+function selectVerifiedProfileAfterDEM(){
+ // When DEM arrives after geometry, replace only the automatic placeholder.
+ // Never override a user's explicit line or named-course selection.
+ if(state.manualLineSelection||!state.packed||!state.lines.length)return;
+ const current=state.selected&&profileFor(state.selected);
+ if(current?.status==='ready')return;
+ let best=null;
+ for(const line of state.lines){
+  const result=profileFor(line);
+  if(result.status==='ready'&&(!best||result.distanceMeters>best.result.distanceMeters))
+   best={line,result};
+ }
+ if(best){
+  selectLine(best.line,true,true);
+  status('DEM 확인 완료 · 검증된 원본 선형 '+best.line.recordName+'의 고도그래프를 표시했어.');
+ }
+}
 function profileFor(line){
  if(!state.profiles.has(line.id))state.profiles.set(line.id,prof.profile(line,state.packed));
  return state.profiles.get(line.id);
 }
-function selectLine(line, preserveView=false){
+function selectLine(line, preserveView=false, automatic=false){
+ if(!automatic)state.manualLineSelection=true;
  state.course=null;state.selected=line;setLayerSelection();displayPlans();
  if(!map)focusFallbackLine(line);
  // Focus the actual source geometry; never join separate trails or plan waypoints.
@@ -454,7 +472,7 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
- state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
+ state.code=code;state.lines=[];state.selected=null;state.course=null;state.manualLineSelection=false;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
  if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
@@ -482,7 +500,8 @@ async function selectMountain(code){
     state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
     state.profiles.clear();
     put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 미확보');
-    if(state.selected)selectLine(state.selected,true);
+    if(state.selected)selectLine(state.selected,true,true);
+    selectVerifiedProfileAfterDEM();
     if(result.error)console.warn('설악산 고도자료를 읽지 못했어',result.error);
    });
    label='국립공원공단 2018 원본 탐방로';
@@ -547,7 +566,7 @@ async function selectMountain(code){
      first={line,profile:p};
    }
   }
-  selectLine(first?.line||lines[0]);
+  selectLine(first?.line||lines[0],false,true);
   status(lines.length+'개 원본 선형 표시 완료 · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
  }catch(err){

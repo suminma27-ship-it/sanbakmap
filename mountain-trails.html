@@ -457,7 +457,7 @@ async function selectMountain(code){
  put('distance','거리 —');put('elevation','고도 —');put('profileTitle','고도그래프');put('profileMessage','원본 선형을 불러오는 중');
  noProfile('원본 선형 확인 중…');put('sourceInfo','');$('lineList').replaceChildren();
  status(item.name+' 등산로 및 DEM 확인 중…');filterMountains();
- let lines=[],packed=null,label='';
+ let lines=[],packed=null,label='',demError=null;
  try{
   if(code==='428302602'){
    const [geo,p]=await Promise.all([
@@ -471,14 +471,18 @@ async function selectMountain(code){
     const raw=await bucketPromise(state.buckets,entry.bucket,'./data/nationwide/bucket-'+entry.bucket+'.json');
     lines=prof.forestLines(raw,code,core.decodeLine);
     label='산림청 수록 등산로 2016~2019';
-    packed=await forestDEM(code,entry.bucket).catch(err=>{
-     state.demError='고도자료 다운로드 실패: '+err.message;
-     console.warn('이 산 고도자료를 읽지 못했어',err);return null;
-    });
+    // Keep errors local until this request is confirmed as the active mountain.
+    // A slow failed DEM fetch for a previously selected mountain must not
+    // overwrite the next mountain's status or profile message.
+    try{packed=await forestDEM(code,entry.bucket);}
+    catch(err){
+     demError='고도자료 다운로드 실패: '+err.message;
+     console.warn('이 산 고도자료를 읽지 못했어',err);
+    }
    }else label='기관 수록 상세 등산로 미확보';
   }
   if(generation!==state.generation)return;
-  state.lines=lines;state.packed=packed;
+  state.lines=lines;state.packed=packed;state.demError=demError;
   put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
   put('elevCount',state.demError?'고도자료 읽기 오류':packed?'원본 DEM 표본 확보':'고도표본 미확보');
   if(group)for(const line of lines){

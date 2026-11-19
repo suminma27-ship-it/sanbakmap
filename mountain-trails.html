@@ -460,11 +460,19 @@ async function selectMountain(code){
  let lines=[],packed=null,label='',demError=null;
  try{
   if(code==='428302602'){
-   const [geo,p]=await Promise.all([
+   // Keep original trail geometry usable even if the independent DEM
+   // request fails, but never mislabel a network failure as absent DEM.
+   const [geo,demResult]=await Promise.all([
     getJSON('./data/knps-seorak-2018.geojson'),
-    getJSON('./data/nationwide-elevation/seorak-knps-v108.json').catch(()=>null)
+    getJSON('./data/nationwide-elevation/seorak-knps-v108.json')
+     .then(value=>({value,error:null}),error=>({value:null,error}))
    ]);
-   lines=prof.parkLines(geo,code);packed=p;label='국립공원공단 2018 원본 탐방로';
+   lines=prof.parkLines(geo,code);packed=demResult.value;
+   if(demResult.error){
+    demError='고도자료 다운로드 실패: '+demResult.error.message;
+    console.warn('설악산 고도자료를 읽지 못했어',demResult.error);
+   }
+   label='국립공원공단 2018 원본 탐방로';
   }else{
    const entry=state.index?.mountains?.[code];
    if(entry){

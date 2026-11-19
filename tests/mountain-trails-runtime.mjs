@@ -40,7 +40,8 @@ function makeDom(){
 function fakeLeaflet(){
  const group={parts:[],addTo(){return this},clearLayers(){this.parts=[]},
  getLayers(){return this.parts},getBounds(){return [[38.0,128.1],[38.3,128.6]]}};
- const obj=()=>({addTo(){return this},setView(){return this},fitBounds(){return this}});
+ const obj=()=>({addTo(){return this},setView(){return this},fitBounds(){return this},
+  on(name,callback){(this.listeners??={})[name]=callback;return this}});
  const stub={
   map:()=>obj(),tileLayer:()=>obj(),featureGroup:()=>group,
   control:{layers:()=>obj()},

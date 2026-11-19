@@ -481,12 +481,11 @@ async function selectMountain(code){
   }else{
    const entry=state.index?.mountains?.[code];
    if(entry){
-    const raw=await bucketPromise(state.buckets,entry.bucket,'./data/nationwide/bucket-'+entry.bucket+'.json');
-    lines=prof.forestLines(raw,code,core.decodeLine);
-    label='산림청 수록 등산로 2016~2019';
-    // Render source trails immediately; elevation data is independent.
+    // Fetch geometry and elevation independently, in parallel.
+    const rawRequest=bucketPromise(state.buckets,entry.bucket,'./data/nationwide/bucket-'+entry.bucket+'.json');
+    const demRequest=forestDEM(code,entry.bucket);
     // Ignore late DEM responses after the user switches mountains.
-    forestDEM(code,entry.bucket).then(value=>{
+    demRequest.then(value=>{
      if(generation!==state.generation)return;
      state.packed=value;
      state.demError=null;
@@ -501,6 +500,9 @@ async function selectMountain(code){
      if(state.selected)selectLine(state.selected,true);
      console.warn('이 산 고도자료를 읽지 못했어',err);
     });
+    const raw=await rawRequest;
+    lines=prof.forestLines(raw,code,core.decodeLine);
+    label='산림청 수록 등산로 2016~2019';
    }else label='기관 수록 상세 등산로 미확보';
   }
   if(generation!==state.generation)return;

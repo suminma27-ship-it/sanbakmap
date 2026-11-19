@@ -495,7 +495,7 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
- $('retry').hidden=true;
+ $('retry').hidden=true;$('retry').textContent='자료 다시 불러오기';
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.manualLineSelection=false;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
@@ -522,6 +522,7 @@ async function selectMountain(code){
     state.packed=result.value;
     state.demPending=false;
     state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
+    if(state.demError){$('retry').hidden=false;$('retry').textContent='고도자료 다시 불러오기';}
     state.profiles.clear();
     put('elevCount',state.demError?'고도자료 읽기 오류':state.packed?'원본 DEM 표본 확보':'고도표본 미확보');
     if(state.selected)selectLine(state.selected,true,true);
@@ -550,6 +551,7 @@ async function selectMountain(code){
      if(generation!==state.generation)return;
      state.demPending=false;
      state.demError='고도자료 다운로드 실패: '+err.message;
+     $('retry').hidden=false;$('retry').textContent='고도자료 다시 불러오기';
      state.profiles.clear();
      put('elevCount','고도자료 읽기 오류');
      if(state.selected)selectLine(state.selected,true,true);
@@ -615,7 +617,7 @@ async function selectMountain(code){
  }
 }
 async function init(){
- $('retry').addEventListener('click',()=>{if(state.code)selectMountain(state.code);else window.location.reload();});
+ $('retry').addEventListener('click',()=>{if(state.demError||!state.catalog.length)window.location.reload();else if(state.code)selectMountain(state.code);else window.location.reload();});
  $('lineSearch').addEventListener('input',setLayerSelection);
  makeMap();noProfile('산을 선택해 줘');
  if(!core||!prof){

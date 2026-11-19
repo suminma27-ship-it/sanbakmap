@@ -349,9 +349,21 @@ function makeMap(){
 async function getJSON(path){
  // Revalidate changing manifests on every visit; keep source geometry buckets cached.
  const manifest=path.endsWith('/index.json')||path.endsWith('/online-v110.json');
- const response=await fetch(path,{cache:manifest?'no-cache':'force-cache'});
- if(!response.ok)throw Error('HTTP '+response.status+' '+path);
- return response.json();
+ // A stalled geometry request must not leave the mountain screen blank forever.
+ // Abort both the network request and response-body download; bucketPromise
+ // removes rejected requests so the next mountain selection can retry.
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),35000);
+ try{
+  const response=await fetch(path,{cache:manifest?'no-cache':'force-cache',signal:controller.signal});
+  if(!response.ok)throw Error('HTTP '+response.status+' '+path);
+  return await response.json();
+ }catch(err){
+  if(controller.signal.aborted)throw Error('자료 다운로드 시간 초과 (35초): '+path);
+  throw err;
+ }finally{
+  clearTimeout(timeout);
+ }
 }
 function bucketPromise(cache,id,path){
  if(!cache.has(id))cache.set(id,getJSON(path).catch(err=>{cache.delete(id);throw err}));

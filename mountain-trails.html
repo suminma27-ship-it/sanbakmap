@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,lineLimit:500,mountainLimit:85};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,demError:null,lineLimit:500,mountainLimit:85};
 let map=null,group=null;
 
 const SEORAK_PLANS=Object.freeze([
@@ -419,9 +419,9 @@ function selectLine(line){
  if(result.status!=='ready'){
   put('distance','거리 약 '+(prof.lengthOf(line.coords)/1000).toFixed(2)+'km');
   put('elevation','고도 없음');
-  put('profileMessage',result.note);
-  put('sourceInfo','원본 선형 길이만 표시했어. 확인된 고도표본이 없어 그래프를 만들지 않았어. 복수 원본 간 연결은 하지 않아.');
-  noProfile('검증된 고도그래프 없음');
+  put('profileMessage',state.demError||result.note);
+  put('sourceInfo',(state.demError?'고도자료를 읽지 못했어. 자료가 없다고 판단하지 않아. ':'원본 선형 길이만 표시했어. 확인된 고도표본이 없어 그래프를 만들지 않았어. ')+'복수 원본 간 연결은 하지 않아.');
+  noProfile('해당 원본 등산로의 검증된 고도그래프 없음');
   return;
  }
  graph(result.points,result.distanceMeters);
@@ -448,7 +448,7 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
- state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.profiles.clear();
+ state.code=code;state.lines=[];state.selected=null;state.course=null;state.packed=null;state.demError=null;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
  if(group)group.clearLayers();state.layers=[];state.fallbackPaths=[];
@@ -472,6 +472,7 @@ async function selectMountain(code){
     lines=prof.forestLines(raw,code,core.decodeLine);
     label='산림청 수록 등산로 2016~2019';
     packed=await forestDEM(code,entry.bucket).catch(err=>{
+     state.demError='고도자료 다운로드 실패: '+err.message;
      console.warn('이 산 고도자료를 읽지 못했어',err);return null;
     });
    }else label='기관 수록 상세 등산로 미확보';
@@ -479,7 +480,7 @@ async function selectMountain(code){
   if(generation!==state.generation)return;
   state.lines=lines;state.packed=packed;
   put('provider',label);put('lineCount','원본 선형 '+lines.length+'개');
-  put('elevCount',packed?'원본 DEM 표본 확보':'고도표본 미확보');
+  put('elevCount',state.demError?'고도자료 읽기 오류':packed?'원본 DEM 표본 확보':'고도표본 미확보');
   if(group)for(const line of lines){
    const coords=line.coords.map(p=>[p[1],p[0]]);
    // A wider invisible hit area makes thin source trails selectable by touch.

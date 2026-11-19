@@ -115,6 +115,7 @@ const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
 const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,demError:null,lineLimit:500,mountainLimit:85};
 let map=null,group=null;
+let elevationIndexesReady=Promise.resolve();
 
 const SEORAK_PLANS=Object.freeze([
  {id:'s1',name:'코스1',via:['소공원','비선대','마등령','공룡능선','희운각','대청봉']},
@@ -434,6 +435,7 @@ function selectLine(line, preserveView=false){
   ' · 현재 개방 여부 미검증 · 다른 선형과 연결하지 않음.');
 }
 async function forestDEM(code,bucket){
+ await elevationIndexesReady;
  const published=state.online?.mountains?.[code];
  if(published&&published.bucket===bucket){
   const data=await bucketPromise(state.demBuckets,bucket,'./data/nationwide-elevation/bucket-'+bucket+'.json');
@@ -570,12 +572,17 @@ async function init(){
   $('search').disabled=false;$('region').disabled=false;
   $('lineSearch').oninput=()=>{state.lineLimit=500;setLayerSelection();};
    $('search').oninput=()=>{state.mountainLimit=85;filterMountains();};$('region').onchange=()=>{state.mountainLimit=85;filterMountains();};filterMountains();
-  const [published,pilots]=await Promise.allSettled([
+  // Elevation indexes are independent of the mountain catalog and geometry.
+  // Never block the first visible trails on slow or unavailable DEM metadata.
+  elevationIndexesReady=Promise.allSettled([
    getJSON('./data/nationwide-elevation/online-v110.json'),
    getJSON('./data/nationwide-elevation/index.json')
-  ]);
-  state.online=published.status==='fulfilled'?published.value:null;
-  state.pilot=pilots.status==='fulfilled'?pilots.value:null;
+  ]).then(([published,pilots])=>{
+   state.online=published.status==='fulfilled'?published.value:null;
+   state.pilot=pilots.status==='fulfilled'?pilots.value:null;
+   if(published.status==='rejected')console.warn('온라인 DEM 목록 읽기 실패',published.reason);
+   if(pilots.status==='rejected')console.warn('시범 DEM 목록 읽기 실패',pilots.reason);
+  });
   await selectMountain('428302602');
  }catch(err){
   status('산 목록 초기화 실패: '+err.message);

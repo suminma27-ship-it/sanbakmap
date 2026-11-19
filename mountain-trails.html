@@ -561,7 +561,7 @@ async function selectMountain(code){
   }
   // The initial chart is one existing line only, not a mountain-wide route.
   let first=null;
-  if(packed){
+  if(state.packed){
    for(const line of lines){
     const p=profileFor(line);
     if(p.status==='ready'&&(!first||p.distanceMeters>first.profile.distanceMeters))
@@ -569,6 +569,9 @@ async function selectMountain(code){
    }
   }
   selectLine(first?.line||lines[0],false,true);
+  // DEM can settle before source geometry; choose a verified line after both
+  // are available, without overriding a user's explicit selection.
+  selectVerifiedProfileAfterDEM();
   status(lines.length+'개 원본 선형 표시 완료 · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
  }catch(err){

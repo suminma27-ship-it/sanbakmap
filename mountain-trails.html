@@ -85,7 +85,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <div id="results" role="group" aria-label="산 목록"></div>
 </aside>
 <section class="panel" aria-label="선택한 산 등산로 지도">
-<div class="head"><div><h2 id="name">산을 선택해 줘</h2><div id="provider" class="muted">기관 원본 등산로를 조회해</div></div><button class="btn" id="fit" type="button">전체 보기</button></div>
+<div class="head"><div><h2 id="name">산을 선택해 줘</h2><div id="provider" class="muted">기관 원본 등산로를 조회해</div></div><div class="map-actions"><button class="btn" id="retry" type="button" hidden>자료 다시 불러오기</button><button class="btn" id="fit" type="button">전체 보기</button></div></div>
 <div id="map" role="application" aria-label="기관 등산로 오버레이 지도"></div>
 <div id="mapFallback" role="status">배경지도 라이브러리를 불러오지 못했어. 인터넷 연결을 확인해 줘.</div>
 <div class="content">
@@ -495,6 +495,7 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
+ $('retry').hidden=true;
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.manualLineSelection=false;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
  displayPlans();
@@ -608,11 +609,13 @@ async function selectMountain(code){
    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
  }catch(err){
   if(generation!==state.generation)return;
+  $('retry').hidden=false;
   status('자료를 불러오지 못했어: '+err.message);put('lineCount','자료 조회 오류');
   put('elevCount','미확인');noProfile('자료 조회 실패');console.error(err);
  }
 }
 async function init(){
+ $('retry').addEventListener('click',()=>{if(state.code)selectMountain(state.code);});
  $('lineSearch').addEventListener('input',setLayerSelection);
  makeMap();noProfile('산을 선택해 줘');
  if(!core||!prof){

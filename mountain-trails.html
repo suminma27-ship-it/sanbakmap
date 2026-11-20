@@ -420,7 +420,9 @@ function setLayerSelection(){
   b.className='line'+(line.id===state.selected?.id?' active':'');
   b.textContent=line.recordName||'원본 등산로 '+(i+1);
   const small=document.createElement('small');
-  small.textContent=(i+1)+'번 · 선형 길이 약 '+(prof.lengthOf(line.coords)/1000).toFixed(2)+'km'+
+  const validCoords=Array.isArray(line.coords)&&line.coords.length>=2&&line.coords.every(p=>Array.isArray(p)&&p.length>=2&&Number.isFinite(p[0])&&Number.isFinite(p[1])&&Math.abs(p[0])<=180&&Math.abs(p[1])<=90);
+  const meters=validCoords?prof.lengthOf(line.coords):NaN;
+  small.textContent=(i+1)+'번 · '+(Number.isFinite(meters)&&meters>0?'선형 길이 약 '+(meters/1000).toFixed(2)+'km':'거리 확인 불가 (원본 좌표 오류)')+
     (line.closed?' · 원본 폐쇄 표기':'');
   b.append(small);b.onclick=()=>selectLine(line);root.append(b);
  }

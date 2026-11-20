@@ -410,8 +410,8 @@ function setLayerSelection(){
  // Keep a map-tapped source line visible in the list even beyond the first page.
  // Do not silently replace it with another line or fabricate a joined route.
  const visible=matches.slice(0,state.lineLimit);
- const selectedEntry=matches.find(({line})=>line.id===state.selected?.id);
- if(selectedEntry&&!visible.some(({line})=>line.id===selectedEntry.line.id))visible.unshift(selectedEntry);
+ const selectedListEntry=matches.find(({line})=>line.id===state.selected?.id);
+ if(selectedListEntry&&!visible.some(({line})=>line.id===selectedListEntry.line.id))visible.unshift(selectedListEntry);
  for(const {line,i} of visible){
   const b=document.createElement('button');b.type='button';
   b.className='line'+(line.id===state.selected?.id?' active':'');

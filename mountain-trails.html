@@ -339,7 +339,10 @@ function makeMap(){
    showTileWarning((status.complete&&status.failed>0)||(status.pending&&status.timeout===null));
   });
   group=L.featureGroup().addTo(map);
-  L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{'기관 수록 등산로':group},{collapsed:true}).addTo(map);
+  // The source trails are the primary content, not an optional overlay. Keep
+   // them visible while switching base maps; an overlay checkbox could hide
+   // every trail and misleadingly make a mountain look empty.
+   L.control.layers({'일반 지도':osm,'등고선 지도':topo,'위성사진':satellite},{},{collapsed:true}).addTo(map);
   $('fit').onclick=()=>{if(group.getLayers().length)map.fitBounds(group.getBounds(),{padding:[20,20],maxZoom:14});};
  }catch(err){
   console.warn('배경지도 초기화 실패, 원본 좌표 지도 전환',err);

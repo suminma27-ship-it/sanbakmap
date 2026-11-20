@@ -572,7 +572,10 @@ async function selectMountain(code){
   lines=lines.filter(line=>Array.isArray(line.coords)&&line.coords.length>=2&&
    line.coords.every(point=>Array.isArray(point)&&point.length>=2&&
     Number.isFinite(point[0])&&Number.isFinite(point[1])&&
-    point[0]>=124&&point[0]<=132&&point[1]>=33&&point[1]<=39));
+    point[0]>=124&&point[0]<=132&&point[1]>=33&&point[1]<=39)&&
+   // A coordinate array can contain two or more identical points. It is not
+   // a usable trail and must not be offered as a selectable zero-length route.
+   prof.lengthOf(line.coords)>0);
   const invalidCount=sourceCount-lines.length;
   state.lines=lines;
   put('provider',label);

@@ -388,11 +388,20 @@ function filterMountains(){
   }
 }
 function setLayerSelection(){
- state.layers.forEach(({line,layer})=>{
+ // Dense original trails overlap. Keep the selected trail's transparent touch
+ // target above other targets, and its visible stroke above that target.
+ // Otherwise a neighboring source line can steal taps on the green selection.
+ let selectedEntry=null;
+ state.layers.forEach(entry=>{
+  const {line,layer}=entry;
   const selected=line.id===state.selected?.id;
   layer.setStyle(selected?{color:'#145d3e',weight:7,opacity:1}:{color:'#9aac9d',weight:3,opacity:.67});
-  if(selected)layer.bringToFront();
+  if(selected)selectedEntry=entry;
  });
+ if(selectedEntry){
+  selectedEntry.hit.bringToFront();
+  selectedEntry.layer.bringToFront();
+ }
  refreshFallbackStyles();
  const root=$('lineList');root.replaceChildren();
  const query=$('lineSearch').value.trim().toLocaleLowerCase('ko');

@@ -113,7 +113,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 'use strict';
 const $=id=>document.getElementById(id),core=window.SanbakNationwideAgency,prof=window.SanbakMountainProfiles;
 const regionName={'11':'서울','26':'부산','27':'대구','28':'인천','29':'광주','30':'대전','31':'울산','36':'세종','41':'경기','42':'강원','43':'충북','44':'충남','45':'전북','46':'전남','47':'경북','48':'경남','49':'제주','51':'강원','52':'전북'};
-const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,loading:false,course:null,manualLineSelection:false,demError:null,lineLimit:500,mountainLimit:85};
+const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],selected:null,packed:null,buckets:new Map(),demBuckets:new Map(),profiles:new Map(),layers:[],fallbackPaths:[],generation:0,demRequestId:0,loading:false,course:null,manualLineSelection:false,demError:null,lineLimit:500,mountainLimit:85};
 let map=null,group=null;
 let elevationIndexesReady=Promise.resolve();
 
@@ -507,6 +507,8 @@ async function forestDEM(code,bucket){
 async function selectMountain(code){
  const item=state.catalog.find(x=>x.code===code);if(!item)return;
  const generation=++state.generation;
+ // Invalidate older DEM responses whenever the mountain changes.
+ const demToken=++state.demRequestId;
  $('retry').hidden=true;$('retry').textContent='자료 다시 불러오기';
  state.code=code;state.lines=[];state.selected=null;state.course=null;state.manualLineSelection=false;state.packed=null;state.demError=null;state.demPending=false;state.profiles.clear();
  $('lineSearch').value='';state.lineLimit=500;
@@ -530,7 +532,7 @@ async function selectMountain(code){
    const geo=await getJSON('./data/knps-seorak-2018.geojson');
    lines=prof.parkLines(geo,code);
    demRequest.then(result=>{
-    if(generation!==state.generation)return;
+    if(generation!==state.generation||demToken!==state.demRequestId)return;
     state.packed=result.value;
     state.demPending=false;
     state.demError=result.error?'고도자료 다운로드 실패: '+result.error.message:null;
@@ -551,7 +553,7 @@ async function selectMountain(code){
     const demRequest=forestDEM(code,entry.bucket);
     // Ignore late DEM responses after the user switches mountains.
     demRequest.then(value=>{
-     if(generation!==state.generation)return;
+     if(generation!==state.generation||demToken!==state.demRequestId)return;
      state.packed=value;
      state.demPending=false;
      state.demError=null;
@@ -560,7 +562,7 @@ async function selectMountain(code){
      if(state.selected)selectLine(state.selected,true,true);
      selectVerifiedProfileAfterDEM();
     },err=>{
-     if(generation!==state.generation)return;
+     if(generation!==state.generation||demToken!==state.demRequestId)return;
      state.demPending=false;
      state.demError='고도자료 다운로드 실패: '+err.message;
      $('retry').hidden=false;$('retry').textContent='고도자료 다시 불러오기';
@@ -575,7 +577,7 @@ async function selectMountain(code){
     label='산림청 수록 등산로 2016~2019';
    }else label='기관 수록 상세 등산로 미확보';
   }
-  if(generation!==state.generation)return;
+  if(generation!==state.generation||demToken!==state.demRequestId)return;
   // DEM may finish before the geometry fetch. Never overwrite a settled
   // DEM result with the initial null placeholders after geometry arrives.
   // Reject unusable geometries before Leaflet bounds, hit areas or SVG fallback.
@@ -625,7 +627,7 @@ async function selectMountain(code){
   status(lines.length+'개 원본 선형 표시 완료'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':'')+' · '+(first?'고도 있는 선형 1개를 미리 선택했어.':'고도표본이 확인되는 선형이 없어.')+
    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
  }catch(err){
-  if(generation!==state.generation)return;
+  if(generation!==state.generation||demToken!==state.demRequestId)return;
   $('retry').hidden=false;
   status('자료를 불러오지 못했어: '+err.message);put('lineCount','자료 조회 오류');
   put('elevCount','미확인');noProfile('자료 조회 실패');console.error(err);
@@ -635,6 +637,8 @@ async function retryElevation(){
  // Retry elevation only: keep the original map, selected source line and plan.
  const code=state.code,generation=state.generation;
  if(!code||!state.lines.length)return;
+ // Retry supersedes any earlier elevation response for this same mountain.
+ const demToken=++state.demRequestId;
  const button=$('retry');
  button.hidden=true;
  state.demError=null;state.demPending=true;
@@ -651,7 +655,7 @@ async function retryElevation(){
     getJSON('./data/nationwide-elevation/online-v110.json'),
     getJSON('./data/nationwide-elevation/index.json')
    ]);
-   if(generation!==state.generation)return;
+   if(generation!==state.generation||demToken!==state.demRequestId)return;
    state.online=online.status==='fulfilled'?online.value:null;
    state.pilot=pilot.status==='fulfilled'?pilot.value:null;
    elevationIndexesReady=Promise.resolve();
@@ -659,7 +663,7 @@ async function retryElevation(){
    if(!entry)throw Error('기관 원본 등산로 목록에서 산을 찾을 수 없어');
    value=await forestDEM(code,entry.bucket);
   }
-  if(generation!==state.generation)return;
+  if(generation!==state.generation||demToken!==state.demRequestId)return;
   state.packed=value;state.demPending=false;state.demError=null;
   state.profiles.clear();
   put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
@@ -667,7 +671,7 @@ async function retryElevation(){
   selectVerifiedProfileAfterDEM();
   status('고도자료 재확인 완료 · 현재 산과 원본 선형 선택을 유지했어.');
  }catch(err){
-  if(generation!==state.generation)return;
+  if(generation!==state.generation||demToken!==state.demRequestId)return;
   state.demPending=false;state.demError='고도자료 다운로드 실패: '+err.message;
   state.profiles.clear();
   put('elevCount','고도자료 읽기 오류');

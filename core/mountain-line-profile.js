@@ -40,6 +40,12 @@ function profile(line,packed){
  const absent=note=>({status:'unavailable',note,points:[],distanceMeters:null});
  if(!line||!Array.isArray(line.coords)||line.coords.length<2)
   return absent('원본 등산로 선형 없음');
+ // Reject malformed source geometry before computing distance or showing DEM.
+ // A NaN length could otherwise bypass the aggregate-length comparison.
+ if(line.coords.some(p=>!Array.isArray(p)||p.length<2||
+   !Number.isFinite(p[0])||!Number.isFinite(p[1])||
+   Math.abs(p[0])>180||Math.abs(p[1])>90))
+  return absent('원본 등산로 좌표가 유효하지 않아');
  if(line.sourceKind==='forest'&&line.multipart)
   return absent('여러 선형을 포함한 원본은 고도와 1:1 대응을 확인하지 못했어');
  if(!packed)return absent('이 산에 배포된 고도표본이 없어');
@@ -102,7 +108,8 @@ function profile(line,packed){
  }
  const geoLength=lengthOf(line.coords);
  // Forest line geometry is 3m-simplified; still reject gross ID mismatches.
- if(Math.abs(geoLength-total)>Math.max(70,total*.07))
+ if(!Number.isFinite(geoLength)||geoLength<=0||
+    Math.abs(geoLength-total)>Math.max(70,total*.07))
   return absent('원본 선형 길이와 고도표본 길이가 일치하지 않아');
  let minimumMeters=Infinity,maximumMeters=-Infinity;
  for(const point of out){

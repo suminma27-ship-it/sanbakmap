@@ -83,6 +83,23 @@ function profile(line,packed){
  }
  if((line.sourceKind==='knps'&&endVertex!==line.coords.length-1)||out.length<2)
   return absent('원본 선형 끝까지 고도표본이 연속되지 않아');
+ // Verify every KNPS elevation edge against its original coordinate span,
+ // not merely the aggregate length. This prevents a wrong edge order or
+ // mismatched source geometry from producing a plausible-looking graph.
+ if(line.sourceKind==='knps'){
+  for(const [id,proof] of selected){
+   const start=proof[4],end=proof[5],metres=proof[2];
+   const span=line.coords.slice(start,end+1);
+   if(span.some(p=>!Array.isArray(p)||p.length<2||
+     !Number.isFinite(p[0])||!Number.isFinite(p[1])||
+     Math.abs(p[0])>180||Math.abs(p[1])>90))
+    return absent('원본 등산로 좌표가 유효하지 않아');
+   const spanLength=lengthOf(span);
+   if(!Number.isFinite(spanLength)||
+      Math.abs(spanLength-metres)>Math.max(12,metres*.03))
+    return absent('원본 등산로 구간별 좌표와 DEM 표본 길이가 일치하지 않아');
+  }
+ }
  const geoLength=lengthOf(line.coords);
  // Forest line geometry is 3m-simplified; still reject gross ID mismatches.
  if(Math.abs(geoLength-total)>Math.max(70,total*.07))

@@ -616,8 +616,58 @@ async function selectMountain(code){
   put('elevCount','미확인');noProfile('자료 조회 실패');console.error(err);
  }
 }
+async function retryElevation(){
+ // Retry elevation only: keep the original map, selected source line and plan.
+ const code=state.code,generation=state.generation;
+ if(!code||!state.lines.length)return;
+ const button=$('retry');
+ button.hidden=true;
+ state.demError=null;state.demPending=true;
+ put('elevCount','고도자료 다시 확인 중');
+ if(state.selected)selectLine(state.selected,true,true);
+ try{
+  let value;
+  if(code==='428302602'){
+   value=await getJSON('./data/nationwide-elevation/seorak-knps-v108.json');
+  }else{
+   // Retry both manifests: a previous failure must not be treated as
+   // evidence that this mountain has no elevation samples.
+   const [online,pilot]=await Promise.allSettled([
+    getJSON('./data/nationwide-elevation/online-v110.json'),
+    getJSON('./data/nationwide-elevation/index.json')
+   ]);
+   if(generation!==state.generation)return;
+   state.online=online.status==='fulfilled'?online.value:null;
+   state.pilot=pilot.status==='fulfilled'?pilot.value:null;
+   elevationIndexesReady=Promise.resolve();
+   const entry=state.index?.mountains?.[code];
+   if(!entry)throw Error('기관 원본 등산로 목록에서 산을 찾을 수 없어');
+   value=await forestDEM(code,entry.bucket);
+  }
+  if(generation!==state.generation)return;
+  state.packed=value;state.demPending=false;state.demError=null;
+  state.profiles.clear();
+  put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
+  if(state.selected)selectLine(state.selected,true,true);
+  selectVerifiedProfileAfterDEM();
+  status('고도자료 재확인 완료 · 현재 산과 원본 선형 선택을 유지했어.');
+ }catch(err){
+  if(generation!==state.generation)return;
+  state.demPending=false;state.demError='고도자료 다운로드 실패: '+err.message;
+  state.profiles.clear();
+  put('elevCount','고도자료 읽기 오류');
+  if(state.selected)selectLine(state.selected,true,true);
+  button.textContent='고도자료 다시 불러오기';button.hidden=false;
+  status(state.demError+' · 지도와 원본 선형은 유지했어.');
+ }
+}
 async function init(){
- $('retry').addEventListener('click',()=>{if(state.demError||!state.catalog.length)window.location.reload();else if(state.code)selectMountain(state.code);else window.location.reload();});
+ $('retry').addEventListener('click',()=>{
+  if(state.demError&&state.lines.length)retryElevation();
+  else if(!state.catalog.length)window.location.reload();
+  else if(state.code)selectMountain(state.code);
+  else window.location.reload();
+ });
  $('lineSearch').addEventListener('input',setLayerSelection);
  makeMap();noProfile('산을 선택해 줘');
  if(!core||!prof){

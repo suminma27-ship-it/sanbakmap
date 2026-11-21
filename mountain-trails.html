@@ -502,10 +502,11 @@ async function forestDEM(code,bucket){
  }
  const pilot=state.pilot?.mountains?.[code+':forest'];
  if(pilot)return getJSON(pilot.path);
- // A failed online index is not evidence that this mountain lacks DEM.
- // The pilot index is a separate source; neither may be silently assumed empty.
+ // A missing match is evidence of no published sample only when BOTH
+ // independent manifests were successfully read. A partial manifest outage
+ // cannot prove absence; keep the original geometry visible and offer retry.
  if(!state.online || !state.pilot)
-  throw Error('고도자료 목록 다운로드 실패: 표본 유무를 확인할 수 없어');
+  throw Error('고도자료 목록 일부 다운로드 실패: 해당 산의 표본 유무를 검증할 수 없어');
  return null;
 }
 async function selectMountain(code){

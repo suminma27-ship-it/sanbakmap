@@ -660,6 +660,11 @@ async function retryElevation(){
     getJSON('./data/nationwide-elevation/index.json')
    ]);
    if(generation!==state.generation||demToken!==state.demRequestId)return;
+   // An unreachable index is not proof that elevation samples do not exist.
+   // Do not turn a network outage into a misleading "no verified profile" result.
+   if(online.status==='rejected'&&pilot.status==='rejected'){
+    throw Error('온라인 및 시범 DEM 목록 모두 다운로드 실패: '+online.reason.message+' / '+pilot.reason.message);
+   }
    state.online=online.status==='fulfilled'?online.value:null;
    state.pilot=pilot.status==='fulfilled'?pilot.value:null;
    elevationIndexesReady=Promise.resolve();

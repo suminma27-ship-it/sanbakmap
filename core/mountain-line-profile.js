@@ -119,8 +119,7 @@ function profile(line,packed){
  return {status:'ready',points:out,distanceMeters:total,
   minimumMeters,maximumMeters,
   sourceMethod:packed.dem?.sampleMethod||'원본 DEM 표본',
-  rasterResolutionVerified:packed.dem?.sourceRasterResolutionVerified===true||
-   (packed.dem?.sampleMethod==='georeferenced-dem-to-original-edge'),
+  rasterResolutionVerified:packed.dem?.sourceRasterResolutionVerified===true,
   verticalDatum:packed.dem?.verticalDatum||'미기재'};
 }
 function forestLines(raw,code,decodeLine){

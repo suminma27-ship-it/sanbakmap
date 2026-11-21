@@ -494,11 +494,17 @@ async function forestDEM(code,bucket){
   new Promise((_,reject)=>setTimeout(()=>reject(Error('고도자료 목록 응답 시간 초과 (15초)')),15000))
  ]);
  const published=state.online?.mountains?.[code];
- if(published&&published.bucket===bucket){
+ if(published){
+  // A manifest-to-source bucket mismatch is an integrity error, not proof
+  // that this mountain lacks a verified DEM. Never substitute another trail.
+  if(published.bucket!==bucket)
+   throw Error('원본 등산로와 DEM 목록의 버킷 불일치: '+code);
   const data=await bucketPromise(state.demBuckets,bucket,'./data/nationwide-elevation/bucket-'+bucket+'.json');
   if(data.schema!=='sanbak-dem-bucket-v109'||data.bucket!==bucket)
    throw Error('고도 버킷 형식이 맞지 않아');
-  return data.mountains[code]||null;
+  if(!data.mountains||!Object.prototype.hasOwnProperty.call(data.mountains,code))
+   throw Error('DEM 목록에 등록된 산이 고도 버킷에 없어: '+code);
+  return data.mountains[code];
  }
  const pilot=state.pilot?.mountains?.[code+':forest'];
  if(pilot)return getJSON(pilot.path);

@@ -635,8 +635,16 @@ async function selectMountain(code){
   }else{
    setLayerSelection();
   }
-  status(lines.length+'개 원본 선형 표시 완료'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':'')+' · '+(first?'검증된 고도 선형 1개를 미리 선택했어.':state.demPending?'고도자료 검증 중이야.':state.demError?'고도자료 다운로드 오류로 검증할 수 없어.':'검증된 고도표본이 있는 선형이 없어.')+
-   ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
+  // A named Seorak plan can be selected while source geometry downloads.
+  // Preserve its unverified-plan warning when the geometry finishes; do not
+  // replace it with a misleading automatic-source-selection success message.
+  if(state.course){
+   const plan=SEORAK_PLANS.find(p=>p.id===state.course);
+   status(lines.length+'개 기관 원본 선형 표시 완료 · '+(plan?.name||'선택한 계획안')+'은 경유지 목록만 확인됨. 코스 전체 경로·거리·고도그래프는 미검증이야.');
+  }else{
+   status(lines.length+'개 원본 선형 표시 완료'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':'')+' · '+(first?'검증된 고도 선형 1개를 미리 선택했어.':state.demPending?'고도자료 검증 중이야.':state.demError?'고도자료 다운로드 오류로 검증할 수 없어.':'검증된 고도표본이 있는 선형이 없어.')+
+    ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
+  }
  }catch(err){
   if(generation!==state.generation||demToken!==state.demRequestId)return;
   $('retry').hidden=false;

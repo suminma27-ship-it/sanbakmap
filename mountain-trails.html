@@ -693,7 +693,12 @@ async function retryElevation(){
   put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
   if(state.selected)selectLine(state.selected,true,true);
   selectVerifiedProfileAfterDEM();
-  status('고도자료 재확인 완료 · 현재 산과 원본 선형 선택을 유지했어.');
+  if(state.course){
+   const plan=SEORAK_PLANS.find(p=>p.id===state.course);
+   status('고도자료 재확인 완료 · '+(plan?.name||'선택한 계획안')+'은 경유지 목록만 확인됨. 코스 전체 경로·거리·고도그래프는 미검증이야.');
+  }else{
+   status('고도자료 재확인 완료 · 현재 산과 원본 선형 선택을 유지했어.');
+  }
  }catch(err){
   if(generation!==state.generation||demToken!==state.demRequestId)return;
   state.demPending=false;state.demError='고도자료 다운로드 실패: '+err.message;

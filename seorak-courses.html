@@ -42,7 +42,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-let catalog=null,selected=null,group='대청봉',map=null,layer=null,referenceLayer=null,referencePaths=[],baseLayer=null,baseMode='normal';
+let catalog=null,selected=null,group='대청봉',map=null,layer=null,referenceLayer=null,referencePaths=[],baseLayer=null,baseMode='normal';let selectionGeneration=0;
 function isReady(route){return route?.geometryStatus==='verified'&&Boolean(route.geometryFile)&&route.profileStatus==='verified'&&Boolean(route.profileFile)}
 function showMapState(text){$('mapState').hidden=!text;if(text)$('mapState').textContent=text}
 function trySample(){const sample=catalog?.routes.find(isReady);if(!sample){$('status').textContent='현재 전체 경로·고도자료가 검증된 코스가 없어.';return}group=sample.group;choose(sample);document.querySelector('#map').scrollIntoView?.({block:'nearest',behavior:'smooth'})}
@@ -103,6 +103,7 @@ async function loadReference(){
  }
 }
 function choose(route){
+ const generation=++selectionGeneration;
  selected=route;
  $('title').textContent=route.name;
  $('via').textContent='주요 경유지: '+route.via.join(' → ');
@@ -116,15 +117,15 @@ function choose(route){
  $('status').textContent=ready?'검증된 과거 원본 경로와 고도자료 로딩 중…':'미구현 코스 · '+route.name+' 전체 GPS 선형·DEM 검증 전. 이 지도에는 선택 코스가 표시되지 않았어. 목록과 경유지만 등록돼 있어.';
  // Only an independently validated full-course GeoJSON is allowed here.
  if(route.geometryStatus==='verified'&&route.geometryFile&&route.profileStatus==='verified'&&route.profileFile){
-  loadVerified(route).catch(err=>{if(selected===route){$('status').textContent='코스 자료 로드 실패: '+err.message;showMapState('검증된 코스 자료를 불러오지 못했어: '+err.message);svgMessage('고도그래프 로드 실패')}});
+  loadVerified(route,generation).catch(err=>{if(selected===route&&selectionGeneration===generation){$('status').textContent='코스 자료 로드 실패: '+err.message;showMapState('검증된 코스 자료를 불러오지 못했어: '+err.message);svgMessage('고도그래프 로드 실패')}});
  }
  render();
 }
-async function loadVerified(route){
+async function loadVerified(route,generation){
  const [g,p]=await Promise.all([fetch(route.geometryFile),fetch(route.profileFile)]);
  if(!g.ok||!p.ok)throw Error('경로 또는 고도자료 파일 없음');
  const geometry=await g.json(),profile=await p.json();
- if(selected!==route)return;
+ if(selected!==route||selectionGeneration!==generation)return;
  if(geometry.properties?.routeId!==route.id||profile.routeId!==route.id||profile.sourceId!==geometry.properties?.sourceId||profile.schema!=='sanbak-predefined-dem-profile-v1'||geometry.properties?.currentAccessVerified!==false||profile.currentAccessVerified!==false)throw Error('코스 ID·출처·과거 접근상태 정합성 오류');
  if(geometry.type!=='Feature'||geometry.geometry?.type!=='LineString')throw Error('전체 코스 선형 형식 오류');
  const coords=geometry.geometry.coordinates;
@@ -137,7 +138,7 @@ async function loadVerified(route){
  if(Math.abs(profile.points.at(-1).distanceMeters-metres)>Math.max(30,metres*.02))throw Error('고도표본 끝점 누락');
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.
  const startLabel=route.via[0],endLabel=route.via.at(-1);
- if(selected!==route)return;
+ if(selected!==route||selectionGeneration!==generation)return;
  if(map){
   layer=L.featureGroup().addTo(map);
   L.geoJSON(geometry,{style:{color:'#146b3e',weight:5,opacity:1}}).addTo(layer);

@@ -13,15 +13,16 @@ class Element {
  addEventListener(k,callback){this.listeners[k]=callback}
  scrollIntoView(){}
 }
-const ids=['map','fallback','graph','title','via','distance','status','count','courses','tryVerified','mapState','gate','agree','decline'];
+const ids=['map','fallback','graph','title','via','distance','status','count','courses','tryVerified','mapState','baseStatus','gate','agree','decline'];
 const elements=Object.fromEntries(ids.map(id=>[id,new Element('div',id)]));
 const tabs=['대청봉','기타코스','종주코스'].map(group=>{const button=new Element('button');button.dataset.group=group;return button});
+const basemaps=['normal','terrain'].map(mode=>{const button=new Element('button');button.dataset.base=mode;return button});
 const document={
  body:new Element('body'),
  getElementById:id=>elements[id]||(elements[id]=new Element('div',id)),
  createElement:tag=>new Element(tag),
  createElementNS:(namespace,tag)=>new Element(tag),
- querySelectorAll:query=>query==='.tab'?tabs:[],
+ querySelectorAll:query=>query==='.tab'?tabs:query==='.basemap'?basemaps:[],
  querySelector:query=>query==='#map'?elements.map:null
 };
 const source=readFileSync('seorak-courses.html','utf8');
@@ -40,6 +41,11 @@ const fetch=async path=>{
 new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'}).runInNewContext({document,window:{L:null},fetch,console});
 const settle=async()=>{for(let i=0;i<40;i++)await Promise.resolve()};
 await settle();
+assert.equal(basemaps[0].getAttribute('aria-pressed'),'true','일반지도 초기 선택');
+basemaps[1].onclick();
+assert.equal(basemaps[1].getAttribute('aria-pressed'),'true','지형지도 버튼 동작');
+assert.match(elements.baseStatus.textContent,/미연결/,'Leaflet 없는 경우 안전한 안내');
+basemaps[0].onclick();
 const graphPaths=()=>elements.graph.children.filter(n=>n.tagName==='path').length;
 assert.equal(elements.title.textContent,'오색약수 → 대청봉','준비된 코스가 첫 선택이어야 함');
 assert.match(elements.status.textContent,/2018년 국립공원공단/);

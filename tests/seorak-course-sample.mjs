@@ -36,12 +36,14 @@ for(const route of catalog.routes){
   const coords=geometry.geometry.coordinates;
   assert(coords.length>1&&coords.every(p=>p.length>=2&&p.slice(0,2).every(Number.isFinite)));
   const rad=Math.PI/180,R=6371008.8;
-  let metres=0;
+  let metres=0,maxStep=0;
   for(let i=1;i<coords.length;i++){
    const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad;
    const h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;
-   metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)));
+   const step=2*R*Math.asin(Math.min(1,Math.sqrt(h)));
+   metres+=step;maxStep=Math.max(maxStep,step);
   }
+  assert(maxStep<=500,'좌표 사이 500m 초과 공백: 실제 연속 코스가 아닐 수 있음');
   assert(Math.abs(profile.totalMeters-metres)<Math.max(30,metres*.02),'실제 선형과 DEM 거리 일치');
   assert(Array.isArray(profile.points)&&profile.points.length>=2);
   assert(profile.points.every((p,i)=>Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters)&&p.distanceMeters>=0&&(!i||p.distanceMeters>=profile.points[i-1].distanceMeters)));

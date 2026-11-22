@@ -69,6 +69,11 @@ assert.equal(dem.routeId,'s3');
 assert.equal(dem.sourceId,'knps2018:23:0');
 assert.equal(dem.currentAccessVerified,false);
 assert(dem.points.length>=50);
+// DEM must cover the entire route at a useful resolution, not just two endpoints.
+const profileGaps=dem.points.slice(1).map((p,i)=>p.distanceMeters-dem.points[i].distanceMeters);
+assert(Math.max(...profileGaps)<=250,'오색 코스 DEM 표본 간격 250m 이내');
+const pageSource=readFileSync('seorak-courses.html','utf8');
+assert(pageSource.includes("throw Error('고도표본 250m 초과 공백: 코스 전체 DEM 검증 필요')"),'신규 코스에서도 DEM 공백 차단');
 assert(dem.points.every((p,i)=>Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters)&&(!i||p.distanceMeters>dem.points[i-1].distanceMeters)));
 const R=6371008.8,radian=Math.PI/180;
 let distance=0;

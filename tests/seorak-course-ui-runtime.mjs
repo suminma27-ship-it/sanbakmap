@@ -26,6 +26,9 @@ const document={
  querySelector:query=>query==='#map'?elements.map:null
 };
 const source=readFileSync('seorak-courses.html','utf8');
+assert(source.includes('const generation=++selectionGeneration'),'선택 변경마다 세대 번호 증가');
+assert(source.includes('if(selected!==route||selectionGeneration!==generation)return;'),'이전 요청의 늦은 결과 무시');
+assert(source.includes('if(selected===route&&selectionGeneration===generation)'),'이전 요청 실패가 현재 코스 오류로 표시되지 않음');
 const scripts=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(Boolean);
 assert.equal(scripts.length,1);
 const files={

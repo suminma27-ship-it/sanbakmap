@@ -21,7 +21,7 @@ const rad=x=>x*Math.PI/180;
 function distance(coords){let m=0;for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=rad(b[1]-a[1]),dLon=rad(b[0]-a[0]),q=Math.sin(dLat/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(dLon/2)**2;m+=6371000*2*Math.atan2(Math.sqrt(q),Math.sqrt(1-q))}return m}
 async function json(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error(url+' HTTP '+r.status);return r.json()}
 function draw(lines){
-const valid=lines.filter(l=>l.coords.length>=2),points=valid.flatMap(l=>l.coords),minX=Math.min(...points.map(p=>p[0])),maxX=Math.max(...points.map(p=>p[0])),minY=Math.min(...points.map(p=>p[1])),maxY=Math.max(...points.map(p=>p[1]));
+const valid=lines.filter(l=>l.coords.length>=2);if(!valid.length)throw Error('유효한 원본 선형 없음');let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;for(const line of valid)for(const p of line.coords){minX=Math.min(minX,p[0]);maxX=Math.max(maxX,p[0]);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1])}
 const centerLat=(minY+maxY)/2,scaleX=Math.cos(rad(centerLat)),dx=Math.max((maxX-minX)*scaleX,0.00001),dy=Math.max(maxY-minY,0.00001),scale=Math.min(750/dx,470/dy),ox=(800-dx*scale)/2,oy=(520-dy*scale)/2;
 const svg=$('map'),list=$('lines');svg.replaceChildren();list.replaceChildren();
 valid.forEach((line,i)=>{const d=line.coords.map((p,j)=>(j?'L':'M')+(ox+(p[0]-minX)*scaleX*scale).toFixed(2)+' '+(520-oy-(p[1]-minY)*scale).toFixed(2)).join(' ');

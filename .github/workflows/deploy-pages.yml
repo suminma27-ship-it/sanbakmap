@@ -41,6 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           test -s mountain-trails.html
+          test -s seorak-isolated-test.html
           test -s index.html
           test -s core/mountain-line-profile.js
           test -s core/nationwide-source-loader.js
@@ -50,7 +51,7 @@ jobs:
           test -s data/nationwide-elevation/online-v110.json
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
-          cp index.html mountain-trails.html site/
+          cp index.html mountain-trails.html seorak-isolated-test.html site/
           cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
           cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/
@@ -68,6 +69,7 @@ jobs:
           done
           # Only publish already committed source assets; no new contact, graph or DEM products.
           test -s site/mountain-trails.html
+          test -s site/seorak-isolated-test.html
           test -s site/data/nationwide/index.json
           test -s site/data/nationwide-elevation/online-v110.json
           ! grep -q 'rebuild-topology-v102' <<< 'source-line-only'

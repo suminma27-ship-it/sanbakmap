@@ -265,7 +265,44 @@ function drawFallback(){
   svg.append(path,hit);state.fallbackPaths.push({line,path,hit,bounds});
  }
  host.append(svg);refreshFallbackStyles();
- $('fit').onclick=()=>svg.setAttribute('viewBox','0 0 1000 610');
+ // Allow map navigation even when Leaflet/CDN is unavailable. Original coordinates stay untouched.
+ const home=[0,0,1000,610];let view=home.slice(),drag=null,moved=false,suppressClick=false;
+ const setView=()=>svg.setAttribute('viewBox',view.map(v=>Number(v.toFixed(3))).join(' '));
+ const relativePoint=event=>{
+  const rect=svg.getBoundingClientRect();
+  return [(event.clientX-rect.left)/rect.width,(event.clientY-rect.top)/rect.height];
+ };
+ const zoomAt=(factor,[rx,ry])=>{
+  const width=Math.max(40,Math.min(1000,view[2]*factor)),height=width*610/1000;
+  const worldX=view[0]+rx*view[2],worldY=view[1]+ry*view[3];
+  view=[worldX-rx*width,worldY-ry*height,width,height];setView();
+ };
+ svg.style.touchAction='none';
+ svg.addEventListener('wheel',event=>{event.preventDefault();zoomAt(event.deltaY>0?1.18:1/1.18,relativePoint(event));},{passive:false});
+ svg.addEventListener('pointerdown',event=>{
+  if(event.button!==0||drag)return;
+  drag={id:event.pointerId,x:event.clientX,y:event.clientY,start:view.slice()};
+  moved=false;svg.setPointerCapture(event.pointerId);
+ });
+ svg.addEventListener('pointermove',event=>{
+  if(!drag||event.pointerId!==drag.id)return;
+  const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
+  if(Math.hypot(dx,dy)>6)moved=true;
+  if(!moved)return;
+  const rect=svg.getBoundingClientRect();
+  view=[drag.start[0]-dx*drag.start[2]/rect.width,drag.start[1]-dy*drag.start[3]/rect.height,drag.start[2],drag.start[3]];
+  setView();
+ });
+ const endDrag=event=>{
+  if(!drag||event.pointerId!==drag.id)return;
+  if(moved){suppressClick=true;setTimeout(()=>{suppressClick=false},0);}
+  drag=null;
+ };
+ svg.addEventListener('pointerup',endDrag);
+ svg.addEventListener('pointercancel',endDrag);
+ svg.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopPropagation();}},true);
+ svg.addEventListener('dblclick',event=>{event.preventDefault();zoomAt(.65,relativePoint(event));});
+ $('fit').onclick=()=>{view=home.slice();setView();};
 }
 function focusFallbackLine(line){
  const selected=state.fallbackPaths.find(item=>item.line.id===line.id);

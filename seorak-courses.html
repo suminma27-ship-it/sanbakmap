@@ -168,6 +168,10 @@ async function loadVerified(route,generation){
  if(Math.abs(metres-profile.totalMeters)>Math.max(30,metres*.02))throw Error('경로 거리와 고도표본 거리 불일치');
  if(profile.points.some((p,i)=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)||p.distanceMeters<0||(i&&p.distanceMeters<profile.points[i-1].distanceMeters)))throw Error('고도표본 값 오류');
  if(Math.abs(profile.points.at(-1).distanceMeters-metres)>Math.max(30,metres*.02))throw Error('고도표본 끝점 누락');
+ // Full-route DEM coverage: prevent a sparse profile from masquerading as a complete elevation graph.
+ for(let i=1;i<profile.points.length;i++){
+  if(profile.points[i].distanceMeters-profile.points[i-1].distanceMeters>250)throw Error('고도표본 250m 초과 공백: 코스 전체 DEM 검증 필요');
+ }
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.
  const startLabel=route.via[0],endLabel=route.via.at(-1);
  if(selected!==route||selectionGeneration!==generation)return;

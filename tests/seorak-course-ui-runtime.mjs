@@ -60,6 +60,12 @@ assert.equal(graphPaths(),1,'원본 DEM 실제 SVG 선형이 표시돼야 함');
 assert.equal(elements.tryVerified.hidden,true);
 assert.equal(elements.mapState.hidden,true);
 assert(elements.map.children.length,'Leaflet 미연결이어도 fallback 선형 지도 렌더링');
+const fallbackSvg=elements.map.children.find(node=>node.tagName==='svg');
+assert(fallbackSvg,'Leaflet 미연결이면 SVG 대체 지도가 있어야 함');
+const endpointLabels=fallbackSvg.children.filter(node=>node.tagName==='text').map(node=>node.textContent);
+assert(endpointLabels.includes('오색'),'실제 출발점 이름을 SVG 지도에 표시');
+assert(endpointLabels.includes('대청봉'),'실제 도착점 이름을 SVG 지도에 표시');
+
 const firstList=elements.courses.children;
 assert.equal(firstList.length,6);
 assert(firstList[2].dataset.ready==='true','오색 코스 준비 마크');

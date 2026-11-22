@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>산박지도 · 설악산 대표 코스</title>
+<link rel="stylesheet" href="./vendor/leaflet.css">
+<style>
+:root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b392a;background:#f3f6f2}*{box-sizing:border-box}body{margin:0}
+header{padding:14px;background:white;border-bottom:1px solid #d7e4d8;display:flex;justify-content:space-between;gap:12px;align-items:center}header a{color:#1b5739;text-decoration:none}
+main{max-width:1180px;margin:auto;padding:14px}h1{font-size:23px;margin:4px 0 8px}p{line-height:1.5}small,.muted{color:#63796a}
+.layout{display:grid;grid-template-columns:minmax(270px,360px) minmax(0,1fr);gap:12px}
+section,.panel{background:white;border:1px solid #dce6dd;border-radius:12px;overflow:hidden}
+.sectionhead{padding:12px 14px;border-bottom:1px solid #e3ebe4}
+.tabs{display:flex;gap:5px;padding:10px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}.tab{border:1px solid #cdded0;background:#fff;border-radius:8px;padding:8px 11px;font-size:13px}.tab[aria-pressed=true]{background:#1b6740;color:white}
+#courses{max-height:640px;overflow:auto;padding:4px 10px 12px}
+.course{width:100%;display:block;text-align:left;padding:12px;margin:6px 0;background:white;border:1px solid #dce8de;border-radius:9px}
+.course[aria-pressed=true]{border-color:#1e7b49;background:#eff9f0}
+.course strong{display:block;font-size:13px}.course small{display:block;margin-top:5px;line-height:1.5}
+#map{height:430px;background:#e9f1e9}#fallback{display:none;padding:30px}
+.detail{padding:14px;display:grid;gap:9px}.info{padding:10px;border:1px solid #e3ebe4;border-radius:8px;background:#f8faf8;font-size:13px}
+#graph{width:100%;height:195px;border:1px solid #e2e9e2;border-radius:9px;background:#fafcfa}
+a{color:#17663d}#source{font-size:12px}
+@media(max-width:750px){.layout{grid-template-columns:1fr}#courses{max-height:300px}#map{height:330px}}
+</style></head>
+<body><header><a href="./index.html"><b>▲ 산박지도</b></a><a href="./mountain-trails.html">전국 산 지도</a></header>
+<main><h1>설악산 대표 산행 코스</h1>
+<p class="muted">완성된 산행 코스를 선택하는 방식 · 원본 선형 조각을 조합하지 않음</p>
+<div class="layout">
+<section><div class="sectionhead"><strong>코스 선택</strong><div class="muted" id="count">목록 불러오는 중…</div></div>
+<div class="tabs" id="tabs"><button class="tab" data-group="대표" aria-pressed="true">대표 코스</button><button class="tab" data-group="추가" aria-pressed="false">추가 코스</button><button class="tab" data-group="종주" aria-pressed="false">종주 코스</button></div>
+<div id="courses" aria-label="설악산 완성 코스 후보 목록"></div></section>
+<section><div class="sectionhead"><strong id="title">코스를 선택해 줘</strong></div>
+<div id="map" aria-label="검증된 전체 코스 지도"><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div>
+<div class="detail"><div class="info" id="status" role="status">코스 선택 후 검증 상태가 표시돼.</div>
+<div class="info" id="via">경유지 —</div>
+<div class="info" id="distance">전체 거리: 검증 전</div>
+<h3 style="margin:4px 0 0;font-size:15px">코스 전체 고도그래프</h3>
+<svg id="graph" viewBox="0 0 700 195" role="img" aria-label="코스 전체 고도그래프"></svg>
+<div id="source"><a href="https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&amp;parkId=120400&amp;parkNavGb=guide&amp;vcursId=120400V015" target="_blank" rel="noopener">국립공원공단 설악산 탐방코스</a> · 실제 개방 및 통제는 방문 전 별도 확인</div>
+</div></section></div></main>
+<script src="./vendor/leaflet.js"></script>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+let catalog=null,selected=null,group='대표',map=null,layer=null;
+function svgMessage(message){const svg=$('graph');svg.replaceChildren();const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x','350');t.setAttribute('y','98');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#607969');t.setAttribute('font-size','15');t.textContent=message;svg.append(t)}
+function mapInit(){
+ if(!window.L){$('fallback').style.display='block';return}
+ map=L.map('map',{zoomControl:true}).setView([38.12,128.45],10);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:18}).addTo(map);
+}
+function choose(route){
+ selected=route;
+ $('title').textContent=route.name;
+ $('via').textContent='주요 경유지: '+route.via.join(' → ');
+ if(layer&&map){map.removeLayer(layer);layer=null}
+ $('distance').textContent='전체 거리: 검증 전';
+ svgMessage('코스 전체 DEM 고도자료 미확인');
+ $('status').textContent='전체 GPS 경로 검증 중 · 실제 지도 선형과 거리·고도그래프는 아직 제공하지 않아. 단일 원본 선형을 이 코스로 표시하지 않아.';
+ // Only an independently validated full-course GeoJSON is allowed here.
+ if(route.geometryStatus==='verified'&&route.geometryFile&&route.profileStatus==='verified'&&route.profileFile){
+  loadVerified(route).catch(err=>{$('status').textContent='검증된 코스 파일을 불러오지 못했어: '+err.message});
+ }
+ render();
+}
+async function loadVerified(route){
+ const [g,p]=await Promise.all([fetch(route.geometryFile),fetch(route.profileFile)]);
+ if(!g.ok||!p.ok)throw Error('경로 또는 고도자료 파일 없음');
+ const geometry=await g.json(),profile=await p.json();
+ if(selected!==route)return;
+ if(geometry.type!=='Feature'||geometry.geometry?.type!=='LineString')throw Error('전체 코스 선형 형식 오류');
+ const coords=geometry.geometry.coordinates;
+ if(!Array.isArray(coords)||coords.length<2||coords.some(c=>!Array.isArray(c)||!Number.isFinite(c[0])||!Number.isFinite(c[1])||c[0]<124||c[0]>132||c[1]<33||c[1]>40))throw Error('경로 좌표 오류');
+ if(!Array.isArray(profile.points)||profile.points.length<2||!Number.isFinite(profile.totalMeters)||profile.totalMeters<=0)throw Error('고도표본 오류');
+ const R=6371008.8,rad=Math.PI/180;let metres=0;
+ for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad,h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
+ if(Math.abs(metres-profile.totalMeters)>Math.max(30,metres*.02))throw Error('경로 거리와 고도표본 거리 불일치');
+ if(profile.points.some((p,i)=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)||p.distanceMeters<0||(i&&p.distanceMeters<profile.points[i-1].distanceMeters)))throw Error('고도표본 값 오류');
+ if(Math.abs(profile.points.at(-1).distanceMeters-metres)>Math.max(30,metres*.02))throw Error('고도표본 끝점 누락');
+ if(!map)throw Error('지도 라이브러리 없음');
+ layer=L.geoJSON(geometry,{style:{color:'#146b3e',weight:5,opacity:1}}).addTo(map);map.fitBounds(layer.getBounds(),{padding:[24,24]});
+ $('distance').textContent='전체 거리: '+(metres/1000).toFixed(2)+' km';
+ const svg=$('graph');svg.replaceChildren();
+ const pts=profile.points,lo=Math.min(...pts.map(p=>p.elevationMeters))-30,hi=Math.max(...pts.map(p=>p.elevationMeters))+30;
+ const x=d=>45+625*d/metres,y=z=>160-135*(z-lo)/(hi-lo||1);
+ const line=document.createElementNS('http://www.w3.org/2000/svg','path');
+ line.setAttribute('d',pts.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(1)+','+y(p.elevationMeters).toFixed(1)).join(' '));
+ line.setAttribute('stroke','#187449');line.setAttribute('stroke-width','3');line.setAttribute('fill','none');svg.append(line);
+ $('status').textContent='전체 코스 검증 파일 표시 중 · 현재 통행 가능 여부는 별도 확인';
+}
+function render(){
+ if(!catalog)return;
+ $('count').textContent=catalog.routes.filter(r=>r.group===group).length+'개 코스 · 전체 GPS 검증 여부 구분';
+ document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));
+ const list=$('courses');list.replaceChildren();
+ for(const r of catalog.routes.filter(r=>r.group===group)){
+  const b=document.createElement('button');b.className='course';b.type='button';b.setAttribute('aria-pressed',String(selected?.id===r.id));
+  const title=document.createElement('strong');title.textContent=r.name;
+  const desc=document.createElement('small');desc.textContent=r.geometryStatus==='verified'&&r.profileStatus==='verified'?'전체 경로·고도자료 검증됨':'전체 경로 검증 중';
+  b.append(title,desc);b.onclick=()=>choose(r);list.append(b);
+ }
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{group=b.dataset.group;render()});
+svgMessage('검증된 코스를 선택하면 표시');
+mapInit();
+fetch('./data/seorak-predefined-routes.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
+ if(d.schema!=='sanbak-predefined-route-catalog-v1'||!Array.isArray(d.routes))throw Error('코스 목록 형식 오류');
+ catalog=d;render();choose(d.routes[0]);
+}).catch(err=>{$('count').textContent='코스 목록 로드 실패';$('status').textContent=err.message});
+})();
+</script></body></html>

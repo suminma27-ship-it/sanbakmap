@@ -3,8 +3,8 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 const catalog=JSON.parse(readFileSync('data/seorak-predefined-routes.json','utf8'));
 assert.equal(catalog.schema,'sanbak-predefined-route-catalog-v1');
-const counts=Object.fromEntries(['대표','추가','종주'].map(k=>[k,catalog.routes.filter(r=>r.group===k).length]));
-assert.deepEqual(counts,{'대표':6,'추가':9,'종주':8});
+const counts=Object.fromEntries(['대청봉','기타코스','종주코스'].map(k=>[k,catalog.routes.filter(r=>r.group===k).length]));
+assert.deepEqual(counts,{'대청봉':6,'기타코스':9,'종주코스':8});
 const required=[
 '소공원 → 비선대 → 희운각 → 대청봉',
 '소공원 → 비선대 → 마등령 → 공룡능선 → 대청봉',
@@ -13,7 +13,7 @@ const required=[
 '백담계곡 → 대청봉',
 '한계령 → 대청봉'
 ];
-assert.deepEqual(catalog.routes.filter(r=>r.group==='대표').map(r=>r.name),required);
+assert.deepEqual(catalog.routes.filter(r=>r.group==='대청봉').map(r=>r.name),required);
 const ids=new Set();
 for(const route of catalog.routes){
  assert(!ids.has(route.id));ids.add(route.id);

@@ -82,10 +82,10 @@ async function loadReference(){
    referenceLayer.addTo(map);
    if(layer){if(layer.bringToFront)layer.bringToFront();map.fitBounds(layer.getBounds(),{padding:[24,24]})}
    else map.fitBounds(referenceLayer.getBounds(),{padding:[15,15]});
-  }else refSvg(paths,'배경지도 연결 실패 · 원본 좌표 참고선은 표시');
+  }else if(selected&&isReady(selected)){/* Keep the selected verified route above reference lines in SVG fallback. */}else refSvg(paths,'배경지도 연결 실패 · 원본 좌표 참고선은 표시');
  }catch(error){
   console.warn('설악산 원본 참고선형 표시 실패',error);
-  if(!map)refSvg([],error.message);
+  if(!map&&(!selected||!isReady(selected)))refSvg([],error.message);
  }
 }
 function choose(route){
@@ -123,6 +123,7 @@ async function loadVerified(route){
  if(Math.abs(profile.points.at(-1).distanceMeters-metres)>Math.max(30,metres*.02))throw Error('고도표본 끝점 누락');
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.
  const startLabel=route.via[0],endLabel=route.via.at(-1);
+ if(selected!==route)return;
  if(map){
   layer=L.featureGroup().addTo(map);
   L.geoJSON(geometry,{style:{color:'#146b3e',weight:5,opacity:1}}).addTo(layer);

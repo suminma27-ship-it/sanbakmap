@@ -51,6 +51,9 @@ assert.match(elements.baseStatus.textContent,/미연결/,'Leaflet 없는 경우 
 basemaps[0].onclick();
 const graphPaths=()=>elements.graph.children.filter(n=>n.tagName==='path').length;
 assert.equal(elements.title.textContent,'오색약수 → 대청봉','준비된 코스가 첫 선택이어야 함');
+assert.match(elements.catalogSummary.textContent,/23개 등록 · 전체 경로·DEM 검증 1개/);
+assert.match(elements.catalogDescription.textContent,/나머지 22개는 미완성/);
+
 assert.match(elements.status.textContent,/2018년 국립공원공단/);
 assert.match(elements.distance.textContent,/4\.59 km/);
 assert.equal(graphPaths(),1,'원본 DEM 실제 SVG 선형이 표시돼야 함');

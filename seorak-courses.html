@@ -153,7 +153,7 @@ async function loadVerified(route){
   svg.append(el('circle',{cx:x(point.distanceMeters),cy:y(point.elevationMeters),r:4,fill:'#187449',stroke:'#fff','stroke-width':2}));
   svg.append(el('text',{x:x(point.distanceMeters),y:y(point.elevationMeters)+offset,fill:'#1c5b3a','font-size':12,'text-anchor':point===a?'start':'end'},name));
  }
- $('status').textContent=(geometry.properties?.sourceLabel||'검증된 과거 원본')+' · '+route.name+' 전체 선형과 DEM 고도표본 표시 중. 실제 통행은 최신 통제 공고 확인 필요. 원본의 거리·고도는 현재 공단 안내와 다를 수 있음.';
+ $('status').textContent=(geometry.properties?.sourceFileDate?.startsWith('2018')?'2018년 국립공원공단':'검증된 과거 원본')+' · '+route.name+' 전체 선형과 DEM 고도표본 표시 중. 실제 통행은 최신 통제 공고 확인 필요. 원본의 거리·고도는 현재 공단 안내와 다를 수 있음.';
  showMapState('');
 }
 function render(){

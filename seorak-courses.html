@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>산박지도 · 설악산 대표 코스</title>
+<title>산박지도 · 설악산 산행 코스</title>
 <link rel="stylesheet" href="./vendor/leaflet.css">
 <style>
 :root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#1b392a;background:#f3f6f2}*{box-sizing:border-box}body{margin:0}
@@ -22,7 +22,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 @media(max-width:750px){.layout{grid-template-columns:1fr}#courses{max-height:300px}#map{height:330px}}
 </style></head>
 <body><div class="gate" id="gate"><div class="gate-card"><h2>우리는 자연을 사랑하기에, 그것을 지킬 의무가 있습니다.</h2><p>산박지도 이용 전 LNT(흔적 남기지 않기) 7원칙에 동의해 줘.</p><ol><li>사전에 계획하고 준비하기</li><li>지정된 탐방로와 단단한 지면 이용하기</li><li>쓰레기 올바르게 처리하기</li><li>있는 그대로 보존하기</li><li>불 사용의 영향을 최소화하기</li><li>야생동물 존중하기</li><li>다른 탐방객 배려하기</li></ol><div class="gate-actions"><button id="decline">동의하지 않음</button><button id="agree">동의하고 보기</button></div></div></div><header><a href="./index.html"><b>▲ 산박지도</b></a><a href="./mountain-trails.html">전국 산 지도</a></header>
-<main><h1>설악산 대표 산행 코스</h1>
+<main><h1>설악산 산행 코스</h1>
 <p class="muted">완성된 산행 코스를 선택하는 방식 · 원본 선형 조각을 조합하지 않음</p>
 <div class="warning"><strong>설악산 기능 샘플: 23개 등록 · 오색→대청봉 1개 과거 원본 선형·고도 검증</strong><div>원본 등산로 21개는 연한 참고 선형으로 표시하고, 오색→대청봉 1개만 검증된 과거 원본을 진하게 표시해. 나머지 22개는 아직 경로·고도그래프를 표시하지 않아.</div><div>2026년 11월 15일~12월 15일 고지대 주요 탐방로 통제 공고가 있으니, 방문 전 공단의 최신 출입통제 현황을 확인해 줘.</div></div>
 <div class="layout">
@@ -30,7 +30,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <div class="tabs" id="tabs"><button class="tab" data-group="대청봉" aria-pressed="true">대청봉</button><button class="tab" data-group="기타코스" aria-pressed="false">기타코스</button><button class="tab" data-group="종주코스" aria-pressed="false">종주코스</button></div>
 <div id="courses" aria-label="설악산 완성 코스 후보 목록"></div></section>
 <section><div class="sectionhead"><strong id="title">코스를 선택해 줘</strong></div>
-<div class="mapwrap"><div id="map" aria-label="설악산 역사적 원본 선형 참고 지도. 대표코스 전체 경로는 아직 미등록."><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div><div id="mapState" class="map-state" role="status">코스 데이터 확인 중</div></div>
+<div class="mapwrap"><div id="map" aria-label="설악산 과거 원본 탐방로 참고 지도. 검증된 전체 코스만 진하게 표시."><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div><div id="mapState" class="map-state" role="status">코스 데이터 확인 중</div></div>
 <div class="detail"><div class="info" id="status" role="status">코스 선택 후 검증 상태가 표시돼.</div>
 <div class="info" id="via">경유지 —</div>
 <div class="info" id="distance">전체 거리: 검증 전</div><button class="testing" id="tryVerified" type="button">실제 경로·고도그래프 확인: 오색 → 대청봉</button>
@@ -156,7 +156,8 @@ async function loadVerified(route){
 }
 function render(){
  if(!catalog)return;
- $('count').textContent=catalog.routes.filter(r=>r.group===group).length+'개 코스 · 전체 GPS 검증 여부 구분';
+ const inGroup=catalog.routes.filter(r=>r.group===group);const readyCount=inGroup.filter(isReady).length;
+ $('count').textContent=inGroup.length+'개 코스 · 전체 경로·고도자료 확인 '+readyCount+'개 / 미완성 '+(inGroup.length-readyCount)+'개';
  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));
  const list=$('courses');list.replaceChildren();
  for(const r of catalog.routes.filter(r=>r.group===group)){

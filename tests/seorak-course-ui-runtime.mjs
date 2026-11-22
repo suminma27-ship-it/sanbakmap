@@ -15,7 +15,7 @@ class Element {
 }
 const ids=['map','fallback','graph','title','via','distance','status','count','courses','tryVerified','mapState','gate','agree','decline'];
 const elements=Object.fromEntries(ids.map(id=>[id,new Element('div',id)]));
-const tabs=['대표','추가','종주'].map(group=>{const button=new Element('button');button.dataset.group=group;return button});
+const tabs=['대청봉','기타코스','종주코스'].map(group=>{const button=new Element('button');button.dataset.group=group;return button});
 const document={
  body:new Element('body'),
  getElementById:id=>elements[id]||(elements[id]=new Element('div',id)),

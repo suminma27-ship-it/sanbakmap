@@ -155,7 +155,7 @@ function selectPlan(plan){
 function status(msg){$('status').textContent=msg}
 function put(id,txt){$(id).textContent=txt}
 function noProfile(message){
- const svg=$('profile');svg.replaceChildren();
+ const svg=$('profile');svg.replaceChildren();svg.onpointermove=null;svg.onpointerdown=null;svg.onpointerleave=null;
  const node=document.createElementNS('http://www.w3.org/2000/svg','text');
  node.setAttribute('x','360');node.setAttribute('y','108');node.setAttribute('text-anchor','middle');
  node.setAttribute('font-size','16');node.setAttribute('fill','#6a7d70');node.textContent=message;svg.append(node);
@@ -193,6 +193,30 @@ function graph(points,total){
  }
  const path=reduced.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(2)+' '+y(p.elevationMeters).toFixed(2)).join(' ');
  node(svg,'path',{d:path,stroke:'#22805b','stroke-width':3,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'});
+ // Read only verified DEM samples for this selected original line.
+ const guide=node(svg,'line',{x1:L,x2:L,y1:T,y2:B,stroke:'#155d3d','stroke-width':1.5,'stroke-dasharray':'4 3',visibility:'hidden'});
+ const dot=node(svg,'circle',{cx:L,cy:B,r:5,fill:'#155d3d',stroke:'#fff','stroke-width':2,visibility:'hidden'});
+ const label=node(svg,'text',{x:L+9,y:T+14,fill:'#155d3d','font-size':13,'font-weight':700,visibility:'hidden'},'');
+ svg.style.touchAction='pan-y';
+ const inspect=event=>{
+  const rect=svg.getBoundingClientRect();
+  if(!rect.width)return;
+  const position=(event.clientX-rect.left)/rect.width*720;
+  const distance=Math.max(0,Math.min(total,(position-L)/(R-L)*total));
+  let left=0,right=points.length-1;
+  while(left<right){const mid=(left+right)>>1;if(points[mid].distanceMeters<distance)left=mid+1;else right=mid;}
+  const before=points[Math.max(0,left-1)],after=points[left];
+  const sample=Math.abs(before.distanceMeters-distance)<Math.abs(after.distanceMeters-distance)?before:after;
+  const px=x(sample.distanceMeters),py=y(sample.elevationMeters);
+  guide.setAttribute('x1',px);guide.setAttribute('x2',px);
+  dot.setAttribute('cx',px);dot.setAttribute('cy',py);
+  label.setAttribute('x',Math.min(R-145,Math.max(L+5,px+10)));
+  label.setAttribute('y',Math.max(T+13,py-11));
+  label.textContent=(sample.distanceMeters/1000).toFixed(2)+'km · '+Math.round(sample.elevationMeters)+'m';
+  guide.setAttribute('visibility','visible');dot.setAttribute('visibility','visible');label.setAttribute('visibility','visible');
+ };
+ svg.onpointermove=inspect;svg.onpointerdown=inspect;
+ svg.onpointerleave=()=>{guide.setAttribute('visibility','hidden');dot.setAttribute('visibility','hidden');label.setAttribute('visibility','hidden')};
 }
 const SVG_NS='http://www.w3.org/2000/svg';
 function drawFallback(){

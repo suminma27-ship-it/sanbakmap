@@ -108,7 +108,10 @@ function choose(route){
  $('title').textContent=route.name;
  $('via').textContent='주요 경유지: '+route.via.join(' → ');
  if(layer&&map){map.removeLayer(layer);layer=null}
- if(!map&&referencePaths.length)refSvg(referencePaths,'공단 2018 원본 21개 참고선');
+ if(!map){
+  if(referencePaths.length)refSvg(referencePaths,'공단 2018 원본 21개 참고선');
+  else refSvg([],'선택 코스의 전체 선형 미확인');
+ }
  const ready=isReady(route);
  $('tryVerified').hidden=ready;
  $('distance').textContent=ready?'자료 불러오는 중…':'전체 거리: 미완성 (경로 자료 없음)';
@@ -117,7 +120,14 @@ function choose(route){
  $('status').textContent=ready?'검증된 과거 원본 경로와 고도자료 로딩 중…':'미구현 코스 · '+route.name+' 전체 GPS 선형·DEM 검증 전. 이 지도에는 선택 코스가 표시되지 않았어. 목록과 경유지만 등록돼 있어.';
  // Only an independently validated full-course GeoJSON is allowed here.
  if(route.geometryStatus==='verified'&&route.geometryFile&&route.profileStatus==='verified'&&route.profileFile){
-  loadVerified(route,generation).catch(err=>{if(selected===route&&selectionGeneration===generation){$('status').textContent='코스 자료 로드 실패: '+err.message;showMapState('검증된 코스 자료를 불러오지 못했어: '+err.message);svgMessage('고도그래프 로드 실패')}});
+  loadVerified(route,generation).catch(err=>{if(selected===route&&selectionGeneration===generation){
+   if(layer&&map){map.removeLayer(layer);layer=null}
+   if(!map)refSvg(referencePaths.length?referencePaths:[],'경로 자료 로드 실패');
+   $('distance').textContent='전체 거리: 자료 로드 실패';
+   $('status').textContent='코스 자료 로드 실패: '+err.message;
+   showMapState('검증된 코스 자료를 불러오지 못했어: '+err.message);
+   svgMessage('고도그래프 로드 실패')
+  }});
  }
  render();
 }
@@ -131,6 +141,7 @@ async function loadVerified(route,generation){
  const coords=geometry.geometry.coordinates;
  if(!Array.isArray(coords)||coords.length<2||coords.some(c=>!Array.isArray(c)||!Number.isFinite(c[0])||!Number.isFinite(c[1])||c[0]<124||c[0]>132||c[1]<33||c[1]>40))throw Error('경로 좌표 오류');
  if(!Array.isArray(profile.points)||profile.points.length<2||!Number.isFinite(profile.totalMeters)||profile.totalMeters<=0)throw Error('고도표본 오류');
+ if(!Number.isFinite(profile.points[0].distanceMeters)||Math.abs(profile.points[0].distanceMeters)>30)throw Error('고도표본 시작점 누락');
  const R=6371008.8,rad=Math.PI/180;let metres=0;
  for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad,h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
  if(Math.abs(metres-profile.totalMeters)>Math.max(30,metres*.02))throw Error('경로 거리와 고도표본 거리 불일치');

@@ -42,6 +42,8 @@ jobs:
           set -euo pipefail
           test -s mountain-trails.html
           test -s seorak-isolated-test.html
+          test -s seorak-courses.html
+          test -s data/seorak-predefined-routes.json
           test -s index.html
           test -s core/mountain-line-profile.js
           test -s core/nationwide-source-loader.js
@@ -51,12 +53,12 @@ jobs:
           test -s data/nationwide-elevation/online-v110.json
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
-          cp index.html mountain-trails.html seorak-isolated-test.html site/
+          cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
           cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
           cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/
           cp data/nationwide-elevation/*.json site/data/nationwide-elevation/
-          cp data/knps-seorak-2018.geojson site/data/
+          cp data/knps-seorak-2018.geojson data/seorak-predefined-routes.json site/data/
           # Retain existing static entry points and legacy assets without running topology builders.
           for file in national.html national_data.js national_routes.js nationwide-full.html nationwide-official.html nationwide-topology.html nationwide-plan.html national-parks-trails.html national-parks-basemap.js seorak-real-overlay.html seorak-standalone-s3.html ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
             if [ -f "$file" ]; then cp "$file" site/; fi
@@ -70,6 +72,8 @@ jobs:
           # Only publish already committed source assets; no new contact, graph or DEM products.
           test -s site/mountain-trails.html
           test -s site/seorak-isolated-test.html
+          test -s site/seorak-courses.html
+          test -s site/data/seorak-predefined-routes.json
           test -s site/data/nationwide/index.json
           test -s site/data/nationwide-elevation/online-v110.json
           ! grep -q 'rebuild-topology-v102' <<< 'source-line-only'

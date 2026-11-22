@@ -14,7 +14,7 @@ button{font:inherit;cursor:pointer}.tab{border:1px solid #cdded0;background:#fff
 #courses{max-height:640px;overflow:auto;padding:4px 10px 12px}
 .course{width:100%;display:block;text-align:left;padding:12px;margin:6px 0;background:white;border:1px solid #dce8de;border-radius:9px}
 .course[aria-pressed=true]{border-color:#1e7b49;background:#eff9f0}
-.course strong{display:block;font-size:13px}.course small{display:block;margin-top:5px;line-height:1.5}
+.course strong{display:block;font-size:13px}.course small{display:block;margin-top:5px;line-height:1.5}.course[data-ready=true]{border-left:4px solid #1b7a4a}.course[data-ready=false]{border-left:4px solid #d4ddd3}.testing{width:100%;padding:12px;background:#196c44;color:#fff;border:0;border-radius:9px;font-weight:700;min-height:44px}.testing:focus-visible{outline:3px solid #88c5a3}.mapwrap{position:relative}.map-state{position:absolute;left:12px;right:12px;top:14px;z-index:900;pointer-events:none;background:#fffef2f5;border:1px solid #d9bc62;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;box-shadow:0 3px 8px #0002}.map-state[hidden]{display:none}
 #map{height:430px;background:#e9f1e9;overflow:hidden}#map svg{display:block;width:100%;height:100%}#fallback{display:none;padding:30px}
 .detail{padding:14px;display:grid;gap:9px}.info{padding:10px;border:1px solid #e3ebe4;border-radius:8px;background:#f8faf8;font-size:13px}
 #graph{width:100%;height:195px;border:1px solid #e2e9e2;border-radius:9px;background:#fafcfa}
@@ -30,10 +30,10 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <div class="tabs" id="tabs"><button class="tab" data-group="대표" aria-pressed="true">대표 코스</button><button class="tab" data-group="추가" aria-pressed="false">추가 코스</button><button class="tab" data-group="종주" aria-pressed="false">종주 코스</button></div>
 <div id="courses" aria-label="설악산 완성 코스 후보 목록"></div></section>
 <section><div class="sectionhead"><strong id="title">코스를 선택해 줘</strong></div>
-<div id="map" aria-label="설악산 역사적 원본 선형 참고 지도. 대표코스 전체 경로는 아직 미등록."><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div>
+<div class="mapwrap"><div id="map" aria-label="설악산 역사적 원본 선형 참고 지도. 대표코스 전체 경로는 아직 미등록."><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div><div id="mapState" class="map-state" role="status">코스 데이터 확인 중</div></div>
 <div class="detail"><div class="info" id="status" role="status">코스 선택 후 검증 상태가 표시돼.</div>
 <div class="info" id="via">경유지 —</div>
-<div class="info" id="distance">전체 거리: 검증 전</div>
+<div class="info" id="distance">전체 거리: 검증 전</div><button class="testing" id="tryVerified" type="button">실제 경로·고도그래프 확인: 오색 → 대청봉</button>
 <h3 style="margin:4px 0 0;font-size:15px">코스 전체 고도그래프</h3>
 <svg id="graph" viewBox="0 0 700 195" role="img" aria-label="코스 전체 고도그래프"></svg>
 <div id="source"><a href="https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&amp;parkId=120400&amp;parkNavGb=guide&amp;vcursId=120400V015" target="_blank" rel="noopener">국립공원공단 설악산 탐방코스</a> · <a href="https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400" target="_blank" rel="noopener">2026년 공단 탐방 안내도</a> · <a href="./seorak-isolated-test.html">개별 원본 21개 고도 확인</a> · 실제 개방 및 통제는 방문 전 별도 확인</div>
@@ -43,6 +43,10 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 let catalog=null,selected=null,group='대표',map=null,layer=null,referenceLayer=null,referencePaths=[];
+function isReady(route){return route?.geometryStatus==='verified'&&Boolean(route.geometryFile)&&route.profileStatus==='verified'&&Boolean(route.profileFile)}
+function showMapState(text){$('mapState').hidden=!text;if(text)$('mapState').textContent=text}
+function trySample(){const sample=catalog?.routes.find(isReady);if(!sample){$('status').textContent='현재 전체 경로·고도자료가 검증된 코스가 없어.';return}group=sample.group;choose(sample);document.querySelector('#map').scrollIntoView?.({block:'nearest',behavior:'smooth'})}
+$('tryVerified').addEventListener('click',trySample);
 function svgMessage(message){const svg=$('graph');svg.replaceChildren();const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x','350');t.setAttribute('y','98');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#607969');t.setAttribute('font-size','15');t.textContent=message;svg.append(t)}
 function mapInit(){
  if(!window.L){$('fallback').style.display='block';return}
@@ -90,12 +94,15 @@ function choose(route){
  $('via').textContent='주요 경유지: '+route.via.join(' → ');
  if(layer&&map){map.removeLayer(layer);layer=null}
  if(!map&&referencePaths.length)refSvg(referencePaths,'공단 2018 원본 21개 참고선');
- $('distance').textContent='전체 거리: 검증 전';
- svgMessage('코스 전체 DEM 고도자료 미확인');
- $('status').textContent='전체 GPS 경로 검증 중 · 실제 지도 선형과 거리·고도그래프는 아직 제공하지 않아. 단일 원본 선형을 이 코스로 표시하지 않아.';
+ const ready=isReady(route);
+ $('tryVerified').hidden=ready;
+ $('distance').textContent=ready?'자료 불러오는 중…':'전체 거리: 미완성 (경로 자료 없음)';
+ svgMessage(ready?'원본 DEM 고도자료 읽는 중…':'이 코스는 아직 고도그래프를 만들지 못했어');
+ showMapState(ready?'검증된 과거 원본 코스 경로 읽는 중…':route.name+' — 전체 경로가 아직 없어. 지도에는 선택 코스를 표시하지 않았어. 아래 오색 코스 버튼으로 실제 동작을 확인할 수 있어.');
+ $('status').textContent=ready?'검증된 과거 원본 경로와 고도자료 로딩 중…':'미구현 코스 · '+route.name+' 전체 GPS 선형·DEM 검증 전. 이 지도에는 선택 코스가 표시되지 않았어. 목록과 경유지만 등록돼 있어.';
  // Only an independently validated full-course GeoJSON is allowed here.
  if(route.geometryStatus==='verified'&&route.geometryFile&&route.profileStatus==='verified'&&route.profileFile){
-  loadVerified(route).catch(err=>{$('status').textContent='검증된 코스 파일을 불러오지 못했어: '+err.message});
+  loadVerified(route).catch(err=>{if(selected===route){$('status').textContent='코스 자료 로드 실패: '+err.message;showMapState('검증된 코스 자료를 불러오지 못했어: '+err.message);svgMessage('고도그래프 로드 실패')}});
  }
  render();
 }
@@ -145,6 +152,7 @@ async function loadVerified(route){
   svg.append(el('text',{x:x(point.distanceMeters),y:y(point.elevationMeters)+offset,fill:'#1c5b3a','font-size':12,'text-anchor':point===a?'start':'end'},name));
  }
  $('status').textContent='2018년 국립공원공단 오색→대청봉 단일 원본 선형과 90m DEM 고도표본 표시 중. 실제 통행은 2026년 최신 통제 공고 확인 필요. 원본의 거리·고도는 현재 공단 안내와 다를 수 있음.';
+ showMapState('');
 }
 function render(){
  if(!catalog)return;
@@ -154,7 +162,8 @@ function render(){
  for(const r of catalog.routes.filter(r=>r.group===group)){
   const b=document.createElement('button');b.className='course';b.type='button';b.setAttribute('aria-pressed',String(selected?.id===r.id));
   const title=document.createElement('strong');title.textContent=r.name;
-  const desc=document.createElement('small');desc.textContent=r.geometryStatus==='verified'&&r.profileStatus==='verified'?'전체 경로·고도자료 검증됨':'전체 경로 검증 중';
+  const desc=document.createElement('small');desc.textContent=isReady(r)?'● 지도 + 거리 + DEM 고도그래프 확인 가능 (2018 자료)':'○ 미구현 — 경유지 목록만 등록됨';
+  b.dataset.ready=String(isReady(r));
   b.append(title,desc);b.onclick=()=>choose(r);list.append(b);
  }
 }
@@ -165,7 +174,7 @@ svgMessage('검증된 코스를 선택하면 표시');
 mapInit();loadReference();
 fetch('./data/seorak-predefined-routes.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
  if(d.schema!=='sanbak-predefined-route-catalog-v1'||!Array.isArray(d.routes))throw Error('코스 목록 형식 오류');
- catalog=d;const initial=d.routes.find(r=>r.geometryStatus==='verified'&&r.profileStatus==='verified')||d.routes[0];group=initial.group;render();choose(initial);
+ catalog=d;const initial=d.routes.find(isReady)||d.routes[0];group=initial.group;render();choose(initial);
 }).catch(err=>{$('count').textContent='코스 목록 로드 실패';$('status').textContent=err.message});
 })();
 </script></body></html>

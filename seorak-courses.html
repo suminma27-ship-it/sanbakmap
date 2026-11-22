@@ -73,7 +73,7 @@ function mapInit(){
  map=L.map('map',{zoomControl:true}).setView([38.12,128.45],10);
  setBase(baseMode);
 }
-function refSvg(paths,warning,highlight=false){
+function refSvg(paths,warning,highlight=false,endpointNames=null){
  const root=$('map');root.replaceChildren();
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 900 550');svg.setAttribute('role','img');svg.setAttribute('aria-label','설악산 공단 과거 등산로 좌표 참고도');
  const back=document.createElementNS(svg.namespaceURI,'rect');back.setAttribute('width','900');back.setAttribute('height','550');back.setAttribute('fill','#e7f0e7');svg.append(back);
@@ -82,6 +82,18 @@ function refSvg(paths,warning,highlight=false){
  for(const a of paths)for(const p of a){left=Math.min(left,p[0]);right=Math.max(right,p[0]);bottom=Math.min(bottom,p[1]);top=Math.max(top,p[1])}
  const cos=Math.cos((bottom+top)/2*Math.PI/180),dx=Math.max(.000001,(right-left)*cos),dy=Math.max(.000001,top-bottom),scale=Math.min(840/dx,490/dy),ox=(900-dx*scale)/2,oy=(550-dy*scale)/2;
  for(const a of paths){const d=a.map((p,i)=>(i?'L':'M')+(ox+(p[0]-left)*cos*scale).toFixed(2)+' '+(550-oy-(p[1]-bottom)*scale).toFixed(2)).join(' ');const p=document.createElementNS(svg.namespaceURI,'path');p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke',highlight?'#146b3e':'#749b7a');p.setAttribute('stroke-width',highlight?'5':'2');svg.append(p)}
+ if(highlight&&endpointNames&&paths.length===1&&paths[0].length>1){
+  const first=paths[0][0],last=paths[0].at(-1);
+  for(const [point,name] of [[first,endpointNames[0]],[last,endpointNames[1]]]){
+   const cx=ox+(point[0]-left)*cos*scale,cy=550-oy-(point[1]-bottom)*scale;
+   const dot=document.createElementNS(svg.namespaceURI,'circle');
+   dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('r','7');dot.setAttribute('fill','#fff');dot.setAttribute('stroke','#146b3e');dot.setAttribute('stroke-width','3');svg.append(dot);
+   const label=document.createElementNS(svg.namespaceURI,'text');
+   label.setAttribute('x',Math.max(12,Math.min(780,cx+12)));label.setAttribute('y',Math.max(20,cy-12));
+   label.setAttribute('font-size','17');label.setAttribute('font-weight','700');label.setAttribute('fill','#12492d');
+   label.textContent=name;svg.append(label);
+  }
+ }
  root.append(svg);
 }
 async function loadReference(){
@@ -164,7 +176,7 @@ async function loadVerified(route,generation){
   L.circleMarker([last[1],last[0]],{radius:7,color:'#bd5035',fillColor:'#fff',fillOpacity:1,weight:3}).bindTooltip(endLabel+' (원본 종점)',{permanent:false}).addTo(layer);
   map.fitBounds(layer.getBounds(),{padding:[24,24]});
  }
- else refSvg([coords],'검증된 과거 원본 코스 선형 · 원본 좌표만 표시',true);
+ else refSvg([coords],'검증된 과거 원본 코스 선형 · 원본 좌표만 표시',true,[startLabel,endLabel]);
  $('distance').textContent='과거 공단 원본 선형 거리: '+(metres/1000).toFixed(2)+' km · 공단 안내거리: '+(geometry.properties.officialCourseGuideKm||'미확인')+' km (측정 기준 다름)';
  const svg=$('graph');svg.replaceChildren();
  const ns='http://www.w3.org/2000/svg';const el=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));if(text!==undefined)node.textContent=String(text);return node};

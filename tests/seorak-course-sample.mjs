@@ -15,21 +15,46 @@ const required=[
 ];
 assert.deepEqual(catalog.routes.filter(r=>r.group==='대청봉').map(r=>r.name),required);
 const ids=new Set();
+const ready=[];
 for(const route of catalog.routes){
  assert(!ids.has(route.id));ids.add(route.id);
  assert(Array.isArray(route.via)&&route.via.length>=2);
- if(route.id==='s3'){
-  assert.equal(route.geometryStatus,'verified');
-  assert.equal(route.profileStatus,'verified');
-  assert.equal(route.geometryFile,'./data/seorak-osaek-daecheong-2018.geojson');
-  assert.equal(route.profileFile,'./data/seorak-osaek-daecheong-dem.json');
+ const complete=route.geometryStatus==='verified'&&route.profileStatus==='verified';
+ if(complete){
+  assert(route.geometryFile&&route.profileFile,'검증된 코스는 실제 파일 필수');
+  assert(route.geometryFile.startsWith('./data/')&&route.profileFile.startsWith('./data/'));
+  const geometry=JSON.parse(readFileSync(route.geometryFile.slice(2),'utf8'));
+  const profile=JSON.parse(readFileSync(route.profileFile.slice(2),'utf8'));
+  assert.equal(geometry.type,'Feature');
+  assert.equal(geometry.geometry?.type,'LineString');
+  assert.equal(geometry.properties?.routeId,route.id);
+  assert.equal(profile.routeId,route.id);
+  assert.equal(profile.sourceId,geometry.properties?.sourceId);
+  assert.equal(profile.schema,'sanbak-predefined-dem-profile-v1');
+  assert.equal(geometry.properties?.currentAccessVerified,false);
+  assert.equal(profile.currentAccessVerified,false);
+  const coords=geometry.geometry.coordinates;
+  assert(coords.length>1&&coords.every(p=>p.length>=2&&p.slice(0,2).every(Number.isFinite)));
+  const rad=Math.PI/180,R=6371008.8;
+  let metres=0;
+  for(let i=1;i<coords.length;i++){
+   const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad;
+   const h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;
+   metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)));
+  }
+  assert(Math.abs(profile.totalMeters-metres)<Math.max(30,metres*.02),'실제 선형과 DEM 거리 일치');
+  assert(Array.isArray(profile.points)&&profile.points.length>=2);
+  assert(profile.points.every((p,i)=>Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters)&&p.distanceMeters>=0&&(!i||p.distanceMeters>=profile.points[i-1].distanceMeters)));
+  assert(Math.abs(profile.points.at(-1).distanceMeters-metres)<Math.max(30,metres*.02),'고도표본 전체 코스 커버');
+  ready.push(route.id);
  }else{
-  assert.equal(route.geometryStatus,'unverified','가짜 완성경로 금지');
-  assert.equal(route.profileStatus,'unverified','가짜 전체 고도그래프 금지');
-  assert.equal(route.geometryFile,null);
-  assert.equal(route.profileFile,null);
+  assert.equal(route.geometryStatus,'unverified','부분 완료를 검증 완료로 표기 금지');
+  assert.equal(route.profileStatus,'unverified','부분 완료를 검증 완료로 표기 금지');
+  assert.equal(route.geometryFile,null,'미검증 코스 가짜 선형 금지');
+  assert.equal(route.profileFile,null,'미검증 코스 가짜 고도 금지');
  }
 }
+assert(ready.includes('s3'),'2018 오색 원본 회귀 테스트 보존');
 const geo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8'));
 const dem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));
 const source=JSON.parse(readFileSync('data/knps-seorak-2018.geojson','utf8'));
@@ -56,4 +81,4 @@ new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'});
 const deploy=readFileSync('.github/workflows/deploy-pages.yml','utf8');
 assert(deploy.includes('cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/'));
 assert(deploy.includes('cp data/knps-seorak-2018.geojson data/seorak-predefined-routes.json site/data/'));
-console.log('PASS Seoraksan predefined catalog',counts,'1 original full-line DEM route validated, 22 unverified');
+console.log('PASS Seoraksan predefined catalog',counts,ready.length+' validated routes, '+(catalog.routes.length-ready.length)+' unverified');

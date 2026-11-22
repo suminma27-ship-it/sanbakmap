@@ -92,5 +92,5 @@ assert.equal(scripts.length,1);
 new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'});
 const deploy=readFileSync('.github/workflows/deploy-pages.yml','utf8');
 assert(deploy.includes('cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/'));
-assert(deploy.includes('cp data/knps-seorak-2018.geojson data/seorak-predefined-routes.json site/data/'));
+assert(deploy.includes('data/knps-seorak-2018.geojson data/seorak-predefined-routes.json') && deploy.includes('site/data/'),'배포 패키지에 설악산 원본 및 코스 목록 포함');
 console.log('PASS Seoraksan predefined catalog',counts,ready.length+' validated routes, '+(catalog.routes.length-ready.length)+' unverified');

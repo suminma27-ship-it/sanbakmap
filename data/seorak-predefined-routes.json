@@ -1,0 +1,349 @@
+{
+  "schema": "sanbak-predefined-route-catalog-v1",
+  "mountain": "설악산",
+  "mountainCode": "428302602",
+  "updated": "2026-11-22",
+  "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
+  "notes": "사용자 대표 6개 + 공단 안내를 바탕으로 한 추가 코스 + 사전정의 종주 후보. 모든 경로의 전체 GPS 형상 및 DEM 아직 미검증. 경유지 문자열은 좌표 아님. 코스 중 일부는 국립공원공단이 안내하는 전체 코스의 부분 구간 또는 조합 후보.",
+  "routes": [
+    {
+      "id": "s1",
+      "group": "대표",
+      "name": "소공원 → 비선대 → 희운각 → 대청봉",
+      "via": [
+        "소공원",
+        "비선대",
+        "양폭대피소",
+        "희운각",
+        "소청봉",
+        "대청봉"
+      ],
+      "source": "user",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "s2",
+      "group": "대표",
+      "name": "소공원 → 비선대 → 마등령 → 공룡능선 → 대청봉",
+      "via": [
+        "소공원",
+        "비선대",
+        "마등령",
+        "공룡능선",
+        "희운각",
+        "소청봉",
+        "대청봉"
+      ],
+      "source": "user",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "s3",
+      "group": "대표",
+      "name": "오색약수 → 대청봉",
+      "via": [
+        "오색",
+        "설악폭포",
+        "대청봉"
+      ],
+      "source": "user",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "s4",
+      "group": "대표",
+      "name": "십이선녀탕 → 귀때기청봉 → 대청봉",
+      "via": [
+        "남교리",
+        "십이선녀탕",
+        "대승령",
+        "귀때기청봉",
+        "대청봉"
+      ],
+      "source": "user-needs-connection-review",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "s5",
+      "group": "대표",
+      "name": "백담계곡 → 대청봉",
+      "via": [
+        "백담사",
+        "영시암",
+        "수렴동대피소",
+        "봉정암",
+        "소청봉",
+        "대청봉"
+      ],
+      "source": "user",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "s6",
+      "group": "대표",
+      "name": "한계령 → 대청봉",
+      "via": [
+        "한계령",
+        "한계령삼거리",
+        "끝청",
+        "중청",
+        "대청봉"
+      ],
+      "source": "user",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a1",
+      "group": "추가",
+      "name": "소공원 → 울산바위",
+      "via": [
+        "소공원",
+        "흔들바위",
+        "울산바위"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a2",
+      "group": "추가",
+      "name": "소공원 → 금강굴",
+      "via": [
+        "소공원",
+        "비선대",
+        "금강굴"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a3",
+      "group": "추가",
+      "name": "소공원 → 양폭대피소",
+      "via": [
+        "소공원",
+        "비선대",
+        "귀면암",
+        "양폭대피소"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a4",
+      "group": "추가",
+      "name": "소공원 → 토왕성폭포전망대",
+      "via": [
+        "소공원",
+        "육담폭포",
+        "비룡폭포",
+        "토왕성폭포전망대"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a5",
+      "group": "추가",
+      "name": "남교리 → 십이선녀탕 → 대승령 → 장수대",
+      "via": [
+        "남교리",
+        "십이선녀탕",
+        "대승령",
+        "장수대"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a6",
+      "group": "추가",
+      "name": "장수대 → 대승폭포",
+      "via": [
+        "장수대",
+        "대승폭포"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a7",
+      "group": "추가",
+      "name": "백담사 → 수렴동대피소",
+      "via": [
+        "백담사",
+        "영시암",
+        "수렴동대피소"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "a8",
+      "group": "추가",
+      "name": "오색 → 용소폭포",
+      "via": [
+        "오색",
+        "용소폭포"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t1",
+      "group": "종주",
+      "name": "한계령 → 대청봉 → 천불동 → 소공원",
+      "via": [
+        "한계령",
+        "끝청",
+        "대청봉",
+        "희운각",
+        "양폭",
+        "비선대",
+        "소공원"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t2",
+      "group": "종주",
+      "name": "소공원 → 공룡능선 → 대청봉 → 오색",
+      "via": [
+        "소공원",
+        "비선대",
+        "마등령",
+        "공룡능선",
+        "희운각",
+        "대청봉",
+        "오색"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t3",
+      "group": "종주",
+      "name": "백담사 → 대청봉 → 소공원",
+      "via": [
+        "백담사",
+        "영시암",
+        "봉정암",
+        "소청봉",
+        "대청봉",
+        "희운각",
+        "비선대",
+        "소공원"
+      ],
+      "source": "knps",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t4",
+      "group": "종주",
+      "name": "오색 → 대청봉 → 백담사",
+      "via": [
+        "오색",
+        "대청봉",
+        "소청봉",
+        "봉정암",
+        "수렴동대피소",
+        "백담사"
+      ],
+      "source": "example",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t5",
+      "group": "종주",
+      "name": "남교리 → 대승령 → 귀때기청봉 → 대청봉 → 오색",
+      "via": [
+        "남교리",
+        "십이선녀탕",
+        "대승령",
+        "귀때기청봉",
+        "끝청",
+        "대청봉",
+        "오색"
+      ],
+      "source": "example",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    }
+  ]
+}

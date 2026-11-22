@@ -34,7 +34,8 @@ jobs:
             tests/mountain-trails-leaflet-css.mjs \
             tests/mountain-trails-runtime.mjs \
             tests/mobile-gestures.mjs \
-            tests/seorak-course-sample.mjs; do
+            tests/seorak-course-sample.mjs \
+            tests/seorak-course-ui-runtime.mjs; do
             node "$file"
           done
 

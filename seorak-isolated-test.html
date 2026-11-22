@@ -2,37 +2,118 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>산박지도 · 설악산 원본 선형 독립 검증</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f2;color:#173c29;font:15px system-ui,sans-serif}header{background:#fff;padding:14px 16px;border-bottom:1px solid #ddd}main{max-width:850px;margin:auto;padding:12px}h1{font-size:20px;margin:0}p{line-height:1.5}.hint{font-size:12px;color:#5b6d60}.panel{background:white;border:1px solid #dce6dc;border-radius:12px;margin:12px 0;padding:12px}#map{width:100%;height:min(60vh,520px);min-height:320px;background:#e8efe8;border-radius:8px;touch-action:manipulation}button{font:inherit;cursor:pointer}#lines{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;max-height:240px;overflow:auto}#lines button{padding:12px;text-align:left;border:1px solid #cad8cb;border-radius:8px;background:white;min-height:44px}#lines button[aria-pressed=true]{border:2px solid #17623b;background:#e6f4e9}.notice{padding:10px;background:#edf3ec;border-radius:8px;font-size:13px}#map path{cursor:pointer}#map path:focus{outline:none;stroke:#117a46;stroke-width:5}#graph{width:100%;height:120px}a{color:#17613d}
+*{box-sizing:border-box}body{margin:0;background:#f3f6f2;color:#173c29;font:15px system-ui,sans-serif}header{background:#fff;padding:14px 16px;border-bottom:1px solid #ddd}main{max-width:850px;margin:auto;padding:12px}h1{font-size:20px;margin:0}p{line-height:1.5}.hint{font-size:12px;color:#5b6d60}.panel{background:white;border:1px solid #dce6dc;border-radius:12px;margin:12px 0;padding:12px}#map{width:100%;height:min(60vh,520px);min-height:320px;background:#e8efe8;border-radius:8px;touch-action:manipulation}button{font:inherit;cursor:pointer}#lines{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;max-height:240px;overflow:auto}#lines button{padding:12px;text-align:left;border:1px solid #cad8cb;border-radius:8px;background:white;min-height:44px}#lines button[aria-pressed=true]{border:2px solid #17623b;background:#e6f4e9}.notice{padding:10px;background:#edf3ec;border-radius:8px;font-size:13px}#map path{cursor:pointer}#map path:focus{outline:none;stroke:#117a46;stroke-width:5}#graph{width:100%;height:auto;min-height:260px;display:block;background:#fafdfa;border:1px solid #e2eae2;border-radius:8px}a{color:#17613d}
 </style></head><body>
 <header><h1>▲ 산박지도 · 설악산 독립 지도 검증</h1></header>
 <main><p class="hint">기존 앱을 수정하지 않는 별도 검증 화면. 기관 과거 수록 선형이며 현재 개방·통행 허용 여부는 확인되지 않았어.</p>
 <div class="panel"><div id="status" role="status">설악산 원본 자료 불러오는 중…</div><svg id="map" role="img" aria-label="설악산 원본 등산로 좌표 지도" viewBox="0 0 800 520"></svg><p class="hint">배경지도 없이도 원본 좌표를 표시하는 독립 SVG 지도야. 실제 지형지도는 다음 검증 단계에서 연결해.</p></div>
 <div class="panel"><strong>원본 선형 선택</strong><p class="hint">각 선형은 독립된 기관 수록 원본이야. 경유지를 연결하거나 코스를 합성하지 않아.</p><div id="lines"></div></div>
-<div class="panel"><strong id="selected">원본 선형을 선택해 줘</strong><p id="distance" class="hint"></p><svg id="graph" viewBox="0 0 600 120" aria-label="고도그래프 없음"><text x="18" y="60" fill="#62766a" font-size="16">해당 원본 등산로의 검증된 고도그래프 없음</text></svg><p class="hint">이 독립 1차 검증 화면에서는 DEM을 추정하지 않아. 검증된 ID·좌표·길이 대조가 완료되면 그래프를 연결해.</p></div>
+<div class="panel"><strong id="selected">원본 선형을 선택해 줘</strong><p id="distance" class="hint"></p><svg id="graph" viewBox="0 0 800 290" role="img" aria-label="선택된 원본 등산로 고도그래프"></svg><p id="graphnote" class="hint">고도자료 확인 중…</p></div>
 <div class="panel"><strong>설악산 5개 계획안 · 경로 미검증</strong><div id="plans"></div><p class="hint">계획안 선택은 경유지 목록 확인만 가능해. 전체 코스 선형·거리·고도는 제공하지 않아.</p></div>
 <p><a href="./mountain-trails.html">기존 전국 산 지도</a> · <a href="./index.html">산박지도 홈</a></p></main>
-<script src="./core/nationwide-source-loader.js"></script>
+<script src="./core/mountain-line-profile.js"></script>
 <script>
 (()=>{'use strict';
 const CODE='428302602', $=id=>document.getElementById(id);
+const prof=window.SanbakMountainProfiles;
 const plans=['소공원 → 비선대 → 마등령 → 공룡능선 → 희운각 → 대청봉','소공원 → 비선대 → 희운각 → 대청봉','오색약수 → 대청봉','장수대 → 귀때기청봉 → 대청봉','서북능선 → 귀때기청봉 → 대청봉'];
 plans.forEach((p,i)=>{const el=document.createElement('p');el.textContent=(i+1)+'. '+p;$('plans').append(el)});
-const rad=x=>x*Math.PI/180;
-function distance(coords){let m=0;for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=rad(b[1]-a[1]),dLon=rad(b[0]-a[0]),q=Math.sin(dLat/2)**2+Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(dLon/2)**2;m+=6371000*2*Math.atan2(Math.sqrt(q),Math.sqrt(1-q))}return m}
-async function json(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error(url+' HTTP '+r.status);return r.json()}
-function draw(lines){
-const valid=lines.filter(l=>l.coords.length>=2);if(!valid.length)throw Error('유효한 원본 선형 없음');let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;for(const line of valid)for(const p of line.coords){minX=Math.min(minX,p[0]);maxX=Math.max(maxX,p[0]);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1])}
-const centerLat=(minY+maxY)/2,scaleX=Math.cos(rad(centerLat)),dx=Math.max((maxX-minX)*scaleX,0.00001),dy=Math.max(maxY-minY,0.00001),scale=Math.min(750/dx,470/dy),ox=(800-dx*scale)/2,oy=(520-dy*scale)/2;
-const svg=$('map'),list=$('lines');svg.replaceChildren();list.replaceChildren();
-valid.forEach((line,i)=>{const d=line.coords.map((p,j)=>(j?'L':'M')+(ox+(p[0]-minX)*scaleX*scale).toFixed(2)+' '+(520-oy-(p[1]-minY)*scale).toFixed(2)).join(' ');
-const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',d);path.setAttribute('fill','none');path.setAttribute('stroke','#9db6a1');path.setAttribute('stroke-width','2');path.setAttribute('stroke-linecap','round');svg.append(path);
-const hit=document.createElementNS('http://www.w3.org/2000/svg','path');hit.setAttribute('d',d);hit.setAttribute('fill','none');hit.setAttribute('stroke','transparent');hit.setAttribute('stroke-width','16');hit.setAttribute('tabindex','0');hit.setAttribute('role','button');hit.setAttribute('aria-label','원본 선형 '+(i+1));svg.append(hit);
-const button=document.createElement('button');button.type='button';button.textContent='원본 선형 '+(i+1)+' · '+(distance(line.coords)/1000).toFixed(2)+' km';button.setAttribute('aria-pressed','false');list.append(button);
-function choose(){svg.querySelectorAll('path').forEach(p=>{if(p.getAttribute('stroke')==='#17613d'){p.setAttribute('stroke','#9db6a1');p.setAttribute('stroke-width','2')}});list.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','false'));path.setAttribute('stroke','#17613d');path.setAttribute('stroke-width','5');svg.append(path);svg.append(hit);button.setAttribute('aria-pressed','true');$('selected').textContent='원본 선형 '+(i+1)+' · '+(line.name||'기관 수록');$('distance').textContent='원본 좌표 기준 거리 '+(distance(line.coords)/1000).toFixed(2)+' km · 현재 개방 여부 미확인'}
-button.onclick=choose;hit.addEventListener('click',choose);hit.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}})
-});$('status').textContent='설악산 국립공원공단 2018년 원본 선형 '+valid.length+'개 표시 · 배경 타일 없이 좌표만 표시';
+const rad=x=>x*Math.PI/180,NS='http://www.w3.org/2000/svg';
+function el(tag,attrs={},label){
+ const node=document.createElementNS(NS,tag);
+ for(const [key,val]of Object.entries(attrs))node.setAttribute(key,String(val));
+ if(label!==undefined)node.textContent=String(label);
+ return node;
 }
-async function init(){try{const park=await json('./data/knps-seorak-2018.geojson');const data=SanbakNationwideAgency.knps(park);draw(data.lines)}catch(e){$('status').textContent='원본 등산로 표시 실패: '+e.message;$('lines').textContent='자료를 불러오지 못했어. 네트워크와 원본 파일을 확인해 줘.';console.error(e)}}
+async function json(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error(url+' HTTP '+r.status);return r.json()}
+function graph(result){
+ const svg=$('graph');svg.replaceChildren();svg.setAttribute('viewBox','0 0 800 290');
+ if(result.status!=='ready'){
+  svg.append(el('text',{x:24,y:135,fill:'#62766a','font-size':18},result.note||'검증된 고도자료가 없어'));
+  $('graphnote').textContent='원본 선형과 연결된 DEM 고도표본이 검증되지 않으면 추정 그래프를 그리지 않아.';
+  return;
+ }
+ const points=result.points, left=65,right=775,top=20,bottom=230;
+ const min=Math.floor((result.minimumMeters-35)/100)*100;
+ const max=Math.ceil((result.maximumMeters+35)/100)*100;
+ const high=max>min?max:min+100, span=Math.max(1,result.distanceMeters);
+ const x=d=>left+(d/span)*(right-left);
+ const y=z=>bottom-(z-min)/(high-min)*(bottom-top);
+ for(let i=0;i<=4;i++){
+  const h=min+(high-min)*i/4,Y=y(h);
+  svg.append(el('line',{x1:left,y1:Y,x2:right,y2:Y,stroke:'#dce7dc','stroke-width':1}));
+  svg.append(el('text',{x:left-10,y:Y+5,'text-anchor':'end',fill:'#506757','font-size':13},Math.round(h).toLocaleString('ko-KR')));
+ }
+ for(let i=0;i<=4;i++){
+  const d=span*i/4,X=x(d);
+  svg.append(el('line',{x1:X,y1:bottom,x2:X,y2:bottom+6,stroke:'#6f8475','stroke-width':1}));
+  svg.append(el('text',{x:X,y:bottom+26,'text-anchor':'middle',fill:'#506757','font-size':13},(d/1000).toFixed(1)));
+ }
+ const d=points.map((p,i)=>(i?'L':'M')+x(p.distanceMeters).toFixed(2)+' '+y(p.elevationMeters).toFixed(2)).join(' ');
+ svg.append(el('path',{d:d+' L'+x(span).toFixed(2)+' '+bottom+' L'+left+' '+bottom+' Z',fill:'#ccead7',opacity:.65}));
+ svg.append(el('path',{d,fill:'none',stroke:'#146b44','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'}));
+ for(const p of [points[0],points[points.length-1]]){
+  svg.append(el('circle',{cx:x(p.distanceMeters),cy:y(p.elevationMeters),r:4,fill:'#146b44',stroke:'#fff','stroke-width':2}));
+ }
+ svg.append(el('text',{x:14,y:16,fill:'#506757','font-size':12},'고도 (m)'));
+ svg.append(el('text',{x:right,y:279,'text-anchor':'end',fill:'#506757','font-size':13},'누적 거리 (km)'));
+ $('graphnote').textContent='원본 선형과 ID·좌표 구간·길이를 대조한 DEM 90m 간격 표본 · 최저 '+Math.round(result.minimumMeters).toLocaleString('ko-KR')+'m / 최고 '+Math.round(result.maximumMeters).toLocaleString('ko-KR')+'m · 수직기준 미기재 · 현재 개방 여부 미확인';
+}
+function draw(lines,packed,demError){
+ const valid=lines.filter(l=>Array.isArray(l.coords)&&l.coords.length>=2);
+ if(!valid.length)throw Error('유효한 원본 선형 없음');
+ let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+ for(const line of valid)for(const p of line.coords){minX=Math.min(minX,p[0]);maxX=Math.max(maxX,p[0]);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1])}
+ const scaleX=Math.cos(rad((minY+maxY)/2)),dx=Math.max((maxX-minX)*scaleX,.00001),dy=Math.max(maxY-minY,.00001);
+ const scale=Math.min(750/dx,470/dy),ox=(800-dx*scale)/2,oy=(520-dy*scale)/2;
+ const svg=$('map'),list=$('lines');svg.replaceChildren();list.replaceChildren();
+ const results=valid.map(line=>prof.profile(line,packed));
+ const ready=results.filter(r=>r.status==='ready').length;
+ const select=[];
+ valid.forEach((line,i)=>{
+  const d=line.coords.map((p,j)=>(j?'L':'M')+(ox+(p[0]-minX)*scaleX*scale).toFixed(2)+' '+(520-oy-(p[1]-minY)*scale).toFixed(2)).join(' ');
+  const path=el('path',{d,fill:'none',stroke:'#9db6a1','stroke-width':2,'stroke-linecap':'round'});
+  const hit=el('path',{d,fill:'none',stroke:'transparent','stroke-width':16,tabindex:0,role:'button','aria-label':'원본 선형 '+(i+1)+' 고도그래프 선택'});
+  svg.append(path,hit);
+  const button=document.createElement('button');button.type='button';
+  const metres=prof.lengthOf(line.coords);
+  button.textContent=(i+1)+'. '+line.recordName+' · '+(metres/1000).toFixed(2)+' km'+(results[i].status==='ready'?' · 고도 ✓':' · 고도 없음');
+  button.setAttribute('aria-pressed','false');list.append(button);
+  function choose(){
+   for(const item of select){item.path.setAttribute('stroke','#9db6a1');item.path.setAttribute('stroke-width','2');item.button.setAttribute('aria-pressed','false')}
+   path.setAttribute('stroke','#17613d');path.setAttribute('stroke-width','5');svg.append(path,hit);
+   button.setAttribute('aria-pressed','true');
+   $('selected').textContent='선택: '+line.recordName+' · 원본 선형 '+(i+1);
+   $('distance').textContent='원본 좌표 거리 '+(metres/1000).toFixed(2)+' km · 원본 개별 선형 (소공원→대청봉 전체 코스로 연결한 것이 아님)';
+   graph(results[i]);
+  }
+  select.push({path,button,choose,metres});
+  button.addEventListener('click',choose);
+  hit.addEventListener('click',choose);
+  hit.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}});
+ });
+ $('status').textContent='설악산 국립공원공단 2018년 원본 선형 '+valid.length+'개 표시 · DEM 고도그래프 '+ready+'개 대응'+(demError?' · 고도자료 요청 오류: '+demError:'');
+ $('map').setAttribute('aria-label','설악산 원본 선형 '+valid.length+'개. 목록에서 선택하면 고도그래프 표시');
+ // Load with a substantial example selected, rather than a 200m fragment.
+ let longest=0;for(let i=1;i<select.length;i++)if(select[i].metres>select[longest].metres)longest=i;
+ select[longest].choose();
+}
+async function init(){
+ try{
+  if(!prof)throw Error('고도그래프 프로그램 로드 실패');
+  const park=await json('./data/knps-seorak-2018.geojson');
+  const lines=prof.parkLines(park,CODE);
+  let packed=null,demError='';
+  try{packed=await json('./data/nationwide-elevation/seorak-knps-v108.json')}
+  catch(err){demError=err.message;console.warn('DEM 로드 실패',err)}
+  draw(lines,packed,demError);
+ }catch(err){
+  $('status').textContent='원본 등산로 표시 실패: '+err.message;
+  $('lines').textContent='원본 파일과 프로그램 연결을 확인해 줘.';
+  graph({status:'unavailable',note:err.message});
+  console.error(err);
+ }
+}
 init();
 })();
 </script></body></html>

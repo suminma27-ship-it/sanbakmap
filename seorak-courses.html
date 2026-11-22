@@ -160,8 +160,11 @@ async function loadVerified(route,generation){
  if(!Array.isArray(coords)||coords.length<2||coords.some(c=>!Array.isArray(c)||!Number.isFinite(c[0])||!Number.isFinite(c[1])||c[0]<124||c[0]>132||c[1]<33||c[1]>40))throw Error('경로 좌표 오류');
  if(!Array.isArray(profile.points)||profile.points.length<2||!Number.isFinite(profile.totalMeters)||profile.totalMeters<=0)throw Error('고도표본 오류');
  if(!Number.isFinite(profile.points[0].distanceMeters)||Math.abs(profile.points[0].distanceMeters)>30)throw Error('고도표본 시작점 누락');
- const R=6371008.8,rad=Math.PI/180;let metres=0;
- for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad,h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
+ const R=6371008.8,rad=Math.PI/180;let metres=0,maxStep=0;
+ for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad,h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;const step=2*R*Math.asin(Math.min(1,Math.sqrt(h)));metres+=step;maxStep=Math.max(maxStep,step)}
+ // A long unrecorded leap is not a continuous walking track even when total distance and DEM agree.
+ // Require densified source geometry instead of silently drawing a straight-line shortcut.
+ if(maxStep>500)throw Error('원본 경로 좌표 간 500m 초과 공백 발견: 연속 탐방로 검증 필요');
  if(Math.abs(metres-profile.totalMeters)>Math.max(30,metres*.02))throw Error('경로 거리와 고도표본 거리 불일치');
  if(profile.points.some((p,i)=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)||p.distanceMeters<0||(i&&p.distanceMeters<profile.points[i-1].distanceMeters)))throw Error('고도표본 값 오류');
  if(Math.abs(profile.points.at(-1).distanceMeters-metres)>Math.max(30,metres*.02))throw Error('고도표본 끝점 누락');

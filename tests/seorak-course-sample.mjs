@@ -75,6 +75,11 @@ assert(Math.abs(dem.totalMeters-distance)<1);
 assert(Math.abs(dem.points.at(-1).distanceMeters-distance)<1);
 const page=readFileSync('seorak-courses.html','utf8');
 for(const str of ['./data/seorak-predefined-routes.json','./data/knps-seorak-2018.geojson','id="gate"','LNT','loadReference()','id="graph"'])assert(page.includes(str),'설악산 샘플 기능 누락: '+str);
+// Route labels must follow selected catalog metadata, not stay hard-coded to Osaek.
+assert(page.includes("const startLabel=route.via[0],endLabel=route.via.at(-1)"));
+assert(page.includes("bindTooltip(startLabel+' (원본 출발점)'"));
+assert(page.includes("bindTooltip(endLabel+' (원본 종점)'"));
+assert(page.includes("[[a,startLabel,17],[b,endLabel,-12]]"));
 const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
 assert.equal(scripts.length,1);
 new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'});

@@ -30,9 +30,9 @@ const hit=document.createElementNS('http://www.w3.org/2000/svg','path');hit.setA
 const button=document.createElement('button');button.type='button';button.textContent='원본 선형 '+(i+1)+' · '+(distance(line.coords)/1000).toFixed(2)+' km';button.setAttribute('aria-pressed','false');list.append(button);
 function choose(){svg.querySelectorAll('path').forEach(p=>{if(p.getAttribute('stroke')==='#17613d'){p.setAttribute('stroke','#9db6a1');p.setAttribute('stroke-width','2')}});list.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','false'));path.setAttribute('stroke','#17613d');path.setAttribute('stroke-width','5');svg.append(path);svg.append(hit);button.setAttribute('aria-pressed','true');$('selected').textContent='원본 선형 '+(i+1)+' · '+(line.name||'기관 수록');$('distance').textContent='원본 좌표 기준 거리 '+(distance(line.coords)/1000).toFixed(2)+' km · 현재 개방 여부 미확인'}
 button.onclick=choose;hit.addEventListener('click',choose);hit.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}})
-});$('status').textContent='설악산 기관 수록 원본 선형 '+valid.length+'개 표시 · 배경 타일 없이 좌표만 표시';
+});$('status').textContent='설악산 국립공원공단 2018년 원본 선형 '+valid.length+'개 표시 · 배경 타일 없이 좌표만 표시';
 }
-async function init(){try{const idx=SanbakNationwideAgency.index(await json('./data/nationwide/index.json')),entry=idx.mountains[CODE];if(!entry)throw Error('설악산 산코드 미등록');const bucket=await json('./data/nationwide/bucket-'+entry.bucket+'.json');const data=SanbakNationwideAgency.agency(bucket,CODE);draw(data.lines)}catch(e){$('status').textContent='원본 등산로 표시 실패: '+e.message;$('lines').textContent='자료를 불러오지 못했어. 네트워크와 원본 파일을 확인해 줘.';console.error(e)}}
+async function init(){try{const park=await json('./data/knps-seorak-2018.geojson');const data=SanbakNationwideAgency.knps(park);draw(data.lines)}catch(e){$('status').textContent='원본 등산로 표시 실패: '+e.message;$('lines').textContent='자료를 불러오지 못했어. 네트워크와 원본 파일을 확인해 줘.';console.error(e)}}
 init();
 })();
 </script></body></html>

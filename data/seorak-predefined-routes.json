@@ -4,7 +4,7 @@
   "mountainCode": "428302602",
   "updated": "2026-11-22",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "사용자 대표 6개 + 공단 안내를 바탕으로 한 추가 코스 + 사전정의 종주 후보. 모든 경로의 전체 GPS 형상 및 DEM 아직 미검증. 경유지 문자열은 좌표 아님. 코스 중 일부는 국립공원공단이 안내하는 전체 코스의 부분 구간 또는 조합 후보.",
+  "notes": "사용자 지정 대청봉 코스 6개, 국립공원공단 안내 추가 코스 9개, 종주·횡단 유형 8개로 구분. 종주는 사전 등록할 후보 유형으로 공단 정식 상품 코스명과 구분한다. 모든 완성 GPS 경로 및 해당 전체 DEM 미검증. 경유지 텍스트는 좌표가 아니다. 2026-11-15~12-15 일부 고지대 탐방로 통제 공고(출입 전 공단 최신 정보 확인).",
   "routes": [
     {
       "id": "s1",
@@ -13,7 +13,9 @@
       "via": [
         "소공원",
         "비선대",
+        "귀면암",
         "양폭대피소",
+        "무너미고개",
         "희운각",
         "소청봉",
         "대청봉"
@@ -70,6 +72,8 @@
         "십이선녀탕",
         "대승령",
         "귀때기청봉",
+        "한계령삼거리",
+        "끝청",
         "대청봉"
       ],
       "source": "user-needs-connection-review",
@@ -77,7 +81,8 @@
       "geometryFile": null,
       "profileStatus": "unverified",
       "profileFile": null,
-      "accessStatus": "unknown"
+      "accessStatus": "unknown",
+      "notes": "십이선녀탕에서 귀때기청봉 방면은 대승령을 경유하는 서북능선 장거리 코스"
     },
     {
       "id": "s5",
@@ -344,6 +349,91 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown"
+    },
+    {
+      "id": "a9",
+      "group": "추가",
+      "name": "백담탐방지원센터 → 백담사",
+      "via": [
+        "백담탐방지원센터",
+        "백담사"
+      ],
+      "source": "knps",
+      "notes": "국립공원공단 백담사코스",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t6",
+      "group": "종주",
+      "name": "서북능선 횡단 · 한계령 → 장수대",
+      "via": [
+        "한계령",
+        "한계령삼거리",
+        "귀때기청봉",
+        "대승령",
+        "장수대"
+      ],
+      "source": "mountaineering",
+      "notes": "서북능선 단축 횡단. 산악회와 국립공원공단 안내도 대조",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t7",
+      "group": "종주",
+      "name": "공룡능선 원점회귀 · 소공원 → 소공원",
+      "via": [
+        "소공원",
+        "비선대",
+        "마등령",
+        "공룡능선",
+        "무너미고개",
+        "천불동계곡",
+        "비선대",
+        "소공원"
+      ],
+      "source": "mountaineering",
+      "notes": "공룡능선과 천불동계곡을 잇는 회귀 형태",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
+    },
+    {
+      "id": "t8",
+      "group": "종주",
+      "name": "설악대종주 · 남교리 → 소공원",
+      "via": [
+        "남교리",
+        "십이선녀탕",
+        "대승령",
+        "귀때기청봉",
+        "한계령삼거리",
+        "끝청",
+        "대청봉",
+        "소청봉",
+        "희운각",
+        "공룡능선",
+        "마등령",
+        "비선대",
+        "소공원"
+      ],
+      "source": "mountaineering",
+      "notes": "산악계 설악대종주 한 형태. 종주 명칭·방향은 산악회별 차이",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown"
     }
-  ]
+  ],
+  "officialMapReference": "https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400"
 }

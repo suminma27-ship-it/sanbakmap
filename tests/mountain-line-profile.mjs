@@ -33,6 +33,13 @@ assert(page.includes("layer.setStyle(selected?{color:'#145d3e'"),
 assert(page.includes("{color:'#9aac9d',weight:3,opacity:.67}"),
  '선택되지 않은 원본 등산로는 연하게 표시해야 함');
 
+const isolated=readFileSync('seorak-isolated-test.html','utf8');
+assert(isolated.includes('./core/mountain-line-profile.js'),'독립 테스트의 고도 엔진 누락');
+assert(isolated.includes('./data/nationwide-elevation/seorak-knps-v108.json'),'독립 테스트의 DEM 자료 연결 누락');
+assert(isolated.includes('prof.parkLines(park,CODE)')&&isolated.includes('prof.profile(line,packed)'),'원본 선형과 검증된 DEM 연결 누락');
+const isolatedScripts=[...isolated.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
+assert.equal(isolatedScripts.length,1,'독립 테스트 스크립트 구조 오류');
+for(const script of isolatedScripts)new vm.Script(script,{filename:'seorak-isolated-test:inline.js'});
 const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
 assert.equal(scripts.length,1);
 for(const s of scripts)new vm.Script(s,{filename:'mountain-trails:inline.js'});

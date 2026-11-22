@@ -63,4 +63,30 @@ await settle();
 assert.equal(elements.title.textContent,'오색약수 → 대청봉');
 assert.equal(graphPaths(),1,'오색 코스 복귀 시 그래프 재표시');
 assert.equal(elements.mapState.hidden,true,'그래프 표시 완료 후 지도 로딩 안내 숨김');
+// Regression: reference GeoJSON may arrive after the verified route and must not
+// replace its fallback SVG with the pale 21-piece background.
+let releaseReference;
+const delayedReference=new Promise(resolve=>{releaseReference=resolve});
+const raceElements=Object.fromEntries(ids.map(id=>[id,new Element('div',id)]));
+const raceTabs=['대청봉','기타코스','종주코스'].map(group=>{const button=new Element('button');button.dataset.group=group;return button});
+const raceDoc={
+ body:new Element('body'),
+ getElementById:id=>raceElements[id]||(raceElements[id]=new Element('div',id)),
+ createElement:tag=>new Element(tag),
+ createElementNS:(namespace,tag)=>new Element(tag),
+ querySelectorAll:query=>query==='.tab'?raceTabs:[],
+ querySelector:query=>query==='#map'?raceElements.map:null
+};
+const delayedFetch=async path=>path==='./data/knps-seorak-2018.geojson'
+ ? delayedReference
+ : fetch(path);
+new vm.Script(scripts[0],{filename:'seorak-courses:race.js'}).runInNewContext({document:raceDoc,window:{L:null},fetch:delayedFetch,console});
+await settle();
+assert.match(raceElements.status.textContent,/2018년 국립공원공단/);
+const before=raceElements.map.children[0];
+assert(before&&before.children.some(n=>n.tagName==='path'&&n.attrs.stroke==='#146b3e'));
+releaseReference(await fetch('./data/knps-seorak-2018.geojson'));
+await settle();
+assert.equal(raceElements.map.children[0],before,'늦은 참고선형이 선택된 완성 코스 지도를 덮으면 안 됨');
+assert.equal(raceElements.graph.children.filter(n=>n.tagName==='path').length,1);
 console.log('PASS Seoraksan route UI: real Osaek distance+DEM, unverified Kongryong warning, one-click return, SVG fallback');

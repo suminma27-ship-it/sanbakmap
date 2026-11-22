@@ -27,7 +27,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <div class="warning"><strong>설악산 기능 샘플: 23개 등록 · 오색→대청봉 1개 과거 원본 선형·고도 검증</strong><div>원본 등산로 21개는 연한 참고 선형으로 표시하고, 오색→대청봉 1개만 검증된 과거 원본을 진하게 표시해. 나머지 22개는 아직 경로·고도그래프를 표시하지 않아.</div><div>2026년 11월 15일~12월 15일 고지대 주요 탐방로 통제 공고가 있으니, 방문 전 공단의 최신 출입통제 현황을 확인해 줘.</div></div>
 <div class="layout">
 <section><div class="sectionhead"><strong>코스 선택</strong><div class="muted" id="count">목록 불러오는 중…</div></div>
-<div class="tabs" id="tabs"><button class="tab" data-group="대표" aria-pressed="true">대표 코스</button><button class="tab" data-group="추가" aria-pressed="false">추가 코스</button><button class="tab" data-group="종주" aria-pressed="false">종주 코스</button></div>
+<div class="tabs" id="tabs"><button class="tab" data-group="대청봉" aria-pressed="true">대청봉</button><button class="tab" data-group="기타코스" aria-pressed="false">기타코스</button><button class="tab" data-group="종주코스" aria-pressed="false">종주코스</button></div>
 <div id="courses" aria-label="설악산 완성 코스 후보 목록"></div></section>
 <section><div class="sectionhead"><strong id="title">코스를 선택해 줘</strong></div>
 <div class="mapwrap"><div id="map" aria-label="설악산 역사적 원본 선형 참고 지도. 대표코스 전체 경로는 아직 미등록."><div id="fallback">지도 라이브러리를 불러오지 못했어.</div></div><div id="mapState" class="map-state" role="status">코스 데이터 확인 중</div></div>
@@ -42,7 +42,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-let catalog=null,selected=null,group='대표',map=null,layer=null,referenceLayer=null,referencePaths=[];
+let catalog=null,selected=null,group='대청봉',map=null,layer=null,referenceLayer=null,referencePaths=[];
 function isReady(route){return route?.geometryStatus==='verified'&&Boolean(route.geometryFile)&&route.profileStatus==='verified'&&Boolean(route.profileFile)}
 function showMapState(text){$('mapState').hidden=!text;if(text)$('mapState').textContent=text}
 function trySample(){const sample=catalog?.routes.find(isReady);if(!sample){$('status').textContent='현재 전체 경로·고도자료가 검증된 코스가 없어.';return}group=sample.group;choose(sample);document.querySelector('#map').scrollIntoView?.({block:'nearest',behavior:'smooth'})}

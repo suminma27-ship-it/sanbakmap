@@ -4,7 +4,7 @@
   "mountainCode": "428302602",
   "updated": "2026-11-22",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "사용자 지정 대청봉 코스 6개, 국립공원공단 안내 추가 코스 9개, 종주·횡단 유형 8개로 구분. 종주는 사전 등록할 후보 유형으로 공단 정식 상품 코스명과 구분한다. 모든 완성 GPS 경로 및 해당 전체 DEM 미검증. 경유지 텍스트는 좌표가 아니다. 2026-11-15~12-15 일부 고지대 탐방로 통제 공고(출입 전 공단 최신 정보 확인).",
+  "notes": "23개 사전 정의 코스(대표 6개, 추가 9개, 종주·횡단 8개) 중 오색→대청봉 1개만 기관 2018년 원본 연속 선형+90m DEM 표본 연결 검증. 2018년 선형 계산거리와 2026 안내거리는 차이 있음. 나머지 22개 전체 GPS/DEM 미등록. 현재 통행 가능성 아님.",
   "routes": [
     {
       "id": "s1",
@@ -56,12 +56,13 @@
         "설악폭포",
         "대청봉"
       ],
-      "source": "user",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 선형시설 2018년 (출발점·대청봉 종점 일치, 원본 단일 선형) + DEM v108",
+      "geometryStatus": "verified",
+      "geometryFile": "./data/seorak-osaek-daecheong-2018.geojson",
+      "profileStatus": "verified",
+      "profileFile": "./data/seorak-osaek-daecheong-dem.json",
+      "accessStatus": "unknown",
+      "notes": "2018년 원본 선형으로 4.59km, 2026년 국립공원공단 안내 편도 5.0km. 역사적 GIS 선형/DEM 정합 확인. 현행 구간 개방·노면 상태 미검증."
     },
     {
       "id": "s4",

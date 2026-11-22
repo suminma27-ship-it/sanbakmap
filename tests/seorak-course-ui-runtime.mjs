@@ -1,0 +1,66 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+
+// Minimal DOM exercise of the deployed entrypoint with the real checked-in
+// catalog, KNPS source line and DEM. No invented course geometry.
+class Element {
+ constructor(tag='div',id=''){this.tagName=tag;this.id=id;this.children=[];this.style={};this.dataset={};this.attrs={};this.hidden=false;this.textContent='';this.listeners={};this.parentNode=null}
+ append(...args){for(const child of args){this.children.push(child);if(child instanceof Element)child.parentNode=this}}
+ replaceChildren(...args){this.children=[];this.append(...args)}
+ setAttribute(k,v){this.attrs[k]=String(v)}
+ getAttribute(k){return this.attrs[k]}
+ addEventListener(k,callback){this.listeners[k]=callback}
+ scrollIntoView(){}
+}
+const ids=['map','fallback','graph','title','via','distance','status','count','courses','tryVerified','mapState','gate','agree','decline'];
+const elements=Object.fromEntries(ids.map(id=>[id,new Element('div',id)]));
+const tabs=['대표','추가','종주'].map(group=>{const button=new Element('button');button.dataset.group=group;return button});
+const document={
+ body:new Element('body'),
+ getElementById:id=>elements[id]||(elements[id]=new Element('div',id)),
+ createElement:tag=>new Element(tag),
+ createElementNS:(namespace,tag)=>new Element(tag),
+ querySelectorAll:query=>query==='.tab'?tabs:[],
+ querySelector:query=>query==='#map'?elements.map:null
+};
+const source=readFileSync('seorak-courses.html','utf8');
+const scripts=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(Boolean);
+assert.equal(scripts.length,1);
+const files={
+ './data/seorak-predefined-routes.json':'data/seorak-predefined-routes.json',
+ './data/knps-seorak-2018.geojson':'data/knps-seorak-2018.geojson',
+ './data/seorak-osaek-daecheong-2018.geojson':'data/seorak-osaek-daecheong-2018.geojson',
+ './data/seorak-osaek-daecheong-dem.json':'data/seorak-osaek-daecheong-dem.json'
+};
+const fetch=async path=>{
+ if(!Object.hasOwn(files,path))return {ok:false,status:404};
+ return {ok:true,status:200,json:async()=>JSON.parse(readFileSync(files[path],'utf8'))};
+};
+new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'}).runInNewContext({document,window:{L:null},fetch,console});
+const settle=async()=>{for(let i=0;i<40;i++)await Promise.resolve()};
+await settle();
+const graphPaths=()=>elements.graph.children.filter(n=>n.tagName==='path').length;
+assert.equal(elements.title.textContent,'오색약수 → 대청봉','준비된 코스가 첫 선택이어야 함');
+assert.match(elements.status.textContent,/2018년 국립공원공단/);
+assert.match(elements.distance.textContent,/4\.59 km/);
+assert.equal(graphPaths(),1,'원본 DEM 실제 SVG 선형이 표시돼야 함');
+assert.equal(elements.tryVerified.hidden,true);
+assert.equal(elements.mapState.hidden,true);
+assert(elements.map.children.length,'Leaflet 미연결이어도 fallback 선형 지도 렌더링');
+const firstList=elements.courses.children;
+assert.equal(firstList.length,6);
+assert(firstList[2].dataset.ready==='true','오색 코스 준비 마크');
+firstList[1].onclick(); // User's screenshot: Kongryong ridge without validated complete track.
+await settle();
+assert.equal(elements.title.textContent,'소공원 → 비선대 → 마등령 → 공룡능선 → 대청봉');
+assert.equal(graphPaths(),0,'미확인 전체코스의 허위 고도그래프 금지');
+assert.match(elements.status.textContent,/미구현 코스/);
+assert.equal(elements.tryVerified.hidden,false);
+assert.equal(elements.mapState.hidden,false);
+elements.tryVerified.listeners.click();
+await settle();
+assert.equal(elements.title.textContent,'오색약수 → 대청봉');
+assert.equal(graphPaths(),1,'오색 코스 복귀 시 그래프 재표시');
+assert.equal(elements.mapState.hidden,true,'그래프 표시 완료 후 지도 로딩 안내 숨김');
+console.log('PASS Seoraksan route UI: real Osaek distance+DEM, unverified Kongryong warning, one-click return, SVG fallback');

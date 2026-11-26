@@ -57,6 +57,15 @@ assert.match(elements.catalogDescription.textContent,/[01]개는 경로 또는 �
 assert.match(elements.status.textContent,/2018년 국립공원공단/);
 assert.match(elements.distance.textContent,/4\.59 km/);
 assert.equal(graphPaths(),1,'원본 DEM 실제 SVG 선형이 표시돼야 함');
+const namedDots=()=>elements.graph.children.filter(n=>n.tagName==='circle'&&n.attrs['data-poi']);
+assert(namedDots().length>=1,'오색 설악폭포 위치와 DEM 연결');
+const firstDot=namedDots()[0];
+firstDot.listeners.click();
+assert.match(elements.poiFocus.textContent,/설악폭포/);
+assert.equal(firstDot.attrs.fill,'#b64d19');
+assert(elements.poiList.children.some(n=>n.attrs['aria-pressed']==='true'),'경유지 선택 연동');
+assert(elements.map.children[0].children.some(n=>n.attrs['data-poi']===firstDot.attrs['data-poi']&&n.attrs.fill==='#b64d19'),'지도 동일 경유지 강조');
+
 assert.equal(elements.tryVerified.hidden,true);
 assert.equal(elements.mapState.hidden,true);
 assert(elements.map.children.length,'Leaflet 미연결이어도 fallback 선형 지도 렌더링');

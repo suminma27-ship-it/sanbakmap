@@ -17,7 +17,7 @@ button{font:inherit;cursor:pointer}.tab{border:1px solid #cdded0;background:#fff
 .course strong{display:block;font-size:13px}.course small{display:block;margin-top:5px;line-height:1.5}.course[data-ready=true]{border-left:4px solid #1b7a4a}.course[data-ready=false]{border-left:4px solid #d4ddd3}.testing{width:100%;padding:12px;background:#196c44;color:#fff;border:0;border-radius:9px;font-weight:700;min-height:44px}.testing:focus-visible{outline:3px solid #88c5a3}.mapwrap{position:relative}.map-state{position:absolute;left:12px;right:12px;top:14px;z-index:900;pointer-events:none;background:#fffef2f5;border:1px solid #d9bc62;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;box-shadow:0 3px 8px #0002}.map-state[hidden]{display:none}
 #map{height:430px;background:#e9f1e9;overflow:hidden}#map > svg{display:block;width:100%;height:100%}#fallback{display:none;padding:30px}
 .detail{padding:14px;display:grid;gap:9px}.basemaps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 14px;background:#fff;border-bottom:1px solid #e3ebe4}.basemaps button{padding:7px 12px;border:1px solid #b7cebd;border-radius:7px;background:white}.basemaps button[aria-pressed=true]{background:#216e45;color:white}.basemaps .muted{font-size:12px}.info{padding:10px;border:1px solid #e3ebe4;border-radius:8px;background:#f8faf8;font-size:13px}
-#graph{width:100%;height:195px;border:1px solid #e2e9e2;border-radius:9px;background:#fafcfa}
+#graph{width:100%;height:235px;border:1px solid #e2e9e2;border-radius:9px;background:#fafcfa}.poi-chip{border:1px solid #c5d8c9;background:white;border-radius:7px;padding:7px 10px;font-size:12px}.poi-chip[aria-pressed=true]{background:#196c44;color:white}.poi-list{display:flex;gap:6px;flex-wrap:wrap}.poi-mark{cursor:pointer}.poi-mark:focus{outline:2px solid #196c44}
 a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#fff9e6;border:1px solid #e7d9a2;border-radius:10px;font-size:13px;margin:10px 0 14px;line-height:1.6}.gate{position:fixed;inset:0;z-index:5000;background:#122a21ee;display:grid;place-items:center;padding:15px}.gate[hidden]{display:none}.gate-card{background:white;border-radius:15px;padding:20px;max-width:510px;width:100%}.gate-card ol{font-size:13px;line-height:1.7;padding-left:24px}.gate-actions{display:flex;gap:8px}.gate-actions button{flex:1;border:1px solid #a6bdab;border-radius:8px;background:white;padding:11px}.gate-actions button:last-child{background:#216e45;color:white}
 @media(max-width:750px){.layout{grid-template-columns:1fr}#courses{max-height:300px}#map{height:330px}}
 </style></head>
@@ -36,13 +36,13 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <div class="info" id="distance">전체 거리: 검증 전</div><button class="testing" id="tryVerified" type="button">실제 경로·고도그래프 확인: 오색 → 대청봉</button>
 <h3 style="margin:4px 0 0;font-size:15px">코스 고도그래프</h3>
 <svg id="graph" viewBox="0 0 700 195" role="img" aria-label="코스 전체 고도그래프"></svg>
-<div id="source"><a href="https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&amp;parkId=120400&amp;parkNavGb=guide&amp;vcursId=120400V015" target="_blank" rel="noopener">국립공원공단 설악산 탐방코스</a> · <a href="https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400" target="_blank" rel="noopener">2026년 공단 탐방 안내도</a> · <a href="./seorak-isolated-test.html">개별 원본 21개 고도 확인</a> · 백담사 진입도로 고도: <a href="https://open-meteo.com/en/docs/elevation-api" target="_blank" rel="noopener">Copernicus GLO-90 / Open-Meteo</a> (자료 확보 시) · 실제 개방 및 통제는 방문 전 별도 확인</div>
+<div id="poiFocus" class="info" role="status">경유지 위치는 참고값</div><div id="poiList" class="poi-list" aria-label="지도와 고도그래프 연결 경유지"></div><div id="source"><a href="https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&amp;parkId=120400&amp;parkNavGb=guide&amp;vcursId=120400V015" target="_blank" rel="noopener">국립공원공단 설악산 탐방코스</a> · <a href="https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400" target="_blank" rel="noopener">2026년 공단 탐방 안내도</a> · <a href="./seorak-isolated-test.html">개별 원본 21개 고도 확인</a> · 백담사 진입도로 고도: <a href="https://open-meteo.com/en/docs/elevation-api" target="_blank" rel="noopener">Copernicus GLO-90 / Open-Meteo</a> (자료 확보 시) · 주요지점 참고 위치: © OpenStreetMap contributors / GeoNames · 실제 개방 및 통제는 방문 전 별도 확인</div>
 </div></section></div></main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-let catalog=null,selected=null,group='대청봉',map=null,layer=null,referenceLayer=null,referencePaths=[],baseLayer=null,baseMode='normal';let selectionGeneration=0;
+let catalog=null,selected=null,group='대청봉',map=null,layer=null,referenceLayer=null,referencePaths=[],baseLayer=null,baseMode='normal';let selectionGeneration=0;let activePoi=[],poiMap=new Map(),poiGraph=new Map(),poiButtons=new Map();
 function hasGeometry(r){return Boolean(r?.geometryFile)&&['verified','reference'].includes(r.geometryStatus)}
 function hasProfile(r){return Boolean(r?.profileFile)&&['verified','reference'].includes(r.profileStatus)}
 function isReady(r){return hasGeometry(r)&&hasProfile(r)}
@@ -76,7 +76,7 @@ function mapInit(){
  map=L.map('map',{zoomControl:true}).setView([38.12,128.45],10);
  setBase(baseMode);
 }
-function refSvg(paths,warning,highlight=false,endpointNames=null){
+function refSvg(paths,warning,highlight=false,endpointNames=null,markers=[]){
  const root=$('map');root.replaceChildren();
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 900 550');svg.setAttribute('role','img');svg.setAttribute('aria-label','설악산 공단 과거 등산로 좌표 참고도');
  const back=document.createElementNS(svg.namespaceURI,'rect');back.setAttribute('width','900');back.setAttribute('height','550');back.setAttribute('fill','#e7f0e7');svg.append(back);
@@ -96,6 +96,13 @@ function refSvg(paths,warning,highlight=false,endpointNames=null){
    label.setAttribute('font-size','17');label.setAttribute('font-weight','700');label.setAttribute('fill','#12492d');
    label.textContent=name;svg.append(label);
   }
+ }
+ for(const marker of markers){
+  const [lon,lat]=marker.routeCoord,cx=ox+(lon-left)*cos*scale,cy=550-oy-(lat-bottom)*scale;
+  const dot=document.createElementNS(svg.namespaceURI,'circle');
+  dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('r','6');dot.setAttribute('fill','#e9a13b');dot.setAttribute('stroke','#fff');dot.setAttribute('stroke-width','2');dot.setAttribute('data-poi',marker.id);dot.setAttribute('tabindex','0');dot.setAttribute('role','button');dot.setAttribute('aria-label',marker.label);
+  dot.addEventListener('click',()=>focusPoi(marker.id));dot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')focusPoi(marker.id)});svg.append(dot);poiMap.set(marker.id,dot);
+  const label=document.createElementNS(svg.namespaceURI,'text');label.setAttribute('x',Math.max(12,Math.min(780,cx+9)));label.setAttribute('y',Math.max(20,cy-9));label.setAttribute('font-size','15');label.setAttribute('fill','#12492d');label.textContent=marker.label;svg.append(label);
  }
  root.append(svg);
 }
@@ -125,7 +132,7 @@ async function loadReference(){
 }
 function choose(route){
  const generation=++selectionGeneration;
- selected=route;
+ selected=route;activePoi=[];poiMap.clear();poiGraph.clear();poiButtons.clear();$('poiList').replaceChildren();$('poiFocus').textContent='경유지 위치 자료 확인 중…';
  $('title').textContent=route.name;
  $('via').textContent='주요 경유지: '+route.via.join(' → ');
  if(layer&&map){map.removeLayer(layer);layer=null}
@@ -146,7 +153,7 @@ async function loadReferenceCourse(route,generation){
  const read=async file=>{const r=await fetch(file);if(!r.ok)throw Error('HTTP '+r.status);return r.json()};
  const current=()=>selected===route&&selectionGeneration===generation;
  const errs=[];
- const tasks=[];
+ const tasks=[];let loadedGeometry=null,loadedProfile=null;
  if(hasGeometry(route))tasks.push(read(route.geometryFile).then(geometry=>{
   if(selected!==route||selectionGeneration!==generation)return;
   if(geometry.properties?.routeId!==route.id||geometry.geometry?.type!=='LineString')throw Error('경로 형식 오류');
@@ -154,17 +161,62 @@ async function loadReferenceCourse(route,generation){
   if(!Array.isArray(coords)||coords.length<2||coords.some(c=>!Array.isArray(c)||!Number.isFinite(c[0])||!Number.isFinite(c[1])))throw Error('경로 좌표 오류');
   const R=6371008.8,rad=Math.PI/180;let metres=0;
   for(let i=1;i<coords.length;i++){const a=coords[i-1],b=coords[i],dLat=(b[1]-a[1])*rad,dLon=(b[0]-a[0])*rad,h=Math.sin(dLat/2)**2+Math.cos(a[1]*rad)*Math.cos(b[1]*rad)*Math.sin(dLon/2)**2;metres+=2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
-  drawRoute(route,geometry,coords,metres);showMapState('');
+  loadedGeometry={geometry,coords,metres};drawRoute(route,geometry,coords,metres);showMapState('');
  }).catch(err=>{if(selected===route&&selectionGeneration===generation){errs.push('지도: '+err.message);showMapState('경로자료 로드 실패');$('distance').textContent='거리 미확인'}}));
  if(hasProfile(route))tasks.push(read(route.profileFile).then(profile=>{
   if(!current())return;
   if(profile.routeId!==route.id||!Array.isArray(profile.points)||profile.points.length<2||!Number.isFinite(profile.totalMeters)||profile.totalMeters<=0||profile.points.some((p,i)=>!Number.isFinite(p.distanceMeters)||!Number.isFinite(p.elevationMeters)||p.distanceMeters<0||(i&&p.distanceMeters<=profile.points[i-1].distanceMeters)))throw Error('고도표본 형식 오류');
-  drawProfile(route,profile);
+  loadedProfile=profile;drawProfile(route,profile);
  }).catch(err=>{if(current()){errs.push('고도: '+err.message);svgMessage('고도자료 로드 실패')}}));
  await Promise.all(tasks);
+ if(current()&&loadedGeometry){activePoi=matchPoi(route,loadedGeometry.coords);if(loadedProfile)attachPoiElevations(activePoi,loadedProfile,loadedGeometry.metres);if(map&&layer){map.removeLayer(layer);layer=null}drawRoute(route,loadedGeometry.geometry,loadedGeometry.coords,loadedGeometry.metres,activePoi);if(loadedProfile)drawProfile(route,loadedProfile,activePoi);renderPoiList(route,activePoi);}
  if(current())$('status').textContent='2018년 국립공원공단 · '+(hasProfile(route)?'DEM 기반 참고정보. ':'경로 참고정보 · 고도자료 미확인. ')+(route.notes||'실제 통행 여부는 최신 공단 안내 확인.')+(errs.length?' · '+errs.join(' / '):'');
 }
-function drawRoute(route,geometry,coords,metres){
+// Reusable display-only POI projection. Does not edit any source line or create routes.
+function metreDistance(a,b){const r=Math.PI/180,h=Math.sin((b[1]-a[1])*r/2)**2+Math.cos(a[1]*r)*Math.cos(b[1]*r)*Math.sin((b[0]-a[0])*r/2)**2;return 12742017.6*Math.asin(Math.min(1,Math.sqrt(h)))}
+function matchPoi(route,coords){
+ const refs=new Map((catalog?.poiReference?.points||[]).map(p=>[p.name,p]));
+ const ds=[0];for(let i=1;i<coords.length;i++)ds.push(ds.at(-1)+metreDistance(coords[i-1],coords[i]));
+ const out=[];let previous=0;
+ for(let k=0;k<route.via.length;k++){
+  const name=route.via[k],ref=refs.get(name==='양폭'?'양폭대피소':name);if(!ref||!Array.isArray(ref.lonlat))continue;
+  // Route endpoints already have their own labels. Do not double-label them.
+  if(k===0||k===route.via.length-1)continue;
+  const p=ref.lonlat,cos=Math.cos(p[1]*Math.PI/180);let best=null;
+  for(let i=1;i<coords.length;i++){
+   const a=coords[i-1],b=coords[i],dx=(b[0]-a[0])*cos,dy=b[1]-a[1],px=(p[0]-a[0])*cos,py=p[1]-a[1],den=dx*dx+dy*dy;
+   const t=den?Math.max(0,Math.min(1,(px*dx+py*dy)/den)):0,routeCoord=[a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])];
+   const distanceMeters=ds[i-1]+t*(ds[i]-ds[i-1]),offset=metreDistance(p,routeCoord);
+   if(distanceMeters<previous+20||distanceMeters<20||distanceMeters>ds.at(-1)-20||offset>150)continue;
+   if(!best||offset<best.offset)best={distanceMeters,offset,routeCoord};
+  }
+  if(best){out.push({...best,id:'via-'+k,name,label:ref.label||name,source:ref.source});previous=best.distanceMeters}
+ }
+ return out;
+}
+function attachPoiElevations(markers,profile,metres){
+ for(const marker of markers){
+  const d=marker.distanceMeters*profile.totalMeters/metres;const i=profile.points.findIndex(p=>p.distanceMeters>=d);
+  if(i<1)continue;const a=profile.points[i-1],b=profile.points[i],gap=b.distanceMeters-a.distanceMeters;
+  if(gap>250||gap<=0)continue;
+  marker.profileDistance=d;marker.elevation=a.elevationMeters+(b.elevationMeters-a.elevationMeters)*(d-a.distanceMeters)/gap;
+ }
+}
+function focusPoi(id){
+ const p=activePoi.find(x=>x.id===id);if(!p)return;
+ for(const [key,m] of poiMap){if(m.setStyle)m.setStyle({fillColor:key===id?'#b64d19':'#e9a13b',radius:key===id?9:6});else{m.setAttribute('fill',key===id?'#b64d19':'#e9a13b');m.setAttribute('r',key===id?'10':'6')}}
+ for(const [key,m] of poiGraph){m.setAttribute('fill',key===id?'#b64d19':'#e9a13b');m.setAttribute('r',key===id?'7':'4')}
+ for(const [key,b] of poiButtons)b.setAttribute('aria-pressed',String(key===id));
+ $('poiFocus').textContent=p.label+' · '+(p.distanceMeters/1000).toFixed(2)+' km'+(Number.isFinite(p.elevation)?' · 약 '+Math.round(p.elevation)+' m':'')+' · 경로상 참고 위치';
+ if(map){map.panTo([p.routeCoord[1],p.routeCoord[0]]);poiMap.get(id)?.openTooltip?.()}
+}
+function renderPoiList(route,markers){
+ const root=$('poiList');root.replaceChildren();poiButtons.clear();
+ for(const p of markers){const b=document.createElement('button');b.type='button';b.className='poi-chip';b.textContent=p.label+' '+(p.distanceMeters/1000).toFixed(1)+'km';b.setAttribute('aria-pressed','false');b.onclick=()=>focusPoi(p.id);root.append(b);poiButtons.set(p.id,b)}
+ const missing=route.via.filter((name,i)=>i>0&&i<route.via.length-1&&!markers.some(p=>p.id==='via-'+i));
+ $('poiFocus').textContent='경유지 참고 위치 '+markers.length+'개'+(missing.length?' · 위치 미표시: '+missing.join(', '):'')+' · 경유지를 누르면 지도와 그래프에서 강조';
+}
+function drawRoute(route,geometry,coords,metres,markers=[]){
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.
  const startLabel=geometry.properties.startLabel||route.via[0],endLabel=geometry.properties.endLabel||route.via.at(-1);
  if(map){
@@ -173,12 +225,13 @@ function drawRoute(route,geometry,coords,metres){
   L.circleMarker([coords[0][1],coords[0][0]],{radius:6,color:'#175b3b',fillColor:'#fff',fillOpacity:1,weight:3}).bindTooltip(startLabel+' (원본 출발점)',{permanent:false}).addTo(layer);
   const last=coords.at(-1);
   L.circleMarker([last[1],last[0]],{radius:7,color:'#bd5035',fillColor:'#fff',fillOpacity:1,weight:3}).bindTooltip(endLabel+' (원본 종점)',{permanent:false}).addTo(layer);
+  for(const p of markers){const marker=L.circleMarker([p.routeCoord[1],p.routeCoord[0]],{radius:6,color:'#fff',weight:2,fillColor:'#e9a13b',fillOpacity:1}).bindTooltip(p.label+' · '+(p.distanceMeters/1000).toFixed(1)+' km',{permanent:true,direction:'top'}).addTo(layer);marker.on('click',()=>focusPoi(p.id));poiMap.set(p.id,marker)}
   map.fitBounds(layer.getBounds(),{padding:[24,24]});
  }
- else refSvg([coords],'검증된 과거 원본 코스 선형 · 원본 좌표만 표시',true,[startLabel,endLabel]);
+ else refSvg([coords],'검증된 과거 원본 코스 선형 · 원본 좌표만 표시',true,[startLabel,endLabel],markers);
  $('distance').textContent=(route.coverage==='partial'?'자료 제공 구간 거리: ':'공단 원본 참고거리: ')+(metres/1000).toFixed(2)+' km'+(geometry.properties.officialCourseGuideKm?' · 공단 안내거리 '+geometry.properties.officialCourseGuideKm+' km':'');
 }
-function drawProfile(route,profile){
+function drawProfile(route,profile,markers=[]){
  const metres=profile.totalMeters,startLabel=profile.startLabel||(route.id==='s1'?'신흥사 인근(원본 시작)':route.via[0]),endLabel=profile.endLabel||route.via.at(-1);
  const svg=$('graph');svg.replaceChildren();
  const ns='http://www.w3.org/2000/svg';const el=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));if(text!==undefined)node.textContent=String(text);return node};
@@ -199,6 +252,17 @@ function drawProfile(route,profile){
  for(const [point,name,offset] of [[a,startLabel,17],[b,endLabel,-12]]){
   svg.append(el('circle',{cx:x(point.distanceMeters),cy:y(point.elevationMeters),r:4,fill:'#187449',stroke:'#fff','stroke-width':2}));
   svg.append(el('text',{x:x(point.distanceMeters),y:y(point.elevationMeters)+offset,fill:'#1c5b3a','font-size':12,'text-anchor':point===a?'start':'end'},name));
+ }
+ let lastX=-Infinity,lane=0;
+ for(const p of markers){
+  if(!Number.isFinite(p.elevation)||!Number.isFinite(p.profileDistance))continue;
+  const X=x(p.profileDistance),Y=y(p.elevation);
+  const dot=el('circle',{cx:X,cy:Y,r:4,fill:'#e9a13b',stroke:'#fff','stroke-width':1.5,'data-poi':p.id,tabindex:0,role:'button','aria-label':p.label,class:'poi-mark'});
+  dot.addEventListener('click',()=>focusPoi(p.id));dot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')focusPoi(p.id)});svg.append(dot);poiGraph.set(p.id,dot);
+  if(X-lastX<70)lane=(lane+1)%3;else lane=0;lastX=X;
+  const labelY=24+lane*14;
+  svg.append(el('line',{x1:X,y1:Y-5,x2:X,y2:labelY+3,stroke:'#bca46d','stroke-dasharray':'3 3'}));
+  const label=el('text',{x:X,y:labelY,'text-anchor':'middle',fill:'#734d1e','font-size':10,class:'poi-mark'},p.label);label.addEventListener('click',()=>focusPoi(p.id));svg.append(label);
  }
 }
 

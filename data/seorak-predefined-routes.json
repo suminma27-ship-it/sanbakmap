@@ -475,5 +475,119 @@
       "coverage": "partial"
     }
   ],
-  "officialMapReference": "https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400"
+  "officialMapReference": "https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400",
+  "poiReference": {
+    "schema": "sanbak-route-poi-reference-v1",
+    "note": "OSM/GeoNames 공개 위치 참고. 경로와 가까운 지점만 지도·그래프에 표시하며 실제 시설 위치·등산로 정밀 측량 아님. OSM © contributors, ODbL.",
+    "points": [
+      {
+        "name": "비선대",
+        "lonlat": [
+          128.4669,
+          38.1636
+        ],
+        "source": "https://mapcarta.com/N444221477",
+        "label": "비선대"
+      },
+      {
+        "name": "마등령",
+        "lonlat": [
+          128.4379,
+          38.1581
+        ],
+        "source": "https://mapcarta.com/N1885181008",
+        "label": "마등령삼거리"
+      },
+      {
+        "name": "소청봉",
+        "lonlat": [
+          128.45667,
+          38.1249
+        ],
+        "source": "https://mapcarta.com/27522678",
+        "label": "소청봉"
+      },
+      {
+        "name": "대청봉",
+        "lonlat": [
+          128.46531,
+          38.11917
+        ],
+        "source": "https://mapcarta.com/27522674",
+        "label": "대청봉"
+      },
+      {
+        "name": "중청",
+        "lonlat": [
+          128.46039,
+          38.12109
+        ],
+        "source": "https://mapcarta.com/W469365031",
+        "label": "중청대피소 부근"
+      },
+      {
+        "name": "설악폭포",
+        "lonlat": [
+          128.4573,
+          38.10222
+        ],
+        "source": "https://mapcarta.com/N444204843",
+        "label": "설악폭포"
+      },
+      {
+        "name": "영시암",
+        "lonlat": [
+          128.40592,
+          38.15252
+        ],
+        "source": "https://mapcarta.com/27522702",
+        "label": "영시암"
+      },
+      {
+        "name": "수렴동대피소",
+        "lonlat": [
+          128.41432,
+          38.14649
+        ],
+        "source": "https://mapcarta.com/N444208708",
+        "label": "수렴동대피소"
+      },
+      {
+        "name": "봉정암",
+        "lonlat": [
+          128.44806,
+          38.12889
+        ],
+        "source": "https://mapcarta.com/16113864",
+        "label": "봉정암"
+      },
+      {
+        "name": "흔들바위",
+        "lonlat": [
+          128.47509,
+          38.18972
+        ],
+        "source": "https://mapcarta.com/27519304",
+        "label": "흔들바위"
+      },
+      {
+        "name": "육담폭포",
+        "lonlat": [
+          128.50107,
+          38.16418
+        ],
+        "source": "https://mapcarta.com/N6908160885",
+        "label": "육담폭포"
+      },
+      {
+        "name": "비룡폭포",
+        "lonlat": [
+          128.50161,
+          38.16202
+        ],
+        "source": "https://mapcarta.com/N444218280",
+        "label": "비룡폭포"
+      }
+    ]
+  }
 }

@@ -1,5 +1,9 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
+const COURSE_RELEASE='20261126-r2';
+function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
+function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
+$('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
 const defaultMountain={"name":"설악산","code":"428302602","catalogFile":"./data/seorak-predefined-routes.json","referenceFile":"./data/knps-seorak-2018.geojson","referenceCount":21,"center":[38.12,128.45],"zoom":10,"preferredRoute":"s3","sourceLabel":"2018년 국립공원공단"};
 let mountain=defaultMountain;
 let catalog=null,selected=null,group='',map=null,layer=null,referenceLayer=null,referencePaths=[],baseLayer=null,baseMode='normal';let selectionGeneration=0;let activePoi=[],poiMap=new Map(),poiGraph=new Map(),poiButtons=new Map();
@@ -69,7 +73,7 @@ function refSvg(paths,warning,highlight=false,endpointNames=null,markers=[]){
 async function loadReference(){
  try{
   if(!mountain.referenceFile)return;
-  const r=await fetch(mountain.referenceFile,{cache:'force-cache'});
+  const r=await fetchCourse(mountain.referenceFile);
   if(!r.ok)throw Error('HTTP '+r.status);
   const geo=await r.json(),paths=[];
   if(geo?.type!=='FeatureCollection'||!Array.isArray(geo.features))throw Error('기관 원본 형식 오류');
@@ -111,7 +115,7 @@ function choose(route){
  render();
 }
 async function loadReferenceCourse(route,generation){
- const read=async file=>{const r=await fetch(file);if(!r.ok)throw Error('HTTP '+r.status);return r.json()};
+ const read=async file=>{const r=await fetchCourse(file);if(!r.ok)throw Error('HTTP '+r.status);return r.json()};
  const current=()=>selected===route&&selectionGeneration===generation;
  const errs=[];
  const tasks=[];let loadedGeometry=null,loadedProfile=null;
@@ -269,8 +273,9 @@ function startMountain(config){
  }
  mapInit();loadReference();
  if(!mountain.catalogFile){noCatalog('이 산은 사전등록 코스를 준비 중이야. 전국 산 지도에서 원본 등산로를 확인할 수 있어.');return}
- fetch(mountain.catalogFile,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
+ fetchCourse(mountain.catalogFile).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
   if(d.schema!=='sanbak-predefined-route-catalog-v1'||String(d.mountainCode)!==mountain.code||!Array.isArray(d.routes)||d.routes.some(r=>!r.id||!r.name||!r.group||!Array.isArray(r.via)||r.via.length<2))throw Error('코스 목록 형식 또는 산코드 오류');
+  if(mountain.code==='428302602'&&d.routes.filter(isReady).length!==23)throw Error('이전 또는 누락된 설악산 코스 데이터가 제공됐어. 최신 화면으로 다시 접속해 줘.');
   catalog=d;updateCatalogSummary();configureTabs();
   if(!d.routes.length){noCatalog('사전등록 코스가 아직 없어.');return}
   const initial=preferredSample()||d.routes.find(hasGeometry)||d.routes[0];group=initial.group;render();choose(initial);
@@ -279,9 +284,9 @@ function startMountain(config){
 const search=window.location?.search||'';
 const requested=/(?:^|[?&])mountain=(\d{9})(?:&|$)/.exec(search)?.[1];
 if(!requested||requested===defaultMountain.code)startMountain(defaultMountain);
-else fetch('./data/mountain-course-index.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(index=>{
+else fetchCourse('./data/mountain-course-index.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(index=>{
  const config=index.schema==='sanbak-mountain-course-index-v1'&&index.mountains?.[requested];
  if(config&&config.code===requested){startMountain(config);return}
- return fetch('./data/nationwide/index.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(national=>startMountain({code:requested,name:national.mountains?.[requested]?.name?.replace(/_/g,' · ')||'선택한 산'})).catch(()=>startMountain({code:requested,name:'선택한 산'}));
+ return fetchCourse('./data/nationwide/index.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(national=>startMountain({code:requested,name:national.mountains?.[requested]?.name?.replace(/_/g,' · ')||'선택한 산'})).catch(()=>startMountain({code:requested,name:'선택한 산'}));
 }).catch(()=>startMountain({code:requested,name:'선택한 산'}));
 })();

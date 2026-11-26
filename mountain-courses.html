@@ -22,7 +22,7 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 @media(max-width:750px){.layout{grid-template-columns:1fr}#courses{max-height:300px}#map{height:330px}}
 </style></head>
 <body><div class="gate" id="gate"><div class="gate-card"><h2>우리는 자연을 사랑하기에, 그것을 지킬 의무가 있습니다.</h2><p>산박지도 이용 전 LNT(흔적 남기지 않기) 7원칙에 동의해 줘.</p><ol><li>사전에 계획하고 준비하기</li><li>지정된 탐방로와 단단한 지면 이용하기</li><li>쓰레기 올바르게 처리하기</li><li>있는 그대로 보존하기</li><li>불 사용의 영향을 최소화하기</li><li>야생동물 존중하기</li><li>다른 탐방객 배려하기</li></ol><div class="gate-actions"><button id="decline">동의하지 않음</button><button id="agree">동의하고 보기</button></div></div></div><header><a href="./index.html"><b>▲ 산박지도</b></a><a href="./mountain-trails.html">전국 산 지도</a></header>
-<main><h1 id="mountainHeading">산행 코스</h1>
+<main><div id="courseRelease" class="muted" style="font-size:11px;text-align:right">최신 코스 데이터 연결 중</div><h1 id="mountainHeading">산행 코스</h1>
 <p class="muted">완성된 산행 코스를 선택하는 방식 · 원본 선형 조각을 조합하지 않음</p>
 <div class="warning"><strong id="catalogSummary">설악산 코스 자료 확인 중…</strong><div id="catalogDescription">원본 등산로는 연한 참고 선형이며, 공단 자료 기반의 선택 코스를 진하게 표시해.</div><div id="localNotice">2026년 11월 15일~12월 15일 고지대 주요 탐방로 통제 공고가 있으니, 방문 전 공단의 최신 출입통제 현황을 확인해 줘.</div></div>
 <div class="layout">
@@ -39,4 +39,4 @@ a{color:#17663d}#source{font-size:12px}.warning{padding:11px 13px;background:#ff
 <div id="poiFocus" class="info" role="status">경유지 위치는 참고값</div><div id="poiList" class="poi-list" aria-label="지도와 고도그래프 연결 경유지"></div><div id="source"><a href="https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&amp;parkId=120400&amp;parkNavGb=guide&amp;vcursId=120400V015" target="_blank" rel="noopener">국립공원공단 설악산 탐방코스</a> · <a href="https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400" target="_blank" rel="noopener">2026년 공단 탐방 안내도</a> · <a href="./seorak-isolated-test.html">개별 원본 21개 고도 확인</a> · 백담사 진입도로 고도: <a href="https://open-meteo.com/en/docs/elevation-api" target="_blank" rel="noopener">Copernicus GLO-90 / Open-Meteo</a> (자료 확보 시) · 주요지점 참고 위치: © OpenStreetMap contributors / GeoNames · 실제 개방 및 통제는 방문 전 별도 확인</div>
 </div></section></div></main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-<script src="./core/mountain-courses.js"></script></body></html>
+<script src="./core/mountain-courses.js?v=20261126-r2"></script></body></html>

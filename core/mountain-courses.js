@@ -273,7 +273,7 @@ function startMountain(config){
   if(d.schema!=='sanbak-predefined-route-catalog-v1'||String(d.mountainCode)!==mountain.code||!Array.isArray(d.routes)||d.routes.some(r=>!r.id||!r.name||!r.group||!Array.isArray(r.via)||r.via.length<2))throw Error('코스 목록 형식 또는 산코드 오류');
   catalog=d;updateCatalogSummary();configureTabs();
   if(!d.routes.length){noCatalog('사전등록 코스가 아직 없어.');return}
-  const initial=preferredSample()||d.routes[0];group=initial.group;render();choose(initial);
+  const initial=preferredSample()||d.routes.find(hasGeometry)||d.routes[0];group=initial.group;render();choose(initial);
  }).catch(err=>noCatalog('코스 목록 로드 실패: '+err.message));
 }
 const search=window.location?.search||'';

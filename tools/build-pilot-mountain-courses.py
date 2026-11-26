@@ -73,6 +73,33 @@ def load(code):
         with zipfile.ZipFile(archive) as z:
             pack=json.loads(z.read(f'data/nationwide-elevation/bucket-{bucket}.json'))['mountains'].get(code)
     return rows,pack
+def public_dem(coords):
+    """Sample actual stored route coordinates with Copernicus GLO-90 via Open-Meteo."""
+    import urllib.request,urllib.parse,time
+    ds=cum(coords);total=ds[-1]
+    targets=list(range(0,math.ceil(total),90))+[total]
+    positions=[];j=1
+    for t in targets:
+        while j<len(ds)-1 and ds[j]<t:j+=1
+        k=(t-ds[j-1])/(ds[j]-ds[j-1]) if ds[j]>ds[j-1] else 0
+        positions.append([round(coords[j-1][i]+k*(coords[j][i]-coords[j-1][i]),7) for i in range(2)])
+    vals=[]
+    for i in range(0,len(positions),80):
+        part=positions[i:i+80]
+        query=urllib.parse.urlencode({'latitude':','.join(str(p[1]) for p in part),'longitude':','.join(str(p[0]) for p in part)})
+        url='https://api.open-meteo.com/v1/elevation?'+query
+        for attempt in range(2):
+            try:
+                with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'sanbakmap-reference-profile/1.0'}),timeout=30) as response:
+                    z=json.load(response)['elevation']
+                if len(z)!=len(part) or any(not isinstance(x,(int,float)) or not math.isfinite(x) or not -500<x<9000 for x in z):
+                    raise ValueError('invalid public DEM response')
+                vals.extend(z);break
+            except Exception:
+                if attempt:raise
+                time.sleep(2)
+    return [{'distanceMeters':round(d,2),'elevationMeters':z} for d,z in zip(targets,vals)]
+
 def build(code,slug):
     rows,pack=load(code)
     path=data/f'{slug}-predefined-routes.json';cat=read(path)
@@ -122,9 +149,26 @@ def build(code,slug):
     geomfile=f'{slug}-{rid}-reference.geojson';demfile=f'{slug}-{rid}-reference-dem.json'
     write(data/geomfile,{'type':'Feature','properties':{'routeId':rid,'sourceId':sourceId,'source':'산림청 DATA002','currentAccessVerified':False,'startLabel':r['via'][0],'endLabel':r['via'][-1],**({'officialCourseGuideKm':r['guideKm']} if r.get('guideKm') else {})},'geometry':{'type':'LineString','coordinates':coords}})
     r.update(geometryStatus='reference',geometryFile='./data/'+geomfile,profileStatus='unverified',profileFile=None)
+    dem_source='기존 전국 DEM v109 ZIP'
+    if not complete or len(pts)<2:
+        # Preserve already committed public DEM samples when the same source line is rebuilt.
+        try:
+            cached=read(data/demfile)
+            if cached['sourceId']!=sourceId or abs(cached['totalMeters']-offset)>1 or len(cached['points'])<2:raise ValueError('cached profile mismatch')
+            pts=cached['points'];dem_source=cached['sourceFile'];complete=True
+        except (OSError,ValueError,KeyError,TypeError):
+            try:
+                pts=public_dem(coords);dem_source='https://open-meteo.com/en/docs/elevation-api';complete=True
+            except Exception as e:
+                print(f'::warning::{slug} public DEM unavailable: {e}')
     if complete and len(pts)>=2:
-        write(data/demfile,{'schema':'sanbak-predefined-dem-profile-v1','routeId':rid,'sourceId':sourceId,'sourceFile':'기존 전국 DEM v109 ZIP','currentAccessVerified':False,'totalMeters':round(offset,2),'points':pts})
+        profile={'schema':'sanbak-predefined-dem-profile-v1','routeId':rid,'sourceId':sourceId,'sourceFile':dem_source,'currentAccessVerified':False,'totalMeters':round(offset,2),'points':pts}
+        if dem_source.startswith('https://'):
+            profile.update(source='Copernicus DEM 2021 GLO-90 via Open-Meteo',sourceDemResolutionMeters=90)
+            r['notes']+=' 고도는 Copernicus GLO-90 / Open-Meteo 참고값.'
+        write(data/demfile,profile)
         r.update(profileStatus='reference',profileFile='./data/'+demfile)
+        print('PILOT_DEM_JSON '+slug+' '+json.dumps(profile,ensure_ascii=False,separators=(',',':')))
     write(path,cat)
     print(f'PILOT {slug}: {rid} {offset:.1f}m, DEM {len(pts) if complete else 0} samples')
 for code,slug in [('488605302','jiri'),('457300702','deogyu')]:

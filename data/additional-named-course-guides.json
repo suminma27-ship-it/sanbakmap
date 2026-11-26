@@ -2216,6 +2216,209 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "421102701": [
+      {
+        "id": "samak-1",
+        "name": "등선폭포~의암댐",
+        "group": "종주코스",
+        "via": [
+          "삼악산매표소",
+          "등선폭포",
+          "비선식당",
+          "흥국사",
+          "용화봉",
+          "상원사",
+          "의암댐매표소"
+        ],
+        "source": "춘천도시공사",
+        "sourceUrl": "https://rev.cuc.or.kr/www/14",
+        "guideKm": 6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "samak-2",
+        "name": "의암댐~등선폭포",
+        "group": "종주코스",
+        "via": [
+          "의암댐매표소",
+          "상원사",
+          "용화봉",
+          "흥국사",
+          "비선식당",
+          "등선폭포",
+          "삼악산매표소"
+        ],
+        "source": "춘천도시공사",
+        "sourceUrl": "https://rev.cuc.or.kr/www/14",
+        "guideKm": 6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      }
+    ],
+    "421103801": [
+      {
+        "id": "obong-1",
+        "name": "청평산장~배후령",
+        "group": "종주코스",
+        "via": [
+          "청평산장",
+          "청평사",
+          "쇠줄지역",
+          "688봉",
+          "오봉산 정상",
+          "4·3·2·1봉",
+          "서남릉 삼거리",
+          "배후령"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=421103801&ptmntSeq=69&srchArea=02&xCrd=38.001179&yCrd=127.806098",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인. 과거 청평사 방면 통제 공고가 있었으므로 최신 공고 확인."
+      },
+      {
+        "id": "obong-2",
+        "name": "오봉산·부용산 종주",
+        "group": "종주코스",
+        "via": [
+          "배후령",
+          "서남릉 삼거리",
+          "오봉산 정상",
+          "백치고개",
+          "부용산",
+          "부용산 남릉 안부",
+          "하늘소민박"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=421103801&ptmntSeq=69&srchArea=02&xCrd=38.001179&yCrd=127.806098",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인. 과거 청평사 방면 통제 공고가 있었으므로 최신 공고 확인."
+      },
+      {
+        "id": "obong-3",
+        "name": "백치고개~청평산장",
+        "group": "종주코스",
+        "via": [
+          "백치고개",
+          "거북바위",
+          "오봉산 정상",
+          "4·3·2·1봉",
+          "선동계곡",
+          "청평사",
+          "청평산장"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=421103801&ptmntSeq=69&srchArea=02&xCrd=38.001179&yCrd=127.806098",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인. 과거 청평사 방면 통제 공고가 있었으므로 최신 공고 확인."
+      }
+    ],
+    "421900601": [
+      {
+        "id": "deokhang-1",
+        "name": "골말~환선봉 순환",
+        "group": "종주코스",
+        "via": [
+          "골말",
+          "전망바위",
+          "사거리 안부",
+          "덕항산 정상",
+          "사거리 안부",
+          "환선봉",
+          "자암재",
+          "환선굴 입구",
+          "골말"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71968",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "deokhang-2",
+        "name": "점촌~무사동",
+        "group": "종주코스",
+        "via": [
+          "점촌",
+          "외나무골",
+          "구부시령",
+          "덕항산 정상",
+          "사거리 안부",
+          "1048봉",
+          "큰가래골",
+          "무사동"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71968",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "deokhang-3",
+        "name": "골말~점촌",
+        "group": "종주코스",
+        "via": [
+          "골말",
+          "자암목이능선",
+          "전망바위",
+          "사거리 안부",
+          "덕항산 정상",
+          "구부시령",
+          "외나무골",
+          "점촌"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71968",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      }
+    ],
     "421902201": [
       {
         "id": "tae-yuilsa-loop",
@@ -2382,6 +2585,145 @@
         "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 통제 확인. "
       }
     ],
+    "427200401": [
+      {
+        "id": "gongjak-1",
+        "name": "수타사~공작골",
+        "group": "종주코스",
+        "via": [
+          "수타사 입구",
+          "와동고개",
+          "514봉",
+          "약수봉",
+          "맛바위골 삼거리",
+          "수리봉",
+          "안공작재",
+          "공작산 정상",
+          "동릉삼거리",
+          "휴양림 삼거리",
+          "공작골가든"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71951",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "gongjak-2",
+        "name": "공작골~신봉교",
+        "group": "종주코스",
+        "via": [
+          "공작골가든",
+          "문바위골",
+          "735봉",
+          "공작산 정상",
+          "안공작재",
+          "790봉",
+          "신봉리",
+          "신봉교"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71951",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "gongjak-3",
+        "name": "수타사~자연휴양림",
+        "group": "종주코스",
+        "via": [
+          "수타사",
+          "와동고개",
+          "약수봉",
+          "수리봉",
+          "안공작재",
+          "공작산 정상",
+          "공작산자연휴양림",
+          "공작골가든"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71951",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "gongjak-4",
+        "name": "신봉교~공작골",
+        "group": "종주코스",
+        "via": [
+          "신봉교",
+          "동봉사",
+          "수리봉",
+          "790봉",
+          "안공작재",
+          "공작산 정상",
+          "735봉",
+          "문바위골",
+          "공작골가든"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71951",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      }
+    ],
+    "427206501": [
+      {
+        "id": "palbong-1",
+        "name": "팔봉산 1~8봉 환종주",
+        "group": "종주코스",
+        "via": [
+          "팔봉산 주차장",
+          "팔봉교",
+          "등산로매표소",
+          "1봉",
+          "2봉(정상)",
+          "3봉",
+          "해산굴",
+          "4봉",
+          "5봉",
+          "6봉",
+          "7봉",
+          "8봉",
+          "팔봉교",
+          "팔봉산 주차장"
+        ],
+        "source": "홍천군 문화관광",
+        "sourceUrl": "https://www.hongcheon.go.kr/tour/selectTourCntntsWebView.do?ctgry=6&key=2035&tourNo=2014",
+        "guideKm": 2.6,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      }
+    ],
     "427206801": [
       {
         "id": "gyebang-normal",
@@ -2447,6 +2789,34 @@
         "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 통제 확인. "
       }
     ],
+    "427505801": [
+      {
+        "id": "baekdeok-1",
+        "name": "문재~묵골 종주",
+        "group": "종주코스",
+        "via": [
+          "문재",
+          "923.6봉",
+          "사자산",
+          "당재",
+          "작은당재",
+          "백덕산 정상",
+          "백덕산 갈림길",
+          "묵골 갈림길",
+          "묵골"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=02&fmmntSeq=71984",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      }
+    ],
     "427700101": [
       {
         "id": "gari-janggu",
@@ -2490,6 +2860,74 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 통제 확인. "
+      }
+    ],
+    "427901901": [
+      {
+        "id": "yonghwa-1",
+        "name": "양통마을~858봉 순환",
+        "group": "종주코스",
+        "via": [
+          "양통마을",
+          "큰고개",
+          "용화산 정상",
+          "858봉",
+          "양통마을"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=427901901&ptmntSeq=45&srchArea=02&xCrd=38.039508&yCrd=127.743782",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "yonghwa-2",
+        "name": "깔딱고개 경유 순환",
+        "group": "종주코스",
+        "via": [
+          "양통마을",
+          "큰고개",
+          "용화산 정상",
+          "858봉",
+          "깔딱고개",
+          "양통마을"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=427901901&ptmntSeq=45&srchArea=02&xCrd=38.039508&yCrd=127.743782",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
+      },
+      {
+        "id": "yonghwa-3",
+        "name": "큰고개~파로호",
+        "group": "종주코스",
+        "via": [
+          "큰고개",
+          "용화산 정상",
+          "성불치",
+          "파로호"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/fm/fg/selectPtmntDtl.do?ptmntCd=427901901&ptmntSeq=45&srchArea=02&xCrd=38.039508&yCrd=127.743782",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 개방 여부는 관리기관 확인."
       }
     ],
     "428102201": [

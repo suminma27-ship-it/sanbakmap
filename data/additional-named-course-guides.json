@@ -901,6 +901,104 @@
         "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
       }
     ],
+    "301101201": [
+      {
+        "id": "dj-4",
+        "name": "대전둘레산 4구간 · 식장산길",
+        "group": "종주코스",
+        "via": [
+          "삼괴동 덕산마을",
+          "닭재",
+          "망덕봉",
+          "동오리고개",
+          "해돋이 전망대",
+          "세천공원",
+          "동신과학고 버스종점"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/frtrl/ar/selectAroundRoadDtl75.do?hmpgId=FRTRL",
+        "guideKm": 13.6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
+    "301400301": [
+      {
+        "id": "dj-1",
+        "name": "대전둘레산 1구간 · 보문산길",
+        "group": "종주코스",
+        "via": [
+          "청년광장",
+          "고촉사",
+          "시루봉",
+          "오도산",
+          "금동고개"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/frtrl/ar/selectAroundRoadDtl75.do?hmpgId=FRTRL",
+        "guideKm": 9.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
+    "302300101": [
+      {
+        "id": "dj-5",
+        "name": "대전둘레산 5구간 · 계족산성길",
+        "group": "종주코스",
+        "via": [
+          "동신과학고 버스종점",
+          "갈현성",
+          "질현성",
+          "절고개",
+          "봉황정",
+          "용화사 주차장"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/frtrl/ar/selectAroundRoadDtl75.do?hmpgId=FRTRL",
+        "guideKm": 11,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "dj-6",
+        "name": "대전둘레산 6구간 · 금강길",
+        "group": "종주코스",
+        "via": [
+          "용화사 주차장",
+          "봉황정",
+          "장동고개",
+          "현도교",
+          "금강합류점",
+          "봉산동 버스 기점"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/frtrl/ar/selectAroundRoadDtl75.do?hmpgId=FRTRL",
+        "guideKm": 13.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
     "317100101": [
       {
         "group": "종주코스",
@@ -2512,6 +2610,56 @@
         "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
       }
     ],
+    "437200401": [
+      {
+        "id": "gb-1",
+        "name": "적암리 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "적암휴게소",
+          "사기막마을 다리",
+          "계곡갈림길",
+          "정수암터",
+          "안부삼거리",
+          "구병산 정상",
+          "철계단",
+          "적암휴게소"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=03&fmmntSeq=71954",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "gb-2",
+        "name": "신선대·853봉 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "적암리 주차장",
+          "신선대 갈림길",
+          "853봉 갈림길",
+          "구병산 정상",
+          "위성지국",
+          "적암리"
+        ],
+        "source": "한국 등산 코스 가이드",
+        "sourceUrl": "https://sanguidekorea.com/ko/course/gubyeongsan-jeogamri/",
+        "guideKm": 7.5,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
     "437201201": [
       {
         "id": "song-ridge",
@@ -2733,6 +2881,32 @@
         "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
       }
     ],
+    "437403801": [
+      {
+        "id": "ha-1",
+        "name": "직지사 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "직지사",
+          "내원계곡갈림길",
+          "운수암",
+          "능선안부",
+          "백운봉",
+          "비로봉",
+          "직지사"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=05&fmmntSeq=72041",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
     "438001301": [
       {
         "id": "sobaek-cheondong",
@@ -2842,6 +3016,185 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
+    "438002601": [
+      {
+        "id": "gs-1",
+        "name": "상학 코스",
+        "group": "정상코스",
+        "via": [
+          "상학",
+          "남근석공원",
+          "금수산 정상"
+        ],
+        "source": "국립공원공단",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4018",
+        "guideKm": 2.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "gs-2",
+        "name": "상천 코스",
+        "group": "정상코스",
+        "via": [
+          "상천",
+          "용담폭포삼거리",
+          "금수산 정상"
+        ],
+        "source": "국립공원공단",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4019",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
+    "438002801": [
+      {
+        "id": "dr-1",
+        "name": "제봉 코스",
+        "group": "정상코스",
+        "via": [
+          "상선암마을",
+          "제봉",
+          "삼거리",
+          "신선봉",
+          "도락산 정상"
+        ],
+        "source": "국립공원공단",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4024",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "dr-2",
+        "name": "채운봉 코스",
+        "group": "정상코스",
+        "via": [
+          "상선암마을",
+          "채운봉",
+          "삼거리",
+          "신선봉",
+          "도락산 정상"
+        ],
+        "source": "국립공원공단",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4025",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "dr-3",
+        "name": "내궁기 코스",
+        "group": "정상코스",
+        "via": [
+          "내궁기",
+          "신선봉",
+          "도락산 정상"
+        ],
+        "source": "국립공원공단",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4026",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
+    "447101101": [
+      {
+        "id": "dj-2",
+        "name": "대전둘레산 2구간 · 만인산길",
+        "group": "종주코스",
+        "via": [
+          "금동고개",
+          "떡갈봉",
+          "먹치",
+          "만인산 정상",
+          "태조 태실",
+          "만인산 휴게소"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/frtrl/ar/selectAroundRoadDtl75.do?hmpgId=FRTRL",
+        "guideKm": 13.1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      }
+    ],
+    "447101401": [
+      {
+        "id": "sd-1",
+        "name": "개덕사~드림리조트",
+        "group": "종주코스",
+        "via": [
+          "개덕사",
+          "약수터",
+          "서대산 정상",
+          "구름다리 갈림길",
+          "드림리조트"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=04&fmmntSeq=71993",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
+      },
+      {
+        "id": "sd-2",
+        "name": "청소년수련원~안보광리",
+        "group": "종주코스",
+        "via": [
+          "서대산청소년수련원",
+          "옥녀직금대",
+          "서대산 정상",
+          "동남릉",
+          "안보광리"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=04&fmmntSeq=71993",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 주요 경유지. 전체 선형·고도 미등록. 최신 통제는 관리기관 확인."
       }
     ],
     "451103301": [

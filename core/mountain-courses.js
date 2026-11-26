@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const COURSE_RELEASE='20261127-r10';
+const COURSE_RELEASE='20261127-r11';
 function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
 function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
 $('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
@@ -254,7 +254,7 @@ function configureTabs(){
 }
 function noCatalog(message){
  $('catalogSummary').textContent=mountain.name+' 산행코스';$('catalogDescription').textContent=message;
- const link=document.createElement('a');link.href='./mountains-20261127-r10.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
+ const link=document.createElement('a');link.href='./mountains-20261127-r11.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
  $('count').textContent='등록된 사전 코스 없음';$('status').textContent=message;
  $('tryVerified').hidden=true;$('poiFocus').textContent='경유지 자료 없음';showMapState(message);svgMessage('고도자료 미등록');
  document.querySelectorAll('.tab').forEach(b=>b.hidden=true);
@@ -292,6 +292,27 @@ async function originalCatalog(config){
  });
  return {schema:'sanbak-predefined-route-catalog-v1',mountainCode:code,name:config.name,routes};
 }
+async function appendPublicRoutes(){
+ if(mountain.code.length!==9)return;
+ try{
+  const r=await fetchCourse('./data/unified-mountain-index.json');if(!r.ok)return;
+  const index=await r.json(),entry=index.mountains?.[mountain.code];if(!entry?.peaks?.length)return;
+  const fetched=await Promise.allSettled(entry.peaks.map(async p=>{const response=await fetchCourse(p.catalogFile);if(!response.ok)throw Error('HTTP '+response.status);return {p,d:await response.json()}}));
+  const extra=[];
+  for(const result of fetched){if(result.status!=='fulfilled')continue;
+   const {p,d}=result.value;if(d.schema!=='sanbak-predefined-route-catalog-v1'||String(d.mountainCode)!==p.code||!Array.isArray(d.routes))continue;
+   for(const original of d.routes){
+    const id='public-'+p.code+'-'+original.id;
+    const route={...original,id,group:'기타코스',name:original.name+' (공공 GPX)',geometryData:original.geometryData?{...original.geometryData,properties:{...original.geometryData.properties,routeId:id}}:null,profileData:original.profileData?{...original.profileData,routeId:id}:null};
+    // Keep curated GPX versions separate from archive originals, except an identical ID.
+    if(!catalog?.routes.some(x=>x.id===id))extra.push(route);
+   }
+  }
+  if(!extra.length)return;
+  if(!catalog){acceptCatalog({schema:'sanbak-predefined-route-catalog-v1',mountainCode:mountain.code,name:mountain.name,routes:extra});return}
+  catalog.routes.push(...extra);updateCatalogSummary();configureTabs();render();
+ }catch(e){console.warn('통합 GPX 목록 연결 불가',e);}
+}
 function startMountain(config){
  mountain=config;
  $('mountainHeading').textContent=mountain.name+' 산행 코스';
@@ -303,10 +324,10 @@ function startMountain(config){
   if(mountain.sourceUrl){const a=document.createElement('a');a.href=mountain.sourceUrl;a.target='_blank';a.rel='noopener';a.textContent=' · 출처 산행 안내';$('source').append(a)}
  }
  mapInit();loadReference();
- if(!mountain.catalogFile){originalCatalog(config).then(d=>{loadReference();acceptCatalog(d)}).catch(e=>noCatalog('사전등록 코스 없음 · '+e.message));return}
+ if(!mountain.catalogFile){originalCatalog(config).then(d=>{loadReference();acceptCatalog(d);appendPublicRoutes()}).catch(e=>{noCatalog('사전등록 코스 없음 · '+e.message);appendPublicRoutes()});return}
  fetchCourse(mountain.catalogFile).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
   if(config.publicPeak){config.referenceData={type:'FeatureCollection',features:d.routes.map(r=>r.geometryData).filter(Boolean)};loadReference();}
-  acceptCatalog(d);
+  acceptCatalog(d);appendPublicRoutes();
  }).catch(err=>noCatalog('코스 목록 로드 실패: '+err.message));
 }
 const search=window.location?.search||'';

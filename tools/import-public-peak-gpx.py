@@ -68,7 +68,7 @@ def main():
     geom=dict(type='Feature',properties=dict(routeId=rid,source=SOURCE,sourceFile=path,sourceDistanceMeters=metres,startLabel=via[0],endLabel=via[1]),geometry=dict(type='LineString',coordinates=coords))
     profile=dict(routeId=rid,totalMeters=metres,points=points,sourceType='gpx') if points else None
     profiles+=bool(profile)
-    groups[code].append(dict(id=rid,name=title,group='공공 GPX 코스',via=via,source=SOURCE,sourceUrl=URL,sourceFile=path,coverage='reference',geometryStatus='reference',geometryData=geom,profileStatus='reference' if profile else 'unverified',profileData=profile,profileSource='gpx',accessStatus='unknown',notes='2022년 GPX 원본 트랙 구간. 현행 통행·정상 도달 여부는 별도 확인. 원본 누적거리와 기록 고도 사용.'))
+    groups[code].append(dict(id=rid,name=title,group='기타코스',via=via,source=SOURCE,sourceUrl=URL,sourceFile=path,coverage='reference',geometryStatus='reference',geometryData=geom,profileStatus='reference' if profile else 'unverified',profileData=profile,profileSource='gpx',accessStatus='unknown',notes='2022년 GPX 원본 트랙 구간. 정상·종주 구분이 원본에 없어 기타코스로 표시. 현행 통행·정상 도달 여부는 별도 확인. 원본 누적거리와 기록 고도 사용.'))
  index={}
  for code,routes in groups.items():
   xy=routes[0]['geometryData']['geometry']['coordinates'];lon,lat=xy[len(xy)//2];name=names[code];cat=dict(schema='sanbak-predefined-route-catalog-v1',mountainCode=code,name=name,routes=routes)

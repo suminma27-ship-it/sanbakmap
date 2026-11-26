@@ -73,7 +73,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <main>
 <h1>전국 산 등산로 지도 <small style="font-size:12px;color:#49715a;font-weight:600">배경지도 오류 수정 · 11/18</small></h1>
 <p class="intro">일반지도 위에 산의 등산로를 연하게 표시하고, <b>선택한 원본 등산로만 진한 녹색</b>으로 강조해. 선택한 선형의 고도그래프는 아래에서 확인할 수 있어.</p>
-<div class="note" style="margin-bottom:10px"><b>전국 등산로 · 20261127-r10</b> · <span id="nationalDemCoverage">고도자료 확인 중</span><br><b>산행코스 정보:</b> 산을 선택하면 해당 산의 등록 코스 화면으로 이동할 수 있어.</div>
+<div class="note" style="margin-bottom:10px"><b>전국 등산로 · 20261127-r11</b> · <span id="nationalDemCoverage">고도자료 확인 중</span><br><b>산행코스 정보:</b> 산을 선택하면 해당 산의 등록 코스 화면으로 이동할 수 있어.</div>
 <div class="note">표시 자료는 주로 2016~2018년 기관 수록 등산로야. 2026년 현재 개방·통행 허용을 의미하지 않아. 고도표본이 있는 선형만 그래프를 제공하며, 다른 등산로를 이어 붙이거나 누락된 고도를 추정하지 않아.</div>
 <div class="layout">
 <aside class="panel">
@@ -81,7 +81,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <label for="search">산 이름·산코드 검색</label>
 <input id="search" type="search" placeholder="설악산, 오대산, 지리산…" autocomplete="off" disabled>
 <label for="region">지역</label><select id="region" disabled><option value="">전국 전체</option></select>
-<label for="parkType">공원 분류</label><select id="parkType" disabled><option value="">전체</option><option value="국립">국립공원</option><option value="도립">도립공원</option><option value="군립">군립·시립·구립공원</option><option value="일반">일반·미분류</option></select><small id="classificationNote" class="muted">공원 분류는 대표산 기준이며 경계·출입허가 판단용이 아니야.</small><div id="count" class="muted">전국 산 목록 불러오는 중…</div>
+<label for="parkType">공원 분류</label><select id="parkType" disabled><option value="">전체</option><option value="국립">국립공원</option><option value="도립">도립공원</option><option value="군립">군립·시립·구립공원</option><option value="일반">일반·미분류</option><option value="미분류">GPX 봉우리(공원 미분류)</option></select><small id="classificationNote" class="muted">공원 분류는 대표산 기준이며 경계·출입허가 판단용이 아니야.</small><div id="count" class="muted">전국 산 목록 불러오는 중…</div>
 </div>
 <div id="results" role="group" aria-label="산 목록"></div>
 </aside>
@@ -92,7 +92,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <div class="content">
 <div id="status" role="status">산과 등산로 데이터 준비 중…</div>
 <div class="chips"><span id="lineCount" class="chip">등산로 미선택</span><span id="elevCount" class="chip">DEM 확인 중</span></div>
-<section id="seorakCourses" hidden aria-label="산행코스 목록 이동"><div class="sheethead"><h3>등록된 산행코스</h3><a id="registeredCoursesLink" href="./mountain-courses.html">코스 목록 보기</a></div><p class="course-examples-hint">사전에 등록한 산행코스의 지도·거리·고도그래프를 확인해. 아직 등록되지 않은 산은 준비 중으로 표시돼.</p></section>
+<section id="seorakCourses" hidden aria-label="산행코스 목록 이동"><div class="sheethead"><h3>등록된 산행코스</h3><a id="registeredCoursesLink" href="./mountain-courses.html">코스 목록 보기</a></div><p class="course-examples-hint">등록 코스, 연결된 공공 GPX와 기존 원본 등산로의 지도·거리·고도그래프를 확인해.</p></section>
 <div><h3>실제 원본 등산로 선택 <span class="muted">· 지도에서 선을 눌러도 돼</span></h3><label for="lineSearch" class="muted">현재 산의 원본 선형 검색</label><input id="lineSearch" type="search" placeholder="원본 등산로 이름 또는 번호 검색" autocomplete="off" aria-controls="lineList"><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
 <div class="profileHeader"><div><h3 id="profileTitle">고도그래프</h3><div id="profileMessage" class="muted">등산로를 선택해 줘.</div></div><div class="stats"><span id="distance">거리 —</span><span id="elevation">고도 —</span></div></div>
 <svg id="profile" viewBox="0 0 720 215" preserveAspectRatio="none" aria-label="선택한 원본 선형의 거리별 DEM 고도그래프"></svg>
@@ -117,7 +117,7 @@ let elevationIndexesReady=Promise.resolve();
 function displayPlans(){
  const panel=$('seorakCourses'),link=$('registeredCoursesLink');
  panel.hidden=!state.code;if(!state.code)return;
- link.setAttribute('href','./courses-20261127-r10.html?mountain='+state.code);
+ link.setAttribute('href','./courses-20261127-r11.html?mountain='+state.code);
  link.textContent='등록된 산행코스 보기';
 }
 
@@ -390,7 +390,7 @@ async function getJSON(path){
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),35000);
  try{
-  const response=await fetch(path+'?v=20261127-r10',{cache:'no-store',signal:controller.signal});
+  const response=await fetch(path+'?v=20261127-r11',{cache:'no-store',signal:controller.signal});
   if(!response.ok)throw Error('HTTP '+response.status+' '+path);
   return await response.json();
  }catch(err){
@@ -407,15 +407,15 @@ function bucketPromise(cache,id,path){
 function filterMountains(){
  const q=$('search').value.trim().toLowerCase(),region=$('region').value;
  const type=$('parkType').value||'';
- const found=state.catalog.filter(item=>(!type||item.parkType===type)&&(!region||item.code.slice(0,2)===region)&&
+ const found=state.catalog.filter(item=>(!type||item.parkType===type)&&(!region||(!item.publicPeak&&item.code.slice(0,2)===region))&&
  (!q||(item.name+' '+item.code).toLowerCase().includes(q)));
  put('count',found.length.toLocaleString('ko-KR')+'개 산 · '+Math.min(found.length,state.mountainLimit).toLocaleString('ko-KR')+'개 표시');
  const root=$('results');root.replaceChildren();
  for(const item of found.slice(0,state.mountainLimit)){
   const b=document.createElement('button');b.type='button';b.className='mountain'+(item.code===state.code?' active':'');
   const t=document.createElement('strong');t.textContent=item.name+' ('+(item.parkType||'일반')+')';
-  const s=document.createElement('small');s.textContent=(regionName[item.code.slice(0,2)]||'지역 미확인')+' · '+item.code;
-  b.append(t,s);b.onclick=()=>selectMountain(item.code);root.append(b);
+  const s=document.createElement('small');s.textContent=(item.publicPeak?'지역 미확인 · 공공 GPX':(regionName[item.code.slice(0,2)]||'지역 미확인'))+' · '+item.code+(item.gpxCount?' · GPX '+item.gpxCount+'구간':'');
+  b.append(t,s);b.onclick=()=>{if(item.publicPeak){window.location.href='./courses-20261127-r11.html?mountain='+item.code;return}selectMountain(item.code)};root.append(b);
  }
   if(found.length>state.mountainLimit){
    const more=document.createElement('button');more.type='button';more.className='mountain';
@@ -765,6 +765,14 @@ async function init(){
   state.catalog=Object.entries(state.index.mountains)
    .map(([code,m])=>({code,name:String(m.name||code).replace(/_/g,' '),segments:m.count||0,parkType:parkClasses[code]?.type||'일반',parkName:parkClasses[code]?.park||null}))
    .sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  // Optional combined index; existing source data remains usable if the GPX download fails.
+  getJSON('./data/unified-mountain-index.json').then(d=>{
+   if(d.schema!=='sanbak-unified-mountain-index-v1')return;
+   for(const item of state.catalog)item.gpxCount=d.mountains?.[item.code]?.routeCount||0;
+   for(const p of Object.values(d.unmatched||{}))state.catalog.push({code:p.code,name:p.name,publicPeak:true,gpxCount:p.routeCount,parkType:'미분류'});
+   state.catalog.sort((a,b)=>a.name.localeCompare(b.name,'ko')||a.code.localeCompare(b.code));
+   filterMountains();
+  }).catch(e=>console.warn('통합 GPX 목록 연결 불가',e));
   // The agency catalog can grow as verified source records are published.
   // Reject an empty/broken index, not a legitimate change in record count.
   if(!state.catalog.length)throw Error('기관 수록 산 목록이 비어 있어');

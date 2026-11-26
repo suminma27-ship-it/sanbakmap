@@ -3749,6 +3749,53 @@
         "notes": "공개 산행 안내의 경유지 정보. 전체 선형·고도 미등록. 최신 통제 확인."
       }
     ],
+    "457200201": [
+      {
+        "id": "gb-1",
+        "name": "구봉산·운장산 종주",
+        "group": "종주코스",
+        "via": [
+          "상양명",
+          "구봉산",
+          "복두봉",
+          "갈크미재",
+          "운장산",
+          "피암목재"
+        ],
+        "source": "진안군 등산로",
+        "sourceUrl": "https://www.jinan.go.kr/index.jinan?menuCd=DOM_000000109003006000",
+        "guideKm": 13.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "gb-2",
+        "name": "구봉산~수암마을",
+        "group": "정상코스",
+        "via": [
+          "상양명",
+          "구봉",
+          "구봉산",
+          "천황사",
+          "수암마을"
+        ],
+        "source": "진안군 등산로",
+        "sourceUrl": "https://www.jinan.go.kr/index.jinan?menuCd=DOM_000000109003006000",
+        "guideKm": 6.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      }
+    ],
     "457200901": [
       {
         "id": "mai-biryong",
@@ -3798,6 +3845,31 @@
         "notes": "공개 산행 안내의 경유지 정보. 전체 선형·고도 미등록. 최신 통제 확인."
       }
     ],
+    "457202301": [
+      {
+        "id": "uj-1",
+        "name": "구봉산·운장산 종주",
+        "group": "종주코스",
+        "via": [
+          "상양명",
+          "구봉산",
+          "복두봉",
+          "갈크미재",
+          "운장산",
+          "피암목재"
+        ],
+        "source": "진안군 등산로",
+        "sourceUrl": "https://www.jinan.go.kr/index.jinan?menuCd=DOM_000000109003006000",
+        "guideKm": 13.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      }
+    ],
     "457300702": [
       {
         "id": "deogyu-yukgu",
@@ -3831,6 +3903,316 @@
           30,
           32.9
         ]
+      }
+    ],
+    "457402601": [
+      {
+        "id": "jang-1",
+        "name": "장안산 1코스 · 무룡고개",
+        "group": "정상코스",
+        "via": [
+          "무룡고개",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 3.2,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-2",
+        "name": "장안산 2코스 · 밀목재",
+        "group": "정상코스",
+        "via": [
+          "밀목재",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 9,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-3",
+        "name": "장안산 3코스 · 지소골",
+        "group": "정상코스",
+        "via": [
+          "지소골",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-4",
+        "name": "장안산 4코스 · 괴목동",
+        "group": "정상코스",
+        "via": [
+          "괴목동",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-5",
+        "name": "장안산 5코스 · 연주",
+        "group": "정상코스",
+        "via": [
+          "연주",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 5.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-6",
+        "name": "장안산 6코스 · 범연동",
+        "group": "정상코스",
+        "via": [
+          "범연동",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 5.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-7",
+        "name": "장안산 7코스 · 삼거마을",
+        "group": "정상코스",
+        "via": [
+          "삼거마을",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 3.6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "jang-8",
+        "name": "장안산 8코스 · 당동마을",
+        "group": "정상코스",
+        "via": [
+          "당동마을",
+          "장안산 정상"
+        ],
+        "source": "장수군 문화관광",
+        "sourceUrl": "https://www.jangsu.go.kr/tour/index.jangsu?menuCd=DOM_000000401001005000",
+        "guideKm": 5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      }
+    ],
+    "457700101": [
+      {
+        "id": "gc-1",
+        "name": "산성산 연대봉 순환",
+        "group": "종주코스",
+        "via": [
+          "병풍바위",
+          "강천사",
+          "구장군폭포",
+          "연대봉",
+          "송낙바위",
+          "강천사",
+          "관리사무소"
+        ],
+        "source": "순창군 문화관광",
+        "sourceUrl": "https://old.sunchang.go.kr/index.sunchang?menuCd=DOM_000000401006000000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "gc-2",
+        "name": "왕자봉·광덕산 순환",
+        "group": "종주코스",
+        "via": [
+          "병풍바위",
+          "깃대봉",
+          "왕자봉",
+          "형제봉",
+          "송낙바위",
+          "동문",
+          "광덕산",
+          "옥호봉",
+          "관리사무소"
+        ],
+        "source": "순창군 문화관광",
+        "sourceUrl": "https://old.sunchang.go.kr/index.sunchang?menuCd=DOM_000000401006000000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      }
+    ],
+    "457901001": [
+      {
+        "id": "seon-1",
+        "name": "천마봉 도솔암 방면",
+        "group": "기타코스",
+        "via": [
+          "관리사무소",
+          "선운사",
+          "도솔쉼터",
+          "도솔암",
+          "용문굴",
+          "낙조대",
+          "천마봉"
+        ],
+        "source": "고창군 문화관광",
+        "sourceUrl": "https://www.gochang.go.kr/tour/board/view.gochang?boardId=BBS_0000398&dataSid=772640&keywordEtc6=1&menuCd=DOM_000000401005000000&paging=ok&searchTypeEtc6=TMP_FIELD1&startPage=1",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "seon-2",
+        "name": "수리봉~천마봉",
+        "group": "종주코스",
+        "via": [
+          "관리사무소",
+          "선운사",
+          "석상암",
+          "마이재",
+          "수리봉",
+          "참당암",
+          "소리재",
+          "낙조대",
+          "천마봉"
+        ],
+        "source": "고창군 문화관광",
+        "sourceUrl": "https://www.gochang.go.kr/tour/board/view.gochang?boardId=BBS_0000398&dataSid=772640&keywordEtc6=1&menuCd=DOM_000000401005000000&paging=ok&searchTypeEtc6=TMP_FIELD1&startPage=1",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "seon-3",
+        "name": "경수산~천마봉",
+        "group": "종주코스",
+        "via": [
+          "관리사무소",
+          "경수산",
+          "마이재",
+          "수리봉",
+          "견치산",
+          "소리재",
+          "낙조대",
+          "천마봉"
+        ],
+        "source": "고창군 문화관광",
+        "sourceUrl": "https://www.gochang.go.kr/tour/board/view.gochang?boardId=BBS_0000398&dataSid=772640&keywordEtc6=1&menuCd=DOM_000000401005000000&paging=ok&searchTypeEtc6=TMP_FIELD1&startPage=1",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "seon-4",
+        "name": "청룡산~천마봉",
+        "group": "종주코스",
+        "via": [
+          "관리사무소",
+          "도솔쉼터",
+          "도솔제",
+          "투구바위",
+          "사자바위",
+          "쥐바위",
+          "청룡산",
+          "배맨바위",
+          "낙조대",
+          "천마봉"
+        ],
+        "source": "고창군 문화관광",
+        "sourceUrl": "https://www.gochang.go.kr/tour/board/view.gochang?boardId=BBS_0000398&dataSid=772640&keywordEtc6=1&menuCd=DOM_000000401005000000&paging=ok&searchTypeEtc6=TMP_FIELD1&startPage=1",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
       }
     ],
     "461502801": [
@@ -3899,6 +4281,177 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 산행 안내의 경유지 정보. 전체 선형·고도 미등록. 최신 통제 확인."
+      }
+    ],
+    "462300801": [
+      {
+        "id": "bw-1",
+        "name": "논실 코스",
+        "group": "정상코스",
+        "via": [
+          "논실",
+          "한재",
+          "신선대",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": 4.9,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-2",
+        "name": "진틀 코스",
+        "group": "정상코스",
+        "via": [
+          "진틀",
+          "병암",
+          "진틀삼거리",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": 3.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-3",
+        "name": "용소 코스",
+        "group": "정상코스",
+        "via": [
+          "용소",
+          "백운사",
+          "상백운암",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": 5.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-4",
+        "name": "노랭이봉 코스",
+        "group": "정상코스",
+        "via": [
+          "포스코수련관",
+          "노랭이봉",
+          "억불봉삼거리",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-5",
+        "name": "성불교 코스",
+        "group": "종주코스",
+        "via": [
+          "성불교",
+          "형제봉",
+          "도술봉",
+          "한재",
+          "신선대",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-6",
+        "name": "어치 코스",
+        "group": "정상코스",
+        "via": [
+          "어치(내회)",
+          "매봉삼거리",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-7",
+        "name": "구황 코스",
+        "group": "정상코스",
+        "via": [
+          "구황",
+          "노랭이재",
+          "억불봉삼거리",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bw-8",
+        "name": "청매실농원 코스",
+        "group": "종주코스",
+        "via": [
+          "청매실농원",
+          "쫓비산",
+          "매봉",
+          "백운산 정상"
+        ],
+        "source": "광양시 문화관광",
+        "sourceUrl": "https://gwangyang.go.kr/tour/menu.es?mid=a31103020000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
       }
     ],
     "468001701": [
@@ -4064,6 +4617,57 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 산행 안내의 경유지 정보. 전체 선형·고도 미등록. 최신 통제 확인."
+      }
+    ],
+    "468600801": [
+      {
+        "id": "bg-1",
+        "name": "동백골~연실봉 순환",
+        "group": "정상코스",
+        "via": [
+          "주차장",
+          "불갑사",
+          "동백골",
+          "해불암",
+          "연실봉",
+          "구수재",
+          "동백골",
+          "주차장"
+        ],
+        "source": "한국관광공사 대한민국 구석구석",
+        "sourceUrl": "https://korean.visitkorea.or.kr/detail/rem_detail.do?cotid=dc0cfd50-1a6c-4a4f-968b-4f96cb19d029",
+        "guideKm": 7.3,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "bg-2",
+        "name": "덫고개~도솔봉 순환",
+        "group": "종주코스",
+        "via": [
+          "주차장",
+          "덫고개",
+          "노적봉",
+          "연실봉",
+          "구수재",
+          "도솔봉",
+          "주차장"
+        ],
+        "source": "한국관광공사 대한민국 구석구석",
+        "sourceUrl": "https://korean.visitkorea.or.kr/detail/rem_detail.do?cotid=dc0cfd50-1a6c-4a4f-968b-4f96cb19d029",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내에 기재된 주요 지점 및 거리 참고. 코스 선형·고도 미등록. 최신 출입통제 확인."
       }
     ],
     "471900101": [

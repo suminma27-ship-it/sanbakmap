@@ -166,7 +166,7 @@ async function loadReferenceCourse(route,generation){
 }
 function drawRoute(route,geometry,coords,metres){
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.
- const startLabel=geometry.properties.startLabel||route.via[0],endLabel=route.via.at(-1);
+ const startLabel=geometry.properties.startLabel||route.via[0],endLabel=geometry.properties.endLabel||route.via.at(-1);
  if(map){
   layer=L.featureGroup().addTo(map);
   L.geoJSON(geometry,{style:{color:'#146b3e',weight:5,opacity:1}}).addTo(layer);
@@ -179,7 +179,7 @@ function drawRoute(route,geometry,coords,metres){
  $('distance').textContent=(route.coverage==='partial'?'자료 제공 구간 거리: ':'공단 원본 참고거리: ')+(metres/1000).toFixed(2)+' km'+(geometry.properties.officialCourseGuideKm?' · 공단 안내거리 '+geometry.properties.officialCourseGuideKm+' km':'');
 }
 function drawProfile(route,profile){
- const metres=profile.totalMeters,startLabel=route.coverage==='partial'?'신흥사 인근(원본 시작)':route.via[0],endLabel=route.via.at(-1);
+ const metres=profile.totalMeters,startLabel=profile.startLabel||(route.id==='s1'?'신흥사 인근(원본 시작)':route.via[0]),endLabel=profile.endLabel||route.via.at(-1);
  const svg=$('graph');svg.replaceChildren();
  const ns='http://www.w3.org/2000/svg';const el=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));if(text!==undefined)node.textContent=String(text);return node};
  const pts=profile.points;let lo=Infinity,hi=-Infinity;for(const point of pts){lo=Math.min(lo,point.elevationMeters);hi=Math.max(hi,point.elevationMeters)}lo-=30;hi+=30;

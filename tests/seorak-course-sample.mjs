@@ -56,7 +56,7 @@ for(const route of catalog.routes){
   assert.equal(route.profileFile,null,'미검증 코스 가짜 고도 금지');
  }
 }
-assert(ready.includes('s1')&&ready.includes('s5'),'새 참고 코스 등록');
+assert(['s1','s2','s3','s4','s5','s6','t1','t2','t3','t4','t5'].every(id=>ready.includes(id)),'대청봉 6개 및 종주 5개 참고자료 등록');
 assert(ready.includes('s3'),'2018 오색 원본 회귀 테스트 보존');
 const geo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8'));
 const dem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));
@@ -84,7 +84,7 @@ assert(Math.abs(dem.points.at(-1).distanceMeters-distance)<1);
 const page=readFileSync('seorak-courses.html','utf8');
 for(const str of ['./data/seorak-predefined-routes.json','./data/knps-seorak-2018.geojson','id="gate"','LNT','loadReference()','id="graph"'])assert(page.includes(str),'설악산 샘플 기능 누락: '+str);
 // Route labels must follow selected catalog metadata, not stay hard-coded to Osaek.
-assert(page.includes("const startLabel=geometry.properties.startLabel||route.via[0],endLabel=route.via.at(-1)"));
+assert(page.includes("const startLabel=geometry.properties.startLabel||route.via[0],endLabel=geometry.properties.endLabel||route.via.at(-1)"));
 assert(page.includes("bindTooltip(startLabel+' (원본 출발점)'"));
 assert(page.includes("bindTooltip(endLabel+' (원본 종점)'"));
 assert(page.includes("[[a,startLabel,17],[b,endLabel,-12]]"));

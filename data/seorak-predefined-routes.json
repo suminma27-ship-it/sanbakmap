@@ -4,7 +4,7 @@
   "mountainCode": "428302602",
   "updated": "2026-11-26",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "공단 원본 선형 및 기존 DEM 기반 참고 자료를 표시. 오색 기존 자료 보존, 백담사~대청봉 및 천불동계곡 원본 시작점~대청봉 추가. 현행 개방과 별개.",
+  "notes": "공단 원본 선형과 기존 90m DEM 기반 산행 참고정보. 전체 23개 중 11개 경로·고도 등록(일부 접근 구간 제외 포함). 현행 개방과 별개.",
   "routes": [
     {
       "id": "s1",
@@ -42,12 +42,14 @@
         "소청봉",
         "대청봉"
       ],
-      "source": "user",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-s2-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-s2-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "비선대~마등령 방면~공룡능선~희운각 방면~대청봉 기관 원본 참고선. 소공원~신흥사 인근 원본 시작 접근 구간 제외."
     },
     {
       "id": "s3",
@@ -79,13 +81,14 @@
         "끝청",
         "대청봉"
       ],
-      "source": "user-needs-connection-review",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-s4-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-s4-reference-dem.json",
       "accessStatus": "unknown",
-      "notes": "십이선녀탕에서 귀때기청봉 방면은 대승령을 경유하는 서북능선 장거리 코스"
+      "notes": "남교리~십이선녀탕~서북능선~대청봉 기관 원본 참고선. 서북능선 합류부 약 10m 좌표 차이 있음.",
+      "coverage": "reference"
     },
     {
       "id": "s5",
@@ -119,12 +122,14 @@
         "중청",
         "대청봉"
       ],
-      "source": "user",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-s6-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-s6-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "한계령~서북능선~중청 방면~대청봉 공단 원본 선형 및 DEM 참고값."
     },
     {
       "id": "a1",
@@ -268,12 +273,14 @@
         "비선대",
         "소공원"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t1-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t1-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "한계령~대청봉~천불동계곡~신흥사 인근 원본 종점. 소공원까지 접근 구간 제외."
     },
     {
       "id": "t2",
@@ -288,12 +295,14 @@
         "대청봉",
         "오색"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t2-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t2-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "신흥사 인근~공룡능선~대청봉~오색 원본 참고선. 소공원 접근 구간 제외."
     },
     {
       "id": "t3",
@@ -309,12 +318,14 @@
         "비선대",
         "소공원"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t3-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t3-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "백담사~대청봉~천불동계곡~신흥사 인근 원본 종점. 소공원까지 접근 구간 제외."
     },
     {
       "id": "t4",
@@ -328,12 +339,14 @@
         "수렴동대피소",
         "백담사"
       ],
-      "source": "example",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t4-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t4-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "오색~대청봉~백담사 원본 참고선 및 DEM."
     },
     {
       "id": "t5",
@@ -348,12 +361,14 @@
         "대청봉",
         "오색"
       ],
-      "source": "example",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t5-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t5-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "남교리~십이선녀탕~서북능선~대청봉~오색 기관 원본 참고선."
     },
     {
       "id": "a9",

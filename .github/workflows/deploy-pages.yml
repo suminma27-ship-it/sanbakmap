@@ -62,7 +62,7 @@ jobs:
           cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/
           cp data/nationwide-elevation/*.json site/data/nationwide-elevation/
-          cp data/knps-seorak-2018.geojson data/seorak-predefined-routes.json data/seorak-osaek-daecheong-2018.geojson data/seorak-osaek-daecheong-dem.json data/seorak-s*-reference.geojson data/seorak-s*-reference-dem.json site/data/
+          cp data/knps-seorak-2018.geojson data/seorak-predefined-routes.json data/seorak-osaek-daecheong-2018.geojson data/seorak-osaek-daecheong-dem.json data/seorak-*-reference.geojson data/seorak-*-reference-dem.json site/data/
           # Retain existing static entry points and legacy assets without running topology builders.
           for file in national.html national_data.js national_routes.js nationwide-full.html nationwide-official.html nationwide-topology.html nationwide-plan.html national-parks-trails.html national-parks-basemap.js seorak-real-overlay.html seorak-standalone-s3.html ganwol-review.html yeongnam-gpx-connect.html yeongnam-osm.html seorak-v76-extra.js seorak-v77-extra.js seorak-v78-extra.js seorak-v83-gpx-tracks.js seorak-v95-pois.js seorak-v96-plan.js yeongnam-course-v72.js ganwol-review-data.js ganwol-verify.js sw.js deployment-version.json manifest.webmanifest icon-192.png icon-512.png .nojekyll; do
             if [ -f "$file" ]; then cp "$file" site/; fi

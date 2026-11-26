@@ -38,7 +38,7 @@ const files={
  './data/seorak-osaek-daecheong-dem.json':'data/seorak-osaek-daecheong-dem.json'
 };
 const fetch=async path=>{
- if(!Object.hasOwn(files,path)&&!/^\.\/data\/seorak-s[15]-reference(?:-dem\.json|\.geojson)$/.test(path))return {ok:false,status:404};
+ if(!Object.hasOwn(files,path)&&!/^\.\/data\/seorak-[sta][0-9]+-reference(?:-dem\.json|\.geojson)$/.test(path))return {ok:false,status:404};
  return {ok:true,status:200,json:async()=>JSON.parse(readFileSync(files[path]||path.slice(2),'utf8'))};
 };
 new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'}).runInNewContext({document,window:{L:null},fetch,console});
@@ -51,8 +51,8 @@ assert.match(elements.baseStatus.textContent,/미연결/,'Leaflet 없는 경우 
 basemaps[0].onclick();
 const graphPaths=()=>elements.graph.children.filter(n=>n.tagName==='path').length;
 assert.equal(elements.title.textContent,'오색약수 → 대청봉','준비된 코스가 첫 선택이어야 함');
-assert.match(elements.catalogSummary.textContent,/23개 등록 · 경로·고도 참고자료 3개/);
-assert.match(elements.catalogDescription.textContent,/20개는 경로 또는 고도자료 미확인/);
+assert.match(elements.catalogSummary.textContent,/23개 등록 · 경로·고도 참고자료 11개/);
+assert.match(elements.catalogDescription.textContent,/12개는 경로 또는 고도자료 미확인/);
 
 assert.match(elements.status.textContent,/2018년 국립공원공단/);
 assert.match(elements.distance.textContent,/4\.59 km/);
@@ -77,11 +77,22 @@ firstList[4].onclick();
 await settle();
 assert.equal(graphPaths(),1,'백담사 원본 DEM 그래프 표시');
 assert.match(elements.distance.textContent,/12\.13 km/);
-firstList[1].onclick(); // User's screenshot: Kongryong ridge without validated complete track.
+for(const i of [1,3,5]){
+ elements.courses.children[i].onclick();
+ await settle();
+ assert.equal(graphPaths(),1,'신규 대청봉 코스 그래프 표시');
+ assert.equal(elements.mapState.hidden,true);
+}
+tabs[2].onclick();
 await settle();
-assert.equal(elements.title.textContent,'소공원 → 비선대 → 마등령 → 공룡능선 → 대청봉');
-assert.equal(graphPaths(),0,'미확인 전체코스의 허위 고도그래프 금지');
-assert.match(elements.status.textContent,/미구현 코스/);
+for(const i of [0,1,2,3,4]){
+ elements.courses.children[i].onclick();
+ await settle();
+ assert.equal(graphPaths(),1,'신규 종주 코스 그래프 표시');
+}
+tabs[1].onclick();
+await settle();
+assert.equal(graphPaths(),0,'미확인 코스는 허위 그래프 금지');
 assert.equal(elements.tryVerified.hidden,false);
 assert.equal(elements.mapState.hidden,false);
 elements.tryVerified.listeners.click();

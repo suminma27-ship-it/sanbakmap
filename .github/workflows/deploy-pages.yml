@@ -73,6 +73,8 @@ jobs:
           cp index.html site/legacy-map.html
           cp app-home.html site/index.html
           cp app-home.html site/app-home.html
+          cp app-home.html site/home-20261126-islands.html
+          test -s site/home-20261126-islands.html
           test -s site/app-home.html
           test -s site/legacy-map.html
           cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html site/

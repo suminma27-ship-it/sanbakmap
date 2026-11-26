@@ -21,7 +21,8 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
     },
     {
       "id": "d2",
@@ -41,7 +42,8 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
     },
     {
       "id": "d3",
@@ -59,7 +61,8 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
     },
     {
       "id": "d4",

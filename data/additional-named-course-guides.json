@@ -1,0 +1,186 @@
+{
+  "schema": "sanbak-named-guide-additions-v1",
+  "mountains": {
+    "113200102": [
+      {
+        "id": "local-dobong-1",
+        "group": "종주코스",
+        "name": "망월사~포대능선~회룡",
+        "via": [
+          "원도봉탐방지원센터",
+          "덕제샘",
+          "망월사",
+          "포대능선",
+          "회룡사거리",
+          "회룡사"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3942",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ],
+    "411700301": [
+      {
+        "id": "local-suri-1",
+        "group": "종주코스",
+        "name": "수리산역~수리약수터 능선 종주",
+        "via": [
+          "수리산역",
+          "슬기봉 일대",
+          "태을봉",
+          "관모봉",
+          "수리약수터"
+        ],
+        "source": "에브리트레일(군포시 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/surisan/gwanmobong",
+        "guideKm": 8.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      },
+      {
+        "id": "local-suri-5",
+        "group": "종주코스",
+        "name": "수리약수터~용진사 능선 코스",
+        "via": [
+          "수리약수터",
+          "관모봉",
+          "태을봉",
+          "슬기봉 일대",
+          "용진사 입구"
+        ],
+        "source": "에브리트레일(군포시 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/surisan/gwanmobong",
+        "guideKm": 6.1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ],
+    "418303101": [
+      {
+        "id": "local-yong-1",
+        "group": "정상코스",
+        "name": "용문사 마당바위 코스",
+        "via": [
+          "용문사",
+          "마당바위",
+          "가섭봉"
+        ],
+        "source": "에브리트레일",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/yongmunsan/yongmunsa",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      },
+      {
+        "id": "local-yong-2",
+        "group": "정상코스",
+        "name": "상원사~장군봉 코스",
+        "via": [
+          "용문사",
+          "상원사",
+          "장군봉",
+          "가섭봉"
+        ],
+        "source": "아웃도어 레이더",
+        "sourceUrl": "https://outdoorradar.kr/mt-yongmunsan",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      },
+      {
+        "id": "local-yong-3",
+        "group": "종주코스",
+        "name": "용문산 남북종주",
+        "via": [
+          "백운봉",
+          "함왕성",
+          "장군봉",
+          "가섭봉"
+        ],
+        "source": "에브리트레일",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/yongmunsan/jongju",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ],
+    "471900101": [
+      {
+        "id": "local-geum-1",
+        "group": "정상코스",
+        "name": "대혜폭포~현월봉",
+        "via": [
+          "금오산 잔디광장",
+          "해운사",
+          "대혜폭포",
+          "할딱고개",
+          "현월봉"
+        ],
+        "source": "에브리트레일(구미시 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/tracks/8677",
+        "guideKm": 4,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      },
+      {
+        "id": "local-geum-2",
+        "group": "종주코스",
+        "name": "현월봉~법성사 하산",
+        "via": [
+          "금오산 탐방안내소",
+          "해운사",
+          "대혜폭포",
+          "현월봉",
+          "법성사"
+        ],
+        "source": "산가이드코리아",
+        "sourceUrl": "https://sanguidekorea.com/ko/course/geumosan-beopseongsa/",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ]
+  }
+}

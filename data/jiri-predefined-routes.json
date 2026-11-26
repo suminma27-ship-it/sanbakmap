@@ -23,7 +23,8 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
     },
     {
       "id": "j2",
@@ -42,7 +43,8 @@
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
     },
     {
       "id": "j3",
@@ -76,13 +78,213 @@
       ],
       "source": "국립공원공단 탐방코스 안내",
       "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4054",
-      "guideKm": null,
+      "guideKm": 12.9,
       "geometryStatus": "unverified",
       "geometryFile": null,
       "profileStatus": "unverified",
       "profileFile": null,
       "accessStatus": "unknown",
-      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중.",
+      "guideDirection": "편도"
+    },
+    {
+      "id": "j5",
+      "group": "종주코스",
+      "name": "거림~천왕봉~중산리",
+      "via": [
+        "거림공원지킴터",
+        "세석대피소",
+        "장터목대피소",
+        "천왕봉",
+        "로타리대피소",
+        "중산리탐방안내소"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4056",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j6",
+      "group": "종주코스",
+      "name": "유평(대원사)~천왕봉~중산리",
+      "via": [
+        "유평탐방지원센터",
+        "유평청소년수련원(밤밭골)",
+        "치밭목대피소",
+        "천왕봉",
+        "로타리대피소",
+        "중산리탐방안내소"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4057",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j7",
+      "group": "천왕봉",
+      "name": "중산리 장터목 원점회귀",
+      "via": [
+        "중산리탐방안내소",
+        "장터목대피소",
+        "천왕봉",
+        "로타리대피소",
+        "중산리탐방안내소"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4052",
+      "guideKm": 12.4,
+      "guideDirection": "원점회귀",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j8",
+      "group": "기타코스",
+      "name": "반야봉 코스",
+      "via": [
+        "노고단고개",
+        "임걸령",
+        "노루목",
+        "반야봉"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4050",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j9",
+      "group": "기타코스",
+      "name": "만복대 코스",
+      "via": [
+        "성삼재",
+        "당치고개",
+        "고리봉",
+        "만복대"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4047",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j10",
+      "group": "기타코스",
+      "name": "화엄계곡 코스",
+      "via": [
+        "화엄사",
+        "연기암",
+        "무넹기"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4048",
+      "guideKm": 7,
+      "guideDirection": "편도",
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j11",
+      "group": "기타코스",
+      "name": "피아골 코스",
+      "via": [
+        "직전마을",
+        "표고막터",
+        "피아골대피소",
+        "피아골삼거리"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4049",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j12",
+      "group": "기타코스",
+      "name": "뱀사골 코스",
+      "via": [
+        "반선",
+        "뱀사골탐방안내소",
+        "요룡대",
+        "병소",
+        "간장소",
+        "뱀사골탐방지원센터",
+        "화개재"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4045",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+    },
+    {
+      "id": "j13",
+      "group": "종주코스",
+      "name": "정령치~바래봉 방면",
+      "via": [
+        "정령치",
+        "세걸산",
+        "세동치",
+        "부운치",
+        "팔랑치",
+        "바래봉삼거리",
+        "운봉 용산리"
+      ],
+      "source": "국립공원공단 탐방아카이브",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4046",
+      "guideKm": null,
+      "guideDirection": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
     }
   ]
 }

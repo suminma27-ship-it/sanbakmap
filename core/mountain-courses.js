@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const COURSE_RELEASE='20261127-r11';
+const COURSE_RELEASE='20261127-r12';
 function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
 function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
 $('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
@@ -99,7 +99,9 @@ function choose(route){
  const generation=++selectionGeneration;
  selected=route;activePoi=[];poiMap.clear();poiGraph.clear();poiButtons.clear();$('poiList').replaceChildren();$('poiFocus').textContent='경유지 위치 자료 확인 중…';
  $('title').textContent=route.name;
- $('via').textContent='주요 경유지: '+route.via.join(' → ');
+ $('via').textContent='출발: '+route.via[0]+(route.via.length>2?' · 경유: '+route.via.slice(1,-1).join(' → '):'')+' · 도착: '+route.via.at(-1);
+ const detail=$('routeSource');if(detail){detail.replaceChildren();if(route.sourceUrl&&/^https:\/\//.test(route.sourceUrl)){const a=document.createElement('a');a.href=route.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(route.source||'코스 출처')+' 원문';detail.append(a)}else detail.textContent=route.source||'';}
+ const guideInfo=$('guideDistance');if(guideInfo)guideInfo.textContent=Number.isFinite(route.guideKm)?'안내 거리: '+route.guideKm.toFixed(2)+' km'+(route.guideDirection?' ('+route.guideDirection+')':'')+' · 출처 안내 기준':'';
  if(layer&&map){map.removeLayer(layer);layer=null}
  if(!map){
   if(referencePaths.length)refSvg(referencePaths,'기관 원본 참고선');
@@ -107,7 +109,7 @@ function choose(route){
  }
  const ready=isReady(route);
  $('tryVerified').hidden=ready;
- $('distance').textContent=hasGeometry(route)?'거리 불러오는 중…':Number.isFinite(route.guideKm)?'공단 안내거리: '+route.guideKm.toFixed(2)+' km · 원본 선형 미등록':'전체 거리: 미확인';
+ $('distance').textContent=hasGeometry(route)?'거리 불러오는 중…':Number.isFinite(route.guideKm)?'출처 안내거리: '+route.guideKm.toFixed(2)+' km · 원본 선형 미등록':'전체 거리: 미확인';
  svgMessage(hasProfile(route)?'고도자료 읽는 중…':'고도자료 미확인');
  showMapState(hasGeometry(route)?'공식 원본 참고경로 읽는 중…':'선택 코스의 경로자료 미확인');
  $('status').textContent=hasGeometry(route)||hasProfile(route)?'기관 자료 기반 참고정보 · 실제 통행 여부는 별도 확인':(route.notes||'경로 및 고도자료 미확인');
@@ -194,7 +196,7 @@ function drawRoute(route,geometry,coords,metres,markers=[]){
   map.fitBounds(layer.getBounds(),{padding:[24,24]});
  }
  else refSvg([coords],'검증된 과거 원본 코스 선형 · 원본 좌표만 표시',true,[startLabel,endLabel],markers);
- $('distance').textContent=(route.coverage==='partial'?'자료 제공 구간 거리: ':'기관 원본 참고거리: ')+((geometry.properties.sourceDistanceMeters||metres)/1000).toFixed(2)+' km'+(geometry.properties.officialCourseGuideKm?' · 공단 안내거리 '+geometry.properties.officialCourseGuideKm+' km':'');
+ $('distance').textContent=(route.coverage==='partial'?'자료 제공 구간 거리: ':'기관 원본 참고거리: ')+((geometry.properties.sourceDistanceMeters||metres)/1000).toFixed(2)+' km'+(geometry.properties.officialCourseGuideKm?' · 출처 안내거리 '+geometry.properties.officialCourseGuideKm+' km':'');
 }
 function drawProfile(route,profile,markers=[]){
  const metres=profile.totalMeters,startLabel=profile.startLabel||(mountain.code==='428302602'&&route.id==='s1'?'신흥사 인근(원본 시작)':route.via[0]),endLabel=profile.endLabel||route.via.at(-1);
@@ -240,7 +242,7 @@ function render(){
  for(const r of catalog.routes.filter(r=>r.group===group)){
   const b=document.createElement('button');b.className='course';b.type='button';b.setAttribute('aria-pressed',String(selected?.id===r.id));
   const title=document.createElement('strong');title.textContent=r.name;
-  const desc=document.createElement('small');desc.textContent=isReady(r)?(r.profileSource==='gpx'?'● 공공 GPX 지도·거리·기록 고도그래프':r.coverage==='partial'?'● 일부 구간 지도·거리·DEM 고도그래프':'● 지도·거리·DEM 고도그래프 참고자료'):(hasGeometry(r)?'경로 참고자료 · 고도 미확인':hasProfile(r)?'고도 참고자료 · 경로 미확인':(Number.isFinite(r.guideKm)?'공단 안내거리 '+r.guideKm.toFixed(1)+' km · 지도/고도 준비 중':'○ 경유지 목록 · 자료 미확인'));
+  const desc=document.createElement('small');desc.textContent=isReady(r)?(r.profileSource==='gpx'?'● 공공 GPX 지도·거리·기록 고도그래프':r.coverage==='partial'?'● 일부 구간 지도·거리·DEM 고도그래프':'● 지도·거리·DEM 고도그래프 참고자료'):(hasGeometry(r)?'경로 참고자료 · 고도 미확인':hasProfile(r)?'고도 참고자료 · 경로 미확인':(Number.isFinite(r.guideKm)?'출처 안내거리 '+r.guideKm.toFixed(1)+' km · 지도/고도 준비 중':'○ 경유지 목록 · 자료 미확인'));
   b.dataset.ready=String(isReady(r));
   b.append(title,desc);b.onclick=()=>choose(r);list.append(b);
  }
@@ -254,7 +256,7 @@ function configureTabs(){
 }
 function noCatalog(message){
  $('catalogSummary').textContent=mountain.name+' 산행코스';$('catalogDescription').textContent=message;
- const link=document.createElement('a');link.href='./mountains-20261127-r11.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
+ const link=document.createElement('a');link.href='./mountains-20261127-r12.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
  $('count').textContent='등록된 사전 코스 없음';$('status').textContent=message;
  $('tryVerified').hidden=true;$('poiFocus').textContent='경유지 자료 없음';showMapState(message);svgMessage('고도자료 미등록');
  document.querySelectorAll('.tab').forEach(b=>b.hidden=true);

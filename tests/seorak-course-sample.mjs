@@ -50,13 +50,15 @@ for(const route of catalog.routes){
   assert(Math.abs(profile.points.at(-1).distanceMeters-metres)<Math.max(30,metres*.02),'고도표본 전체 코스 커버');
   ready.push(route.id);
  }else{
-  assert.equal(route.geometryStatus,'unverified','부분 완료를 검증 완료로 표기 금지');
-  assert.equal(route.profileStatus,'unverified','부분 완료를 검증 완료로 표기 금지');
-  assert.equal(route.geometryFile,null,'미검증 코스 가짜 선형 금지');
-  assert.equal(route.profileFile,null,'미검증 코스 가짜 고도 금지');
+  for(const [status,file] of [[route.geometryStatus,route.geometryFile],[route.profileStatus,route.profileFile]]){
+   assert(['unverified','reference','verified'].includes(status));
+   assert.equal(Boolean(file),status!=='unverified','자료 준비 상태와 파일 일치');
+   if(file){const asset=JSON.parse(readFileSync(file.slice(2),'utf8'));assert.equal(asset.properties?.routeId||asset.routeId,route.id);}
+  }
  }
 }
 assert(['s1','s2','s3','s4','s5','s6','t1','t2','t3','t4','t5'].every(id=>ready.includes(id)),'대청봉 6개 및 종주 5개 참고자료 등록');
+assert.equal(ready.length,21);
 assert(ready.includes('s3'),'2018 오색 원본 회귀 테스트 보존');
 const geo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8'));
 const dem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));

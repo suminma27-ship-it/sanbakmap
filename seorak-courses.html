@@ -162,7 +162,7 @@ async function loadReferenceCourse(route,generation){
   drawProfile(route,profile);
  }).catch(err=>{if(current()){errs.push('고도: '+err.message);svgMessage('고도자료 로드 실패')}}));
  await Promise.all(tasks);
- if(current())$('status').textContent='2018년 국립공원공단 · 기존 DEM 기반 참고정보. '+(route.notes||'실제 통행 여부는 최신 공단 안내 확인.')+(errs.length?' · '+errs.join(' / '):'');
+ if(current())$('status').textContent='2018년 국립공원공단 · '+(hasProfile(route)?'기존 DEM 기반 참고정보. ':'경로 참고정보 · 고도자료 미확인. ')+(route.notes||'실제 통행 여부는 최신 공단 안내 확인.')+(errs.length?' · '+errs.join(' / '):'');
 }
 function drawRoute(route,geometry,coords,metres){
  // Endpoint labels come from the catalog, while positions are the actual verified geometry.

@@ -4,7 +4,7 @@
   "mountainCode": "428302602",
   "updated": "2026-11-26",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "공단 원본 선형과 기존 90m DEM 기반 산행 참고정보. 전체 23개 중 11개 경로·고도 등록(일부 접근 구간 제외 포함). 현행 개방과 별개.",
+  "notes": "공단 2018 원본 선형 및 기존 DEM 참고정보: 23개 중 21개 경로·고도 등록(일부 구간 포함), 1개 지도만 등록, 1개 자료 미확인. 현행 통행 여부와 별개.",
   "routes": [
     {
       "id": "s1",
@@ -140,12 +140,14 @@
         "흔들바위",
         "울산바위"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a1-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a1-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "울산바위 방면 공단 원본 탐방로. 소공원 접근 구간 제외."
     },
     {
       "id": "a2",
@@ -156,12 +158,14 @@
         "비선대",
         "금강굴"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a2-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a2-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "비선대 갈림길까지 기존 원본 선형과 DEM. 금강굴 오름길 및 소공원 접근 구간 미확인."
     },
     {
       "id": "a3",
@@ -173,12 +177,14 @@
         "귀면암",
         "양폭대피소"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a3-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a3-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "천불동계곡 양폭대피소 인근까지 원본 선형. 대피소 인근 위치는 OSM 참고(https://mapcarta.com/N10288536945); 소공원 접근 구간 제외."
     },
     {
       "id": "a4",
@@ -190,12 +196,14 @@
         "비룡폭포",
         "토왕성폭포전망대"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a4-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a4-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "공단 비룡폭포 방면 원본 선형. 전망대와 원본 종점 약 65m 차이(https://mapcarta.com/N4218866495), 정확한 접근 및 최종 구간 미확인."
     },
     {
       "id": "a5",
@@ -207,12 +215,14 @@
         "대승령",
         "장수대"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a5-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a5-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "남교리~십이선녀탕~대승령 방면~장수대 기존 기관 선형. 합류부 약 13m 위치 차이."
     },
     {
       "id": "a6",
@@ -238,12 +248,14 @@
         "영시암",
         "수렴동대피소"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a7-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a7-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "백담사~수렴동대피소 인근 원본 선형 및 DEM. 대피소 위치 참고 https://mapcarta.com/N444208708 (원본과 약 18m 차이)."
     },
     {
       "id": "a8",
@@ -253,12 +265,14 @@
         "오색",
         "용소폭포"
       ],
-      "source": "knps",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a8-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a8-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "오색 방면~금강문 인근 기관 원본 선형. 용소폭포 최종 접근구간 미확인. 금강문 위치 참고 https://mapcarta.com/N1881933259."
     },
     {
       "id": "t1",
@@ -378,13 +392,14 @@
         "백담탐방지원센터",
         "백담사"
       ],
-      "source": "knps",
-      "notes": "국립공원공단 백담사코스",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
+      "source": "국립공원공단 2018 진입도로3",
+      "notes": "백담사 진입도로 원본 선형. 기존 공단 탐방로 DEM 패키지에 이 도로 고도표본 없음.",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-a9-reference.geojson",
       "profileStatus": "unverified",
       "profileFile": null,
-      "accessStatus": "unknown"
+      "accessStatus": "unknown",
+      "coverage": "reference"
     },
     {
       "id": "t6",
@@ -397,13 +412,14 @@
         "대승령",
         "장수대"
       ],
-      "source": "mountaineering",
-      "notes": "서북능선 단축 횡단. 산악회와 국립공원공단 안내도 대조",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "notes": "한계령~귀때기청봉 방면~대승령 방면~장수대 공단 선형 및 DEM 참고. 합류부 약 10~13m 차이.",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t6-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t6-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference"
     },
     {
       "id": "t7",
@@ -419,13 +435,14 @@
         "비선대",
         "소공원"
       ],
-      "source": "mountaineering",
-      "notes": "공룡능선과 천불동계곡을 잇는 회귀 형태",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "notes": "신흥사 인근~비선대~마등령 방면~공룡능선~천불동계곡~신흥사 인근 회귀. 소공원 접근 왕복 제외.",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t7-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t7-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial"
     },
     {
       "id": "t8",
@@ -446,13 +463,14 @@
         "비선대",
         "소공원"
       ],
-      "source": "mountaineering",
-      "notes": "산악계 설악대종주 한 형태. 종주 명칭·방향은 산악회별 차이",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "notes": "남교리~서북능선~대청봉~공룡능선~마등령 방면~비선대~신흥사 인근. 소공원 접근 구간 제외.",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-t8-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-t8-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial"
     }
   ],
   "officialMapReference": "https://seorak.knps.or.kr/front/portal/visit/parkMap.do?parkId=120400"

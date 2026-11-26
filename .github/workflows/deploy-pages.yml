@@ -67,8 +67,9 @@ jobs:
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
           cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
-          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html site/
+          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html site/
           cp mountain-trails.html site/mountains-20261126-r3.html
+          cp mountain-trails.html site/mountains-20261126-r4.html
           cp data/mountain-course-index.json site/data/
           cp data/jiri-predefined-routes.json data/deogyu-predefined-routes.json site/data/
           for file in data/jiri-*.geojson data/deogyu-*.geojson data/jiri-*-dem.json data/deogyu-*-dem.json; do

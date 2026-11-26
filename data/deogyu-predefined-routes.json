@@ -52,8 +52,8 @@
         "남덕유산"
       ],
       "source": "국립공원공단 탐방코스 안내",
-      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020089&parkId=120800&parkNavGb=guide",
-      "guideKm": null,
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120800&vcursId=120800V001",
+      "guideKm": 3.6,
       "geometryStatus": "unverified",
       "geometryFile": null,
       "profileStatus": "unverified",

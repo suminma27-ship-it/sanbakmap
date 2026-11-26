@@ -129,8 +129,49 @@ def build(code,slug):
         specs=[(6,min(a,b),max(a,b),a>b)]
         r=next(x for x in cat['routes'] if x['id']=='d1')
         r.update(coverage='partial',notes='산림청 원본 선형의 설천봉·향적봉 인근 참고 구간. 공단 안내거리 0.6km와 구분.')
+    # Each recipe is a fixed selection of existing source records, not a runtime route finder.
+    try:register_route(code,slug,rows,pack,r,specs)
+    except Exception as e:print(f'::warning::{slug} {r["id"]}: {e}')
+    if slug=='jiri':
+        # Baekmudong control office and Jangteomok shelter reference coordinates:
+        # https://mapcarta.com/N993598255 and https://mapcarta.com/N1038268378
+        baek=[(138,None,None,False),(164,None,None,False),(154,None,None,False)]
+        jung=[(113,None,None,True),(116,None,None,True),(119,None,None,True)]
+        nogo=[(37,None,None,False),(28,None,None,False),(31,None,None,False)]
+        recipes=[
+            ('j2',baek,'백무동 부근','천왕봉 부근','백무동 통제소 부근~장터목~천왕봉 방향의 산림청 원본 참고선. 공단 안내 7.5km와 동일한 전체 접근 경로로 단정하지 않음.'),
+            ('j4',baek+[(i,a,b,not rev) for i,a,b,rev in reversed(jung)],'백무동 부근','중산리 방면 원본 지점','백무동~장터목~천왕봉~중산리 방향의 기존 원본 참고 구간. 양쪽 실제 탐방지원센터 접근로 포함 여부 미확인.'),
+            ('j3',nogo,'성삼재 부근','노고단고개 부근','성삼재에서 노고단고개 방향의 산림청 원본 참고선. 노고단 정상 예약 탐방 구간은 포함하지 않음.')]
+        for rid,specs,startLabel,endLabel,note in recipes:
+            target=next(x for x in cat['routes'] if x['id']==rid)
+            # Keep the guide course name, but clearly label the actual displayed partial geometry.
+            target.update(coverage='partial',startLabel=startLabel,endLabel=endLabel,notes=note)
+            try:register_route(code,slug,rows,pack,target,specs)
+            except Exception as e:print(f'::warning::{slug} {rid}: {e}')
+        cat['poiReference']={'schema':'sanbak-route-poi-reference-v1','note':'OSM/공개기관 주요지점 참고 좌표. 코스에 가까운 지점만 표시.','points':[
+            {'name':'장터목대피소','label':'장터목대피소','lonlat':[127.71635,35.33254],'source':'https://mapcarta.com/N1038268378'},
+            {'name':'노고단대피소','label':'노고단대피소','lonlat':[127.526,35.29585],'source':'https://apihub.kma.go.kr/ 산악예보 지점자료'}]}
+    else:
+        # The separate Namdeogyusan source code has records omitted by the Hyangjeokbong code.
+        # Publish a clearly named original source line, not an invented Yeonggaksa ascent.
+        south='457300301'
+        south_rows,south_pack=load(south)
+        for i,row in enumerate(south_rows):
+            for j,encoded in enumerate(row[5]):
+                xy=decode_line(encoded)
+                if len(xy)>1:features.append({'type':'Feature','properties':{'sourceId':f'forest:{south}:{i}:{j}','name':row[3] or '산림청 원본','facility_type':'탐방로'},'geometry':{'type':'LineString','coordinates':xy}})
+        write(data/f'{slug}-source-reference.geojson',{'type':'FeatureCollection','features':features,'metadata':{'source':'산림청 DATA002 2016~2019 자료','currentAccessVerified':False}})
+        extra={'id':'dref-south','group':'기타코스','name':'남덕유산 · 양악리구간 (산림청 원본)','via':['양악리 방면 원본 시작점','남덕유산 서쪽 원본 종점'],'source':'산림청 DATA002','accessStatus':'unknown','coverage':'reference','notes':'남덕유산 산코드의 양악리구간 원본. 남덕유산 정상 또는 영각사 코스로 연결한 것이 아님.'}
+        cat['routes']=[x for x in cat['routes'] if x['id']!=extra['id']]+[extra]
+        try:register_route(south,slug,south_rows,south_pack,extra,[(8,None,None,False)])
+        except Exception as e:print(f'::warning::{slug} {extra["id"]}: {e}')
+    write(path,cat)
+
+def register_route(code,slug,rows,pack,r,specs):
+    def line(i):return decode_line(rows[i][5][0])
     coords=[];pts=[];offset=0.;complete=True;source_ids=[]
     for row,a,b,reverse in specs:
+        if len(rows[row][5])!=1:raise ValueError('multipart record is not a fixed course segment')
         c=line(row);ds=cum(c);a=0 if a is None else a;b=len(c)-1 if b is None else b
         piece=c[a:b+1];p=cut_profile(points_for(pack,row,c),ds[b] if reverse else ds[a],ds[a] if reverse else ds[b])
         if reverse:piece.reverse()
@@ -147,7 +188,7 @@ def build(code,slug):
         source_ids.append(f'forest:{code}:{row}:{a}-{b}:{reverse}')
     sourceId='+'.join(source_ids);rid=r['id']
     geomfile=f'{slug}-{rid}-reference.geojson';demfile=f'{slug}-{rid}-reference-dem.json'
-    write(data/geomfile,{'type':'Feature','properties':{'routeId':rid,'sourceId':sourceId,'source':'산림청 DATA002','currentAccessVerified':False,'startLabel':r['via'][0],'endLabel':r['via'][-1],**({'officialCourseGuideKm':r['guideKm']} if r.get('guideKm') else {})},'geometry':{'type':'LineString','coordinates':coords}})
+    write(data/geomfile,{'type':'Feature','properties':{'routeId':rid,'sourceId':sourceId,'source':'산림청 DATA002','currentAccessVerified':False,'startLabel':r.get('startLabel',r['via'][0]),'endLabel':r.get('endLabel',r['via'][-1]),**({'officialCourseGuideKm':r['guideKm']} if r.get('guideKm') else {})},'geometry':{'type':'LineString','coordinates':coords}})
     r.update(geometryStatus='reference',geometryFile='./data/'+geomfile,profileStatus='unverified',profileFile=None)
     dem_source='기존 전국 DEM v109 ZIP'
     if not complete or len(pts)<2:
@@ -162,14 +203,13 @@ def build(code,slug):
             except Exception as e:
                 print(f'::warning::{slug} public DEM unavailable: {e}')
     if complete and len(pts)>=2:
-        profile={'schema':'sanbak-predefined-dem-profile-v1','routeId':rid,'sourceId':sourceId,'sourceFile':dem_source,'currentAccessVerified':False,'totalMeters':round(offset,2),'points':pts}
+        profile={'schema':'sanbak-predefined-dem-profile-v1','routeId':rid,'sourceId':sourceId,'sourceFile':dem_source,'currentAccessVerified':False,'totalMeters':round(offset,2),'startLabel':r.get('startLabel',r['via'][0]),'endLabel':r.get('endLabel',r['via'][-1]),'points':pts}
         if dem_source.startswith('https://'):
             profile.update(source='Copernicus DEM 2021 GLO-90 via Open-Meteo',sourceDemResolutionMeters=90)
             r['notes']+=' 고도는 Copernicus GLO-90 / Open-Meteo 참고값.'
         write(data/demfile,profile)
         r.update(profileStatus='reference',profileFile='./data/'+demfile)
         print('PILOT_DEM_JSON '+slug+' '+json.dumps(profile,ensure_ascii=False,separators=(',',':')))
-    write(path,cat)
     print(f'PILOT {slug}: {rid} {offset:.1f}m, DEM {len(pts) if complete else 0} samples')
 for code,slug in [('488605302','jiri'),('457300702','deogyu')]:
     try:build(code,slug)

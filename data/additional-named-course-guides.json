@@ -1,6 +1,177 @@
 {
   "schema": "sanbak-named-guide-additions-v1",
   "mountains": {
+    "113050202": [
+      {
+        "id": "guide-1",
+        "name": "백운대코스",
+        "group": "정상코스",
+        "via": [
+          "백운대탐방지원센터",
+          "하루재",
+          "백운대피소",
+          "백운대"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3944",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인.",
+        "updateExisting": true
+      },
+      {
+        "id": "bukhan-fortress",
+        "name": "북한산성코스",
+        "group": "정상코스",
+        "via": [
+          "북한산성탐방지원센터",
+          "대서문",
+          "보리사",
+          "백운대"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3937",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-daenam",
+        "name": "대남문코스",
+        "group": "기타코스",
+        "via": [
+          "북한산성탐방지원센터",
+          "대서문",
+          "중성문",
+          "대남문"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3938",
+        "guideKm": 5.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-samo",
+        "name": "사모바위코스",
+        "group": "기타코스",
+        "via": [
+          "구기탐방지원센터",
+          "구기계곡",
+          "대남문",
+          "문수봉",
+          "사모바위"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3945",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-bibong",
+        "name": "비봉코스",
+        "group": "기타코스",
+        "via": [
+          "비봉탐방지원센터",
+          "금선사",
+          "비봉"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3946",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-boguk",
+        "name": "보국문코스",
+        "group": "기타코스",
+        "via": [
+          "정릉탐방지원센터",
+          "정릉계곡",
+          "넓적바위",
+          "보국문"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3947",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-daedong",
+        "name": "대동문코스",
+        "group": "기타코스",
+        "via": [
+          "백련공원지킴터",
+          "진달래능선",
+          "대동문"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3948",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bukhan-sogwi",
+        "name": "소귀천코스",
+        "group": "기타코스",
+        "via": [
+          "소귀천공원지킴터",
+          "소귀천계곡",
+          "대동문",
+          "동장대",
+          "도선사"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3949",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      }
+    ],
     "113200102": [
       {
         "id": "local-dobong-1",
@@ -24,6 +195,307 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      },
+      {
+        "id": "guide-1",
+        "name": "우이암코스",
+        "group": "기타코스",
+        "via": [
+          "도봉탐방지원센터",
+          "천진사",
+          "우이암"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3941",
+        "guideKm": 3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인.",
+        "updateExisting": true
+      },
+      {
+        "id": "dobong-sinseon",
+        "name": "신선대코스",
+        "group": "정상코스",
+        "via": [
+          "도봉탐방지원센터",
+          "금강암",
+          "도봉대피소",
+          "석굴암",
+          "신선대"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3943",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "dobong-obong",
+        "name": "오봉·여성봉코스",
+        "group": "종주코스",
+        "via": [
+          "송추분소",
+          "송추폭포",
+          "오봉삼거리",
+          "오봉",
+          "여성봉",
+          "오봉탐방지원센터"
+        ],
+        "source": "국립공원공단 탐방코스 안내",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=121500&vcursId=121500V004",
+        "guideKm": 6.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      }
+    ],
+    "113500201": [
+      {
+        "id": "surak-haklim",
+        "name": "학림사·용굴암 방면",
+        "group": "기타코스",
+        "via": [
+          "불암산역",
+          "학림사",
+          "용굴암"
+        ],
+        "source": "노원구청 수락산 안내",
+        "sourceUrl": "https://www.nowon.kr/www/culture/culture4/culture4_01/info1_01.jsp",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "surak-gol",
+        "name": "수락골·깔딱고개 방면",
+        "group": "기타코스",
+        "via": [
+          "수락산역 1번 출구",
+          "수락골",
+          "염불사",
+          "신선교",
+          "깔딱고개"
+        ],
+        "source": "노원구청 수락산 안내",
+        "sourceUrl": "https://www.nowon.kr/www/culture/culture4/culture4_01/info1_01.jsp",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "surak-dosol",
+        "name": "노원골·도솔봉 방면",
+        "group": "기타코스",
+        "via": [
+          "수락산역 3번 출구",
+          "노원골약수터",
+          "노원골갈림길",
+          "도솔봉"
+        ],
+        "source": "노원구청 수락산 안내",
+        "sourceUrl": "https://www.nowon.kr/www/culture/culture4/culture4_01/info1_01.jsp",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      }
+    ],
+    "116200201": [
+      {
+        "id": "gwanak-official-1",
+        "name": "관악구 제1등산로",
+        "group": "연주대",
+        "via": [
+          "관음사",
+          "마당바위",
+          "연주대"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 4.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-2",
+        "name": "관악구 제2등산로",
+        "group": "기타코스",
+        "via": [
+          "관악산입구",
+          "제1광장",
+          "아카시아동산",
+          "제4쉼터"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 2.6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-3",
+        "name": "관악구 제3등산로",
+        "group": "연주대",
+        "via": [
+          "제4쉼터",
+          "연주샘",
+          "깔딱고개",
+          "연주대"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 2,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-4",
+        "name": "관악구 제4등산로",
+        "group": "기타코스",
+        "via": [
+          "제4쉼터",
+          "삼거리",
+          "무너미고개"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 0.9,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-5",
+        "name": "관악구 제5등산로",
+        "group": "기타코스",
+        "via": [
+          "제1광장",
+          "제2광장",
+          "삼막정",
+          "삼거리",
+          "깔딱고개"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 2.4,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-6",
+        "name": "관악구 제6등산로",
+        "group": "기타코스",
+        "via": [
+          "제2광장",
+          "철쭉동산",
+          "제2깔딱고개",
+          "제4쉼터"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-7",
+        "name": "관악구 제7등산로",
+        "group": "기타코스",
+        "via": [
+          "물레방아",
+          "돌산",
+          "용암천",
+          "칼바위 국기봉",
+          "제1쉼터"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 2.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "gwanak-official-8",
+        "name": "관악구 제8등산로",
+        "group": "기타코스",
+        "via": [
+          "제2구민운동장",
+          "제3쉼터",
+          "제2쉼터",
+          "제1쉼터"
+        ],
+        "source": "관악구청 등산로 안내",
+        "sourceUrl": "https://www.gwanak.go.kr/site/gwanak/08/10802020100002026041302.jsp",
+        "guideKm": 1.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
       }
     ],
     "317100101": [
@@ -586,6 +1058,204 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ],
+    "416301201": [
+      {
+        "id": "sapae-course",
+        "name": "사패산 송추~원각사",
+        "group": "종주코스",
+        "via": [
+          "송추분소",
+          "구 캡소대",
+          "회룡사거리",
+          "사패산",
+          "원각사",
+          "사패산입구"
+        ],
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3939",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      }
+    ],
+    "416302301": [
+      {
+        "id": "bulgok-1",
+        "name": "불곡산 1구간 · 양주시청~상봉",
+        "group": "정상코스",
+        "via": [
+          "양주시청",
+          "1보루",
+          "2보루",
+          "5보루",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-2",
+        "name": "불곡산 2구간 · 별산대놀이마당~상봉",
+        "group": "정상코스",
+        "via": [
+          "별산대놀이마당",
+          "회양목자생지",
+          "5보루",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.2,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-3",
+        "name": "불곡산 3구간 · 백화암입구~상봉",
+        "group": "정상코스",
+        "via": [
+          "백화암입구",
+          "선유동천쉼터",
+          "백화암",
+          "5보루",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 1.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-4",
+        "name": "불곡산 4구간 · 백석삼거리~상봉",
+        "group": "정상코스",
+        "via": [
+          "백석삼거리",
+          "악어바위",
+          "코끼리바위",
+          "상투봉",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-5",
+        "name": "불곡산 5구간 · 대교아파트~상봉",
+        "group": "정상코스",
+        "via": [
+          "대교아파트",
+          "김승골쉼터",
+          "임꺽정봉",
+          "상투봉",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-6",
+        "name": "불곡산 6구간 · 청엽골고개~상봉",
+        "group": "정상코스",
+        "via": [
+          "청엽골고개",
+          "임꺽정봉",
+          "상투봉",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-7",
+        "name": "불곡산 7구간 · 부흥사~상봉",
+        "group": "정상코스",
+        "via": [
+          "부흥사",
+          "상투봉",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 1.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      },
+      {
+        "id": "bulgok-8",
+        "name": "불곡산 8구간 · 산북동 수색대 앞~상봉",
+        "group": "정상코스",
+        "via": [
+          "산북동 수색대 앞",
+          "작은산대쉼터",
+          "5보루",
+          "상봉"
+        ],
+        "source": "양주시 문화관광 등산 안내",
+        "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+        "guideKm": 2.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
       }
     ],
     "418303101": [

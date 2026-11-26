@@ -98,7 +98,7 @@ jobs:
           test -s site/home-20261126-islands.html
           test -s site/app-home.html
           test -s site/legacy-map.html
-          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html courses-20261127-r7.html courses-20261127-r8.html courses-20261127-r9.html courses-20261127-r10.html courses-20261127-r11.html courses-20261127-r12.html courses-20261127-r13.html courses-20261127-r14.html courses-20261127-r15.html site/
+          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html courses-20261127-r7.html courses-20261127-r8.html courses-20261127-r9.html courses-20261127-r10.html courses-20261127-r11.html courses-20261127-r12.html courses-20261127-r13.html courses-20261127-r14.html courses-20261127-r15.html courses-20261127-r16.html site/
           cp mountain-trails.html site/mountains-20261126-r3.html
           cp mountain-trails.html site/mountains-20261126-r4.html
           cp mountain-trails.html site/mountains-20261126-r5.html
@@ -112,6 +112,7 @@ jobs:
           cp mountain-trails.html site/mountains-20261127-r13.html
           cp mountain-trails.html site/mountains-20261127-r14.html
           cp mountain-trails.html site/mountains-20261127-r15.html
+          cp mountain-trails.html site/mountains-20261127-r16.html
           cp data/unified-mountain-index.json site/data/
           cp public-peak-courses.html site/
           if [ -f data/public-peak-gpx/index.json ]; then cp -R data/public-peak-gpx site/data/; fi

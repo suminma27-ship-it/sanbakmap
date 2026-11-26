@@ -655,6 +655,20 @@
       "type": "미분류",
       "sourceUrl": null,
       "routes": []
+    },
+    {
+      "code": "416301201",
+      "name": "사패산",
+      "type": "국립",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3939",
+      "routes": []
+    },
+    {
+      "code": "416302301",
+      "name": "불곡산",
+      "type": "일반",
+      "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
+      "routes": []
     }
   ]
 }

@@ -75,7 +75,7 @@ assert(dem.points.length>=50);
 // DEM must cover the entire route at a useful resolution, not just two endpoints.
 const profileGaps=dem.points.slice(1).map((p,i)=>p.distanceMeters-dem.points[i].distanceMeters);
 assert(Math.max(...profileGaps)<=250,'오색 코스 DEM 표본 간격 250m 이내');
-const pageSource=readFileSync('seorak-courses.html','utf8');
+const pageSource=readFileSync('core/mountain-courses.js','utf8');
 assert(pageSource.includes('p.distanceMeters-pts[i-1].distanceMeters<=250'),'고도표본 공백은 선을 끊어 표시');
 assert(dem.points.every((p,i)=>Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters)&&(!i||p.distanceMeters>dem.points[i-1].distanceMeters)));
 const R=6371008.8,radian=Math.PI/180;
@@ -83,16 +83,17 @@ let distance=0;
 for(let i=1;i<sourceLine.length;i++){const a=sourceLine[i-1],b=sourceLine[i],dLat=(b[1]-a[1])*radian,dLon=(b[0]-a[0])*radian,h=Math.sin(dLat/2)**2+Math.cos(a[1]*radian)*Math.cos(b[1]*radian)*Math.sin(dLon/2)**2;distance+=2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
 assert(Math.abs(dem.totalMeters-distance)<1);
 assert(Math.abs(dem.points.at(-1).distanceMeters-distance)<1);
-const page=readFileSync('seorak-courses.html','utf8');
+const shell=readFileSync('seorak-courses.html','utf8');
+const page=shell+'\n'+pageSource;
 for(const str of ['./data/seorak-predefined-routes.json','./data/knps-seorak-2018.geojson','id="gate"','LNT','loadReference()','id="graph"'])assert(page.includes(str),'설악산 샘플 기능 누락: '+str);
 // Route labels must follow selected catalog metadata, not stay hard-coded to Osaek.
 assert(page.includes("const startLabel=geometry.properties.startLabel||route.via[0],endLabel=geometry.properties.endLabel||route.via.at(-1)"));
 assert(page.includes("bindTooltip(startLabel+' (원본 출발점)'"));
 assert(page.includes("bindTooltip(endLabel+' (원본 종점)'"));
 assert(page.includes("[[a,startLabel,17],[b,endLabel,-12]]"));
-const scripts=[...page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
-assert.equal(scripts.length,1);
-new vm.Script(scripts[0],{filename:'seorak-courses:inline.js'});
+assert(shell.includes('./core/mountain-courses.js'));
+assert(readFileSync('mountain-courses.html','utf8').includes('./core/mountain-courses.js'));
+new vm.Script(pageSource,{filename:'core/mountain-courses.js'});
 const deploy=readFileSync('.github/workflows/deploy-pages.yml','utf8');
 assert(deploy.includes('cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/'));
 assert(deploy.includes('data/knps-seorak-2018.geojson data/seorak-predefined-routes.json') && deploy.includes('site/data/'),'배포 패키지에 설악산 원본 및 코스 목록 포함');

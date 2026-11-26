@@ -59,6 +59,8 @@ jobs:
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
           cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
+          cp mountain-courses.html site/
+          cp data/mountain-course-index.json site/data/
           cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
           cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/
@@ -78,6 +80,9 @@ jobs:
           test -s site/mountain-trails.html
           test -s site/seorak-isolated-test.html
           test -s site/seorak-courses.html
+          test -s site/mountain-courses.html
+          test -s site/core/mountain-courses.js
+          test -s site/data/mountain-course-index.json
           test -s site/data/seorak-predefined-routes.json
           test -s site/data/seorak-osaek-daecheong-2018.geojson
           test -s site/data/seorak-osaek-daecheong-dem.json

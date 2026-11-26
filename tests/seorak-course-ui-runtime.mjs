@@ -25,11 +25,11 @@ const document={
  querySelectorAll:query=>query==='.tab'?tabs:query==='.basemap'?basemaps:[],
  querySelector:query=>query==='#map'?elements.map:null
 };
-const source=readFileSync('seorak-courses.html','utf8');
+const source=readFileSync('core/mountain-courses.js','utf8');
 assert(source.includes('const generation=++selectionGeneration'),'선택 변경마다 세대 번호 증가');
 assert(source.includes('if(selected!==route||selectionGeneration!==generation)return;'),'이전 요청의 늦은 결과 무시');
 assert(source.includes('if(selected===route&&selectionGeneration===generation)'),'이전 요청 실패가 현재 코스 오류로 표시되지 않음');
-const scripts=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]).filter(Boolean);
+const scripts=[source];
 assert.equal(scripts.length,1);
 const files={
  './data/seorak-predefined-routes.json':'data/seorak-predefined-routes.json',
@@ -146,4 +146,27 @@ releaseReference(await fetch('./data/knps-seorak-2018.geojson'));
 await settle();
 assert.equal(raceElements.map.children[0],before,'늦은 참고선형이 선택된 완성 코스 지도를 덮으면 안 됨');
 assert.equal(raceElements.graph.children.filter(n=>n.tagName==='path').length,1);
-console.log('PASS Seoraksan route UI: real Osaek distance+DEM, unverified Kongryong warning, one-click return, SVG fallback');
+// Test an independent mountain catalog using a temporary test-only data fixture.
+// No fixture coordinates or mountain are published in the real registry.
+const otherCode='999999999',otherElements=Object.fromEntries(ids.map(id=>[id,new Element('div',id)]));
+const otherTabs=['대청봉','기타코스','종주코스'].map(group=>{const b=new Element('button');b.dataset.group=group;return b});
+const otherDoc={body:new Element('body'),getElementById:id=>otherElements[id]||(otherElements[id]=new Element('div',id)),createElement:tag=>new Element(tag),createElementNS:(ns,tag)=>new Element(tag),querySelectorAll:q=>q==='.tab'?otherTabs:[],querySelector:q=>q==='#map'?otherElements.map:null};
+const fixtureRoute={id:'fixture',name:'테스트 정상 코스',group:'정상',via:['테스트 입구','테스트 정상'],geometryStatus:'reference',profileStatus:'reference',geometryFile:'./data/fixture.geojson',profileFile:'./data/fixture-dem.json'};
+const realGeo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8')),realDem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));
+const fixtureFiles={
+ './data/mountain-course-index.json':{schema:'sanbak-mountain-course-index-v1',mountains:{[otherCode]:{code:otherCode,name:'테스트 산',catalogFile:'./data/fixture-catalog.json',sourceLabel:'테스트 기관'}}},
+ './data/fixture-catalog.json':{schema:'sanbak-predefined-route-catalog-v1',mountainCode:otherCode,routes:[fixtureRoute]},
+ './data/fixture.geojson':{...realGeo,properties:{...realGeo.properties,routeId:'fixture'}},
+ './data/fixture-dem.json':{...realDem,routeId:'fixture'}
+};
+const otherFetch=async path=>{assert(Object.hasOwn(fixtureFiles,path),'타 산에서 설악산 파일 요청 금지: '+path);return {ok:true,json:async()=>fixtureFiles[path]}};
+new vm.Script(source).runInNewContext({document:otherDoc,window:{L:null,location:{search:'?mountain='+otherCode}},fetch:otherFetch,console});
+await settle();
+assert.equal(otherElements.mountainHeading.textContent,'테스트 산 산행 코스');
+assert.equal(otherTabs[0].dataset.group,'정상');
+assert.equal(otherTabs[1].hidden,true);
+assert.equal(otherElements.title.textContent,'테스트 정상 코스');
+assert(otherElements.graph.children.some(x=>x.tagName==='path'));
+assert.match(otherElements.status.textContent,/테스트 기관/);
+assert.equal(otherElements.poiList.children.length,0,'다른 산에 설악산 경유지 유입 금지');
+console.log('PASS shared mountain course UI, Seorak 23 routes and independent test catalog');

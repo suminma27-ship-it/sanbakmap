@@ -73,7 +73,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <main>
 <h1>전국 산 등산로 지도 <small style="font-size:12px;color:#49715a;font-weight:600">배경지도 오류 수정 · 11/18</small></h1>
 <p class="intro">일반지도 위에 산의 등산로를 연하게 표시하고, <b>선택한 원본 등산로만 진한 녹색</b>으로 강조해. 선택한 선형의 고도그래프는 아래에서 확인할 수 있어.</p>
-<div class="note" style="margin-bottom:10px"><b>새 설악산 대표 코스 샘플:</b> 개별 등산로 조각 대신 완성 코스 목록을 선택하는 화면이야. <a href="./seorak-courses.html">설악산 대표·종주 코스 보기</a></div>
+<div class="note" style="margin-bottom:10px"><b>산행코스 정보:</b> 산을 선택하면 해당 산의 등록 코스 화면으로 이동할 수 있어.</div>
 <div class="note">표시 자료는 주로 2016~2018년 기관 수록 등산로야. 2026년 현재 개방·통행 허용을 의미하지 않아. 고도표본이 있는 선형만 그래프를 제공하며, 다른 등산로를 이어 붙이거나 누락된 고도를 추정하지 않아.</div>
 <div class="layout">
 <aside class="panel">
@@ -92,11 +92,7 @@ header a{color:#173d2a}header strong{letter-spacing:-.02em}
 <div class="content">
 <div id="status" role="status">산과 등산로 데이터 준비 중…</div>
 <div class="chips"><span id="lineCount" class="chip">등산로 미선택</span><span id="elevCount" class="chip">DEM 확인 중</span></div>
-<section id="seorakCourses" hidden aria-label="설악산 5개 코스 선택 구상">
-<div class="sheethead"><h3>설악산 5개 코스 · 계획안</h3><span class="chip">경로 검증 전</span></div>
-<div id="courseExamples" class="course-examples"></div>
-<p class="course-examples-hint">위의 5개 코스는 요청한 경유지 순서만 보관한 목록이야. 전체 경로 GPX가 검증되기 전에는 코스 전체를 굵은 선으로 그리거나 전체 고도그래프를 만들지 않아. 지도에서 실제 원본 등산로를 선택하면 그 선형만 진하게 표시되고 고도그래프가 나와.</p>
-</section>
+<section id="seorakCourses" hidden aria-label="산행코스 목록 이동"><div class="sheethead"><h3>등록된 산행코스</h3><a id="registeredCoursesLink" href="./mountain-courses.html">코스 목록 보기</a></div><p class="course-examples-hint">사전에 등록한 산행코스의 지도·거리·고도그래프를 확인해. 아직 등록되지 않은 산은 준비 중으로 표시돼.</p></section>
 <div><h3>실제 원본 등산로 선택 <span class="muted">· 지도에서 선을 눌러도 돼</span></h3><label for="lineSearch" class="muted">현재 산의 원본 선형 검색</label><input id="lineSearch" type="search" placeholder="원본 등산로 이름 또는 번호 검색" autocomplete="off" aria-controls="lineList"><div id="lineList" class="lines"><p class="muted">산을 선택하면 해당 등산로가 나와.</p></div></div>
 <div class="profileHeader"><div><h3 id="profileTitle">고도그래프</h3><div id="profileMessage" class="muted">등산로를 선택해 줘.</div></div><div class="stats"><span id="distance">거리 —</span><span id="elevation">고도 —</span></div></div>
 <svg id="profile" viewBox="0 0 720 215" preserveAspectRatio="none" aria-label="선택한 원본 선형의 거리별 DEM 고도그래프"></svg>
@@ -118,39 +114,11 @@ const state={catalog:[],index:null,online:null,pilot:null,code:null,lines:[],sel
 let map=null,group=null;
 let elevationIndexesReady=Promise.resolve();
 
-const SEORAK_PLANS=Object.freeze([
- {id:'s1',name:'코스1',via:['소공원','비선대','마등령','공룡능선','희운각','대청봉']},
- {id:'s2',name:'코스2',via:['소공원','비선대','희운각','대청봉']},
- {id:'s3',name:'코스3',via:['오색약수','대청봉']},
- {id:'s4',name:'코스4',via:['장수대','귀때기청봉','대청봉']},
- {id:'s5',name:'코스5',via:['서북능선','귀때기청봉','대청봉']}
-]);
 function displayPlans(){
- const isSeorak=state.code==='428302602',panel=$('seorakCourses');
- panel.hidden=!isSeorak;if(!isSeorak)return;
- const holder=$('courseExamples');holder.replaceChildren();
- for(const [i,plan] of SEORAK_PLANS.entries()){
-  const b=document.createElement('button');b.type='button';b.className='course-example';
-  b.dataset.course=plan.id;b.setAttribute('aria-pressed',String(state.course===plan.id));
-  const n=document.createElement('span');n.className='number';n.textContent=i+1;
-  const t=document.createElement('span');t.className='route-label';
-  t.textContent=plan.name+': '+plan.via.join(' → ');
-  b.append(n,t);b.onclick=()=>selectPlan(plan);holder.append(b);
- }
-}
-function selectPlan(plan){
- // A plan has waypoint NAMES, not verified complete geometry. Never present one
- // KNPS raw line as though it covers the multi-branch named plan.
- if(state.code!=='428302602')return;
- state.course=plan.id;state.selected=null;state.manualLineSelection=true;
- setLayerSelection();
- put('profileTitle',plan.name+' · '+plan.via.join(' → '));
- put('profileMessage','경유지 순서만 등록됨 · 코스 전체 연속 경로 및 DEM 미검증');
- put('distance','거리 —');put('elevation','고도 —');
- put('sourceInfo','이 계획안의 전체 경로 선형은 아직 검증되지 않았어. 화면의 회색 선은 실제 공단 원본 자료이며 코스 연결을 의미하지 않아.');
- noProfile('코스 전체 고도그래프 미확인');
- status(plan.name+'의 경유지 목록을 선택했어. 전체 코스 경로는 그리지 않았어. 개별 등산로 선을 누르면 그 선형의 실제 고도그래프를 볼 수 있어.');
- displayPlans();
+ const panel=$('seorakCourses'),link=$('registeredCoursesLink');
+ panel.hidden=!state.code;if(!state.code)return;
+ link.setAttribute('href','./mountain-courses.html?mountain='+state.code);
+ link.textContent='등록된 산행코스 보기';
 }
 
 function status(msg){$('status').textContent=msg}
@@ -709,10 +677,7 @@ async function selectMountain(code){
   // A named Seorak plan can be selected while source geometry downloads.
   // Preserve its unverified-plan warning when the geometry finishes; do not
   // replace it with a misleading automatic-source-selection success message.
-  if(state.course){
-   const plan=SEORAK_PLANS.find(p=>p.id===state.course);
-   status(lines.length+'개 기관 원본 선형 표시 완료 · '+(plan?.name||'선택한 계획안')+'은 경유지 목록만 확인됨. 코스 전체 경로·거리·고도그래프는 미검증이야.');
-  }else{
+  {
    status(lines.length+'개 원본 선형 표시 완료'+(invalidCount?' · 좌표 오류 '+invalidCount+'개 제외':'')+' · '+(first?'검증된 고도 선형 1개를 미리 선택했어.':state.demPending?'고도자료 검증 중이야.':state.demError?'고도자료 다운로드 오류로 검증할 수 없어.':'검증된 고도표본이 있는 선형이 없어.')+
     ' 각 등산로는 개별 선택하고 서로 이어 붙이지 않아.');
   }
@@ -764,10 +729,7 @@ async function retryElevation(){
   put('elevCount',value?'원본 DEM 표본 확보':'고도표본 미확보');
   if(state.selected)selectLine(state.selected,true,true);
   selectVerifiedProfileAfterDEM();
-  if(state.course){
-   const plan=SEORAK_PLANS.find(p=>p.id===state.course);
-   status('고도자료 재확인 완료 · '+(plan?.name||'선택한 계획안')+'은 경유지 목록만 확인됨. 코스 전체 경로·거리·고도그래프는 미검증이야.');
-  }else{
+  {
    status('고도자료 재확인 완료 · 현재 산과 원본 선형 선택을 유지했어.');
   }
  }catch(err){

@@ -85,8 +85,7 @@ async function scenario(withLeaflet){
  assert(svg.children.some(x=>x.tag==='path'),
   'First selected KNPS line must render DEM profile path');
  assert.match(document.getElementById('distance').textContent,/거리 \d/);
- assert.equal(document.getElementById('courseExamples').children.length,5,
-  'All five user-supplied Seorak plans must show');
+ assert.equal(document.getElementById('registeredCoursesLink').getAttribute('href'),'./mountain-courses.html?mountain=428302602','선택 산에 대응하는 공통 코스 링크');
  if(withLeaflet){
   assert.equal(L.group.parts.length,42,'21 visible source lines and 21 touch targets should be layered');
   assert.equal(L.group.parts.filter(x=>x.style?.weight===22).length,21,
@@ -101,13 +100,6 @@ async function scenario(withLeaflet){
   assert.equal(overlay.children.filter(x=>x.tag==='path'&&x.attributes['stroke-width']==='22').length,21,
    'SVG fallback must keep one 22px touch target per source line');
  }
- // Choosing an unverified route cannot invent a whole-course altitude profile.
- const plan1=document.getElementById('courseExamples').children[0];
- plan1.onclick();
- assert.match(document.getElementById('profileMessage').textContent,/미검증/);
- assert.match(document.getElementById('distance').textContent,/—/);
- assert(!document.getElementById('profile').children.some(x=>x.tag==='path'),
-  'Unverified 5-course plan must not render made-up profile');
  return withLeaflet?'Leaflet + real KNPS':'Native SVG fallback + real KNPS';
 }
 for(const mode of [false,true]){

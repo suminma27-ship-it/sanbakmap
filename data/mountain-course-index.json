@@ -1,0 +1,19 @@
+{
+  "schema": "sanbak-mountain-course-index-v1",
+  "mountains": {
+    "428302602": {
+      "name": "설악산",
+      "code": "428302602",
+      "catalogFile": "./data/seorak-predefined-routes.json",
+      "referenceFile": "./data/knps-seorak-2018.geojson",
+      "referenceCount": 21,
+      "center": [
+        38.12,
+        128.45
+      ],
+      "zoom": 10,
+      "preferredRoute": "s3",
+      "sourceLabel": "2018년 국립공원공단"
+    }
+  }
+}

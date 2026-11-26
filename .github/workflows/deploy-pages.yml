@@ -70,6 +70,11 @@ jobs:
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
           cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
+          cp index.html site/legacy-map.html
+          cp app-home.html site/index.html
+          cp app-home.html site/app-home.html
+          test -s site/app-home.html
+          test -s site/legacy-map.html
           cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html site/
           cp mountain-trails.html site/mountains-20261126-r3.html
           cp mountain-trails.html site/mountains-20261126-r4.html

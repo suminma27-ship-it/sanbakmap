@@ -35,6 +35,26 @@ for(const park of seeds.mountains){
  // usable existing DEM; historical closed/restricted flags are excluded.
  const candidates=lines.filter(l=>!l.multipart&&prof.lengthOf(l.coords)>=400).map(l=>({l,p:prof.profile(l,packed),length:prof.lengthOf(l.coords)}));
  candidates.sort((a,b)=>Number(b.p.status==='ready')-Number(a.p.status==='ready')||b.length-a.length);
+ // A named guide can use an individual existing source line only when its
+ // source title itself contains the guide's explicit start, end and via labels in order.
+ // A generic source title is never used to claim a named summit course.
+ const norm=v=>String(v).normalize('NFKC').replace(/[^가-힣a-zA-Z0-9]/g,'').toLowerCase();
+ let linked=0;
+ for(const route of catalog.routes){
+  const tokens=route.via.map(norm);
+  if(tokens.some(t=>t.length<2))continue;
+  const matches=candidates.filter(({l})=>{
+   const n=norm(l.recordName);let at=0;
+   for(const t of tokens){const i=n.indexOf(t,at);if(i<0)return false;at=i+t.length}return true;
+  });
+  if(matches.length!==1)continue;
+  const {l,p}=matches[0],id=route.id,geomFile=dir+'/'+id+'.geojson',demFile=dir+'/'+id+'-dem.json';
+  write(geomFile,{type:'Feature',properties:{routeId:id,sourceId:l.id,source,currentAccessVerified:false,startLabel:'원본 시작점',endLabel:'원본 종점'},geometry:{type:'LineString',coordinates:l.coords}});
+  Object.assign(route,{coverage:'partial',geometryStatus:'reference',geometryFile:'./'+geomFile,notes:'공개 안내 경유지와 원본 레코드 명칭이 일치하는 참고선. 전체 공식 코스와 동일하거나 현행 개방됨을 확정하지 않음.'});
+  if(p.status==='ready'&&p.points.length>=2){write(demFile,{routeId:id,totalMeters:p.distanceMeters,points:p.points});route.profileStatus='reference';route.profileFile='./'+demFile;}
+  linked++;console.log('REGIONAL_GUIDE_LINK',code,id,l.recordName,'DEM',route.profileStatus);
+ }
+ if(park.routes.length)console.log('REGIONAL_SOURCE_NAMES',code,JSON.stringify([...new Set(lines.map(l=>l.recordName))].slice(0,60)));
  const selected=candidates.slice(0,5);
  if(!selected.length&&lines.length){const l=lines.slice().sort((a,b)=>prof.lengthOf(b.coords)-prof.lengthOf(a.coords))[0];selected.push({l,p:prof.profile(l,packed),length:prof.lengthOf(l.coords)})}
  let ready=0;
@@ -52,7 +72,7 @@ for(const park of seeds.mountains){
  write(dir+'/catalog.json',catalog);
  registry.mountains[code]={code,name,catalogFile:'./'+dir+'/catalog.json',referenceFile:'./'+dir+'/reference.geojson',center,zoom:11,sourceLabel:'공개 산행 안내 · 산림청 원본 참고자료',sourceUrl};
  totalMountains++;totalGuide+=park.routes.length;totalRef+=selected.length;totalDem+=ready;
- console.log('REGIONAL_COURSES',name,'guides',park.routes.length,'original references',selected.length,'DEM',ready,'background',lines.length);
+ console.log('REGIONAL_COURSES',name,'guides',park.routes.length,'guide links',linked,'original references',selected.length,'DEM',ready,'background',lines.length);
 }
 write('data/mountain-course-index.json',registry);
 console.log('REGIONAL_BATCH_TOTAL',totalMountains,'mountain codes',totalGuide,'guide courses',totalRef,'original segments',totalDem,'DEM profiles');

@@ -141,17 +141,27 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./site
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Wait for Pages artifact metadata
         env:
           GH_TOKEN: ${{ github.token }}
+          PAGES_ARTIFACT: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
-          for attempt in $(seq 1 12); do
-            if gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '.artifacts[] | select(.name=="github-pages" and .expired==false) | .id' | grep -q '[0-9]'; then exit 0; fi
+          set -euo pipefail
+          for attempt in $(seq 1 24); do
+            if gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '.artifacts[] | select(.expired==false) | .name' | grep -Fxq "$PAGES_ARTIFACT"; then
+              echo "Current attempt artifact visible: $PAGES_ARTIFACT"
+              sleep 5
+              exit 0
+            fi
             sleep 5
           done
-          echo "::warning::Artifact metadata not yet visible; attempting deployment"
+          echo "::error::Current attempt artifact did not become visible"
+          exit 1
 
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}

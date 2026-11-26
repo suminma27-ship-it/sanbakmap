@@ -669,6 +669,13 @@
       "type": "일반",
       "sourceUrl": "https://www.yangju.go.kr/tour/selectBbsNttView.do?bbsNo=203&key=863&nttNo=88257&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=",
       "routes": []
+    },
+    {
+      "code": "427206801",
+      "name": "계방산",
+      "type": "국립",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120900&vcursId=120900V007",
+      "routes": []
     }
   ]
 }

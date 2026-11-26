@@ -38,7 +38,7 @@ const files={
  './data/seorak-osaek-daecheong-dem.json':'data/seorak-osaek-daecheong-dem.json'
 };
 const fetch=async path=>{
- assert(path.includes('?v=20261127-r16'),'코스 데이터 캐시 우회 필수: '+path);
+ assert(path.includes('?v=20261127-r17'),'코스 데이터 캐시 우회 필수: '+path);
  path=path.split('?')[0];
  if(!Object.hasOwn(files,path)&&!/^\.\/data\/seorak-[sta][0-9]+-reference(?:-dem\.json|\.geojson)$/.test(path))return {ok:false,status:404};
  return {ok:true,status:200,json:async()=>JSON.parse(readFileSync(files[path]||path.slice(2),'utf8'))};
@@ -144,7 +144,7 @@ await settle();
 assert.match(raceElements.status.textContent,/2018년 국립공원공단/);
 const before=raceElements.map.children[0];
 assert(before&&before.children.some(n=>n.tagName==='path'&&n.attrs.stroke==='#146b3e'));
-releaseReference(await fetch('./data/knps-seorak-2018.geojson?v=20261127-r16'));
+releaseReference(await fetch('./data/knps-seorak-2018.geojson?v=20261127-r17'));
 await settle();
 assert.equal(raceElements.map.children[0],before,'늦은 참고선형이 선택된 완성 코스 지도를 덮으면 안 됨');
 assert.equal(raceElements.graph.children.filter(n=>n.tagName==='path').length,1);
@@ -162,7 +162,7 @@ const fixtureFiles={
  './data/fixture.geojson':{...realGeo,properties:{...realGeo.properties,routeId:'fixture'}},
  './data/fixture-dem.json':{...realDem,routeId:'fixture'}
 };
-const otherFetch=async path=>{assert(path.includes('?v=20261127-r16'));path=path.split('?')[0];assert(Object.hasOwn(fixtureFiles,path),'타 산에서 설악산 파일 요청 금지: '+path);return {ok:true,json:async()=>fixtureFiles[path]}};
+const otherFetch=async path=>{assert(path.includes('?v=20261127-r17'));path=path.split('?')[0];assert(Object.hasOwn(fixtureFiles,path),'타 산에서 설악산 파일 요청 금지: '+path);return {ok:true,json:async()=>fixtureFiles[path]}};
 new vm.Script(source).runInNewContext({document:otherDoc,window:{L:null,location:{search:'?mountain='+otherCode}},fetch:otherFetch,console});
 await settle();
 assert.equal(otherElements.mountainHeading.textContent,'테스트 산 산행 코스');

@@ -9,6 +9,14 @@ const prof=root.SanbakMountainProfiles,agency=root.SanbakNationwideAgency;
 const index=read('data/nationwide/index.json').mountains;
 const registry=read('data/mountain-course-index.json');
 const seeds=read('data/regional-mountain-course-guides.json');
+ // Ensure named guide additions have a catalog even for mountains not in the initial regional seed list.
+const named=read('data/additional-named-course-guides.json');
+const seeded=new Set(seeds.mountains.map(m=>m.code));
+for(const code of Object.keys(named.mountains||{})){
+ if(seeded.has(code)||registry.mountains[code]||!index[code])continue;
+ seeds.mountains.push({code,name:index[code].name.replace(/_/g,' · '),type:'미분류',sourceUrl:null,routes:[]});
+ seeded.add(code);
+}
 const out='data/park-courses';mkdirSync(out,{recursive:true});
 let totalGuide=0,totalRef=0,totalDem=0,totalMountains=0;
 const rawCache=new Map(),demCache=new Map();

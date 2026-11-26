@@ -1,0 +1,88 @@
+{
+  "schema": "sanbak-predefined-route-catalog-v1",
+  "mountainCode": "488605302",
+  "name": "지리산",
+  "updated": "2026-11-26",
+  "notes": "공식 코스 안내와 기존 기관 선형·DEM 참고자료. 실제 개방 여부와 별개.",
+  "routes": [
+    {
+      "id": "j1",
+      "group": "천왕봉",
+      "name": "중산리 → 칼바위 → 로타리대피소 → 천왕봉",
+      "via": [
+        "중산리",
+        "칼바위",
+        "로타리대피소",
+        "천왕봉"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120100&vcursId=120100V011",
+      "guideKm": 5.4,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "j2",
+      "group": "천왕봉",
+      "name": "백무동 → 장터목대피소 → 천왕봉",
+      "via": [
+        "백무동",
+        "장터목대피소",
+        "천왕봉"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120100&vcursId=120100V013",
+      "guideKm": 7.5,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "j3",
+      "group": "기타코스",
+      "name": "성삼재 → 노고단대피소 → 노고단",
+      "via": [
+        "성삼재",
+        "노고단대피소",
+        "노고단"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4058",
+      "guideKm": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "j4",
+      "group": "종주코스",
+      "name": "백무동 → 장터목대피소 → 천왕봉 → 로타리대피소 → 중산리",
+      "via": [
+        "백무동",
+        "장터목대피소",
+        "천왕봉",
+        "로타리대피소",
+        "중산리"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4054",
+      "guideKm": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    }
+  ]
+}

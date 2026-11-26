@@ -25,6 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prepare Jirisan and Deogyusan reference course data
+        run: python3 tools/build-pilot-mountain-courses.py
+
       - name: Validate active mountain map MVP regressions
         run: |
           set -euo pipefail
@@ -61,6 +64,10 @@ jobs:
           cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
           cp mountain-courses.html site/
           cp data/mountain-course-index.json site/data/
+          cp data/jiri-predefined-routes.json data/deogyu-predefined-routes.json site/data/
+          for file in data/jiri-*.geojson data/deogyu-*.geojson data/jiri-*-dem.json data/deogyu-*-dem.json; do
+            if [ -f "$file" ]; then cp "$file" site/data/; fi
+          done
           cp core/mountain-line-profile.js core/nationwide-source-loader.js site/core/
           cp vendor/leaflet.css site/vendor/leaflet.css
           cp data/nationwide/*.json site/data/nationwide/

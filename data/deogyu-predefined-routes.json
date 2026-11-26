@@ -1,0 +1,88 @@
+{
+  "schema": "sanbak-predefined-route-catalog-v1",
+  "mountainCode": "457300702",
+  "name": "덕유산",
+  "updated": "2026-11-26",
+  "notes": "공식 코스 안내와 기존 기관 선형·DEM 참고자료. 실제 개방 여부와 별개.",
+  "routes": [
+    {
+      "id": "d1",
+      "group": "향적봉",
+      "name": "설천봉 → 향적봉",
+      "via": [
+        "설천봉",
+        "향적봉"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120800&vcursId=120800V003",
+      "guideKm": 0.6,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "d2",
+      "group": "향적봉",
+      "name": "구천동 → 인월담 → 백련사 → 향적봉",
+      "via": [
+        "구천동",
+        "인월담",
+        "백련사",
+        "향적봉"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseGuide.do?parkId=120800&vcursId=120800V002",
+      "guideKm": 8.5,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "d3",
+      "group": "기타코스",
+      "name": "영각사 → 남덕유산",
+      "via": [
+        "영각사",
+        "남덕유산"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020089&parkId=120800&parkNavGb=guide",
+      "guideKm": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    },
+    {
+      "id": "d4",
+      "group": "종주코스",
+      "name": "영각사 → 남덕유산 → 삿갓재 → 무룡산 → 동엽령 → 향적봉 → 구천동",
+      "via": [
+        "영각사",
+        "남덕유산",
+        "삿갓재",
+        "무룡산",
+        "동엽령",
+        "향적봉",
+        "구천동"
+      ],
+      "source": "국립공원공단 탐방코스 안내",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020089&parkId=120800&parkNavGb=guide",
+      "guideKm": null,
+      "geometryStatus": "unverified",
+      "geometryFile": null,
+      "profileStatus": "unverified",
+      "profileFile": null,
+      "accessStatus": "unknown",
+      "notes": "공단 코스 안내 기준. 코스별 원본 선형과 DEM은 준비 중."
+    }
+  ]
+}

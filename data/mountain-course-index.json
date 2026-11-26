@@ -14,6 +14,32 @@
       "zoom": 10,
       "preferredRoute": "s3",
       "sourceLabel": "2018년 국립공원공단"
+    },
+    "457300702": {
+      "code": "457300702",
+      "name": "덕유산",
+      "catalogFile": "./data/deogyu-predefined-routes.json",
+      "referenceFile": "./data/deogyu-source-reference.geojson",
+      "center": [
+        35.86,
+        127.74
+      ],
+      "zoom": 11,
+      "sourceLabel": "산림청·국립공원공단",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020089&parkId=120800&parkNavGb=guide"
+    },
+    "488605302": {
+      "code": "488605302",
+      "name": "지리산",
+      "catalogFile": "./data/jiri-predefined-routes.json",
+      "referenceFile": "./data/jiri-source-reference.geojson",
+      "center": [
+        35.335,
+        127.73
+      ],
+      "zoom": 11,
+      "sourceLabel": "산림청·국립공원공단",
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020100&parkId=120100&parkNavGb=guide"
     }
   }
 }

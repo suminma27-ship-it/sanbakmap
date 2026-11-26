@@ -103,10 +103,10 @@ function choose(route){
  }
  const ready=isReady(route);
  $('tryVerified').hidden=ready;
- $('distance').textContent=hasGeometry(route)?'거리 불러오는 중…':'전체 거리: 미확인';
+ $('distance').textContent=hasGeometry(route)?'거리 불러오는 중…':Number.isFinite(route.guideKm)?'공단 안내거리: '+route.guideKm.toFixed(2)+' km · 원본 선형 미등록':'전체 거리: 미확인';
  svgMessage(hasProfile(route)?'DEM 고도자료 읽는 중…':'고도자료 미확인');
  showMapState(hasGeometry(route)?'공식 원본 참고경로 읽는 중…':'선택 코스의 경로자료 미확인');
- $('status').textContent=hasGeometry(route)||hasProfile(route)?'기관 자료 기반 참고정보 · 실제 통행 여부는 별도 확인':'미구현 코스 · 경로 및 고도자료 미확인';
+ $('status').textContent=hasGeometry(route)||hasProfile(route)?'기관 자료 기반 참고정보 · 실제 통행 여부는 별도 확인':(route.notes||'경로 및 고도자료 미확인');
  if(hasGeometry(route)||hasProfile(route))loadReferenceCourse(route,generation);
  render();
 }
@@ -236,7 +236,7 @@ function render(){
  for(const r of catalog.routes.filter(r=>r.group===group)){
   const b=document.createElement('button');b.className='course';b.type='button';b.setAttribute('aria-pressed',String(selected?.id===r.id));
   const title=document.createElement('strong');title.textContent=r.name;
-  const desc=document.createElement('small');desc.textContent=isReady(r)?(r.coverage==='partial'?'● 일부 구간 지도·거리·DEM 고도그래프':'● 지도·거리·DEM 고도그래프 참고자료'):(hasGeometry(r)?'경로 참고자료 · 고도 미확인':hasProfile(r)?'고도 참고자료 · 경로 미확인':'○ 경유지 목록 · 자료 미확인');
+  const desc=document.createElement('small');desc.textContent=isReady(r)?(r.coverage==='partial'?'● 일부 구간 지도·거리·DEM 고도그래프':'● 지도·거리·DEM 고도그래프 참고자료'):(hasGeometry(r)?'경로 참고자료 · 고도 미확인':hasProfile(r)?'고도 참고자료 · 경로 미확인':(Number.isFinite(r.guideKm)?'공단 안내거리 '+r.guideKm.toFixed(1)+' km · 지도/고도 준비 중':'○ 경유지 목록 · 자료 미확인'));
   b.dataset.ready=String(isReady(r));
   b.append(title,desc);b.onclick=()=>choose(r);list.append(b);
  }
@@ -265,6 +265,7 @@ function startMountain(config){
   $('localNotice').textContent='기관 자료 기반 참고정보. 방문 전 최신 출입통제 안내를 확인해 줘.';
   $('source').replaceChildren();
   $('source').textContent='기관 원본 선형·DEM 참고자료 · 실제 개방 및 통제는 별도 확인';
+  if(mountain.sourceUrl){const a=document.createElement('a');a.href=mountain.sourceUrl;a.target='_blank';a.rel='noopener';a.textContent=' · 국립공원공단 코스 안내';$('source').append(a)}
  }
  mapInit();loadReference();
  if(!mountain.catalogFile){noCatalog('이 산은 사전등록 코스를 준비 중이야. 전국 산 지도에서 원본 등산로를 확인할 수 있어.');return}

@@ -58,7 +58,7 @@ for(const route of catalog.routes){
  }
 }
 assert(['s1','s2','s3','s4','s5','s6','t1','t2','t3','t4','t5'].every(id=>ready.includes(id)),'대청봉 6개 및 종주 5개 참고자료 등록');
-assert(ready.length===22||ready.length===23,'대승폭포 신규 등록 및 백담사 DEM 준비 상태');
+assert.equal(ready.length,23);
 assert(ready.includes('s3'),'2018 오색 원본 회귀 테스트 보존');
 const geo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8'));
 const dem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));

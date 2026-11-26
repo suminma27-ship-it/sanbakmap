@@ -4,7 +4,7 @@
   "mountainCode": "428302602",
   "updated": "2026-11-26",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "23개 코스 지도 참고선형 등록, 22개 기존 DEM 참고자료 등록(일부 구간 포함). 백담사 진입도로 DEM은 공개 DEM으로 추가 추출 예정. 현행 개방 여부와 별개.",
+  "notes": "23개 코스 경로와 DEM 참고자료 등록(일부 구간 포함). 현행 통행 여부와 별개.",
   "routes": [
     {
       "id": "s1",
@@ -394,12 +394,12 @@
         "백담탐방지원센터",
         "백담사"
       ],
-      "source": "국립공원공단 2018 진입도로3",
-      "notes": "백담사 진입도로 원본 선형. 기존 공단 탐방로 DEM 패키지에 이 도로 고도표본 없음.",
+      "source": "국립공원공단 2018 진입도로3 + Copernicus DEM GLO-90 / Open-Meteo",
+      "notes": "백담사 진입도로 원본 좌표의 90m 간격 고도 참고값. 실제 통행 여부와 별개.",
       "geometryStatus": "reference",
       "geometryFile": "./data/seorak-a9-reference.geojson",
-      "profileStatus": "unverified",
-      "profileFile": null,
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-a9-reference-dem.json",
       "accessStatus": "unknown",
       "coverage": "reference"
     },

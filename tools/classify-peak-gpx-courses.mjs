@@ -5,6 +5,15 @@ const read=p=>JSON.parse(readFileSync(p,'utf8')),write=(p,v)=>writeFileSync(p,JS
 const index=read('data/unified-mountain-index.json'),registry=read('data/mountain-course-index.json'),national=read('data/nationwide/index.json').mountains;
 const root={};new vm.Script(readFileSync('core/nationwide-map-v106.js','utf8')).runInNewContext({window:root});
 const project=root.SanbakLineMapV106.to5179;
+root.atob=atob;
+for(const p of ['core/mountain-line-profile.js','core/nationwide-source-loader.js'])new vm.Script(readFileSync(p,'utf8')).runInNewContext({window:root});
+const prof=root.SanbakMountainProfiles,agency=root.SanbakNationwideAgency;
+const rawCache=new Map(),demCache=new Map();
+function bucketFile(cache,dir,bucket){
+ if(!cache.has(bucket)){const p='data/'+dir+'/bucket-'+bucket+'.json';cache.set(bucket,existsSync(p)?read(p):null)}
+ return cache.get(bucket);
+}
+
 // Reuse the already acquired source node coordinates solely as labeled points.
 // No new graph creation, pathfinding, gap filling, or DEM resampling.
 const chunks=Array.from({length:16},(_,i)=>{
@@ -55,11 +64,49 @@ function reverseTrack(r){
  const profileData=r.profileData?{...r.profileData,points:r.profileData.points.slice().reverse().map(p=>({...p,distanceMeters:+(total-p.distanceMeters).toFixed(3)}))}:null;
  return {...r,geometryData:{...r.geometryData,geometry:{type:'LineString',coordinates:coords}},profileData};
 }
-let summit=0,endpoint=0,named=0,changedPeaks=0,processed=0;
-for(const [code,link] of Object.entries(index.mountains||{})){
+
+function forestReference(code,guides,points){
+ const bucket=national[code]?.bucket;if(!bucket||!guides.length)return 0;
+ const raw=bucketFile(rawCache,'nationwide',bucket);if(!raw)return 0;
+ const packed=bucketFile(demCache,'nationwide-elevation',bucket)?.mountains?.[code]||null;
+ let lines;
+ try{lines=prof.forestLines(raw,code,agency.decodeLine).filter(l=>!l.closed&&!l.restricted&&!l.multipart&&l.coords.length>=2)}catch(e){console.log('NAMED_FOREST_SKIP',code,e.message);return 0}
+ const candidates=lines.map(l=>({l,metres:prof.lengthOf(l.coords),xy:l.coords.map(project)})).filter(x=>Number.isFinite(x.metres)&&x.metres>0);
+ let count=0;
+ for(const guide of guides){
+  const matches=[];
+  for(const c of candidates){
+   if(Number.isFinite(guide.guideKm)&&Math.abs(c.metres/1000-guide.guideKm)>Math.max(.5,guide.guideKm*.25))continue;
+   const forward=matchesRoute(guide,points,c.xy);
+   const backward=!forward&&matchesRoute(guide,points,c.xy.slice().reverse());
+   // A source title alone does not establish coordinate direction or endpoint identity.
+   // Only a point-based ordered match can assign the named route.
+   if(forward||backward)matches.push({...c,backward});
+  }
+  if(matches.length!==1)continue;
+  const {l,metres,backward}=matches[0],p=prof.profile(l,packed),ready=p.status==='ready'&&p.points.length>=2;
+  const coords=backward?l.coords.slice().reverse():l.coords;
+  const samples=ready?(backward?p.points.slice().reverse().map(pt=>({...pt,distanceMeters:p.distanceMeters-pt.distanceMeters})):p.points):null;
+  Object.assign(guide,{
+   geometryStatus:'reference',geometryFile:null,
+   geometryData:{type:'Feature',properties:{routeId:guide.id,sourceId:l.id,source:'산림청 DATA002 원본',sourceDistanceMeters:metres,startLabel:guide.via[0],endLabel:guide.via.at(-1),currentAccessVerified:false},geometry:{type:'LineString',coordinates:coords}},
+   profileStatus:ready?'reference':'unverified',profileFile:null,
+   profileData:ready?{routeId:guide.id,totalMeters:p.distanceMeters,points:samples}:null,
+   profileSource:'dem',coverage:'reference',
+   notes:'산림청 원본 등산로 단일 기록의 양끝·안내 경유지 위치가 대응하는 참고 경로. 선형을 이어 붙이지 않았으며 현행 통행 여부는 별도 확인.'+(ready?' 기존 DEM 고도표본 사용.':' 기존 DEM 고도표본 미확인.')
+  });
+  count++;console.log('NAMED_FOREST_MATCH',code,guide.id,guide.name,l.id,'DEM',ready);
+ }
+ return count;
+}
+let summit=0,endpoint=0,named=0,changedPeaks=0,processed=0,forestNamed=0;
+for(const code of new Set([...Object.keys(registry.mountains||{}),...Object.keys(index.mountains||{})])){
+ const link=index.mountains?.[code]||{};
  const points=pointsFor(code);if(!points.length)continue;
  const conf=registry.mountains[code],catPath=conf?.catalogFile?.replace(/^\.\//,''),cat=catPath&&existsSync(catPath)?read(catPath):null;
- const namedGuides=(cat?.routes||[]).filter(r=>!r.geometryFile&&!r.geometryData&&r.via?.length>=2);
+ const pendingGuides=(cat?.routes||[]).filter(r=>!r.geometryFile&&!r.geometryData&&r.via?.length>=2);
+ const linkedForest=forestReference(code,pendingGuides,points);forestNamed+=linkedForest;
+ const namedGuides=pendingGuides.filter(r=>!r.geometryFile&&!r.geometryData);
  const matchedGuides=new Map();
  for(const peak of link.peaks||[]){
   const path=peak.catalogFile.replace(/^\.\//,'');if(!existsSync(path))continue;
@@ -99,7 +146,7 @@ for(const [code,link] of Object.entries(index.mountains||{})){
    Object.assign(guide,{geometryStatus:'reference',geometryData:{...r.geometryData,properties:{...r.geometryData.properties,routeId:guide.id,startLabel:guide.via[0],endLabel:guide.via.at(-1)}},profileStatus:r.profileStatus,profileData:r.profileData?{...r.profileData,routeId:guide.id}:null,profileSource:'gpx',coverage:'reference',notes:'공공 GPX 단일 원본 구간의 양끝·안내 경유지가 산림청 주요지점 명칭 및 위치와 대응하는 참고 경로. 실제 개방 여부는 별도 확인. 기록 고도 사용.'});
    named++;console.log('NAMED_GPX_MATCH',code,guide.id,guide.name);
   }
-  if(matchedGuides.size)write(catPath,cat);
+  if(linkedForest||matchedGuides.size)write(catPath,cat);
  }
 }
-console.log('GPX_CLASSIFICATION_TOTAL',JSON.stringify({processed,changedPeaks,summit,endpoint,named}));
+console.log('GPX_CLASSIFICATION_TOTAL',JSON.stringify({processed,changedPeaks,summit,endpoint,named,forestNamed}));

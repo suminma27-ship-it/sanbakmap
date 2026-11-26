@@ -4112,6 +4112,86 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "472800901": [
+      {
+        "id": "dy-1",
+        "name": "용추계곡·밀재·피아골 순환",
+        "group": "정상코스",
+        "via": [
+          "용추계곡 주차장",
+          "월영대",
+          "밀재",
+          "대야산 정상",
+          "피아골",
+          "월영대",
+          "용추계곡 주차장"
+        ],
+        "source": "에브리트레일 · 국립공원공단 코스 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/songnisan/daeyasan",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      }
+    ],
+    "472803901": [
+      {
+        "id": "jh-1",
+        "name": "주흘산 1코스 · 부봉·마패봉 종주",
+        "group": "종주코스",
+        "via": [
+          "제1관문",
+          "혜국사",
+          "대궐터",
+          "주봉",
+          "영봉",
+          "충북도경계",
+          "부봉",
+          "동문",
+          "북문",
+          "마패봉",
+          "제3관문"
+        ],
+        "source": "문경시 문화관광",
+        "sourceUrl": "https://www.gbmg.go.kr/tour/contents.do?mId=0507000000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "jh-2",
+        "name": "주흘산 2코스 · 조곡골 순환",
+        "group": "종주코스",
+        "via": [
+          "제1관문",
+          "혜국사",
+          "전좌문",
+          "주봉",
+          "영봉",
+          "조곡골",
+          "제1관문"
+        ],
+        "source": "문경시 문화관광",
+        "sourceUrl": "https://www.gbmg.go.kr/tour/contents.do?mId=0507000000",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      }
+    ],
     "477502301": [
       {
         "id": "ju-jubong",
@@ -4385,6 +4465,148 @@
         "sourceUrl": "https://www.everytrail.co.kr/tracks/2732",
         "guideDirection": "편도",
         "notes": "출처의 1일차 기록 거리. 해당 페이지에서 GPX와 고도 정보 확인 가능. 앱 내 전체 선형 및 고도자료는 미등록."
+      }
+    ],
+    "479203401": [
+      {
+        "id": "cl-1",
+        "name": "청량산 1코스",
+        "group": "종주코스",
+        "via": [
+          "안내소",
+          "축융봉",
+          "오마도터널",
+          "경일봉",
+          "자소봉",
+          "하늘다리",
+          "장인봉",
+          "금강대",
+          "안내소"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 12.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
+      },
+      {
+        "id": "cl-2",
+        "name": "청량산 2코스",
+        "group": "정상코스",
+        "via": [
+          "입석",
+          "응진전",
+          "김생굴",
+          "자소봉",
+          "하늘다리",
+          "장인봉",
+          "금강대",
+          "안내소"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 6.4,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
+      },
+      {
+        "id": "cl-3",
+        "name": "청량산 3코스",
+        "group": "정상코스",
+        "via": [
+          "입석",
+          "청량사",
+          "뒷실고개",
+          "하늘다리",
+          "장인봉",
+          "청량폭포"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 5.1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
+      },
+      {
+        "id": "cl-4",
+        "name": "청량산 4코스",
+        "group": "기타코스",
+        "via": [
+          "산성입구",
+          "밀성대",
+          "축융봉",
+          "학소대",
+          "안내소"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 5.1,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
+      },
+      {
+        "id": "cl-5",
+        "name": "청량산 5코스",
+        "group": "기타코스",
+        "via": [
+          "입석",
+          "청량사",
+          "선학정"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 2.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
+      },
+      {
+        "id": "cl-6",
+        "name": "청량산 6코스",
+        "group": "종주코스",
+        "via": [
+          "입석",
+          "응진전",
+          "경일봉",
+          "자소봉",
+          "연적봉",
+          "청량사",
+          "입석"
+        ],
+        "source": "봉화군 청량산도립공원",
+        "sourceUrl": "https://www.bonghwa.go.kr/mt/contents.do?mid=0201030000",
+        "guideKm": 6,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인. 계절·구간별 출입통제 공고 확인 필요."
       }
     ],
     "482704101": [
@@ -5114,6 +5336,109 @@
         "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
       }
     ],
+    "488205101": [
+      {
+        "id": "yh-1",
+        "name": "연화봉·남산 순환",
+        "group": "종주코스",
+        "via": [
+          "주차장",
+          "옥천사",
+          "연화봉",
+          "황새고개",
+          "연화산 정상",
+          "남산",
+          "옥천사",
+          "주차장"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72001&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "yh-2",
+        "name": "옥천사 원점회귀",
+        "group": "정상코스",
+        "via": [
+          "옥천사",
+          "청련암",
+          "남산",
+          "연화산 정상",
+          "황새고개",
+          "옥천사"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72001&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "yh-3",
+        "name": "연화교~옥천사",
+        "group": "정상코스",
+        "via": [
+          "연화교",
+          "화촌",
+          "연화산 정상",
+          "잘루목",
+          "옥천사"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72001&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      }
+    ],
+    "488604601": [
+      {
+        "id": "us-1",
+        "name": "밤머리재~지곡마을",
+        "group": "종주코스",
+        "via": [
+          "밤머리재",
+          "대장마을갈림길",
+          "왕재",
+          "상투봉",
+          "웅석봉 정상",
+          "십자봉",
+          "임도",
+          "선녀탕",
+          "심적사 입구",
+          "지곡사",
+          "내리저수지",
+          "지곡마을"
+        ],
+        "source": "에브리트레일 공개 GPX 기록",
+        "sourceUrl": "https://www.everytrail.co.kr/tracks/1723",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      }
+    ],
     "488605302": [
       {
         "id": "jiri-hwadae",
@@ -5189,6 +5514,103 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 안내 코스. 전체 지도 선형·고도는 미등록. 최신 탐방로 통제 확인."
+      }
+    ],
+    "488703501": [
+      {
+        "id": "hs-1",
+        "name": "황석산·거망산 종주",
+        "group": "종주코스",
+        "via": [
+          "유동마을",
+          "쉼터",
+          "전망대",
+          "황석산 정상",
+          "뫼재",
+          "거망산 정상",
+          "사평하산분기점",
+          "사평마을",
+          "용추사 주차장"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72040&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "hs-2",
+        "name": "우전~유동 횡단",
+        "group": "정상코스",
+        "via": [
+          "우전마을",
+          "시구목길",
+          "황석산 정상",
+          "망월대",
+          "유동마을"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72040&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "hs-3",
+        "name": "탁고개~서하교",
+        "group": "정상코스",
+        "via": [
+          "삼거리",
+          "탁고개",
+          "산내골",
+          "황석산 정상",
+          "서하교"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72040&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
+      },
+      {
+        "id": "hs-4",
+        "name": "거망산·황석산 종주",
+        "group": "종주코스",
+        "via": [
+          "용추사",
+          "지장골",
+          "주능선",
+          "거망산 정상",
+          "1205봉",
+          "황석산 정상",
+          "우전마을",
+          "봉전 거연정"
+        ],
+        "source": "산림청 숲나들e",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=06&fmmntSeq=72040&nowPage=1&preSrchArea=06&preSrchWrd=&srchArea=06&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 또는 산행 기록의 주요 경유지. 전체 코스 선형·고도 미등록. 현행 통행 여부는 관리기관 확인."
       }
     ],
     "488906401": [

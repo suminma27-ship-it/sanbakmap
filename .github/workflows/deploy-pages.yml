@@ -74,6 +74,8 @@ jobs:
           cp app-home.html site/index.html
           cp app-home.html site/app-home.html
           cp app-home.html site/home-20261126-islands.html
+          cp app-home.html site/home-20261127.html
+          test -s site/home-20261127.html
           test -s site/home-20261126-islands.html
           test -s site/app-home.html
           test -s site/legacy-map.html

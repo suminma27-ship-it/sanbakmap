@@ -60,7 +60,7 @@ async function scenario(withLeaflet){
  const window={atob};
  if(L)window.L=L.stub;
  const fetch=async path=>{
-  const relative=path.replace(/^\.\//,'');
+  const relative=path.split('?')[0].replace(/^\.\//,'');
   if(!/^data\/[a-z0-9-/]+\.(json|geojson)$/.test(relative))throw Error('Unknown source '+path);
   const data=JSON.parse(fs.readFileSync(relative,'utf8'));
   return {ok:true,json:async()=>data};
@@ -85,7 +85,7 @@ async function scenario(withLeaflet){
  assert(svg.children.some(x=>x.tag==='path'),
   'First selected KNPS line must render DEM profile path');
  assert.match(document.getElementById('distance').textContent,/거리 \d/);
- assert.equal(document.getElementById('registeredCoursesLink').getAttribute('href'),'./courses-20261126-r2.html?mountain=428302602','선택 산에 대응하는 공통 코스 링크');
+ assert.equal(document.getElementById('registeredCoursesLink').getAttribute('href'),'./courses-20261126-r3.html?mountain=428302602','선택 산에 대응하는 공통 코스 링크');
  if(withLeaflet){
   assert.equal(L.group.parts.length,42,'21 visible source lines and 21 touch targets should be layered');
   assert.equal(L.group.parts.filter(x=>x.style?.weight===22).length,21,

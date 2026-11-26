@@ -1,5 +1,5 @@
 /* 산박지도 v83: always revalidate navigation HTML online; retain cached fallback offline. */
-const CACHE_NAME = 'sanbakmap-courses-20261126-r2';
+const CACHE_NAME = 'sanbakmap-courses-20261126-r3';
 const APP_SHELL = ['./index.html','./national.html','./national_data.js','./national_routes.js','./ganwol-review.html','./yeongnam-gpx-connect.html','./yeongnam-osm.html','./yeongnam-course-v72.js','./mountain-trails.html','./seorak-standalone-s3.html','./vendor/leaflet.css','./core/mountain-line-profile.js','./national-parks-trails.html','./national-parks-basemap.js','./seorak-v76-extra.js','./seorak-v77-extra.js','./seorak-v78-extra.js','./seorak-v83-gpx-tracks.js','./seorak-v95-pois.js','./seorak-v96-plan.js','./core/trail-visibility.js','./data/knps-seorak-2018.geojson','./nationwide-official.html','./nationwide-full.html','./nationwide-topology.html','./nationwide-plan.html','./core/nationwide-route-preview-v104.js','./core/nationwide-pois-v105.js','./core/nationwide-map-v106.js','./core/nationwide-map-view-v106.js','./core/nationwide-knps-contacts-v117.js','./core/nationwide-knps-nearby-v118.js','./core/nationwide-knps-interior-v122.js','./core/nationwide-graph-normalize-v124.js','./core/nationwide-elevation-v107.js','./core/nationwide-elevation-partial-v119.js','./core/nationwide-elevation-chart-v107.js','./core/nationwide-elevation-pack-v108.js','./core/nationwide-elevation-archive-v110.js','./data/nationwide-elevation/index.json','./data/nationwide-elevation/online-v110.json','./data/nationwide-elevation/seorak-knps-v108.json','./data/nationwide-elevation/seorak-forest-v109.json','./data/nationwide-elevation/odae-forest-v109.json','./data/nationwide-elevation/gyeryong-forest-v109.json','./data/nationwide-pois/index.json','./core/nationwide-source-loader.js','./core/nationwide-app.js','./data/nationwide/index.json','./ganwol-review-data.js','./ganwol-verify.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => Promise.allSettled(APP_SHELL.map(url=>cache.add(url)))).then(() => self.skipWaiting()));
@@ -15,8 +15,9 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url), scope = new URL(self.registration.scope);
   if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
-  // Versioned course data must never be fulfilled by an older cached response.
+  // Versioned course and nationwide source data must never be fulfilled by an older cached response.
   if (url.pathname.endsWith('/core/mountain-courses.js') ||
+      /\/data\/nationwide(?:-elevation)?\/[^/]+\.json$/.test(url.pathname) ||
       /\/data\/(?:mountain-course-index\.json|(?:seorak|jiri|deogyu)-[^/]+\.(?:json|geojson))$/.test(url.pathname)) {
     event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{
       if(res.ok){const fresh=res.clone();event.waitUntil(caches.open(CACHE_NAME).then(c=>c.put(req,fresh)));}

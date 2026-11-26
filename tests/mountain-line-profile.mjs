@@ -17,7 +17,7 @@ assert(!page.includes('SanbakSeorakSegments'),'신규 화면은 구간 연결 �
 assert(page.includes('id="seorakCourses"')&&page.includes('id="registeredCoursesLink"'),'코스 목록 UI 누락');
 const catalog=JSON.parse(readFileSync('data/seorak-predefined-routes.json','utf8'));
 assert.equal(catalog.routes.length,23);
-assert(page.includes('./courses-20261126-r2.html?mountain='));
+assert(page.includes('./courses-20261126-r3.html?mountain='));
 assert(page.includes("layer.setStyle(selected?{color:'#145d3e'"),
  '단일 선택 원본만 진한 녹색으로 강조해야 함');
 assert(page.includes("{color:'#9aac9d',weight:3,opacity:.67}"),

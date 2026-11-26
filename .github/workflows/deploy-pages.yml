@@ -25,6 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Publish existing nationwide source lines and elevation archive
+        run: |
+          python3 tools/publish-existing-mountain-lines.py
+          python3 tools/publish-nationwide-elevation-v110.py --output-dir data/nationwide-elevation || echo "::warning::Nationwide DEM archive unavailable; existing source lines and pilot profiles remain available"
+
       - name: Prepare Jirisan and Deogyusan reference course data
         run: python3 tools/build-pilot-mountain-courses.py
 
@@ -62,7 +67,8 @@ jobs:
           test -s data/knps-seorak-2018.geojson
           mkdir -p site/core site/vendor site/data/nationwide site/data/nationwide-elevation
           cp index.html mountain-trails.html seorak-isolated-test.html seorak-courses.html site/
-          cp mountain-courses.html courses-20261126-r2.html site/
+          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html site/
+          cp mountain-trails.html site/mountains-20261126-r3.html
           cp data/mountain-course-index.json site/data/
           cp data/jiri-predefined-routes.json data/deogyu-predefined-routes.json site/data/
           for file in data/jiri-*.geojson data/deogyu-*.geojson data/jiri-*-dem.json data/deogyu-*-dem.json; do
@@ -106,6 +112,16 @@ jobs:
           test -s site/data/seorak-osaek-daecheong-2018.geojson
           test -s site/data/seorak-osaek-daecheong-dem.json
           test -s site/data/nationwide/index.json
+          python3 - <<'PY'
+          import json,pathlib
+          site=pathlib.Path('site/data')
+          idx=json.loads((site/'nationwide/index.json').read_text())['mountains']
+          buckets={e['bucket'] for e in idx.values()}
+          assert all((site/'nationwide'/('bucket-'+b+'.json')).is_file() for b in buckets)
+          dem=json.loads((site/'nationwide-elevation/online-v110.json').read_text())
+          assert all((site/'nationwide-elevation'/('bucket-'+e['bucket']+'.json')).is_file() for e in dem['mountains'].values())
+          print('PASS packaged nationwide source lines:',len(idx),'DEM mountain codes:',dem['mountedMountains'])
+          PY
           test -s site/data/nationwide-elevation/online-v110.json
           ! grep -q 'rebuild-topology-v102' <<< 'source-line-only'
 

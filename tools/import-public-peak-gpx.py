@@ -50,7 +50,7 @@ def segment(el):
  return coords,prof,round(d,3)
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--zip',type=pathlib.Path,default=pathlib.Path('data/peak-gpx-source.zip'));parser.add_argument('--out',type=pathlib.Path,default=pathlib.Path('data/public-peak-gpx'));args=parser.parse_args();acquire(args.zip)
- groups=collections.defaultdict(list);names={};files=0;skipped=0;profiles=0
+ groups=collections.defaultdict(list);names={};files=0;skipped=0;profiles=0;combined=0
  with zipfile.ZipFile(args.zip) as z:
   members=[x for x in z.namelist() if x.lower().endswith('.gpx')]
   if len(members)!=6748:raise ValueError('unexpected GPX archive file count: '+str(len(members)))
@@ -61,6 +61,7 @@ def main():
    try:root=ET.fromstring(z.read(path));segments=root.findall('.//'+NS+'trkseg')
    except ET.ParseError:skipped+=1;continue
    seq=pathlib.PurePosixPath(path).stem.rsplit('_',1)[-1]
+   originals=[]
    for i,el in enumerate(segments,1):
     data=segment(el)
     if not data:skipped+=1;continue
@@ -69,9 +70,31 @@ def main():
     profile=dict(routeId=rid,totalMeters=metres,points=points,sourceType='gpx') if points else None
     profiles+=bool(profile)
     groups[code].append(dict(id=rid,name=title,group='기타코스',via=via,source=SOURCE,sourceUrl=URL,sourceFile=path,coverage='reference',geometryStatus='reference',geometryData=geom,profileStatus='reference' if profile else 'unverified',profileData=profile,profileSource='gpx',accessStatus='unknown',notes='2022년 GPX 원본 트랙 구간. 정상·종주 구분이 원본에 없어 기타코스로 표시. 현행 통행·정상 도달 여부는 별도 확인. 원본 누적거리와 기록 고도 사용.'))
+    originals.append((el,groups[code][-1]))
+   # Restore a whole original GPX track only if it is one trk and all its trkseg
+   # entries are present, in original order, with identical raw endpoint coordinates.
+   # Never bridge a missing section or connect different GPX files.
+   if len(root.findall(NS+'trk'))!=1 or len(originals)<2 or len(originals)!=len(segments):continue
+   def endkey(el,i):
+    p=el.findall(NS+'trkpt')[i];return (float(p.attrib['lon']),float(p.attrib['lat']))
+   if not all(endkey(a[0],-1)==endkey(b[0],0) for a,b in zip(originals,originals[1:])):continue
+   records=[r for _,r in originals]
+   if any(not r['profileData'] for r in records):continue
+   if any(abs(a['profileData']['points'][-1]['elevationMeters']-b['profileData']['points'][0]['elevationMeters'])>2 for a,b in zip(records,records[1:])):continue
+   xy=[];points=[];offset=0
+   for r in records:
+    c=r['geometryData']['geometry']['coordinates'];p=r['profileData']['points']
+    xy.extend(c if not xy else c[1:])
+    points.extend(dict(distanceMeters=round(offset+q['distanceMeters'],3),elevationMeters=q['elevationMeters']) for q in (p if not points else p[1:]))
+    offset+=r['profileData']['totalMeters']
+   rid='whole-'+seq;total=round(offset,3)
+   if len(xy)<2 or any(b['distanceMeters']<=a['distanceMeters'] for a,b in zip(points,points[1:])):continue
+   via=['원본 출발점','원본 도착점'];geom=dict(type='Feature',properties=dict(routeId=rid,source=SOURCE,sourceFile=path,sourceDistanceMeters=total,startLabel=via[0],endLabel=via[1]),geometry=dict(type='LineString',coordinates=xy))
+   groups[code].append(dict(id=rid,name=name+' GPX '+str(int(seq) if seq.isdigit() else seq)+'코스 · 연속 전체 트랙',group='기타코스',via=via,source=SOURCE,sourceUrl=URL,sourceFile=path,coverage='reference',geometryStatus='reference',geometryData=geom,profileStatus='reference',profileData=dict(routeId=rid,totalMeters=total,points=points,sourceType='gpx'),profileSource='gpx',accessStatus='unknown',notes='같은 원본 GPX 파일의 한 트랙 내부에서 모든 구간의 실제 끝점이 동일한 경우만 전체 트랙으로 제공. 정상·종주 유형은 별도 확인.',wholeOriginalTrack=True,componentIds=[r['id'] for r in records]))
+   combined+=1;profiles+=1
  index={}
  for code,routes in groups.items():
   xy=routes[0]['geometryData']['geometry']['coordinates'];lon,lat=xy[len(xy)//2];name=names[code];cat=dict(schema='sanbak-predefined-route-catalog-v1',mountainCode=code,name=name,routes=routes)
   dump(args.out/(code+'.json'),cat);index[code]=dict(code=code,name=name,catalogFile='./data/public-peak-gpx/'+code+'.json',center=[lat,lon],zoom=12,sourceLabel=SOURCE,sourceUrl=URL,routeCount=len(routes),profileCount=sum(bool(r['profileData']) for r in routes))
- count=sum(len(r) for r in groups.values());dump(args.out/'index.json',dict(schema='sanbak-public-peak-index-v1',source=SOURCE,sourceUrl=URL,archiveSha256=hashlib.sha256(args.zip.read_bytes()).hexdigest(),sourceFiles=files,sourcePeaks=len(names),publishedPeaks=len(index),routes=count,profiles=profiles,skipped=skipped,mountains=index));print('PUBLIC_PEAK_TOTAL',len(index),'peaks',files,'files',count,'segments',profiles,'profiles',skipped,'skipped')
+ count=sum(len(r) for r in groups.values());dump(args.out/'index.json',dict(schema='sanbak-public-peak-index-v1',source=SOURCE,sourceUrl=URL,archiveSha256=hashlib.sha256(args.zip.read_bytes()).hexdigest(),sourceFiles=files,sourcePeaks=len(names),publishedPeaks=len(index),routes=count,originalSegments=count-combined,wholeOriginalTracks=combined,profiles=profiles,skipped=skipped,mountains=index));print('PUBLIC_PEAK_TOTAL',len(index),'peaks',files,'files',count,'display records',count-combined,'original segments',combined,'whole original tracks',profiles,'profiles',skipped,'skipped')
 if __name__=='__main__':main()

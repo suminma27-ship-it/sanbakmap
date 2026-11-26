@@ -26,6 +26,112 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "317102401": [
+      {
+        "id": "sky1",
+        "group": "종주코스",
+        "name": "하늘억새길 1구간 · 억새바람길",
+        "via": [
+          "간월재",
+          "신불산",
+          "신불재",
+          "영축산"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 4.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky-loop",
+        "group": "종주코스",
+        "name": "영남알프스 하늘억새길 환종주",
+        "via": [
+          "간월재",
+          "신불산",
+          "영축산",
+          "죽전마을",
+          "재약산",
+          "천황산",
+          "능동산",
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 29.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 안내 5개 구간 순환형 탐방로. 영남알프스 9봉 종주와 다른 코스. 전체 지도 선형 미등록.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      }
+    ],
+    "317104301": [
+      {
+        "id": "sky5",
+        "group": "종주코스",
+        "name": "하늘억새길 5구간 · 달오름길",
+        "via": [
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 4.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky-loop",
+        "group": "종주코스",
+        "name": "영남알프스 하늘억새길 환종주",
+        "via": [
+          "간월재",
+          "신불산",
+          "영축산",
+          "죽전마을",
+          "재약산",
+          "천황산",
+          "능동산",
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 29.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 안내 5개 구간 순환형 탐방로. 영남알프스 9봉 종주와 다른 코스. 전체 지도 선형 미등록.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      }
+    ],
     "411700301": [
       {
         "id": "local-suri-1",
@@ -136,6 +242,41 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "457300702": [
+      {
+        "id": "deogyu-yukgu",
+        "group": "종주코스",
+        "name": "덕유산 육구종주",
+        "via": [
+          "육십령",
+          "할미봉",
+          "서봉",
+          "남덕유산",
+          "월성재",
+          "삿갓재",
+          "무룡산",
+          "동엽령",
+          "백암봉",
+          "중봉",
+          "향적봉",
+          "구천동"
+        ],
+        "source": "에브리트레일 육구종주 안내",
+        "sourceUrl": "https://www.everytrail.co.kr/guides/deogyusan-yukgu-jongju",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 완주 기록 거리 30.0~32.9km. 전체 지도 선형 미등록.",
+        "guideDistanceRange": [
+          30,
+          32.9
+        ]
+      }
+    ],
     "471900101": [
       {
         "id": "local-geum-1",
@@ -180,6 +321,284 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
+      }
+    ],
+    "482704101": [
+      {
+        "id": "sky3",
+        "group": "종주코스",
+        "name": "하늘억새길 3구간 · 사자평 억새길",
+        "via": [
+          "죽전마을",
+          "재약산",
+          "천황재",
+          "천황산"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 6.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky-loop",
+        "group": "종주코스",
+        "name": "영남알프스 하늘억새길 환종주",
+        "via": [
+          "간월재",
+          "신불산",
+          "영축산",
+          "죽전마을",
+          "재약산",
+          "천황산",
+          "능동산",
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 29.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 안내 5개 구간 순환형 탐방로. 영남알프스 9봉 종주와 다른 코스. 전체 지도 선형 미등록.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      }
+    ],
+    "482704701": [
+      {
+        "id": "sky3",
+        "group": "종주코스",
+        "name": "하늘억새길 3구간 · 사자평 억새길",
+        "via": [
+          "죽전마을",
+          "재약산",
+          "천황재",
+          "천황산"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 6.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky4",
+        "group": "종주코스",
+        "name": "하늘억새길 4구간 · 단풍사색길",
+        "via": [
+          "천황산",
+          "능동산",
+          "배내고개"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 7,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky-loop",
+        "group": "종주코스",
+        "name": "영남알프스 하늘억새길 환종주",
+        "via": [
+          "간월재",
+          "신불산",
+          "영축산",
+          "죽전마을",
+          "재약산",
+          "천황산",
+          "능동산",
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 29.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 안내 5개 구간 순환형 탐방로. 영남알프스 9봉 종주와 다른 코스. 전체 지도 선형 미등록.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      }
+    ],
+    "483301301": [
+      {
+        "id": "sky1",
+        "group": "종주코스",
+        "name": "하늘억새길 1구간 · 억새바람길",
+        "via": [
+          "간월재",
+          "신불산",
+          "신불재",
+          "영축산"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 4.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky2",
+        "group": "종주코스",
+        "name": "하늘억새길 2구간 · 단조성터길",
+        "via": [
+          "영축산",
+          "청수좌골",
+          "죽전마을"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 6.6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "울산시 안내의 5개 구간 중 한 구간. 현재 통행 및 전체 지도 선형 미확인.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      },
+      {
+        "id": "sky-loop",
+        "group": "종주코스",
+        "name": "영남알프스 하늘억새길 환종주",
+        "via": [
+          "간월재",
+          "신불산",
+          "영축산",
+          "죽전마을",
+          "재약산",
+          "천황산",
+          "능동산",
+          "배내고개",
+          "배내봉",
+          "간월산",
+          "간월재"
+        ],
+        "source": "울산 관광 하늘억새길 안내",
+        "sourceUrl": "https://www.ulsan.go.kr/tour/korean/contents.ulsan?mId=001002001002008000",
+        "guideKm": 29.7,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 안내 5개 구간 순환형 탐방로. 영남알프스 9봉 종주와 다른 코스. 전체 지도 선형 미등록.",
+        "sourceExtra": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20111123.22012205220"
+      }
+    ],
+    "488605302": [
+      {
+        "id": "jiri-hwadae",
+        "group": "종주코스",
+        "name": "지리산 화대종주",
+        "via": [
+          "화엄사",
+          "노고단고개",
+          "연하천대피소",
+          "벽소령대피소",
+          "세석대피소",
+          "장터목대피소",
+          "천왕봉",
+          "치밭목대피소",
+          "유평(대원사 방면)"
+        ],
+        "source": "에브리트레일 지리산 주능선 종주 안내",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/jirisan/jumaneungseon",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공식 탐방로를 잇는 통상 종주. 개별 안내 코스 전체 선형 미등록."
+      },
+      {
+        "id": "jiri-seongjung",
+        "group": "종주코스",
+        "name": "지리산 성중종주",
+        "via": [
+          "성삼재",
+          "노고단고개",
+          "연하천대피소",
+          "벽소령대피소",
+          "세석대피소",
+          "장터목대피소",
+          "천왕봉",
+          "로타리대피소",
+          "중산리"
+        ],
+        "source": "에브리트레일 지리산 주능선 종주 안내",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/jirisan/jumaneungseon",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 코스. 전체 지도 선형·고도는 미등록. 최신 탐방로 통제 확인."
+      },
+      {
+        "id": "jiri-mainridge",
+        "group": "종주코스",
+        "name": "지리산 주능선",
+        "via": [
+          "노고단고개",
+          "연하천대피소",
+          "벽소령대피소",
+          "세석대피소",
+          "장터목대피소",
+          "천왕봉"
+        ],
+        "source": "에브리트레일 지리산 주능선 종주 안내",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/jirisan/jumaneungseon",
+        "guideKm": 25.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 코스. 전체 지도 선형·고도는 미등록. 최신 탐방로 통제 확인."
       }
     ]
   }

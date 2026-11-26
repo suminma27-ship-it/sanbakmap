@@ -1463,6 +1463,164 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "412500201": [
+      {
+        "id": "sy-1",
+        "name": "자재암~의상대 코스",
+        "group": "정상코스",
+        "via": [
+          "소요산역",
+          "자재암",
+          "하백운대",
+          "상백운대",
+          "의상대"
+        ],
+        "source": "에브리트레일 · 동두천시 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/soyosan/hwanjongju",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "sy-2",
+        "name": "공주봉 코스",
+        "group": "기타코스",
+        "via": [
+          "소요산역",
+          "일주문",
+          "구절터",
+          "공주봉"
+        ],
+        "source": "에브리트레일 · 동두천시 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/soyosan/hwanjongju",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "sy-3",
+        "name": "소요산 환종주",
+        "group": "종주코스",
+        "via": [
+          "소요산 관광지",
+          "자재암",
+          "하백운대",
+          "중백운대",
+          "상백운대",
+          "칼바위",
+          "나한대",
+          "의상대",
+          "공주봉",
+          "소요산 관광지"
+        ],
+        "source": "에브리트레일 · 동두천시 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/soyosan/hwanjongju",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      }
+    ],
+    "413602201": [
+      {
+        "id": "cm-1",
+        "name": "호평동 코스",
+        "group": "정상코스",
+        "via": [
+          "수진사 입구",
+          "천마의집",
+          "삼각지",
+          "천마산 정상"
+        ],
+        "source": "남양주시 문화관광",
+        "sourceUrl": "https://www.nyj.go.kr/culture/contents.do?key=4315",
+        "guideKm": 2.96,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "cm-2",
+        "name": "천마산역 코스",
+        "group": "정상코스",
+        "via": [
+          "천마산역",
+          "주먹바위",
+          "뾰족봉",
+          "천마산 정상"
+        ],
+        "source": "남양주시 문화관광",
+        "sourceUrl": "https://www.nyj.go.kr/culture/contents.do?key=4315",
+        "guideKm": 3.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "cm-3",
+        "name": "관리소 코스",
+        "group": "정상코스",
+        "via": [
+          "천마산관리소",
+          "깔딱고개",
+          "뾰족봉",
+          "천마산 정상"
+        ],
+        "source": "남양주시 문화관광",
+        "sourceUrl": "https://www.nyj.go.kr/culture/contents.do?key=4315",
+        "guideKm": 2.9,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "cm-4",
+        "name": "가곡리 코스",
+        "group": "정상코스",
+        "via": [
+          "보광사 입구",
+          "팔현리 갈림길",
+          "멸도봉",
+          "천마산 정상"
+        ],
+        "source": "남양주시 문화관광",
+        "sourceUrl": "https://www.nyj.go.kr/culture/contents.do?key=4315",
+        "guideKm": 3.96,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      }
+    ],
     "416301201": [
       {
         "id": "sapae-course",
@@ -1659,6 +1817,241 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
+      }
+    ],
+    "418201401": [
+      {
+        "id": "mj-1",
+        "name": "익근리 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "익근리",
+          "계곡 갈림길",
+          "사향봉 안부",
+          "명지산 정상",
+          "남봉",
+          "계곡 상부",
+          "명지폭포",
+          "익근리"
+        ],
+        "source": "숲나들e 100대명산",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=01&fmmntSeq=71976&nowPage=1&preSrchArea=01&preSrchWrd=&srchArea=01&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "mj-2",
+        "name": "익근리~백둔리",
+        "group": "종주코스",
+        "via": [
+          "익근리",
+          "강박봉",
+          "사향봉",
+          "명지산 정상",
+          "남봉",
+          "승천봉 안부",
+          "백둔리"
+        ],
+        "source": "숲나들e 100대명산",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=01&fmmntSeq=71976&nowPage=1&preSrchArea=01&preSrchWrd=&srchArea=01&srchWrd=",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "mj2-1",
+        "name": "익근리 정상 코스",
+        "group": "정상코스",
+        "via": [
+          "익근리 주차장",
+          "승천사",
+          "명지폭포",
+          "능선",
+          "명지산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/myeongjisan",
+        "guideKm": 6.25,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "mj2-2",
+        "name": "백둔리 정상 코스",
+        "group": "정상코스",
+        "via": [
+          "백둔리 버스종점",
+          "아재비고개",
+          "명지3봉",
+          "명지2봉",
+          "명지산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/myeongjisan",
+        "guideKm": 6.46,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      }
+    ],
+    "418202901": [
+      {
+        "id": "yi-1",
+        "name": "소망능선 코스",
+        "group": "정상코스",
+        "via": [
+          "백둔리",
+          "소망능선",
+          "연인산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/curated/gapyeong/guides/hiking",
+        "guideKm": 3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "yi-2",
+        "name": "장수능선 코스",
+        "group": "정상코스",
+        "via": [
+          "백둔리",
+          "장수능선",
+          "연인산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/curated/gapyeong/guides/hiking",
+        "guideKm": 4.8,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "yi-3",
+        "name": "우정능선 코스",
+        "group": "정상코스",
+        "via": [
+          "마일리",
+          "우정능선",
+          "연인산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/curated/gapyeong/guides/hiking",
+        "guideKm": 6,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "yi-4",
+        "name": "연인능선 코스",
+        "group": "정상코스",
+        "via": [
+          "승안리",
+          "용추계곡",
+          "연인능선",
+          "연인산 정상"
+        ],
+        "source": "에브리트레일 · 가평군 안내 인용",
+        "sourceUrl": "https://www.everytrail.co.kr/curated/gapyeong/guides/hiking",
+        "guideKm": 14,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      }
+    ],
+    "418203101": [
+      {
+        "id": "ua-1",
+        "name": "눈썹바위~현등사 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "하판리 주차장",
+          "눈썹바위",
+          "병풍바위",
+          "미륵바위",
+          "동봉",
+          "절고개",
+          "현등사",
+          "출렁다리",
+          "하판리 주차장"
+        ],
+        "source": "경인웰빙산악회 공개 산행 안내",
+        "sourceUrl": "https://giwb.kr/reserve/list/1859",
+        "guideKm": 7.4,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
+      },
+      {
+        "id": "ua-2",
+        "name": "백년폭포~동봉·서봉 원점회귀",
+        "group": "종주코스",
+        "via": [
+          "하판리 주차장",
+          "백년폭포",
+          "고인돌바위",
+          "절고개",
+          "동봉",
+          "서봉",
+          "동봉",
+          "만경대",
+          "병풍바위",
+          "눈썹바위",
+          "출렁다리",
+          "하판리 주차장"
+        ],
+        "source": "경인웰빙산악회 공개 산행 안내",
+        "sourceUrl": "https://giwb.kr/reserve/list/1859",
+        "guideKm": 9.5,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 출입통제는 관리기관 확인."
       }
     ],
     "418303101": [

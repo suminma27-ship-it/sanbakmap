@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const COURSE_RELEASE='20261126-r6';
+const COURSE_RELEASE='20261127-r7';
 function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
 function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
 $('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
@@ -254,7 +254,7 @@ function configureTabs(){
 }
 function noCatalog(message){
  $('catalogSummary').textContent=mountain.name+' 산행코스';$('catalogDescription').textContent=message;
- const link=document.createElement('a');link.href='./mountains-20261126-r6.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
+ const link=document.createElement('a');link.href='./mountains-20261127-r7.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
  $('count').textContent='등록된 사전 코스 없음';$('status').textContent=message;
  $('tryVerified').hidden=true;$('poiFocus').textContent='경유지 자료 없음';showMapState(message);svgMessage('고도자료 미등록');
  document.querySelectorAll('.tab').forEach(b=>b.hidden=true);
@@ -270,7 +270,7 @@ function startMountain(config){
   $('localNotice').textContent='기관 자료 기반 참고정보. 방문 전 최신 출입통제 안내를 확인해 줘.';
   $('source').replaceChildren();
   $('source').textContent='기관 원본 선형·DEM 참고자료 · 실제 개방 및 통제는 별도 확인';
-  if(mountain.sourceUrl){const a=document.createElement('a');a.href=mountain.sourceUrl;a.target='_blank';a.rel='noopener';a.textContent=' · 국립공원공단 코스 안내';$('source').append(a)}
+  if(mountain.sourceUrl){const a=document.createElement('a');a.href=mountain.sourceUrl;a.target='_blank';a.rel='noopener';a.textContent=' · 출처 산행 안내';$('source').append(a)}
  }
  mapInit();loadReference();
  if(!mountain.catalogFile){noCatalog('이 산은 사전등록 코스를 준비 중이야. 전국 산 지도에서 원본 등산로를 확인할 수 있어.');return}

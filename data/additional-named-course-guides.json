@@ -498,6 +498,409 @@
         "notes": "기관 공개 등산 안내 기준. 전체 지도 선형 및 고도자료는 미등록. 방문 전 최신 출입통제 확인."
       }
     ],
+    "264100101": [
+      {
+        "id": "geum-fortress",
+        "name": "금정산성길",
+        "group": "종주코스",
+        "via": [
+          "동문",
+          "3망루",
+          "4망루",
+          "북문",
+          "고당봉",
+          "금샘",
+          "서문",
+          "1망루터",
+          "남문",
+          "2망루",
+          "동문"
+        ],
+        "source": "금정구 문화관광",
+        "sourceUrl": "https://www.geumjeong.go.kr/tour/index.geumj?menuCd=DOM_000000413007000000",
+        "guideKm": 18.845,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "geum-beomeosa-east",
+        "name": "범어사길",
+        "group": "종주코스",
+        "via": [
+          "범어사",
+          "북문",
+          "고당봉",
+          "북문",
+          "4망루",
+          "3망루",
+          "동문"
+        ],
+        "source": "금정구 문화관광",
+        "sourceUrl": "https://www.geumjeong.go.kr/tour/index.geumj?menuCd=DOM_000000413007000000",
+        "guideKm": 7.4,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "guide-1",
+        "name": "범어사~고당봉",
+        "group": "정상코스",
+        "via": [
+          "범어사",
+          "북문",
+          "고당봉"
+        ],
+        "source": "에브리트레일 산행 안내",
+        "sourceUrl": "https://www.everytrail.co.kr/routes/170",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인.",
+        "updateExisting": true
+      }
+    ],
+    "271401201": [
+      {
+        "id": "pal-gwanam",
+        "name": "관암사~관봉",
+        "group": "기타코스",
+        "via": [
+          "관암사",
+          "관봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-buin",
+        "name": "부인사~서봉",
+        "group": "기타코스",
+        "via": [
+          "부인사",
+          "서봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-sutae",
+        "name": "수태골~동봉",
+        "group": "기타코스",
+        "via": [
+          "수태골",
+          "동봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-sinil",
+        "name": "신일지~은해봉",
+        "group": "기타코스",
+        "via": [
+          "신일지",
+          "은해봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-jinnam",
+        "name": "진남문~가산봉",
+        "group": "기타코스",
+        "via": [
+          "진남문",
+          "가산봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-chisan",
+        "name": "치산지~동봉",
+        "group": "기타코스",
+        "via": [
+          "치산지",
+          "동봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-tapgol",
+        "name": "탑골~동봉",
+        "group": "기타코스",
+        "via": [
+          "탑골",
+          "동봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-pagye",
+        "name": "파계사~파계재",
+        "group": "기타코스",
+        "via": [
+          "파계사",
+          "파계재"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-odo",
+        "name": "오도암~비로봉",
+        "group": "정상코스",
+        "via": [
+          "오도암",
+          "비로봉"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-seonbon",
+        "name": "선본사~갓바위(관봉)",
+        "group": "기타코스",
+        "via": [
+          "선본사",
+          "갓바위(관봉)"
+        ],
+        "source": "국립공원공단 탐방코스",
+        "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=8000739&parkId=122400&parkNavGb=park",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-ridge-west",
+        "name": "파계사~서봉~동화사",
+        "group": "종주코스",
+        "via": [
+          "파계사 매표소",
+          "파계사",
+          "파계재",
+          "부인사 갈림길",
+          "서봉",
+          "염불암",
+          "동화사"
+        ],
+        "source": "숲나들e 100대 명산",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntSeq=72033",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "pal-ridge-east",
+        "name": "갓바위~동봉~동화사",
+        "group": "종주코스",
+        "via": [
+          "갓바위주차장",
+          "갓바위",
+          "능성재",
+          "신령재",
+          "동봉",
+          "염불암",
+          "동화사"
+        ],
+        "source": "숲나들e 100대 명산",
+        "sourceUrl": "https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntSeq=72033",
+        "guideKm": null,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      }
+    ],
+    "277101501": [
+      {
+        "id": "biseul-yuga-a",
+        "name": "유가사 A코스",
+        "group": "종주코스",
+        "via": [
+          "유가사주차장",
+          "도성암",
+          "천왕봉",
+          "대견사",
+          "비슬산 자연휴양림"
+        ],
+        "source": "비슬산 등산코스 안내",
+        "sourceUrl": "https://www.biseul.kr/course1",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "biseul-yuga-b",
+        "name": "유가사 B코스",
+        "group": "정상코스",
+        "via": [
+          "유가사주차장",
+          "도성암",
+          "천왕봉",
+          "마령재",
+          "유가사"
+        ],
+        "source": "비슬산 등산코스 안내",
+        "sourceUrl": "https://www.biseul.kr/course1",
+        "guideKm": null,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "biseul-yuga-c",
+        "name": "유가사 C코스",
+        "group": "종주코스",
+        "via": [
+          "자연휴양림",
+          "대견사",
+          "천왕봉",
+          "유가사"
+        ],
+        "source": "비슬산 등산코스 안내",
+        "sourceUrl": "https://www.biseul.kr/course1",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "biseul-yongyeon",
+        "name": "용연사 코스",
+        "group": "종주코스",
+        "via": [
+          "용연사",
+          "약수터",
+          "천왕봉",
+          "유가사"
+        ],
+        "source": "비슬산 등산코스 안내",
+        "sourceUrl": "https://www.biseul.kr/course1",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      }
+    ],
     "317100101": [
       {
         "group": "종주코스",
@@ -2129,6 +2532,137 @@
         "notes": "출처의 코스명과 경유지 안내. 전체 선형 및 고도자료는 아직 미등록."
       }
     ],
+    "477502301": [
+      {
+        "id": "ju-jubong",
+        "name": "주봉코스",
+        "group": "정상코스",
+        "via": [
+          "상의주차장",
+          "주봉",
+          "후리메기",
+          "상의주차장"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 8.9,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "ju-valley",
+        "name": "주왕계곡코스",
+        "group": "기타코스",
+        "via": [
+          "상의주차장",
+          "용추폭포",
+          "내원동"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 8.8,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "ju-game",
+        "name": "가메봉코스",
+        "group": "기타코스",
+        "via": [
+          "상의주차장",
+          "용추폭포",
+          "후리메기 삼거리",
+          "가메봉"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 13.4,
+        "guideDirection": null,
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "ju-wol",
+        "name": "월외코스",
+        "group": "종주코스",
+        "via": [
+          "월외공원지킴터",
+          "달기폭포",
+          "너구마을",
+          "금은광이삼거리",
+          "장군봉",
+          "대전사"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 12.3,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "guide-1",
+        "name": "절골코스",
+        "group": "종주코스",
+        "via": [
+          "절골탐방지원센터",
+          "가메봉",
+          "용연폭포",
+          "상의주차장"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 13,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인.",
+        "updateExisting": true
+      },
+      {
+        "id": "guide-2",
+        "name": "장군봉~금은광이코스",
+        "group": "기타코스",
+        "via": [
+          "상의주차장",
+          "장군봉",
+          "용연폭포",
+          "상의주차장"
+        ],
+        "source": "휴;청송 주변관광 산행 안내",
+        "sourceUrl": "https://www.csca.co.kr/bbs/content.php?co_id=pa04_01",
+        "guideKm": 10.6,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인.",
+        "updateExisting": true
+      }
+    ],
     "478201201": [
       {
         "group": "종주코스",
@@ -2869,6 +3403,137 @@
         "notes": "공개 산행 안내 기준 경유지. 하늘억새길 및 9봉 전체 종주와 구분. 거리·전체 선형 미등록. 앱 내 전체 선형 및 고도자료는 미등록."
       }
     ],
+    "487403301": [
+      {
+        "id": "hwawang-jahagok-doseong",
+        "name": "자하곡 도성암길",
+        "group": "정상코스",
+        "via": [
+          "자하곡매표소",
+          "도성암",
+          "정상"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwawang-jahagok-forest",
+        "name": "자하곡 산림욕장길",
+        "group": "정상코스",
+        "via": [
+          "자하곡매표소",
+          "산림욕장",
+          "정상"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwawang-jahagok-view",
+        "name": "자하곡 전망대길",
+        "group": "정상코스",
+        "via": [
+          "자하곡매표소",
+          "산림욕장",
+          "전망대",
+          "장군바위계곡",
+          "정상"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwawang-okcheon-valley",
+        "name": "옥천계곡길",
+        "group": "기타코스",
+        "via": [
+          "옥천매표소",
+          "옥천삼거리",
+          "옥천계곡",
+          "동문"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwawang-okcheon-yongseon",
+        "name": "옥천 용선대길",
+        "group": "기타코스",
+        "via": [
+          "옥천매표소",
+          "옥천삼거리",
+          "관룡사",
+          "용선대",
+          "관룡산",
+          "동문"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwawang-okcheon-byeongpung",
+        "name": "옥천 병풍바위길",
+        "group": "기타코스",
+        "via": [
+          "옥천매표소",
+          "옥천삼거리",
+          "관룡사",
+          "병풍바위",
+          "관룡산",
+          "동문"
+        ],
+        "source": "창녕군시설관리공단",
+        "sourceUrl": "https://cfmc.kr/sub.html?Radd=03_01&code=03_01",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      }
+    ],
     "488605302": [
       {
         "id": "jiri-hwadae",
@@ -2944,6 +3609,78 @@
         "profileFile": null,
         "accessStatus": "unknown",
         "notes": "공개 안내 코스. 전체 지도 선형·고도는 미등록. 최신 탐방로 통제 확인."
+      }
+    ],
+    "488906401": [
+      {
+        "id": "hwang-miracle",
+        "name": "모산재 기적길",
+        "group": "기타코스",
+        "via": [
+          "모산재주차장",
+          "돛대바위",
+          "모산재",
+          "국사당",
+          "모산재주차장"
+        ],
+        "source": "에브리트레일(합천군 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/hwangmaesan/mosanjae",
+        "guideKm": 4.5,
+        "guideDirection": "원점회귀",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwang-mosanjae",
+        "name": "모산재~황매산 정상",
+        "group": "정상코스",
+        "via": [
+          "모산재주차장",
+          "모산재",
+          "철쭉 군락지",
+          "하늘계단",
+          "황매산 정상"
+        ],
+        "source": "에브리트레일(합천군 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/hwangmaesan/mosanjae",
+        "guideKm": null,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
+      },
+      {
+        "id": "hwang-jangbak",
+        "name": "장박리~황매산~모산재",
+        "group": "종주코스",
+        "via": [
+          "장박리",
+          "너백이쉼터",
+          "황매산",
+          "황매평전",
+          "베틀봉",
+          "모산재",
+          "순결바위",
+          "국사당",
+          "덕만주차장"
+        ],
+        "source": "경인웰빙산악회 공개 기록",
+        "sourceUrl": "https://giwb.kr/reserve/list/1885",
+        "guideKm": 10.5,
+        "guideDirection": "편도",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내의 경유지와 거리 참고정보. 전체 선형 및 고도자료 미등록. 최신 출입통제 확인."
       }
     ]
   },

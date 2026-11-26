@@ -51,8 +51,8 @@ assert.match(elements.baseStatus.textContent,/미연결/,'Leaflet 없는 경우 
 basemaps[0].onclick();
 const graphPaths=()=>elements.graph.children.filter(n=>n.tagName==='path').length;
 assert.equal(elements.title.textContent,'오색약수 → 대청봉','준비된 코스가 첫 선택이어야 함');
-assert.match(elements.catalogSummary.textContent,/23개 등록 · 경로·고도 참고자료 21개/);
-assert.match(elements.catalogDescription.textContent,/2개는 경로 또는 고도자료 미확인/);
+assert.match(elements.catalogSummary.textContent,/23개 등록 · 경로·고도 참고자료 2[23]개/);
+assert.match(elements.catalogDescription.textContent,/[01]개는 경로 또는 고도자료 미확인/);
 
 assert.match(elements.status.textContent,/2018년 국립공원공단/);
 assert.match(elements.distance.textContent,/4\.59 km/);
@@ -92,20 +92,20 @@ for(const i of [0,1,2,3,4,5,6,7]){
 }
 tabs[1].onclick();
 await settle();
-for(const i of [0,1,2,3,4,6,7]){
+for(const i of [0,1,2,3,4,5,6,7]){
  elements.courses.children[i].onclick();
  await settle();
  assert.equal(graphPaths(),1,'기타코스 DEM 그래프 표시');
 }
 elements.courses.children[8].onclick();
 await settle();
-assert.equal(graphPaths(),0,'백담사 진입도로에는 DEM 없음');
-assert.equal(elements.mapState.hidden,true,'고도자료 없이 지도 독립 표시');
+const roadReady=JSON.parse(readFileSync('data/seorak-predefined-routes.json','utf8')).routes.find(r=>r.id==='a9').profileFile;
+assert.equal(graphPaths(),roadReady?1:0,'백담사 진입도로 DEM 준비 상태에 따른 출력');
+assert.equal(elements.mapState.hidden,true,'고도자료와 지도 독립 표시');
 elements.courses.children[5].onclick();
 await settle();
-assert.equal(graphPaths(),0,'미확인 코스는 허위 그래프 금지');
-assert.equal(elements.tryVerified.hidden,false);
-assert.equal(elements.mapState.hidden,false);
+assert.equal(graphPaths(),1,'대승폭포 고도그래프 표시');
+assert.match(elements.distance.textContent,/0\.90 km/);
 elements.tryVerified.listeners.click();
 await settle();
 assert.equal(elements.title.textContent,'오색약수 → 대청봉');

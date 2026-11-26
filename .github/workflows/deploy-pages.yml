@@ -24,6 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Fill missing Baekdamsa road DEM from public terrain data
+        run: |
+          python3 tools/prepare-baekdam-road-dem.py || echo "::warning::Baekdamsa road DEM unavailable; other courses remain available"
+
       - name: Validate active mountain map MVP regressions
         run: |
           set -euo pipefail

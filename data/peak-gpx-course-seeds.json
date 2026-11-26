@@ -1,0 +1,99 @@
+{
+  "schema": "sanbak-peak-gpx-sampled-v1",
+  "source": "한국등산트레킹지원센터 전국 주요 봉우리 코스 2022-11-16",
+  "sourceUrl": "https://www.data.go.kr/data/15108086/fileData.do",
+  "encoding": "zigzag varint delta, lon/lat microdegrees, elevation decimetres, original cumulative metres",
+  "sampling": "원본점 약 70m 간격 및 최고점·양끝점 유지. 고도는 GPX 기록값이며 DEM 아님.",
+  "routes": [
+    {
+      "id": "gpx-gaji",
+      "code": "317100101",
+      "name": "가지산 주능선 정상부 경유",
+      "group": "정상코스",
+      "via": [
+        "가지산 주능선 남쪽 원본 시작점",
+        "가지산 북서쪽 원본 종점"
+      ],
+      "sourceFile": "3265030001_가지산/가지산_0000000001.gpx · 4번째 트랙 구간",
+      "count": 49,
+      "metres": 3547,
+      "sha": "02741971a7b5c240e453120ae3d74bd26681786789a286ee2411d39a55b061fb",
+      "encoded": "gt6Fe/ax+yHyfADrBu4IbJwBgQeeCLYCogHnC/4CvQGUAacK3gSQAZAB9QzOAkCaAdcMxAXIA6gB8wyoAyCcAbcLugNYkAHzC4gDvgSSAfMM5wJ+nAG1C9sDogOgAYMMzQS0BZwBvQupBe4GngHDC6wCpgKQAcELsgPKApIBgw4b8ASkAYsML4ADjgGDDqMCmAaqAasJ3gKEBo4B8QrgBMwBqAHLBJIJyQGQAb8G6AnFAqAB/wfwCLsBngGnCPoGW5QBiQmgCdoEqgHLCPQG0ASWAecIigb0BJgBmQnCBooFjgF7KiAMsAWiCI0FkgGKCMAHxwOQAbYD5gn/A5YB0gXOCZsBmgGQBZIK2QOeAbwI3AhtogH0BpgIBZAB4AWKCTyUAYgF+gmLBJwB0AKmCSmQAeIDggpwlgHWBsgIN5wBlgjWB+cEkgGiCbYGT5IB3gXuCUmiAZYInAfKAZIB6AzaAoUBnAGADG+BAZQBuAK1A5sBOg=="
+    },
+    {
+      "id": "gpx-ganwol",
+      "code": "317104301",
+      "name": "간월산 동쪽 방면 → 정상부",
+      "group": "정상코스",
+      "via": [
+        "간월산 동쪽 원본 시작점",
+        "간월산 정상부 원본 종점"
+      ],
+      "sourceFile": "3265030002_간월산/간월산_0000000001.gpx · 역방향",
+      "count": 62,
+      "metres": 4595,
+      "sha": "2d3933c0745ed28823de63c5131fe2dce7751eb7688a2b3cb6176fce687fb38a",
+      "encoded": "loyLe5qt9CG+JQCHCpEDLJQB6QidBYICjAG5DIEDyAKcAcUMwwPyApwBzwjbAaoDjgGHB5cFygOWAa0NzwGwAaABpwrRBdIClAGVDK8BigOcAc8GjQiQA5YB6wnhBfgCmAHlC0WKApIBtQrEBe4ElgHFC4EB2AKSAf8KuQT6A5ABzQqNBswDmAHJCa8HrgKaAZcJkQi4AqQByQrDBJoBjAGrCrsHwgGiAcsJ2QW2ApIB+QqhBKgDmgHBB/sG6gKYAZkIzwb0BY4B+QuiBPIBpAH+A7IKtgGeAcECQtIBoAHDCIEJuAGkAbMDlwqCAZYB+gmnBqQBnAGFCR2QAZABiQj8BpYBkAG5ApUDkAGOAbwGyQigAZIBlQj8AagBkAGXBNoKlgGkAeEBqwe0AZIB8AHBCs4BogG8A+8ElAGcAbULnAWuAaIB8gOvCOIBoAGhBzygApwBO5cGqgKkAaALqwXEAaQBrAkWQpIB8QujA7gBlgHNDTS4AaQBpQuIBfABmgGFBMQJkgGcAcsL5gKaAZoBPYQJ5gOOAZ0BhAmgBJAB6gPWCfwCmgHDCNYF8gGeAZ8KwgWsA5gB7wm+BuwCmAGzDOIDjgKkAZEL+gL8AZQBwwyMAx6cAdEKyAbOAZ4BjwGeATwW"
+    },
+    {
+      "id": "gpx-namdeogyu",
+      "code": "457300702",
+      "name": "남덕유산 남쪽 방면 → 상부 능선",
+      "group": "기타코스",
+      "via": [
+        "남덕유산 남쪽 원본 시작점",
+        "상부 능선 원본 종점"
+      ],
+      "sourceFile": "5383010118_남덕유산/남덕유산_0000000001.gpx · 1~2번째 구간, 동일 접점에서 연결",
+      "count": 86,
+      "metres": 6429,
+      "sha": "f327fe5c1d6fe461958c6257b275e7211d4b5732206083d802066cf8579c045b",
+      "encoded": "oujhedzViiL0YwClB44IQpABpws8jgGSAdkMGZ4BnAG9DOcBNJwB6QwPfKAB8QvVAZwBlAGTCooFOo4BqQX+CRCcAfEJmgekAaIB9QLOCmicAb8E4Ak8mgH/B+AIbp4BowPGCZIBkAHvAqAIjgGOAYcEvgrGAaQB+QTKCFyMAfEG8gcGjAGHBeIJhAKaAf8FlAlElgHrB7oHpAGOAbMFqAqYAqIBywjQB5ADnAHxB+wHjgKUAbsMiAOYA5oBvQzaArYDnAGhC+4CjAGQAbkKggWWAZoBhw2FAZgCmgGTC7EEzgOUAf8MuwK+BZ4B+QfyAnSQAR7WCQqUAXCkChKeAawEyApEogGOAf4KXp4BWMIKvgGaAWHoCYoBjgFKugrGApoBvQHSCpABmgGmAcYKVJgBqAS6CogBoAGEAuYJSJABugGUCuYBngHnA7oJ7AOQAd8EmAmeBZQBmQmOBugEkAHaAZgKxgKWAdgCkgmyA4wByAbYCMwEnAGIBpYI/gOOAZcE4AmuBKIBpAeSCbwFoAGwA4gKsgSgAR+4CZkBlgGgBoQJjAGiAbgCwgnoAY4BjAPYCpwBoAGmBfQInAKUAULICv4BmgFx0gnQA44BrAjsB6ACmgHEAtIKOJ4B0AWaCfoBmgGsCsgF5gOaAYQKtAayBJYB5gjKBtQDlgHcCJQFpASOAZQIsgb6ApABqgekCLwCmAGeDGfVBpYBhArHA/EGlgGSDE+1BJQB2AqdA/kEnAGiDMkC9QGcAcoL+QIwkAHCDeYBSqAB/gzgAYwBngGsC60FhwOYAfQJvwUojAHyB5EHsAGMAcYKrQbQA5oB+gmPBu4EkgHICdMG1AaWAcIFuQeQCI4BuAXrCL4CmgE="
+    },
+    {
+      "id": "gpx-unmun1",
+      "code": "478202401",
+      "name": "운문산 남쪽 방면 → 정상부 (1코스)",
+      "group": "정상코스",
+      "via": [
+        "남쪽 원본 시작점",
+        "운문산 정상부 원본 종점"
+      ],
+      "sourceFile": "5383010602_운문산/운문산_0000000001.gpx",
+      "count": 51,
+      "metres": 3774,
+      "sha": "fe7a9c813acd8de7e4ac8360692cc3d8a3185fe55c49df9ed7dab13a5199ba36",
+      "encoded": "4KT9etao+CGQKQCWB7AIaZQB4Aj6ByGYAZgJoAgengG2B+4ILZoBFbAKRJYB8QH8Ch6gAdQBhgrMAZIBuAS2CmScAZgH9ghkmgGiB6YJYJ4BvAXICdYBlgGPBsAIcJgB4QaCCaQBmgF/hAnWAYwBCtYKggGeAZkByAqGApoBPI4K5AGaAbcGyAjOAZQBnwy4AZIBmAGjCfoGkAKYAfMKigKyApIBTbgJ0AOcAeoGqAjiApIBqAveBdoEngHECOIH8gKUAbwJoAeABZ4BxAqiBawDkAGuCtgF6gSSAeILigWOA5oB/AmoBogFlAGcBvIJ5gOgAV6qCswFlAGIA+II2AmSAWzCCsgCmAGAAfwKogKeAfAB1AnaBJQBrAaQCOIGkAGvAfQHkgiWAfsB6gn2BZwBsQGECuwBkgHPA6gK5gGaAdcDgAqYAZoB1QPgCpIEngHUAowLsgesAT38CfgElgHABZ4J3AGcAVy4CMgGlAG9AdgH7AacAbALsgS6AZgBgAeKAYgCVg=="
+    },
+    {
+      "id": "gpx-unmun2",
+      "code": "478202401",
+      "name": "운문산 남동쪽 방면 → 정상부 (2코스)",
+      "group": "정상코스",
+      "via": [
+        "남동쪽 원본 시작점",
+        "운문산 정상부 원본 종점"
+      ],
+      "sourceFile": "5383010602_운문산/운문산_0000000002.gpx · 역방향",
+      "count": 53,
+      "metres": 3818,
+      "sha": "a90c234f4a8aed29715cb019e10c921fbc517ad7381e9ed878ab9be47a25a1a5",
+      "encoded": "qMf+evCM+SHiMADzAZ4KygGaAbQLigbeAZ4B9gLqCWaeAe8B7AreAaABxAXeCJYBkAHiCv4BbJYB1AbECO4BmgFovAqOApgBjwKeCfgCkgGsBsAIpAKSAaAE2gmyApQBvATSCd4ClAEe7An8ApABvwPSCvgCngG8AswK6AGcAbIHhAeEAo4B5AXGCXqeAewBigrkAZgB5Aj8B5ABnAGyBKAJ8AKSAcYD5AmmApgBlAeUCOAClAHOBoYIvAKOAfoHygeKApQBtAT+COgClAGWBt4IggOUAbwEyAmWApYBwAXKCKwCkgHWBe4IlgKQAf4IsAaAA5gBhAWACawBkgGgB4wI3gGWAZwB4gaIA44BlQmCB8oDlAGrC/QD/AKQAecMWtgEmgGLDKsC4AKUAeELG+gDkAGFDXe6BZwBmwzIAp4ClgGdDPIDjAWeAf8HlAHwA4wB6wqZAowDmgGbC274ApABqwwv9AKSAeUL2QH+BJYB6Qy9AfgEngG1CcIGigOSAc8IkAa2BI4B4QmuApAGkgGpCdoEnAWQAYMBgAFOEg=="
+    },
+    {
+      "id": "gpx-unmun3",
+      "code": "478202401",
+      "name": "운문산 서쪽 방면 → 정상부 (3코스)",
+      "group": "정상코스",
+      "via": [
+        "서쪽 원본 시작점",
+        "운문산 정상부 원본 종점"
+      ],
+      "sourceFile": "5383010602_운문산/운문산_0000000003.gpx",
+      "count": 90,
+      "metres": 6565,
+      "sha": "eea68741b3df51dda60d1828fc7e7ab2ce002fc438f2b88db955c367b0348c12",
+      "encoded": "qOb5eszB+iH8HwCCDJwDEZQB4gyZAgWeAZAJxAcumgHUBuoJDqIBxgLSChicAeoCkgsIpAHkA6QJogGMAW6uCmqWAYQCpAuyAaIBQeoJLo4BMdoK1AGaAb8DugrcAZwBfIoKOJABB7YKJJYBIPwJsAGUAZgDngmGAo4BsAXsCLoBkAHACfIG0AGUAaQJlgaeAY4BvguoBEqUAeQMqAOOApwB/AyoAsgBnAHKC+QDwgKQAcAJngaGAo4Bjg3eAYYBngGyDBMwkAHsCtsC7AGYAdYLSPIDlgGkCokCxgSYAaoH6gd+jgHSDOQCfJ4Bhgoj/gGcAdoJkgdWnAHsDC7sAZ4BvAi4BpwCkAG6CawFlgOOAYAJ3geWAZwBzAjaB9IBmAGcBuwIgAWYAaQItAWmAZIBkAfuB5gCkgGaBeQJxgGYAfAG8gjSAZoBhgviA3iSAcoLkATmApYB4gKQCdYCjgHGCdgG9AKaAeQJvgX0AZgB9gqcBMgBkAHgDJkBmgKaAbwMkQG0A5IBMboElgOOAZ8D/gWiApIB8gwT8gGaAdYDgALaApgBPO4D/AGWAd4H3wfAApIBygm/BrgFlAGgCdMGKqIBtgqFBqgClgGKBIcKtASiAY4C2QnaA5QB+grhBESUAcYK6QaAAaAB3Af/BugBlAGcCs0GxgKcAbAJkwegBaABsgvHA+sBlAGKC80EiAGaAbwLpwTYAZQBoguJBcYEngHqCI0GlAKQAeoExgnxBp4BwgmMBssDkgGiCqQF0wSUAcQH5QT1CZ4BtgSjCZsBlAGSAscJigaWAbYG3wO6CJwBqQOvCbwDjgHRAbsJqAWQAZUMnwPGCJoB8QmBBYIFjgHDAq0GsASMAZECpQr4ApoBnwapCcICmgG3A4cK3gKYATmnATQUBnELDA=="
+    }
+  ]
+}

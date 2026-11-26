@@ -39,6 +39,9 @@ jobs:
       - name: Register provincial, county and other mountain source catalogs
         run: node tools/build-regional-mountain-courses.mjs
 
+      - name: Import existing public peak GPX courses
+        run: node tools/build-peak-gpx-courses.mjs
+
       - name: Validate active mountain map MVP regressions
         run: |
           set -euo pipefail
@@ -82,16 +85,18 @@ jobs:
           test -s site/home-20261126-islands.html
           test -s site/app-home.html
           test -s site/legacy-map.html
-          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html courses-20261127-r7.html courses-20261127-r8.html site/
+          cp mountain-courses.html courses-20261126-r2.html courses-20261126-r3.html courses-20261126-r4.html courses-20261126-r5.html courses-20261126-r6.html courses-20261127-r7.html courses-20261127-r8.html courses-20261127-r9.html site/
           cp mountain-trails.html site/mountains-20261126-r3.html
           cp mountain-trails.html site/mountains-20261126-r4.html
           cp mountain-trails.html site/mountains-20261126-r5.html
           cp mountain-trails.html site/mountains-20261126-r6.html
           cp mountain-trails.html site/mountains-20261127-r7.html
           cp mountain-trails.html site/mountains-20261127-r8.html
+          cp mountain-trails.html site/mountains-20261127-r9.html
           cp data/mountain-park-classification.json site/data/
           cp data/mountain-course-index.json site/data/
           cp -R data/park-courses site/data/
+          if [ -d data/peak-gpx-courses ]; then cp -R data/peak-gpx-courses site/data/; fi
           cp data/national-park-course-guides.json data/regional-mountain-course-guides.json site/data/
           cp data/jiri-predefined-routes.json data/deogyu-predefined-routes.json site/data/
           for file in data/jiri-*.geojson data/deogyu-*.geojson data/jiri-*-dem.json data/deogyu-*-dem.json; do

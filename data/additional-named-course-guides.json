@@ -1672,6 +1672,382 @@
         "notes": "공개 산행 안내 기준. 전체 선형·고도 미등록. 최신 통제 확인. 2026-10-16부터 일부 구간 폐쇄 안내가 있으며 산불조심기간과 중복됨. 통행 가능 코스로 안내하지 않음."
       }
     ],
+    "431503501": [
+      {
+        "id": "worak-dong",
+        "name": "영봉코스(동창교)",
+        "group": "정상코스",
+        "via": [
+          "동창교",
+          "송계삼거리",
+          "영봉"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4007",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "worak-sin",
+        "name": "영봉코스(신륵사)",
+        "group": "정상코스",
+        "via": [
+          "덕산공원지킴터",
+          "신륵사",
+          "신륵사삼거리",
+          "보덕암삼거리",
+          "영봉"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/4008",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
+    "437201201": [
+      {
+        "id": "song-ridge",
+        "name": "천왕봉1코스",
+        "group": "종주코스",
+        "via": [
+          "속리산 체험학습관",
+          "세심정",
+          "문장대",
+          "신선대",
+          "비로봉",
+          "천왕봉",
+          "상환암",
+          "법주사",
+          "속리산 체험학습관"
+        ],
+        "guideKm": null,
+        "guideDirection": "원점회귀",
+        "source": "에브리트레일(공단 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/songnisan/cheonwangbong",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "song-cross",
+        "name": "천왕봉2코스",
+        "group": "종주코스",
+        "via": [
+          "화북탐방지원센터",
+          "문장대",
+          "신선대",
+          "천왕봉",
+          "세심정",
+          "체험학습관"
+        ],
+        "guideKm": 12.9,
+        "guideDirection": "편도",
+        "source": "에브리트레일(공단 안내 인용)",
+        "sourceUrl": "https://m.everytrail.co.kr/hiking/songnisan/hwabuk",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "song-sinseon",
+        "name": "신선대2코스",
+        "group": "종주코스",
+        "via": [
+          "화북",
+          "문장대",
+          "신선대",
+          "세심정",
+          "체험학습관"
+        ],
+        "guideKm": 9.7,
+        "guideDirection": "편도",
+        "source": "에브리트레일(공단 안내 인용)",
+        "sourceUrl": "https://m.everytrail.co.kr/hiking/songnisan/peaks/sinseondae",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "song-munjang",
+        "name": "법주사 방면 문장대코스",
+        "group": "기타코스",
+        "via": [
+          "속리산 체험학습관",
+          "세심정",
+          "복천암",
+          "할딱고개",
+          "문장대"
+        ],
+        "guideKm": 6.6,
+        "guideDirection": "편도",
+        "source": "에브리트레일(공단 안내 인용)",
+        "sourceUrl": "https://www.everytrail.co.kr/hiking/songnisan/munjangdae",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
+    "437401401": [
+      {
+        "id": "minju-b",
+        "name": "민주지산 B코스",
+        "group": "종주코스",
+        "via": [
+          "물한계곡주차장",
+          "황룡사",
+          "제1삼거리",
+          "제1분기점",
+          "민주지산",
+          "석기봉",
+          "삼도봉",
+          "삼마골재",
+          "음주암폭포",
+          "옥소폭포",
+          "물한계곡주차장"
+        ],
+        "guideKm": 12.45,
+        "guideDirection": "원점회귀",
+        "source": "영동군 문화관광",
+        "sourceUrl": "https://ydbb.yd21.go.kr/tour/html/sub01/010303.html",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "minju-c",
+        "name": "민주지산 C코스",
+        "group": "종주코스",
+        "via": [
+          "물한계곡주차장",
+          "안내판",
+          "각호산",
+          "대피소",
+          "민주지산",
+          "제1분기점",
+          "제1삼거리",
+          "물한계곡주차장"
+        ],
+        "guideKm": 10.8,
+        "guideDirection": "원점회귀",
+        "source": "영동군 문화관광",
+        "sourceUrl": "https://ydbb.yd21.go.kr/tour/html/sub01/010303.html",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "minju-four",
+        "name": "각민석삼 종주",
+        "group": "종주코스",
+        "via": [
+          "도마령주차장",
+          "상용정",
+          "각호산",
+          "민주지산",
+          "석기봉",
+          "삼도봉",
+          "삼마골재",
+          "물한계곡주차장"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "영동군 문화관광",
+        "sourceUrl": "https://www.yd21.go.kr/tour/html/sub01/01040205.html",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
+    "437403501": [
+      {
+        "id": "cheontae-a",
+        "name": "천태산 A코스",
+        "group": "정상코스",
+        "via": [
+          "천태산 주차장",
+          "영국사",
+          "암벽코스",
+          "천태산 정상"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "영동군 문화관광",
+        "sourceUrl": "https://town.yd21.go.kr/tour/html/sub02/020404.html",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "cheontae-ad",
+        "name": "천태산 A~D 순환",
+        "group": "정상코스",
+        "via": [
+          "천태산 주차장",
+          "영국사",
+          "A코스 암벽구간",
+          "천태산 정상",
+          "D코스",
+          "천태산 주차장"
+        ],
+        "guideKm": null,
+        "guideDirection": "원점회귀",
+        "source": "영동군 문화관광",
+        "sourceUrl": "https://www.yd21.go.kr/tour/html/sub01/01040221.html",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
+    "438001301": [
+      {
+        "id": "sobaek-cheondong",
+        "name": "천동계곡코스",
+        "group": "정상코스",
+        "via": [
+          "천동탐방지원센터",
+          "천동계곡",
+          "천동쉼터",
+          "고사목",
+          "천동삼거리",
+          "비로봉"
+        ],
+        "guideKm": 6.8,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3971",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "sobaek-huib",
+        "name": "희방사코스",
+        "group": "기타코스",
+        "via": [
+          "희방탐방지원센터",
+          "희방사주차장",
+          "희방폭포",
+          "희방사",
+          "깔딱고개",
+          "연화봉"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3968",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "sobaek-juk",
+        "name": "죽령코스",
+        "group": "기타코스",
+        "via": [
+          "죽령탐방지원센터",
+          "제2연화봉",
+          "소백산천문대",
+          "연화봉"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3969",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "sobaek-ridge",
+        "name": "연화봉~비로봉",
+        "group": "종주코스",
+        "via": [
+          "연화봉",
+          "소백산천문대",
+          "제1연화봉",
+          "비로봉"
+        ],
+        "guideKm": 4.3,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3976",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      },
+      {
+        "id": "sobaek-dosol",
+        "name": "도솔봉코스",
+        "group": "종주코스",
+        "via": [
+          "묘적령",
+          "묘적봉",
+          "도솔봉",
+          "죽령"
+        ],
+        "guideKm": null,
+        "guideDirection": "편도",
+        "source": "국립공원공단 탐방아카이브",
+        "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3972",
+        "geometryStatus": "unverified",
+        "geometryFile": null,
+        "profileStatus": "unverified",
+        "profileFile": null,
+        "accessStatus": "unknown",
+        "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+      }
+    ],
     "457300702": [
       {
         "id": "deogyu-yukgu",
@@ -2570,5 +2946,162 @@
         "notes": "공개 안내 코스. 전체 지도 선형·고도는 미등록. 최신 탐방로 통제 확인."
       }
     ]
-  }
+  },
+  "publicPeakTargets": [
+    {
+      "name": "계룡산",
+      "center": [
+        36.35,
+        127.21
+      ],
+      "maxLatDelta": 0.12,
+      "maxLonDelta": 0.15,
+      "routes": [
+        {
+          "id": "gy-dong1",
+          "name": "동학사1코스",
+          "group": "정상코스",
+          "via": [
+            "동학사주차장",
+            "동학사",
+            "은선폭포",
+            "관음봉"
+          ],
+          "guideKm": null,
+          "guideDirection": "편도",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3875",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        },
+        {
+          "id": "gy-dong2",
+          "name": "동학사2코스",
+          "group": "종주코스",
+          "via": [
+            "동학사주차장",
+            "동학사",
+            "은선폭포",
+            "관음봉고개",
+            "연천봉",
+            "관음봉",
+            "삼불봉",
+            "남매탑",
+            "동학사",
+            "동학사주차장"
+          ],
+          "guideKm": null,
+          "guideDirection": "원점회귀",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3876",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        },
+        {
+          "id": "gy-gap1",
+          "name": "갑사1코스",
+          "group": "기타코스",
+          "via": [
+            "갑사주차장",
+            "갑사",
+            "금잔디고개",
+            "삼불봉"
+          ],
+          "guideKm": null,
+          "guideDirection": "편도",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3877",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        },
+        {
+          "id": "gy-gap2",
+          "name": "갑사2코스",
+          "group": "종주코스",
+          "via": [
+            "갑사주차장",
+            "갑사",
+            "원효대입구",
+            "연천봉",
+            "관음봉고개",
+            "관음봉",
+            "삼불봉",
+            "남매탑",
+            "동학사",
+            "동학사주차장"
+          ],
+          "guideKm": null,
+          "guideDirection": "편도",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3878",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        },
+        {
+          "id": "gy-sin1",
+          "name": "신원사1코스",
+          "group": "기타코스",
+          "via": [
+            "신원사주차장",
+            "신원사",
+            "고왕암",
+            "연천봉"
+          ],
+          "guideKm": null,
+          "guideDirection": "편도",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3879",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        },
+        {
+          "id": "gy-sin2",
+          "name": "신원사2코스",
+          "group": "종주코스",
+          "via": [
+            "신원사주차장",
+            "신원사",
+            "고왕암",
+            "연천봉고개",
+            "연천봉",
+            "관음봉",
+            "삼불봉",
+            "남매탑",
+            "동학사",
+            "동학사주차장"
+          ],
+          "guideKm": null,
+          "guideDirection": "편도",
+          "source": "국립공원공단 탐방아카이브",
+          "sourceUrl": "https://archive.knps.or.kr/archive/s/site/item/3880",
+          "geometryStatus": "unverified",
+          "geometryFile": null,
+          "profileStatus": "unverified",
+          "profileFile": null,
+          "accessStatus": "unknown",
+          "notes": "공개 안내 경유지 기준. 코스 전체 선형 및 고도자료 미등록. 현재 통제 여부는 관리기관 확인."
+        }
+      ]
+    }
+  ]
 }

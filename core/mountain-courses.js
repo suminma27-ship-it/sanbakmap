@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const COURSE_RELEASE='20261127-r12';
+const COURSE_RELEASE='20261127-r13';
 function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
 function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
 $('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
@@ -256,7 +256,7 @@ function configureTabs(){
 }
 function noCatalog(message){
  $('catalogSummary').textContent=mountain.name+' 산행코스';$('catalogDescription').textContent=message;
- const link=document.createElement('a');link.href='./mountains-20261127-r12.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
+ const link=document.createElement('a');link.href='./mountains-20261127-r13.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
  $('count').textContent='등록된 사전 코스 없음';$('status').textContent=message;
  $('tryVerified').hidden=true;$('poiFocus').textContent='경유지 자료 없음';showMapState(message);svgMessage('고도자료 미등록');
  document.querySelectorAll('.tab').forEach(b=>b.hidden=true);
@@ -305,7 +305,7 @@ async function appendPublicRoutes(){
    const {p,d}=result.value;if(d.schema!=='sanbak-predefined-route-catalog-v1'||String(d.mountainCode)!==p.code||!Array.isArray(d.routes))continue;
    for(const original of d.routes){
     const id='public-'+p.code+'-'+original.id;
-    const route={...original,id,group:'기타코스',name:original.name+' (공공 GPX)',geometryData:original.geometryData?{...original.geometryData,properties:{...original.geometryData.properties,routeId:id}}:null,profileData:original.profileData?{...original.profileData,routeId:id}:null};
+    const route={...original,id,group:original.group==='정상코스'?'정상코스':'기타코스',name:original.name+' (공공 GPX)',geometryData:original.geometryData?{...original.geometryData,properties:{...original.geometryData.properties,routeId:id}}:null,profileData:original.profileData?{...original.profileData,routeId:id}:null};
     // Keep curated GPX versions separate from archive originals, except an identical ID.
     if(!catalog?.routes.some(x=>x.id===id))extra.push(route);
    }

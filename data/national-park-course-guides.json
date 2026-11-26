@@ -1,0 +1,288 @@
+{
+  "schema": "sanbak-park-guide-seeds-v1",
+  "note": "공단 탐방코스 안내에서 선택한 코스명·주요 지점. 원본 선형과 일치 확인 전에는 지도 미등록으로 표시.",
+  "parks": [
+    {
+      "code": "113050202",
+      "name": "북한산",
+      "summit": "백운대",
+      "parkId": 121500,
+      "center": [
+        37.658,
+        126.978
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=121500&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "백운대코스",
+          "group": "정상코스",
+          "via": [
+            "백운대탐방지원센터",
+            "하루재",
+            "백운대피소",
+            "백운봉암문",
+            "백운대"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "113200102",
+      "name": "도봉산",
+      "summit": "자운봉",
+      "parkId": 121500,
+      "center": [
+        37.697,
+        127.015
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=121500&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "우이암코스",
+          "group": "기타코스",
+          "via": [
+            "도봉탐방지원센터",
+            "우이암"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "망월사·포대·회룡코스",
+          "group": "기타코스",
+          "via": [
+            "망월사",
+            "포대능선",
+            "회룡"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "421504602",
+      "name": "오대산(노인봉)",
+      "summit": "노인봉",
+      "parkId": 120900,
+      "center": [
+        37.811,
+        128.605
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=120900&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "소금강산 코스",
+          "group": "정상코스",
+          "via": [
+            "소금강산",
+            "노인봉"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "421902201",
+      "name": "태백산",
+      "summit": "장군봉",
+      "parkId": 122200,
+      "center": [
+        37.095,
+        128.916
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=122200&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "유일사코스",
+          "group": "정상코스",
+          "via": [
+            "유일사",
+            "장군봉",
+            "천제단"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "당골코스",
+          "group": "정상코스",
+          "via": [
+            "당골",
+            "천제단"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "431503501",
+      "name": "월악산",
+      "summit": "영봉",
+      "parkId": 121400,
+      "center": [
+        36.888,
+        128.106
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=121400&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "영봉코스(덕주사)",
+          "group": "정상코스",
+          "via": [
+            "덕주사",
+            "영봉"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "영봉코스(보덕암)",
+          "group": "정상코스",
+          "via": [
+            "보덕암",
+            "영봉"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "437201201",
+      "name": "속리산",
+      "summit": "천왕봉",
+      "parkId": 120500,
+      "center": [
+        36.544,
+        127.873
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=120500&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "천왕봉코스",
+          "group": "정상코스",
+          "via": [
+            "도화리 천왕봉주차장",
+            "천왕봉"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "문장대코스",
+          "group": "기타코스",
+          "via": [
+            "화북",
+            "문장대"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "438001301",
+      "name": "소백산",
+      "summit": "비로봉",
+      "parkId": 121600,
+      "center": [
+        36.958,
+        128.484
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=121600&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "어의곡코스",
+          "group": "정상코스",
+          "via": [
+            "어의곡탐방지원센터",
+            "어의곡삼거리",
+            "비로봉"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "삼가동코스",
+          "group": "정상코스",
+          "via": [
+            "삼가동",
+            "비로봉"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "477502301",
+      "name": "주왕산",
+      "summit": "주봉",
+      "parkId": 121000,
+      "center": [
+        36.39,
+        129.17
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=121000&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "절골코스",
+          "group": "기타코스",
+          "via": [
+            "절골",
+            "가메봉"
+          ]
+        },
+        {
+          "id": "guide-2",
+          "name": "장군봉~금은광이코스",
+          "group": "기타코스",
+          "via": [
+            "장군봉",
+            "금은광이"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "271401201",
+      "name": "팔공산",
+      "summit": "비로봉",
+      "parkId": 122400,
+      "center": [
+        36.016,
+        128.695
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=122400&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "동산~비로봉",
+          "group": "정상코스",
+          "via": [
+            "동산탐방지원센터",
+            "오도암",
+            "하늘정원",
+            "비로봉"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "264100101",
+      "name": "금정산",
+      "summit": "고당봉",
+      "parkId": 122800,
+      "center": [
+        35.28,
+        129.056
+      ],
+      "sourceUrl": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020002&parkId=122800&parkNavGb=guide",
+      "routes": [
+        {
+          "id": "guide-1",
+          "name": "범어사 코스",
+          "group": "기타코스",
+          "via": [
+            "범어사",
+            "공단 안내 코스 종점"
+          ]
+        }
+      ]
+    }
+  ]
+}

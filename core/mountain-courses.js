@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const COURSE_RELEASE='20261126-r4';
+const COURSE_RELEASE='20261126-r5';
 function freshFile(file){return file+(file.includes('?')?'&':'?')+'v='+COURSE_RELEASE}
 function fetchCourse(file){return fetch(freshFile(file),{cache:'no-store'})}
 $('courseRelease').textContent='코스 데이터 버전 '+COURSE_RELEASE;
@@ -254,7 +254,7 @@ function configureTabs(){
 }
 function noCatalog(message){
  $('catalogSummary').textContent=mountain.name+' 산행코스';$('catalogDescription').textContent=message;
- const link=document.createElement('a');link.href='./mountains-20261126-r4.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
+ const link=document.createElement('a');link.href='./mountains-20261126-r5.html?mountain='+mountain.code;link.textContent=' · 이 산의 실제 원본 등산로와 고도그래프 보기';$('catalogDescription').append(link);
  $('count').textContent='등록된 사전 코스 없음';$('status').textContent=message;
  $('tryVerified').hidden=true;$('poiFocus').textContent='경유지 자료 없음';showMapState(message);svgMessage('고도자료 미등록');
  document.querySelectorAll('.tab').forEach(b=>b.hidden=true);

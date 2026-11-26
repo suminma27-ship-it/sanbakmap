@@ -1,5 +1,5 @@
 
-import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
 const registry=read('data/mountain-course-index.json'), additions=read('data/additional-named-course-guides.json');let total=0;
 for(const [code,routes] of Object.entries(additions.mountains)){
@@ -20,4 +20,15 @@ if(existsSync(publicIndexPath)){
   writeFileSync(path,JSON.stringify(cat)+'\n');console.log('PUBLIC_GUIDE_TARGET_ADDED',target.name,p.code,n);
  }
 }
+const unifiedPath='data/unified-mountain-index.json',unified=read(unifiedPath);
+unified.guideMountains={};
+for(const t of additions.guideOnlyMountains||[]){
+ if(!/^guide-[a-z]+$/.test(t.id))throw Error('invalid guide id');
+ const dir='data/park-courses/'+t.id;mkdirSync(dir,{recursive:true});
+ const catalogFile='./'+dir+'/catalog.json';
+ writeFileSync(dir+'/catalog.json',JSON.stringify({schema:'sanbak-predefined-route-catalog-v1',mountainCode:t.id,name:t.name,routes:t.routes})+'\n');
+ unified.guideMountains[t.id]={code:t.id,name:t.name,region:t.region,parkType:'국립',guideOnly:true,center:t.center,zoom:12,catalogFile,sourceUrl:t.sourceUrl,sourceLabel:'공개 기관 산행 안내',routeCount:t.routes.length};
+ total+=t.routes.length;console.log('GUIDE_ONLY_MOUNTAIN',t.id,t.routes.length);
+}
+writeFileSync(unifiedPath,JSON.stringify(unified)+'\n');
 console.log('NAMED_GUIDES_ADDED',total);

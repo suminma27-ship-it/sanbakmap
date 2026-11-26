@@ -208,7 +208,7 @@ for(const code of new Set([...Object.keys(registry.mountains||{}),...Object.keys
  const conf=registry.mountains[code],catPath=conf?.catalogFile?.replace(/^\.\//,''),cat=catPath&&existsSync(catPath)?read(catPath):null;
  const pendingGuides=(cat?.routes||[]).filter(r=>!r.geometryFile&&!r.geometryData&&r.via?.length>=2);
  const linkedForest=forestReference(code,pendingGuides,points);forestNamed+=linkedForest;
- const namedGuides=pendingGuides.filter(r=>!r.geometryFile&&!r.geometryData);
+ const namedGuides=pendingGuides.filter(r=>(!r.geometryFile&&!r.geometryData)||r.profileStatus==='unverified');
  const matchedGuides=new Map();
  for(const peak of link.peaks||[]){
   const path=peak.catalogFile.replace(/^\.\//,'');if(!existsSync(path))continue;
@@ -245,6 +245,7 @@ for(const code of new Set([...Object.keys(registry.mountains||{}),...Object.keys
   for(const guide of namedGuides){
    const matches=matchedGuides.get(guide.id)||[];if(matches.length!==1)continue;
    const r=matches[0];
+   if(guide.geometryData&&!r.profileData)continue;
    Object.assign(guide,{geometryStatus:'reference',geometryData:{...r.geometryData,properties:{...r.geometryData.properties,routeId:guide.id,startLabel:guide.via[0],endLabel:guide.via.at(-1)}},profileStatus:r.profileStatus,profileData:r.profileData?{...r.profileData,routeId:guide.id}:null,profileSource:'gpx',coverage:'reference',notes:'공공 GPX 단일 원본 구간의 양끝·안내 경유지가 산림청 주요지점 명칭 및 위치와 대응하는 참고 경로. 실제 개방 여부는 별도 확인. 기록 고도 사용.'});
    named++;console.log('NAMED_GPX_MATCH',code,guide.id,guide.name);
   }
@@ -253,3 +254,34 @@ for(const code of new Set([...Object.keys(registry.mountains||{}),...Object.keys
  }
 }
 console.log('GPX_CLASSIFICATION_TOTAL',JSON.stringify({processed,changedPeaks,summit,endpoint,named,forestNamed,staticNamed}));
+
+ // Publish an honest, per-guide coverage inventory for every registered catalog.
+ // The report lives inside the already-packaged park-courses directory.
+const additions=read('data/additional-named-course-guides.json');
+const expected=new Map();
+for(const [code,routes] of Object.entries(additions.mountains||{}))expected.set(code,routes);
+for(const m of additions.guideOnlyMountains||[])expected.set(m.id,m.routes);
+const allCatalogs={...registry.mountains,...index.guideMountains};
+const coverage={schema:'sanbak-course-coverage-v1',sourceMountainCount:Object.keys(national).length,summary:{total:0,both:0,geometryOnly:0,profileOnly:0,missingBoth:0,missingCatalog:0},mountains:[]};
+const assetExists=file=>typeof file==='string'&&existsSync(file.replace(/^\.\//,''));
+for(const code of new Set([...Object.keys(allCatalogs),...expected.keys()])){
+ const config=allCatalogs[code],path=config?.catalogFile?.replace(/^\.\//,'');
+ const cat=path&&existsSync(path)?read(path):null;
+ const byId=new Map((cat?.routes||[]).map(r=>[r.id,r]));
+ // Include source guides even if the mountain's generated catalog was absent.
+ for(const r of expected.get(code)||[])if(!byId.has(r.id))byId.set(r.id,{...r,missingCatalogEntry:true});
+ const routes=[];
+ for(const r of byId.values()){
+  if(r.group==='원본 참고구간')continue;
+  const geometry=!r.missingCatalogEntry&&['reference','verified'].includes(r.geometryStatus)&&!!(r.geometryData?.geometry?.coordinates?.length>=2||assetExists(r.geometryFile));
+  const profile=!r.missingCatalogEntry&&['reference','verified'].includes(r.profileStatus)&&!!(r.profileData?.points?.length>=2||assetExists(r.profileFile));
+  const status=geometry?(profile?'both':'geometryOnly'):(profile?'profileOnly':'missingBoth');
+  coverage.summary.total++;coverage.summary[status]++;
+  if(r.missingCatalogEntry)coverage.summary.missingCatalog++;
+  routes.push({id:r.id,name:r.name,status,source:r.profileSource||null,staticReference:r.staticReference===true,missingCatalogEntry:r.missingCatalogEntry===true});
+ }
+ if(routes.length)coverage.mountains.push({code,name:config?.name||national[code]?.name||code,routes});
+}
+coverage.registeredMountainCount=coverage.mountains.length;
+write('data/park-courses/coverage.json',coverage);
+console.log('COURSE_COVERAGE_TOTAL',JSON.stringify(coverage.summary));

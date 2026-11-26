@@ -2,9 +2,9 @@
   "schema": "sanbak-predefined-route-catalog-v1",
   "mountain": "설악산",
   "mountainCode": "428302602",
-  "updated": "2026-11-22",
+  "updated": "2026-11-26",
   "officialReference": "https://www.knps.or.kr/front/portal/visit/visitCourseSubMain.do?menuNo=7020093&parkId=120400&parkNavGb=guide&vcursId=120400V015",
-  "notes": "23개 사전 정의 코스(대청봉 6개, 기타코스 9개, 종주코스 8개) 중 오색→대청봉 1개만 기관 2018년 원본 연속 선형+90m DEM 표본 연결 검증. 2018년 선형 계산거리와 2026 안내거리는 차이 있음. 나머지 22개 전체 GPS/DEM 미등록. 현재 통행 가능성 아님.",
+  "notes": "공단 원본 선형 및 기존 DEM 기반 참고 자료를 표시. 오색 기존 자료 보존, 백담사~대청봉 및 천불동계곡 원본 시작점~대청봉 추가. 현행 개방과 별개.",
   "routes": [
     {
       "id": "s1",
@@ -20,12 +20,14 @@
         "소청봉",
         "대청봉"
       ],
-      "source": "user",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-s1-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-s1-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "partial",
+      "notes": "공단 원본의 신흥사 인근~비선대~천불동계곡~희운각 방면~대청봉 참고 경로. 소공원~원본 시작점 접근 구간 미포함. 기존 90m DEM 표본을 구간 경계에서 보간하여 사용."
     },
     {
       "id": "s2",
@@ -97,12 +99,14 @@
         "소청봉",
         "대청봉"
       ],
-      "source": "user",
-      "geometryStatus": "unverified",
-      "geometryFile": null,
-      "profileStatus": "unverified",
-      "profileFile": null,
-      "accessStatus": "unknown"
+      "source": "국립공원공단 2018 선형 + 기존 DEM v108",
+      "geometryStatus": "reference",
+      "geometryFile": "./data/seorak-s5-reference.geojson",
+      "profileStatus": "reference",
+      "profileFile": "./data/seorak-s5-reference-dem.json",
+      "accessStatus": "unknown",
+      "coverage": "reference",
+      "notes": "백담사 부근~대청봉 공단 2018 원본 선형 및 기존 DEM 참고값. 백담계곡 입구부터의 접근거리는 포함하지 않음."
     },
     {
       "id": "s6",

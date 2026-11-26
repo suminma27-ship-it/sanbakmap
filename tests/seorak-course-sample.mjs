@@ -19,7 +19,7 @@ const ready=[];
 for(const route of catalog.routes){
  assert(!ids.has(route.id));ids.add(route.id);
  assert(Array.isArray(route.via)&&route.via.length>=2);
- const complete=route.geometryStatus==='verified'&&route.profileStatus==='verified';
+ const complete=['verified','reference'].includes(route.geometryStatus)&&['verified','reference'].includes(route.profileStatus);
  if(complete){
   assert(route.geometryFile&&route.profileFile,'검증된 코스는 실제 파일 필수');
   assert(route.geometryFile.startsWith('./data/')&&route.profileFile.startsWith('./data/'));
@@ -56,6 +56,7 @@ for(const route of catalog.routes){
   assert.equal(route.profileFile,null,'미검증 코스 가짜 고도 금지');
  }
 }
+assert(ready.includes('s1')&&ready.includes('s5'),'새 참고 코스 등록');
 assert(ready.includes('s3'),'2018 오색 원본 회귀 테스트 보존');
 const geo=JSON.parse(readFileSync('data/seorak-osaek-daecheong-2018.geojson','utf8'));
 const dem=JSON.parse(readFileSync('data/seorak-osaek-daecheong-dem.json','utf8'));
@@ -73,7 +74,7 @@ assert(dem.points.length>=50);
 const profileGaps=dem.points.slice(1).map((p,i)=>p.distanceMeters-dem.points[i].distanceMeters);
 assert(Math.max(...profileGaps)<=250,'오색 코스 DEM 표본 간격 250m 이내');
 const pageSource=readFileSync('seorak-courses.html','utf8');
-assert(pageSource.includes("throw Error('고도표본 250m 초과 공백: 코스 전체 DEM 검증 필요')"),'신규 코스에서도 DEM 공백 차단');
+assert(pageSource.includes('p.distanceMeters-pts[i-1].distanceMeters<=250'),'고도표본 공백은 선을 끊어 표시');
 assert(dem.points.every((p,i)=>Number.isFinite(p.distanceMeters)&&Number.isFinite(p.elevationMeters)&&(!i||p.distanceMeters>dem.points[i-1].distanceMeters)));
 const R=6371008.8,radian=Math.PI/180;
 let distance=0;
@@ -83,7 +84,7 @@ assert(Math.abs(dem.points.at(-1).distanceMeters-distance)<1);
 const page=readFileSync('seorak-courses.html','utf8');
 for(const str of ['./data/seorak-predefined-routes.json','./data/knps-seorak-2018.geojson','id="gate"','LNT','loadReference()','id="graph"'])assert(page.includes(str),'설악산 샘플 기능 누락: '+str);
 // Route labels must follow selected catalog metadata, not stay hard-coded to Osaek.
-assert(page.includes("const startLabel=route.via[0],endLabel=route.via.at(-1)"));
+assert(page.includes("const startLabel=geometry.properties.startLabel||route.via[0],endLabel=route.via.at(-1)"));
 assert(page.includes("bindTooltip(startLabel+' (원본 출발점)'"));
 assert(page.includes("bindTooltip(endLabel+' (원본 종점)'"));
 assert(page.includes("[[a,startLabel,17],[b,endLabel,-12]]"));

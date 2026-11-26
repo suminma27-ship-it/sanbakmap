@@ -14,8 +14,8 @@ for (const route of catalog.routes) {
   assert.ok(counts[route.group], `unknown group ${route.id}`);
   assert.ok(route.name && Array.isArray(route.via) && route.via.length >= 2, `missing route metadata ${route.id}`);
   for (const [statusKey, fileKey] of [['geometryStatus','geometryFile'],['profileStatus','profileFile']]) {
-    const verified = route[statusKey] === 'verified';
-    assert.ok(['verified','unverified'].includes(route[statusKey]), `invalid status ${route.id}`);
+    const verified = ['verified','reference'].includes(route[statusKey]);
+    assert.ok(['verified','reference','unverified'].includes(route[statusKey]), `invalid status ${route.id}`);
     assert.equal(Boolean(route[fileKey]), verified, `status/file mismatch ${route.id}:${fileKey}`);
     if (verified) {
       const target = path.resolve(root, route[fileKey]);

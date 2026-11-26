@@ -14,7 +14,7 @@ assert(page.includes('./core/mountain-line-profile.js'));
 assert(page.includes("forestDEM(code,entry.bucket)"));
 assert(!page.includes('SanbakSeorakSegments'),'신규 화면은 구간 연결 엔진을 불러오지 않음');
 
-assert(page.includes('id="seorakCourses"')&&page.includes('id="courseExamples"'),'코스 목록 UI 누락');
+assert(page.includes('id="seorakCourses"')&&page.includes('id="registeredCoursesLink"'),'코스 목록 UI 누락');
 const expectedPlans=[
  ['코스1','소공원','비선대','마등령','공룡능선','희운각','대청봉'],
  ['코스2','소공원','비선대','희운각','대청봉'],

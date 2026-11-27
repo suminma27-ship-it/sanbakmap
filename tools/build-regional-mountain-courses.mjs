@@ -22,38 +22,15 @@ let totalGuide=0,totalRef=0,totalDem=0,totalMountains=0;
 const rawCache=new Map(),demCache=new Map();
 for(const park of seeds.mountains){
  const {code,name,sourceUrl}=park,entry=index[code];
- if(registry.mountains[code]){
-  const existingPath=out+'/'+code+'/catalog.json';
-  if(!existsSync(existingPath))continue;
-  const catalog=read(existingPath);
-  const bucket=entry?.bucket;
-  if(!bucket)continue;
-  if(!rawCache.has(bucket))rawCache.set(bucket,read('data/nationwide/bucket-'+bucket+'.json'));
-  const demPath='data/nationwide-elevation/bucket-'+bucket+'.json';
-  if(!demCache.has(bucket))demCache.set(bucket,existsSync(demPath)?read(demPath):null);
-  const packed=demCache.get(bucket)?.mountains?.[code]||null;
-  const lines=prof.forestLines(rawCache.get(bucket),code,agency.decodeLine).filter(l=>!l.closed&&!l.restricted&&!l.multipart&&l.coords.length>1);
-  const norm=v=>String(v).normalize('NFKC').replace(/[^가-힣a-zA-Z0-9]/g,'').toLowerCase();
-  let changed=0;
-  for(const route of catalog.routes){
-   if(route.geometryFile||!Array.isArray(route.via)||route.via.length<2)continue;
-   const tokens=route.via.map(norm);
-   if(tokens.some(t=>t.length<2))continue;
-   const matches=lines.filter(l=>{let at=0;const n=norm(l.recordName);for(const t of tokens){const i=n.indexOf(t,at);if(i<0)return false;at=i+t.length;}return true;});
-   if(matches.length!==1)continue;
-   const l=matches[0],p=prof.profile(l,packed),dir=out+'/'+code,id=route.id;
-   if(!/^[a-zA-Z0-9_-]+$/.test(id)||prof.lengthOf(l.coords)<=0)continue;
-   const geomFile=dir+'/'+id+'.geojson',demFile=dir+'/'+id+'-dem.json';
-   write(geomFile,{type:'Feature',properties:{routeId:id,sourceId:l.id,source:'산림청 DATA002 기관 원본 (과거 자료)',currentAccessVerified:false},geometry:{type:'LineString',coordinates:l.coords}});
-   Object.assign(route,{coverage:'partial',geometryStatus:'reference',geometryFile:'./'+geomFile,notes:'기관 원본 명칭과 경유지가 일치하는 참고선. 현재 개방 여부 미확인.'});
-   if(!route.profileFile&&p.status==='ready'&&p.points.length>=2){write(demFile,{routeId:id,totalMeters:p.distanceMeters,points:p.points});route.profileStatus='reference';route.profileFile='./'+demFile;}
-   changed++;
-  }
-  if(changed){write(existingPath,catalog);console.log('REGIONAL_BACKFILL',code,changed);}
-  continue;
- }
- if(!entry)throw Error('Mountain source missing '+code);
- const dir=out+'/'+code;mkdirSync(dir,{recursive:true});
+ const existing=registry.mountains[code];
+ if(code==='428302602')continue; // keep the completed Seorak catalog unchanged
+ if(!entry){console.log('REGIONAL_SKIP',code,'no source index');continue;}
+ const dir=out+'/'+code;
+ const catalogPath=existing?.catalogFile?.replace(/^\.\//,'')||dir+'/catalog.json';
+ if(existing&&!existsSync(catalogPath)){console.log('REGIONAL_SKIP',code,'catalog missing',catalogPath);continue;}
+ const previous=existing?read(catalogPath):null;
+ if(previous&&!previous.routes.some(r=>!r.geometryFile&&!r.geometryData&&Array.isArray(r.via)&&r.via.length>=2))continue;
+ mkdirSync(dir,{recursive:true});
  const bucket=entry.bucket;
  if(!rawCache.has(bucket))rawCache.set(bucket,read('data/nationwide/bucket-'+bucket+'.json'));
  const raw=rawCache.get(bucket);
@@ -65,9 +42,9 @@ for(const park of seeds.mountains){
  if(!lines.length){console.log('REGIONAL_SKIP',code,name,'no unrestricted source lines');continue;}
  let minLon=Infinity,minLat=Infinity,maxLon=-Infinity,maxLat=-Infinity;for(const l of lines)for(const [lon,lat] of l.coords){minLon=Math.min(minLon,lon);maxLon=Math.max(maxLon,lon);minLat=Math.min(minLat,lat);maxLat=Math.max(maxLat,lat)}
  const center=[(minLat+maxLat)/2,(minLon+maxLon)/2];
- const catalog={schema:'sanbak-predefined-route-catalog-v1',mountainCode:code,name,notes:'공개 산행 안내와 산림청 원본 참고구간을 분리해서 제공. 현재 개방 여부는 관리기관 확인.',routes:park.routes.map(r=>({...r,source:'공개 산행 안내',sourceUrl,geometryStatus:'unverified',profileStatus:'unverified',geometryFile:null,profileFile:null,accessStatus:'unknown',notes:'공개 안내 코스명·경유지. 코스 전체 선형과 고도자료는 아직 등록하지 않음.'}))};
+ const catalog=previous||{schema:'sanbak-predefined-route-catalog-v1',mountainCode:code,name,notes:'공개 산행 안내와 산림청 원본 참고구간을 분리해서 제공. 현재 개방 여부는 관리기관 확인.',routes:park.routes.map(r=>({...r,source:'공개 산행 안내',sourceUrl,geometryStatus:'unverified',profileStatus:'unverified',geometryFile:null,profileFile:null,accessStatus:'unknown',notes:'공개 안내 코스명·경유지. 코스 전체 선형과 고도자료는 아직 등록하지 않음.'}))};
  const features=lines.map(l=>({type:'Feature',properties:{facility_type:'탐방로',name:l.recordName,sourceId:l.id},geometry:{type:'LineString',coordinates:l.coords}}));
- write(dir+'/reference.geojson',{type:'FeatureCollection',features,metadata:{source,currentAccessVerified:false}});
+ if(!previous)write(dir+'/reference.geojson',{type:'FeatureCollection',features,metadata:{source,currentAccessVerified:false}});
  // Do not invent a route or join segments. Prefer original longer records with
  // usable existing DEM; historical closed/restricted flags are excluded.
  const candidates=lines.filter(l=>!l.multipart&&prof.lengthOf(l.coords)>=400).map(l=>({l,p:prof.profile(l,packed),length:prof.lengthOf(l.coords)}));
@@ -78,6 +55,7 @@ for(const park of seeds.mountains){
  const norm=v=>String(v).normalize('NFKC').replace(/[^가-힣a-zA-Z0-9]/g,'').toLowerCase();
  let linked=0;
  for(const route of catalog.routes){
+  if(route.geometryFile||route.geometryData||!Array.isArray(route.via)||route.via.length<2)continue;
   const tokens=route.via.map(norm);
   if(tokens.some(t=>t.length<2))continue;
   const matches=candidates.filter(({l})=>{
@@ -92,6 +70,11 @@ for(const park of seeds.mountains){
   linked++;console.log('REGIONAL_GUIDE_LINK',code,id,l.recordName,'DEM',route.profileStatus);
  }
  if(park.routes.length)console.log('REGIONAL_SOURCE_NAMES',code,JSON.stringify([...new Set(lines.map(l=>l.recordName))].slice(0,60)));
+ if(previous){
+  if(linked)write(catalogPath,catalog);
+  console.log('REGIONAL_BACKFILL',code,linked);
+  continue;
+ }
  const selected=candidates.slice(0,5);
  if(!selected.length&&lines.length){const l=lines.slice().sort((a,b)=>prof.lengthOf(b.coords)-prof.lengthOf(a.coords))[0];selected.push({l,p:prof.profile(l,packed),length:prof.lengthOf(l.coords)})}
  let ready=0;
@@ -106,7 +89,7 @@ for(const park of seeds.mountains){
   }
   catalog.routes.push(r);
  }
- write(dir+'/catalog.json',catalog);
+ write(catalogPath,catalog);
  registry.mountains[code]={code,name,catalogFile:'./'+dir+'/catalog.json',referenceFile:'./'+dir+'/reference.geojson',center,zoom:11,sourceLabel:'공개 산행 안내 · 산림청 원본 참고자료',sourceUrl};
  totalMountains++;totalGuide+=park.routes.length;totalRef+=selected.length;totalDem+=ready;
  console.log('REGIONAL_COURSES',name,'guides',park.routes.length,'guide links',linked,'original references',selected.length,'DEM',ready,'background',lines.length);

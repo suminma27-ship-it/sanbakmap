@@ -22,7 +22,36 @@ let totalGuide=0,totalRef=0,totalDem=0,totalMountains=0;
 const rawCache=new Map(),demCache=new Map();
 for(const park of seeds.mountains){
  const {code,name,sourceUrl}=park,entry=index[code];
- if(registry.mountains[code])continue;
+ if(registry.mountains[code]){
+  const existingPath=out+'/'+code+'/catalog.json';
+  if(!existsSync(existingPath))continue;
+  const catalog=read(existingPath);
+  const bucket=entry?.bucket;
+  if(!bucket)continue;
+  if(!rawCache.has(bucket))rawCache.set(bucket,read('data/nationwide/bucket-'+bucket+'.json'));
+  const demPath='data/nationwide-elevation/bucket-'+bucket+'.json';
+  if(!demCache.has(bucket))demCache.set(bucket,existsSync(demPath)?read(demPath):null);
+  const packed=demCache.get(bucket)?.mountains?.[code]||null;
+  const lines=prof.forestLines(rawCache.get(bucket),code,agency.decodeLine).filter(l=>!l.closed&&!l.restricted&&!l.multipart&&l.coords.length>1);
+  const norm=v=>String(v).normalize('NFKC').replace(/[^가-힣a-zA-Z0-9]/g,'').toLowerCase();
+  let changed=0;
+  for(const route of catalog.routes){
+   if(route.geometryFile||!Array.isArray(route.via)||route.via.length<2)continue;
+   const tokens=route.via.map(norm);
+   if(tokens.some(t=>t.length<2))continue;
+   const matches=lines.filter(l=>{let at=0;const n=norm(l.recordName);for(const t of tokens){const i=n.indexOf(t,at);if(i<0)return false;at=i+t.length;}return true;});
+   if(matches.length!==1)continue;
+   const l=matches[0],p=prof.profile(l,packed),dir=out+'/'+code,id=route.id;
+   if(!/^[a-zA-Z0-9_-]+$/.test(id)||prof.lengthOf(l.coords)<=0)continue;
+   const geomFile=dir+'/'+id+'.geojson',demFile=dir+'/'+id+'-dem.json';
+   write(geomFile,{type:'Feature',properties:{routeId:id,sourceId:l.id,source:'산림청 DATA002 기관 원본 (과거 자료)',currentAccessVerified:false},geometry:{type:'LineString',coordinates:l.coords}});
+   Object.assign(route,{coverage:'partial',geometryStatus:'reference',geometryFile:'./'+geomFile,notes:'기관 원본 명칭과 경유지가 일치하는 참고선. 현재 개방 여부 미확인.'});
+   if(!route.profileFile&&p.status==='ready'&&p.points.length>=2){write(demFile,{routeId:id,totalMeters:p.distanceMeters,points:p.points});route.profileStatus='reference';route.profileFile='./'+demFile;}
+   changed++;
+  }
+  if(changed){write(existingPath,catalog);console.log('REGIONAL_BACKFILL',code,changed);}
+  continue;
+ }
  if(!entry)throw Error('Mountain source missing '+code);
  const dir=out+'/'+code;mkdirSync(dir,{recursive:true});
  const bucket=entry.bucket;

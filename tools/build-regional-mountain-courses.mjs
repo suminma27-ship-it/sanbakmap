@@ -17,6 +17,12 @@ for(const code of Object.keys(named.mountains||{})){
  seeds.mountains.push({code,name:index[code].name.replace(/_/g,' · '),type:'미분류',sourceUrl:null,routes:[]});
  seeded.add(code);
 }
+// Process previously registered catalogs too, without adding new guide routes.
+for(const [code,m] of Object.entries(registry.mountains)){
+ if(code==='428302602'||seeded.has(code)||!index[code])continue;
+ seeds.mountains.push({code,name:m.name,sourceUrl:m.sourceUrl||null,routes:[]});
+ seeded.add(code);
+}
 const out='data/park-courses';mkdirSync(out,{recursive:true});
 let totalGuide=0,totalRef=0,totalDem=0,totalMountains=0;
 const rawCache=new Map(),demCache=new Map();

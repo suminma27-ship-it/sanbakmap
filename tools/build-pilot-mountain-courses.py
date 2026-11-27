@@ -138,7 +138,22 @@ def build(code,slug):
         baek=[(138,None,None,False),(164,None,None,False),(154,None,None,False)]
         jung=[(113,None,None,True),(116,None,None,True),(119,None,None,True)]
         nogo=[(37,None,None,False),(28,None,None,False),(31,None,None,False)]
+        # Fixed recipes from existing forest source records; no route-name
+        # matching and no automatic graph or guessed connector.
+        def reverse_route(parts):
+            return [(i,a,b,not rev) for i,a,b,rev in reversed(parts)]
+        # 113 -> 114 -> 158 -> 164 -> 154 -> summit -> reverse jung.
+        # The original approach begins above the official visitor center.
+        loop=[(113,None,None,True),(114,None,None,True),(158,None,None,True),
+              (164,None,None,False),(154,None,None,False)]+reverse_route(jung)
+        # Historical east-side corridor, not the complete Yupyeong approach.
+        east=[(155,None,None,True)]+reverse_route(jung)
+        # Forest record 26 starts near Hwaeomsa and climbs toward Munengi.
+        hwaeom=[(26,None,None,True)]
         recipes=[
+            ('j7',loop,'중산리 방면 원본 지점','중산리 방면 원본 지점','산림청 원본의 중산리 방면~장터목~천왕봉~중산리 방면 참고 원점회귀. 탐방안내소 접근로 및 모든 경유지의 정확한 위치는 미확인.'),
+            ('j6',east,'유평리 방면 원본 지점','중산리 방면 원본 지점','유평리 방면 원본 선형과 천왕봉 부근~중산리 방면 원본을 연결한 참고 구간. 대원사 접근로 및 치밭목 경유 위치는 미확인.'),
+            ('j10',hwaeom,'화엄사 부근','무넹기 방면 원본 지점','화엄사 부근에서 무넹기 방면으로 이어지는 산림청 원본 참고 구간. 연기암 경유 및 공식 전체 7km와 일치 여부 미확인.'),
             ('j2',baek,'백무동 부근','천왕봉 부근','백무동 통제소 부근~장터목~천왕봉 방향의 산림청 원본 참고선. 공단 안내 7.5km와 동일한 전체 접근 경로로 단정하지 않음.'),
             ('j4',baek+[(i,a,b,not rev) for i,a,b,rev in reversed(jung)],'백무동 부근','중산리 방면 원본 지점','백무동~장터목~천왕봉~중산리 방향의 기존 원본 참고 구간. 양쪽 실제 탐방지원센터 접근로 포함 여부 미확인.'),
             ('j3',nogo,'성삼재 부근','노고단고개 부근','성삼재에서 노고단고개 방향의 산림청 원본 참고선. 노고단 정상 예약 탐방 구간은 포함하지 않음.')]
@@ -146,6 +161,8 @@ def build(code,slug):
             target=next(x for x in cat['routes'] if x['id']==rid)
             # Keep the guide course name, but clearly label the actual displayed partial geometry.
             target.update(coverage='partial',startLabel=startLabel,endLabel=endLabel,notes=note)
+            if target.get('geometryFile') and target.get('profileFile') and (root/target['geometryFile']).is_file() and (root/target['profileFile']).is_file():
+                continue
             try:register_route(code,slug,rows,pack,target,specs)
             except Exception as e:print(f'::warning::{slug} {rid}: {e}')
         cat['poiReference']={'schema':'sanbak-route-poi-reference-v1','note':'OSM/공개기관 주요지점 참고 좌표. 코스에 가까운 지점만 표시.','points':[
@@ -172,6 +189,7 @@ def register_route(code,slug,rows,pack,r,specs):
     coords=[];pts=[];offset=0.;complete=True;source_ids=[]
     for row,a,b,reverse in specs:
         if len(rows[row][5])!=1:raise ValueError('multipart record is not a fixed course segment')
+        if rows[row][7]=='Y' or rows[row][8]=='Y':raise ValueError('historical restricted or closed source record')
         c=line(row);ds=cum(c);a=0 if a is None else a;b=len(c)-1 if b is None else b
         piece=c[a:b+1];p=cut_profile(points_for(pack,row,c),ds[b] if reverse else ds[a],ds[a] if reverse else ds[b])
         if reverse:piece.reverse()
